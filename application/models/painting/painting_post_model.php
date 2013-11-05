@@ -1,42 +1,69 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once('post_model.php');
+require_once(APPPATH.'/models/post_model.php' );
 class Painting_post_model extends Post_model {
     //extended varible
-    var $art_width=0;
-    var $art_height=0;
-    var $art_sizeunit='cm';
-    var $art_price=0;
-    var $art_sold=0;
-    var $art_id='';
+    public $art_width=0;
+    public $art_height=0;
+    public $art_sizeunit='cm';
+    public $art_price=0;
+    public $art_sold=0;
+    public $art_id='';
     
     //external
-    var $cat_material_list=array();
-    var $cat_painting_list=array();
+    private $cat_material_list=array();
+        private $cat_material_list_ready = false;
+    private $cat_painting_list=array();
+        private $cat_painting_list_ready = false;
     function __construct()
     {
         // Call the Model constructor
         parent::__construct();
         $this->special=2;
     }
-    public function get_by_id($post_id)
+    public function get_cat_material_list()
     {
-        $obj = parent::get_by_id($post_id);
-        if($obj==null) return null;
-        
-        $re = new Painting_post_model;
-        $re->id = $obj->id;
-        $re->title = $obj->title;
-        $re->content = $obj->content;
-        $re->content_lite = $obj->content_lite;
-        $re->avatar = $obj->avatar;
-        $re->avatar_thumb = $obj->avatar_thumb;
-        $re->date_create = $obj->date_create;
-        $re->date_modify = $obj->date_modify;
-        $re->active = $obj->active;
-        $re->special = $obj->special;
-        $re->user_id = $obj->user_id;
-        $re->cat_list = $obj->cat_list;
-        
+        if($this->cat_material_list_ready==true)
+        {
+            return $this->cat_material_list;
+        }
+        $this->cat_material_list_ready=true;
+        //load cat list
+            //load cat list
+            $this->cat_material_list=array();
+            foreach(parent::get_cat_obj_list() as $item)
+            {
+                if($item->special==3)
+                {
+                    array_push($this->cat_material_list,$item);
+                }
+            }
+        return $this->cat_material_list;
+    }
+    public function get_cat_painting_list()
+    {
+        if($this->cat_painting_list_ready==true)
+        {
+            return $this->cat_painting_list;
+        }
+        $this->cat_painting_list_ready=true;
+        //load cat list
+            $this->cat_painting_list=array();
+            foreach(parent::get_cat_obj_list() as $item)
+            {
+                if($item->special==2)
+                {
+                    array_push($this->cat_painting_list,$item);
+                }
+            }
+        return $this->cat_painting_list;
+    }
+    public function load()
+    {
+        //call parent load
+        parent::load();
+        //init new lazy state for refresh data change
+            $this->cat_material_list_ready=false;
+            $this->cat_painting_list_ready=false;
         //extend var get
         $this->db->select('art_height');
         $this->db->select('art_width');
@@ -44,43 +71,21 @@ class Painting_post_model extends Post_model {
         $this->db->select('art_sizeunit');
         $this->db->select('art_sold');
         $this->db->select('art_id');
-        $this->db->where('id',$post_id);
+        $this->db->where('id',$this->id);
+        $this->db->where('special',$this->special);
         $query = $this->db->get('post');
         foreach($query->result() as $row)
         {
-            $re->art_height = $row->art_height;
-            $re->art_width = $row->art_width;
-            $re->art_price = $row->art_price;
-            $re->art_sizeunit = $row->art_sizeunit;
-            $re->art_sold = $row->art_sold;
-            $re->art_id = $row->art_id==''?'RAW'.$re->id:$row->art_id;
+            $this->art_height = $row->art_height;
+            $this->art_width = $row->art_width;
+            $this->art_price = $row->art_price;
+            $this->art_sizeunit = $row->art_sizeunit;
+            $this->art_sold = $row->art_sold;
+            $this->art_id = $row->art_id==''?'RAW'.$this->id:$row->art_id;
             break;
         }
-        //get painting cat
-        $sql='select id from category where id in
-        (
-        select cat_id from post_category where post_id = '.$re->id.'
-        )
-        and special=2';
-        $query = $this->db->query($sql);
-        foreach($query->result() as $row)
-        {
-            array_push($re->cat_painting_list,$this->Cat_model->get_by_id($row->id));
-        }
-        //get material cat
-        $sql='select id from category where id in
-        (
-        select cat_id from post_category where post_id = '.$re->id.'
-        )
-        and special=3';
-        $query = $this->db->query($sql);
-        foreach($query->result() as $row)
-        {
-            array_push($re->cat_material_list,$this->Cat_model->get_by_id($row->id));
-        }
         
-        $re->filter(0);
-        return $re;        
+        self::filter(0);       
     }
     public function get_cat_material_list_text()
     {
@@ -119,15 +124,7 @@ class Painting_post_model extends Post_model {
         $this->db->set('active', 1);
         $this->db->insert('post');
         //second: get latest id from table
-        $this->db->select_max('id');
-        $query = $this->db->get('post');
-        $id_max=0;
-        foreach($query->result() as $row)
-        {
-            $id_max=$row->id;
-            break;
-        }
-        $this->id=$id_max;
+        $this->id=$this->get_max_id();
         //new one set date create
         $this->date_create = date('Y-m-d H:i:s');
         //then: call update function
@@ -137,26 +134,28 @@ class Painting_post_model extends Post_model {
     public function update()
     {
         //call parent update
-        //echo 'painting_post_update'.'<br>';
         parent::update();
         //update extend var
-        //filter first
-        self::filter(1);
-        if($this->art_id=='')
-        {
-            $this->art_id='RAW'.$this->id;
-        }
-        $data = array(
-               'art_height' => $this->art_height,
-               'art_width' => $this->art_width,
-               'art_price' => $this->art_price,
-               'art_sizeunit' => $this->art_sizeunit,
-               'art_sold' => $this->art_sold,
-               'art_id' => $this->art_id
-            );
-        
-        $this->db->where('id', $this->id);
-        $this->db->update('post', $data);
+            //filter first
+            self::filter(1);
+            //pre generate art_id
+            if($this->art_id=='')
+            {
+                $this->art_id='RAW'.$this->id;
+            }
+            //prepare data
+            $data = array(
+                   'art_height' => $this->art_height,
+                   'art_width' => $this->art_width,
+                   'art_price' => $this->art_price,
+                   'art_sizeunit' => $this->art_sizeunit,
+                   'art_sold' => $this->art_sold,
+                   'art_id' => $this->art_id
+                );
+            
+            $this->db->where('id', $this->id);
+            $this->db->where('special', $this->special);
+            $this->db->update('post', $data);
     }
     /**
      * Painting_post_model::get_by_cat()
@@ -303,7 +302,6 @@ class Painting_post_model extends Post_model {
     }
     public function filter($direction_in=1)
     {
-        //echo 'painting_post_filter'.$direction_in.'<br>';
         if($direction_in==1)
         {
             $this->art_price = str_replace(' ','',$this->art_price);

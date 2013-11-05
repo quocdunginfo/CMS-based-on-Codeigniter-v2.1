@@ -10,7 +10,7 @@ class Admin extends CI_Controller {
         $this->load->model('User_model');
         $this->load->model('Post_model');
         $this->load->model('Comment_model');
-        $this->load->model('Painting_post_model');
+        $this->load->model("painting/Painting_post_model",'Painting_post_model');
         $this->load->model('Cat_model');
         $this->load->model('Setting_model');
         $this->load->library('session');

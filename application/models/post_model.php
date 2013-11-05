@@ -78,7 +78,7 @@ class Post_model extends CI_Model {
         //lazy loading
         $this->cat_obj_list_ready=true;
         //get external cat list
-            $cat_obj_list_tmp = array();
+            $this->cat_obj_list=array();
             $this->db->select("cat_id");
             $this->db->where("post_id",$this->id);
             $this->db->from("post_category");
@@ -88,10 +88,9 @@ class Post_model extends CI_Model {
                 $cat_obj_tmp = new Cat_model;
                 $cat_obj_tmp->id = $row->cat_id;
                 $cat_obj_tmp->load();
-                array_push($cat_obj_list_tmp,$cat_obj_tmp);
+                array_push($this->cat_obj_list,$cat_obj_tmp);
                 
             }
-            $this->cat_obj_list = $cat_obj_list_tmp;
         return $this->cat_obj_list;
     }
     public function add_to_cat_obj_list($cat_obj=null)
@@ -102,20 +101,20 @@ class Post_model extends CI_Model {
                 self::get_cat_obj_list();
             }
         //avoid null
-        if($cat_obj==null) return false;
+            if($cat_obj==null) return false;
         //check cat exist in database
-        if(!$cat_obj->is_exist()) return false;
+            if(!$cat_obj->is_exist()) return false;
         
         //check exist in cat_obj_list
-        foreach($this->cat_obj_list as $cat_tmp)
-        {
-            if($cat_tmp->id==$cat_obj->id)
+            foreach($this->cat_obj_list as $cat_tmp)
             {
-                return false;
+                if($cat_tmp->id==$cat_obj->id)
+                {
+                    return false;
+                }
             }
-        }
         //add to cat_obj_list
-        array_push($this->cat_obj_list,$cat_obj);
+            array_push($this->cat_obj_list,$cat_obj);
         return true;
     }
     public function remove_from_cat_obj_list($cat_obj=null)
@@ -126,22 +125,22 @@ class Post_model extends CI_Model {
                 self::get_cat_obj_list();
             }
         //avoid null
-        if($cat_obj==null) return false;
+            if($cat_obj==null) return false;
         //check cat exist in database
-        if(!$cat_obj->is_exist()) return false;
+            if(!$cat_obj->is_exist()) return false;
         //init new array
-        $tmp = array();
+            $tmp = array();
         //moving to new array
-        foreach($this->cat_obj_list as $cat_tmp)
-        {
-            if($cat_tmp->id!=$cat_obj->id)
+            foreach($this->cat_obj_list as $cat_tmp)
             {
-                //add to tmp array
-                array_push($tmp,$cat_tmp);
+                if($cat_tmp->id!=$cat_obj->id)
+                {
+                    //add to tmp array
+                    array_push($tmp,$cat_tmp);
+                }
             }
-        }
         //re assign
-        $this->cat_obj_list = $tmp;
+            $this->cat_obj_list = $tmp;
         return true;
     }
     public function load()
@@ -150,22 +149,22 @@ class Post_model extends CI_Model {
             $this->cat_obj_list_ready=false;
             $this->user_obj_ready=false;
         //load
-        $this->db->where('id',$this->id);
-        $query = $this->db->get($this->_tbn);       
-        foreach($query->result() as $row)
-        {
-            $this->id=$row->id;
-            $this->title=$row->title;
-            //$this->title_for_url = qd_locdautiengviet($item->title);
-            $this->content=$row->content;
-            $this->content_lite=$row->content_lite;
-            $this->active=$row->active;
-            $this->special=$row->special;
-            $this->avatar=$row->avatar;            
-            $this->date_create=$row->date_create;
-            $this->date_modify=$row->date_modify;            
-            return true;
-        }
+            $this->db->where('id',$this->id);
+            $query = $this->db->get($this->_tbn);       
+            foreach($query->result() as $row)
+            {
+                $this->id=$row->id;
+                $this->title=$row->title;
+                //$this->title_for_url = qd_locdautiengviet($item->title);
+                $this->content=$row->content;
+                $this->content_lite=$row->content_lite;
+                $this->active=$row->active;
+                $this->special=$row->special;
+                $this->avatar=$row->avatar;            
+                $this->date_create=$row->date_create;
+                $this->date_modify=$row->date_modify;            
+                return true;
+            }
         return false;
     }
     public function is_exist()
@@ -235,6 +234,7 @@ class Post_model extends CI_Model {
     public function get_max_id()
     {
         $this->db->select_max('id');
+        $this->db->where('special',$this->special);
         $query = $this->db->get($this->_tbn);
         foreach($query->result() as $row)
         {
@@ -266,7 +266,6 @@ class Post_model extends CI_Model {
                 $cat_obj_list_tmp = $cat_tmp->get_cat_tree($cat_tmp->id,0,$special);
                 foreach($cat_obj_list_tmp as $cat_obj)
                 {
-                    echo "*";
                     array_push($new_cat_list,$cat_obj->id);
                 }
             }

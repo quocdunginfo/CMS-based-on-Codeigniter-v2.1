@@ -1,7 +1,8 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
-require_once('header.php');
+$admin_view_path = 'admin/dashboard/';
+//require_once('header.php');
+$this->load->view($admin_view_path.'header');
 ?>
 
             <!-- System statistics -->
@@ -157,5 +158,6 @@ require_once('header.php');
             
             
 <?php
-require_once('footer.php');
+//require_once('footer.php');
+$this->load->view($admin_view_path.'footer');
 ?>
