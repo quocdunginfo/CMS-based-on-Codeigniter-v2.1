@@ -8,6 +8,16 @@ class Painting_post_model extends Post_model {
     public $art_price=0;//=>//=>art_price
     public $art_sold=0;//=>art_sold
     public $art_id='';//=>art_id
+    //Alias
+    public function get_description()
+    {
+        return $this->content;
+    }
+    //Alias
+    public function set_description($value)
+    {
+        $this->content = $value;
+    }
     //external
     private $cat_material_list=array();
         private $cat_material_list_ready = false;
@@ -19,17 +29,6 @@ class Painting_post_model extends Post_model {
         parent::__construct();
         $this->special=2;
     }
-    //Alias
-    public function get_description()
-    {
-        return $this->content;
-    }
-    //Alias
-    public function set_description($value)
-    {
-        $this->content = $value;
-    }
-    
     public function get_cat_material_list()
     {
         if($this->cat_material_list_ready==true)
@@ -180,9 +179,47 @@ class Painting_post_model extends Post_model {
             $this->art_price = number_format($this->art_price,0,'.',',');
         }   
     }
-    public function search($title='', $content_lite='', $art_id='', $art_price_from=0, $art_price_to=0, $art_sold=-1, $active=1, $start_point=0, $count=-1)
+    public function search($title='', $description='', $art_id='', $material_name='', $category_name='', $art_price_from=0, $art_price_to=0, $art_sold=-1, $active=1, $start_point=0, $count=-1)
     {
+        $id_array=parent::filter_like(null,'title',$title);
+        $id_array=parent::filter_like($id_array,'content',$description);//Alias
+        $id_array=parent::filter_like($id_array,'art_id',$art_id);
+        if($art_price_from>0 || $art_price_to>0)
+        {
+            $id_array=parent::filter_range($id_array,'art_price',$art_price_from,$art_price_to);
+        }
+        if($art_sold>-1)
+        {
+            $id_array=parent::filter_exact($id_array,'art_sold',$art_sold);
+        }
+        //trim array
+        if($count>-1)
+        {
+            $id_array = array_slice($id_array, $start_point, $count);    
+        }
+        else if($start_point>=0)
+        {
+            $id_array = array_slice($id_array, $start_point);
+        }
         
+        return self::to_obj_list($id_array);
+        
+    }
+    protected function to_obj_list($id_array=array())
+    {
+        $re=array();
+        
+        if(is_array($id_array))
+        {
+            foreach($id_array as $tmp)
+            {
+                $obj=new Painting_post_model;
+                $obj->id = $tmp;
+                $obj->load();
+                array_push($re,$obj);                
+            }
+        }
+        return $re;
     }
 }
 ?>

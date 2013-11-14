@@ -10,7 +10,7 @@ class Post_model extends CI_Model {
     public $special=0;
     public $avatar='';
     //non-table
-    private $_tbn = "post";
+    protected $_tbn = "post";
     //external
     private $user_obj=null;
         private $user_obj_ready = false;
@@ -255,62 +255,91 @@ class Post_model extends CI_Model {
      $special=-1, $cat_list_id = array(), $cat_recursive=false, $user_id=-1,
      $order_by="post.id", $order_rule="desc", $start_point=0, $count=-1)
     {
-        //build new_cat_list for recursive search
-        $new_cat_list = $cat_list_id;
-        if($cat_recursive==true)
+        
+    }
+    protected function filter_like($id_array=null, $key='id', $value='')
+    {
+        $re=array();
+        //validate
+        if(is_array($id_array) && sizeof($id_array)<=0)
         {
-            foreach($cat_list_id as $cat_id)
-            {
-                $cat_tmp = new Cat_model;
-                $cat_tmp->id = $cat_id;
-                $cat_obj_list_tmp = $cat_tmp->get_cat_tree($cat_tmp->id,0,$special);
-                foreach($cat_obj_list_tmp as $cat_obj)
-                {
-                    array_push($new_cat_list,$cat_obj->id);
-                }
-            }
+            return $re; 
         }
-        //build main query
-        $this->db->select($this->_tbn.'.id');
+        $this->db->select('id');
         $this->db->from($this->_tbn);
-        $this->db->like($this->_tbn.'.title',$title);
-        $this->db->like($this->_tbn.'.content',$content);
-        $this->db->like($this->_tbn.'.content_lite',$content);
-        if($count>=0)
+        $this->db->like($key,$value);
+        $this->db->where('special',$this->special);
+        if(is_array($id_array))
         {
-            $this->db->limit($count,$start_point);
+            $this->db->where_in('id',$id_array);
         }
-        if($active!=-1)
-        {
-            $this->db->where($this->_tbn.'.active',$active);
-        }
-        if($special!=-1)
-        {
-            $this->db->where($this->_tbn.'.special',$special);
-        }
-        if($user_id!=-1)
-        {
-            $this->db->where("user_id",$user_id);
-        }
-        //join
-        $this->db->distinct();
-        $this->db->join("post_category",$this->_tbn.".id=post_category.post_id","left");
-        $this->db->join("user",$this->_tbn.".user_id=user.id","left");
-
-        if(sizeof($new_cat_list)>0)
-        {
-            $this->db->where_in("post_category.cat_id",$new_cat_list);
-        }
-        $this->db->order_by($order_by,$order_rule);
-        //get result
         $query = $this->db->get();
-        $re = array();
         foreach($query->result() as $row)
         {
-            $post=new Post_model;
-            $post->id=$row->id;
-            $post->load();
-            array_push($re, $post);
+            array_push($re,$row->id);    
+        }
+        return $re;
+    }
+    protected function filter_range($id_array=null, $key='id', $value_from=0, $value_to=0)
+    {
+        $re=array();
+        //validate
+        if(is_array($id_array) && sizeof($id_array)<=0)
+        {
+            return $re; 
+        }
+        $this->db->select('id');
+        $this->db->from($this->_tbn);
+        $this->db->where($key.' >=',$value_from);
+        $this->db->where($key.' <=',$value_to);
+        $this->db->where('special',$this->special);
+        if(is_array($id_array))
+        {
+            $this->db->where_in('id',$id_array);
+        }
+        $query = $this->db->get();
+        foreach($query->result() as $row)
+        {
+            array_push($re,$row->id);    
+        }
+        return $re;
+    }
+    protected function filter_exact($id_array=null, $key='id', $value='')
+    {
+        $re=array();
+        //validate
+        if(is_array($id_array) && sizeof($id_array)<=0)
+        {
+            return $re;
+        }
+        $this->db->select('id');
+        $this->db->from($this->_tbn);
+        $this->db->where($key,$value);
+        $this->db->where('special',$this->special);
+        if(is_array($id_array))
+        {
+            $this->db->where_in('id',$id_array);
+        }
+        $query = $this->db->get();
+        foreach($query->result() as $row)
+        {
+            array_push($re,$row->id);    
+        }
+        return $re;
+    }
+    protected function to_obj_list($id_array=array())
+    {
+        $re=array();
+        
+        if(is_array($id_array))
+        {
+            foreach($id_array as $tmp)
+            {
+                $obj=new Post_model;
+                $obj->id = $tmp;
+                $obj->load();
+                array_push($re,$obj);                
+            }
         }
         return $re;
     }
