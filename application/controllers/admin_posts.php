@@ -1,62 +1,71 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once('dashboard.php');
-class Admin_posts extends Dashboard {
+require_once(APPPATH.'/controllers/admin.php');
+class Admin_posts extends Admin {
     public function __construct()
     {
         parent::__construct();
-        if($this->session->userdata('user_logged_in')!=1)
+        if($this->_user==null)
         {
             redirect('admin');
             return;
         }
-        
-        $this->data['html_title'] .= ' - Posts';
+        $this->_data['html_title'] .= ' - Posts';
     }
     
-    /**
-     * Admin_posts::index()
-     * Mooxi page 40 item danh sách các bài vi?t hi?n có trong h? th?ng
-     * 
-     * @param mixed $cat_id
-     * @param mixed $page (1,2,3,4,...)
-     * @return void
-     */
-    public function index($cat_id=-1, $page=1, $special=0)
+    public function index()//cat_id, special, page URI
     {
-        //check permission
-        if($this->session->userdata('post_view')!=1)
+        //check permision
+            if(!in_array('post_view',$this->_permission))
+            {
+                self::_fail_permission('post_view');
+                return;
+            }
+        //get param
+        $get = $this->uri->uri_to_assoc(3,array('cat_id', 'special', 'page'));
+        $get['cat_id'] = $get['page']===false?-1:$get['cat_id'];
+        $get['special'] = $get['page']===false?0:$get['special'];
+        $get['page'] = $get['page']===false?1:$get['page'];
+        $base_url = site_url('admin_posts/cat_id/'.$get['cat_id'].'/special/'.$get['special'].'/page/');
+        //varible
+        $max_item_per_page=2;
+        $cat_list = null;//mặc định là tìm trong tất cả
+        if($get['cat_id']>-1)
         {
-            $this->data['state']='post_view';
-            $this->load->view('admin/dashboard/view_fail',$this->data);
-            return;
+            $cat_list = array($get['cat_id']);//có tìm kiếm theo cat_id
         }
+        //pagination
+        $pagination = new Qd_pagination;
+        $pagination->set_current_page($get['page']);
+        $pagination->set_max_item_per_page($max_item_per_page);
+        $pagination->set_total_item(
+            $this->Post_model->search_count("","","",-1,$get['special'],$cat_list,true)
+        );
+        $pagination->set_base_url(
+            site_url('admin_posts/index/cat_id/'.$get['cat_id'].'/special/'.$get['special'].'/page/'),
+            8
+        );
+        
+        $pagination->update();
+        //get posts
+        $list_post = $this->Post_model->search("","","",-1,$get['special'],$cat_list,true,-1,"post.id","desc",$pagination->start_point,$pagination->max_item_per_page);
         
         
-        $max_item_per_page = 40;
-        $begin_point = ($page-1)*$max_item_per_page;
-        $end_point = $begin_point+$max_item_per_page-1;
-        
-        //$post_model = new Post_model;
-        $list_post = $this->Post_model->search("","","",-1,$special,array(),true,-1,"post.id","desc",$begin_point,$max_item_per_page);
-        
-        $this->data['list_post'] = $list_post;
-        $this->data['page_total'] = sizeof($this->Post_model->search("","","",-1,$special,array(),true,-1,"post.id","desc"));
-        $this->data['page_current'] = $page;
-        $this->data['cat_id'] = $cat_id;
-        $this->data['special'] = $special;
-        
-        $this->data['cat_list'] = $this->Cat_model->get_cat_tree(-1,0,$special);
-        
-        //category
-        $this->load->view('admin/dashboard/posts',$this->data);
+        //prepare view
+        $this->_data['list_post'] = $list_post;
+        $this->_data['cat_id'] = $get['cat_id'];
+        $this->_data['special'] = $get['special'];
+        $this->_data['pagination'] = $pagination;
+        $this->_data['cat_list'] = $this->Cat_model->get_cat_tree(-1,0,$get['special']);
+        //load view
+        $this->load->view('admin/posts',$this->_data);
     }
     public function delete($post_id, $cat_id=-1, $page=1, $special=0)
     {
         //validate
         if(!$this->Post_model->is_exist($post_id))
         {
-            $this->data['state'] = 'post_id_is_invalid';
-            $this->load->view($this->avp.'view_fail',$this->data);
+            $this->_data['state'] = 'post_id_is_invalid';
+            $this->load->view($this->avp.'view_fail',$this->_data);
             return;    
         }
         
@@ -70,8 +79,8 @@ class Admin_posts extends Dashboard {
         //check permission
         if($this->session->userdata('post_delete')!=1)
         {
-            $this->data['state']='post_delete';
-            $this->load->view('admin/dashboard/view_fail',$this->data);
+            $this->_data['state']='post_delete';
+            $this->load->view('admin/view_fail',$this->_data);
             return;
         }
 
@@ -94,8 +103,8 @@ class Admin_posts extends Dashboard {
         //check permission
         if($this->session->userdata('post_view')!=1)
         {
-            $this->data['state']='post_view';
-            $this->load->view('admin/dashboard/view_fail',$this->data);
+            $this->_data['state']='post_view';
+            $this->load->view('admin/view_fail',$this->_data);
             return;
         }
         
@@ -109,16 +118,17 @@ class Admin_posts extends Dashboard {
         $title = $this->session->userdata('s_title');
         
         $post_list = $this->Painting_post_model->search($title,'',$art_id,-1,-1,-1,$begin_point,$max_item_per_page,-1,$special);
-        $this->data['list_post'] = $post_list;
-        $this->data['page_total'] = (int)($this->Painting_post_model->search_count($title,'',$art_id,-1,-1,-1,-1,$special)/$max_item_per_page+1);
-        $this->data['page_current'] = $page;
-        $this->data['cat_id'] = -1;
-        $this->data['special'] = $special;
-        $this->data['s_title']=$title;
-        $this->data['s_art_id']=$art_id;
         
-        $this->data['cat_list'] = $this->Cat_model->get_cat_tree_object(-1,0,$special);
-        $this->load->view('admin/dashboard/posts_search',$this->data);
+        $this->_data['list_post'] = $post_list;
+        $this->_data['page_total'] = (int)($this->Painting_post_model->search_count($title,'',$art_id,-1,-1,-1,-1,$special)/$max_item_per_page+1);
+        $this->_data['page_current'] = $page;
+        $this->_data['cat_id'] = -1;
+        $this->_data['special'] = $special;
+        $this->_data['s_title']=$title;
+        $this->_data['s_art_id']=$art_id;
+        
+        $this->_data['cat_list'] = $this->Cat_model->get_cat_tree_object(-1,0,$special);
+        $this->load->view('admin/posts_search',$this->_data);
     }
     public function add($special=0)
     {

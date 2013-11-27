@@ -205,7 +205,7 @@ class Painting_post_model extends Post_model {
         return self::to_obj_list($id_array);
         
     }
-    protected function to_obj_list($id_array=array())
+    public function to_obj_list($id_array=array())
     {
         $re=array();
         
@@ -220,6 +220,18 @@ class Painting_post_model extends Post_model {
             }
         }
         return $re;
+    }
+    public function filter_by_cat_name($id_array=null, $cat_name='')
+    {
+        return parent::filter_by_cat_name($id_array,$cat_name,2);
+    }
+    public function filter_by_painting_cat_name($id_array=null, $cat_name='')
+    {
+        return parent::filter_by_cat_name($id_array,$cat_name,2);
+    }
+    public function filter_by_material_cat_name($id_array=null, $cat_name='')
+    {
+        return parent::filter_by_cat_name($id_array,$cat_name,3);
     }
 }
 ?>

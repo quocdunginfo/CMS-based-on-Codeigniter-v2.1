@@ -2,23 +2,30 @@
 class Admin extends CI_Controller {
     protected $_data;
     protected $_user = null;
-    protected $_permission;
+    protected $_permission=array();
     public function __construct()
     {
         parent::__construct();
-        // Your own constructor code
+        //may class
         $this->load->model('User_model');
         $this->load->model('Post_model');
         $this->load->model('Comment_model');
         $this->load->model("painting/Painting_post_model",'Painting_post_model');
         $this->load->model('Cat_model');
         $this->load->model('Setting_model');
-        $this->load->library('session');
+        $this->load->model('Group_model');
+        $this->load->model('Permission_model');
+        //helper
         $this->load->helper('url');
         $this->load->helper('file');
         $this->load->helper('qd_file_helper');
+        //library
+        $this->load->library('session');
+        $this->load->library('Qd_pagination');
+        $this->load->library('uri');
+        //db
         $this->load->database();
-        //alway call first
+        //prepare common data
         $this->_build_common_data();
     }
     public function index()
@@ -45,7 +52,7 @@ class Admin extends CI_Controller {
             }
             
             //view dashboard
-            $this->load->view('admin/dashboard/index',$this->_data);
+            $this->load->view('admin/index',$this->_data);
             return;
         }
         //view login form
@@ -53,7 +60,8 @@ class Admin extends CI_Controller {
     }
     protected function _build_common_data()
     {
-        $this->_data['state']= array('');
+        $this->_data['state']= array();
+        $this->_data['active_menu'] = array();
         //get user from cookie
             $user=new User_model;
             $user->username=$this->session->userdata('user_username');
@@ -65,7 +73,7 @@ class Admin extends CI_Controller {
             }
         if($this->_user!=null)
         {
-            self::_reset_permission($this->_user->group_id);
+            self::_reset_permission($this->_user);
         }
         else
         {
@@ -102,55 +110,14 @@ class Admin extends CI_Controller {
         $this->_data['state'] = array('fail');
         self::index();
     }
-    private function _reset_permission($group_id=0)
+    private function _reset_permission($user_obj=null)
     {
-        $tmp = array();
-        if($group_id==0)
+        $this->_permission = array();
+        //load permission from object
+        foreach($user_obj->get_group_obj()->get_permission_list_obj() as $item)
         {
-            array_push($tmp,'home_view');
-            //user
-                array_push($tmp,'user_view');
-                array_push($tmp,'user_add');
-                array_push($tmp,'user_edit');
-                array_push($tmp,'user_delete');
-            //post
-                array_push($tmp,'post_view');
-                array_push($tmp,'post_add');
-                array_push($tmp,'post_edit');
-                array_push($tmp,'post_delete');
-            //category
-                array_push($tmp,'cat_view');
-                array_push($tmp,'cat_add');
-                array_push($tmp,'cat_edit');
-                array_push($tmp,'cat_delete');
-            //setting
-                array_push($tmp,'setting_view');
-                array_push($tmp,'setting_edit');
+            array_push($this->_permission,$item->name);
         }
-        if($group_id==1)
-        {
-            array_push($tmp,'home_view');
-            //user
-                array_push($tmp,'user_view');
-                //array_push($tmp,'user_add');
-                //array_push($tmp,'user_edit');
-                //array_push($tmp,'user_delete');
-            //post
-                array_push($tmp,'post_view');
-                //array_push($tmp,'post_add');
-                //array_push($tmp,'post_edit');
-                //array_push($tmp,'post_delete');
-            //category
-                array_push($tmp,'cat_view');
-                //array_push($tmp,'cat_add');
-                //array_push($tmp,'cat_edit');
-                //array_push($tmp,'cat_delete');
-            //setting
-                array_push($tmp,'setting_view');
-                //array_push($tmp,'setting_edit');
-        }
-        //assign
-        $this->_permission = $tmp;
     }
     public function login()
     {
@@ -158,13 +125,23 @@ class Admin extends CI_Controller {
     }
     public function logout()
     {
-        //delete session
-        $this->session->sess_destroy();
+        //delete user session
+        $array= array(
+             'user_id'    => 0,
+             'user_username'    => "",
+             'user_password' => ""
+        );
+        $this->session->set_userdata($array);
         redirect('admin');
     }
     protected function _fail_permission($string_message='unknown')
     {
-        $this->_data['state'] = array('You do not have permission on "'.$string_message.'" area!');
-        $this->load->view('admin/dashboard/view_fail',$this->_data);
+        $this->_data['state'] = array('message'=>'You do not have permission on "'.$string_message.'" area!');
+        $this->load->view('admin/view_fail',$this->_data);
+    }
+    protected function _show_notification($string_message='unknown')
+    {
+        $this->_data['state'] = array('message'=>$string_message, $this->_data);
+        $this->load->view('admin/view_fail',$this->_data);
     }
 }

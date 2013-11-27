@@ -16,7 +16,7 @@ class Admin_category extends Admin {
         $cat_list = $this->Cat_model->get_cat_tree(-1,0,$special);
         $this->_data['cat_list'] = $cat_list;
         $this->_data['special'] = $special;
-        $this->load->view('admin/dashboard/category',$this->_data);
+        $this->load->view('admin/category',$this->_data);
     }
     public function add($special=0)
     {
@@ -68,7 +68,7 @@ class Admin_category extends Admin {
         //show confirm delete
         $this->_data['cat_id'] = $cat_id;
         $this->_data['special'] = $special;
-        $this->load->view('admin/dashboard/category_delete',$this->_data);
+        $this->load->view('admin/category_delete',$this->_data);
     }
     public function confirm_delete($cat_id=-1,$delete_post=0,$special=-1)
     {

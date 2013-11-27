@@ -7,6 +7,7 @@ class Cat_model extends CI_Model {
     var $date_modify = '';
     var $active=1;
     var $special=0;
+    var $description = '';
     //not-in-table
     var $level=0;
     private $_tbn="category";
@@ -15,9 +16,12 @@ class Cat_model extends CI_Model {
         private $parent_cat_obj_ready = false;//for lazy loading
     private $child_cat_list=array();
         private $child_cat_list_ready = false;//for lazy loading
+    private $post_list=array();
+        private $post_list_ready = false;//for lazy loading
     function __construct()
     {
         parent::__construct();
+        $this->special=0;
         $this->load->database();
         $this->load->helper('qd_text_helper');
     }
@@ -26,6 +30,7 @@ class Cat_model extends CI_Model {
         //init new lazy state
             $this->parent_cat_obj_ready=false;
             $this->child_cat_list_ready=false;
+            $this->post_list_ready=false;
         //load
         $this->db->where('id',$this->id);
         $query = $this->db->get($this->_tbn);
@@ -34,13 +39,62 @@ class Cat_model extends CI_Model {
             $this->id=$row->id;
             $this->active=$row->active;
             $this->name=$row->name;
-            //$this->title_for_url= qd_locdautiengviet($row->name);
+            $this->description = $row->description;
             $this->special=$row->special;
             $this->date_create=$row->date_create;
             $this->date_modify=$row->date_modify;
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Cat_model::get_post_list_id()
+     * Trả về array id các post thuộc category
+     * @return
+     */
+    public function get_post_list_id()
+    {
+        if($this->post_list_ready==false)
+        {
+            self::get_post_list_obj();
+        }
+        //return array id
+        $re = array();
+        foreach($this->post_list as $obj)
+        {
+            array_push($re,$obj->id);
+        }
+        return $re;
+    }
+    /**
+     * Cat_model::get_post_list_obj()
+     * Lấy array Post obj thuộc Cat này
+     * @return
+     */
+    public function get_post_list_obj()
+    {
+        if($this->post_list_ready==true)
+        {
+            return $this->post_list;
+        }
+        $this->post_list_ready = true;
+        //init
+        $this->post_list = array();
+        //load post list
+            $this->db->select("post_id");
+            $this->db->distinct();
+            $this->db->from('post_category');
+            $this->db->where("cat_id",$this->id);
+            $query = $this->db->get();
+            foreach($query->result() as $row)
+            {
+                $obj_tmp = new Post_model;
+                $obj_tmp->id = $row->post_id;
+                $obj_tmp->load();
+                array_push($this->post_list,$obj_tmp);
+            }
+        return $this->post_list;
     }
     function get_parent_cat_obj()
     {
@@ -73,7 +127,7 @@ class Cat_model extends CI_Model {
     }
     function set_parent_cat_obj($cat_obj=null)
     {
-        if($cat_obj!=null && $cat_obj->id!=-1 && !$cat_obj->is_exist()) return false;
+        if($cat_obj!=null && !$cat_obj->is_exist()) return false;
         $this->parent_cat_obj = $cat_obj;
         //set lazy state
         $this->parent_cat_obj_ready=true;
@@ -142,6 +196,7 @@ class Cat_model extends CI_Model {
             'name' => $this->name,
             'special' => $this->special,
             'active' => $this->active,
+            'description' => $this->description,
             'date_create' => $this->date_create,
             'date_modify' => date('Y-m-d H:i:s')
         );
@@ -218,6 +273,166 @@ class Cat_model extends CI_Model {
             {
                 $cat_obj_tmp->delete_resursive($delete_post,$special);
             }
+    }
+    public function filter_like($id_array=null, $key='id', $value='')
+    {
+        $re=array();
+        //validate
+        if(is_array($id_array) && sizeof($id_array)<=0)
+        {
+            return $re; 
+        }
+        $this->db->select('id');
+        $this->db->from($this->_tbn);
+        $this->db->like($key,$value);
+        if($this->special>-1)
+        {
+            $this->db->where('special',$this->special);
+        }
+        if(is_array($id_array))
+        {
+            $this->db->where_in('id',$id_array);
+        }
+        $query = $this->db->get();
+        foreach($query->result() as $row)
+        {
+            array_push($re,$row->id);    
+        }
+        return $re;
+    }
+    public function filter_range($id_array=null, $key='id', $value_from=0, $value_to=0)
+    {
+        $re=array();
+        //validate
+        if(is_array($id_array) && sizeof($id_array)<=0)
+        {
+            return $re; 
+        }
+        $this->db->select('id');
+        $this->db->from($this->_tbn);
+        $this->db->where($key.' >=',$value_from);
+        $this->db->where($key.' <=',$value_to);
+        if($this->special>-1)
+        {
+            $this->db->where('special',$this->special);
+        }
+        if(is_array($id_array))
+        {
+            $this->db->where_in('id',$id_array);
+        }
+        $query = $this->db->get();
+        foreach($query->result() as $row)
+        {
+            array_push($re,$row->id);    
+        }
+        return $re;
+    }
+    public function filter_exact($id_array=null, $key='id', $value='')
+    {
+        $re=array();
+        //validate
+        if(is_array($id_array) && sizeof($id_array)<=0)
+        {
+            return $re;
+        }
+        $this->db->select('id');
+        $this->db->from($this->_tbn);
+        $this->db->where($key,$value);
+        if($this->special>-1)
+        {
+            $this->db->where('special',$this->special);
+        }
+        if(is_array($id_array))
+        {
+            $this->db->where_in('id',$id_array);
+        }
+        $query = $this->db->get();
+        foreach($query->result() as $row)
+        {
+            array_push($re,$row->id);    
+        }
+        return $re;
+    }
+    public function to_obj_list($id_array=array())
+    {
+        $re=array();
+        
+        if(is_array($id_array))
+        {
+            foreach($id_array as $tmp)
+            {
+                $obj=new Cat_model;
+                $obj->id = $tmp;
+                $obj->load();
+                array_push($re,$obj);                
+            }
+        }
+        return $re;
+    }
+    public function search($name='', $active=-1,
+     $special=-1, $order_by="cat.id", $order_rule="desc", $start_point=0, $count=-1)
+    {
+        
+    }
+    /**
+     * Cat_model::find_recursive_cat_id()
+     * INPUT: cat_id array, OUTPUT: cat_id array con cháu của INPUT, không trùng id
+     * @param mixed $cat_list_id
+     * @return
+     */
+    public function find_recursive_cat_id($cat_list_id=array())
+    {
+        $cat_list_id_tmp = array();
+        $cat_obj_tmp = new Cat_model;
+        foreach($cat_list_id as $item)
+        {
+            //id k tồn tại => bỏ qua
+            if(self::is_exist($item))
+            {
+                continue;
+            }
+            //get obj
+            $cat_obj_tmp->id = $item;
+            $cat_obj_tmp->load();
+            //xét nhóm cha trước
+            if(!in_array($cat_obj_tmp->id,$cat_list_id_tmp))
+            {
+                array_push($cat_list_id_tmp,$cat_obj_tmp->id);
+            }
+            //xét nhóm con sau
+            foreach($cat_obj_tmp->get_child_cat_list() as $cat_tmp2)
+            {
+                if(!in_array($cat_tmp2->id,$cat_list_id_tmp))
+                {
+                    array_push($cat_list_id_tmp,$cat_tmp2->id);
+                }   
+            }
+        }
+        return $cat_list_id_tmp;
+    }
+    /**
+     * Cat_model::get_post_id_from_cat()
+     * Lấy array post_id trực thuộc (con trực tiếp) của array cat_id
+     * @param mixed $cat_list_id
+     * @return void
+     */
+    public function get_post_id_from_cat($cat_list_id=array())
+    {
+        $re= array();
+        $obj = new Cat_model;
+        foreach($cat_list_id as $id)
+        {
+            $obj->id=$id;
+            $obj->load();
+            foreach($obj->get_post_list_obj() as $post)
+            {
+                if(!in_array($post->id,$re))
+                {
+                    array_push($re,$post->id);
+                }
+            }
+        }
+        return $re;
     }
 }
 ?>

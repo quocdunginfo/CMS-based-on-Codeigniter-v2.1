@@ -29,10 +29,11 @@ class Post_model extends CI_Model {
             if(!$user_obj->is_exist())
             {
                 return false;
-            }
+            }            
         }
         $this->user_obj = $user_obj;
         $this->user_obj_ready=true;
+        return true;
     }
     public function get_user_obj()
     {
@@ -53,8 +54,8 @@ class Post_model extends CI_Model {
                 $user_obj_tmp->load(); 
                 //assign
                 $this->user_obj = $user_obj_tmp;
-                return;
             }
+        return $this->user_obj;
     }
     public function set_cat_obj_list($cat_obj_list=array())
     {
@@ -81,6 +82,7 @@ class Post_model extends CI_Model {
             $this->cat_obj_list=array();
             $this->db->select("cat_id");
             $this->db->where("post_id",$this->id);
+            $this->db->distinct();
             $this->db->from("post_category");
             $query_tmp = $this->db->get();;
             foreach($query_tmp->result() as $row)
@@ -176,15 +178,6 @@ class Post_model extends CI_Model {
     
     public function update()
     {
-        //call lazy before update
-            if($this->cat_obj_list_ready==false)
-            {
-                self::get_cat_obj_list();
-            }
-            if($this->user_obj_ready==false)
-            {
-                self::get_user_obj();
-            }
         $data = array(
                'title' => $this->title,
                'content' => $this->content,
@@ -198,24 +191,30 @@ class Post_model extends CI_Model {
         $this->db->where('id', $this->id);
         $this->db->update($this->_tbn, $data);
         //update external user_obj
-            $data = array(
-                'user_id' => $this->user_obj == null ?0:$this->user_obj->id
-            );
-            $this->db->where('id', $this->id);
-            $this->db->update($this->_tbn, $data);
-        //update external cat_obj_list
-            //delete current cat map
-            $this->db->where("post_id",$this->id);
-            $this->db->from("post_category");
-            $this->db->delete();
-            //build new cat map
-            foreach($this->cat_obj_list as $cat_obj_tmp)
+            if($this->user_obj_ready==true)
             {
-                $data_tmp = array(
-                    "post_id" => $this->id,
-                    "cat_id" => $cat_obj_tmp->id
+                $data = array(
+                    'user_id' => $this->user_obj == null ?0:$this->user_obj->id
                 );
-                $this->db->insert("post_category",$data_tmp);
+                $this->db->where('id', $this->id);
+                $this->db->update($this->_tbn, $data);
+            }
+        //update external cat_obj_list
+            if($this->cat_obj_list_ready==true)
+            {
+                //delete current cat map
+                $this->db->where("post_id",$this->id);
+                $this->db->from("post_category");
+                $this->db->delete();
+                //build new cat map
+                foreach($this->cat_obj_list as $cat_obj_tmp)
+                {
+                    $data_tmp = array(
+                        "post_id" => $this->id,
+                        "cat_id" => $cat_obj_tmp->id
+                    );
+                    $this->db->insert("post_category",$data_tmp);
+                }
             }
         //finish
     }
@@ -250,14 +249,116 @@ class Post_model extends CI_Model {
         $this->db->where('post_id',$this->id);
         $this->db->delete('post_category');
     }
-    
+    public function search_count($title='', $content='', $content_lite="", $active=-1,
+     $special=-1, $cat_list_id = null, $cat_recursive=false, $user_id=-1,
+     $order_by="post.id", $order_rule="desc")
+    {
+        return sizeof(self::search($title,$content,$content_lite, $active,
+     $special, $cat_list_id, $cat_recursive, $user_id,
+     $order_by, $order_rule, 0, -1));
+    }
     public function search($title='', $content='', $content_lite="", $active=-1,
-     $special=-1, $cat_list_id = array(), $cat_recursive=false, $user_id=-1,
+     $special=-1, $cat_list_id = null, $cat_recursive=false, $user_id=-1,
      $order_by="post.id", $order_rule="desc", $start_point=0, $count=-1)
     {
+        $list = array();
+        if($cat_list_id!=null)
+        {
+            //chuẩn bị list cat id
+            if($cat_recursive===true)
+            {
+                $cat_list_id = $this->Cat_model->find_recursive_cat_id($cat_list_id);    
+            }
+            //liệt kê tất cả các post id thuộc array cat trên
+            $list = $this->Cat_model->get_post_id_from_cat($cat_list_id);
+        }
+        else
+        {
+            $list = self::filter_like(null,'id','');//get all posts in post table
+        }
+        //filter dần theo từng thuộc tính
+        $list = self::filter_like($list,'title',$title);
+        $list = self::filter_like($list,'content',$content);
+        $list = self::filter_like($list,'content_lite',$content_lite);
+        if($active>-1)
+        {
+            $list = self::filter_exact($list,'active',$active);
+        }
+        if($special>-1)
+        {
+            $list = self::filter_exact($list,'special',$special);
+        }
+        if($user_id>-1)
+        {
+            $list = self::filter_exact($list,'user_id',$user_id);
+        }
+        $re=array();
+        if(sizeof($list)==0)
+        {
+            return $re;//tránh where in array rỗng
+        }
+        //select from sql again to order by
+        $this->db->select('id');
+        $this->db->from($this->_tbn);
+        $this->db->where_in('id',$list);
+        $this->db->order_by($order_by,$order_rule);
+        if($count>-1 && $start_point>=0)
+        {
+            $this->db->limit($count,$start_point);
+        }
+        $query = $this->db->get();
+        
+        foreach($query->result() as $row)
+        {
+            $obj = new Post_model;
+            $obj->id = $row->id;
+            $obj->load();
+            array_push($re,$obj);
+        }
+        return $re;
+    }
+    public function filter_by_cat_name($id_array=null, $cat_name='', $category_special=0)
+    {
+        //mảng các post_id thỏa mãn cat_name
+        $re=array();
+        //tim tat ca nhung category id co ten LIKE
+        $obj=new Cat_model;
+        $obj->special = $category_special;//search in normal category
+        $id_cat_array = $obj->filter_like(null, 'name', $cat_name);
+        //ung voi moi category id lay ds post
+        foreach($id_cat_array as $cat_id)
+        {
+            $cat_tmp = new Cat_model;
+            $cat_tmp->id = $cat_id;
+            $cat_tmp->load();
+            foreach($cat_tmp->get_post_list_id() as $post_id)
+            {
+                if(!in_array($post_id,$re))
+                {
+                    array_push($re,$post_id);
+                }
+            }
+        }
+        if($id_array!=null)
+        {
+            $final_array = array();
+            //lọc AND giữa 2 array
+            foreach($re as $id)
+            {
+                if(in_array($id,$id_array))
+                {
+                    array_push($final_array,$id);
+                }
+            }
+            return $final_array;
+        }
+        else
+        {
+            return $re;
+        }
         
     }
-    protected function filter_like($id_array=null, $key='id', $value='')
+    public function filter_like($id_array=null, $key='id', $value='')
     {
         $re=array();
         //validate
@@ -268,7 +369,10 @@ class Post_model extends CI_Model {
         $this->db->select('id');
         $this->db->from($this->_tbn);
         $this->db->like($key,$value);
-        $this->db->where('special',$this->special);
+        if($this->special>-1)
+        {
+            $this->db->where('special',$this->special);
+        }
         if(is_array($id_array))
         {
             $this->db->where_in('id',$id_array);
@@ -280,7 +384,7 @@ class Post_model extends CI_Model {
         }
         return $re;
     }
-    protected function filter_range($id_array=null, $key='id', $value_from=0, $value_to=0)
+    public function filter_range($id_array=null, $key='id', $value_from=0, $value_to=0)
     {
         $re=array();
         //validate
@@ -292,7 +396,10 @@ class Post_model extends CI_Model {
         $this->db->from($this->_tbn);
         $this->db->where($key.' >=',$value_from);
         $this->db->where($key.' <=',$value_to);
-        $this->db->where('special',$this->special);
+        if($this->special>-1)
+        {
+            $this->db->where('special',$this->special);
+        }
         if(is_array($id_array))
         {
             $this->db->where_in('id',$id_array);
@@ -304,7 +411,7 @@ class Post_model extends CI_Model {
         }
         return $re;
     }
-    protected function filter_exact($id_array=null, $key='id', $value='')
+    public function filter_exact($id_array=null, $key='id', $value='')
     {
         $re=array();
         //validate
@@ -315,7 +422,10 @@ class Post_model extends CI_Model {
         $this->db->select('id');
         $this->db->from($this->_tbn);
         $this->db->where($key,$value);
-        $this->db->where('special',$this->special);
+        if($this->special>-1)
+        {
+            $this->db->where('special',$this->special);
+        }
         if(is_array($id_array))
         {
             $this->db->where_in('id',$id_array);
@@ -327,7 +437,7 @@ class Post_model extends CI_Model {
         }
         return $re;
     }
-    protected function to_obj_list($id_array=array())
+    public function to_obj_list($id_array=array())
     {
         $re=array();
         
@@ -340,6 +450,39 @@ class Post_model extends CI_Model {
                 $obj->load();
                 array_push($re,$obj);                
             }
+        }
+        return $re;
+    }
+    /**
+     * Post_model::get_uncat_post_list_id()
+     * Lấy array Post id không thuộc nhóm nào hết
+     * @return void
+     */
+    public function filter_uncat($id_array=array())
+    {
+        $re = array();
+        //validate
+        if(is_array($id_array) && sizeof($id_array)<=0)
+        {
+            return $re;
+        }
+        $id_not_in = self::filter_by_cat_name(null,'',0);
+        
+        $this->db->select('id');
+        $this->db->from($this->_tbn);
+        $this->db->where_not_in('id',$id_not_in);
+        if($this->special>-1)
+        {
+            $this->db->where('special',$this->special);
+        }
+        if(is_array($id_array))
+        {
+            $this->db->where_in('id',$id_array);
+        }
+        $query = $this->db->get();
+        foreach($query->result() as $row)
+        {
+            array_push($re,$row->id);
         }
         return $re;
     }

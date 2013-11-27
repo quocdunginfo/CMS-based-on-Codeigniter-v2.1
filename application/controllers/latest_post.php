@@ -7,6 +7,7 @@ class Latest_post extends Right_template {
         $this->load->model('right_template/navigation_model','Right_template_navigation_model');
         $this->load->model('right_template/category_tree_model','Right_template_category_tree_model');
         $this->data['html']['title'].=' - Latest posts';
+
     }
     public function index($page=1)
     {

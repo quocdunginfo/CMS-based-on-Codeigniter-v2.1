@@ -4,13 +4,15 @@ class User_model extends CI_Model {
     var $username = '';
     var $password = '';
     var $fullname = '';
-    var $group_id = 0;//0: admin, 1: normal user, 2:guest
     var $active = 1;
     var $email = '';
     var $date_create = '';//datetime
     var $date_modify = '';//datetime
     //private
     private $_tbn="user";
+    //external
+    private $group_obj = null;
+        private $group_obj_ready = false;//for lazy loading
     public function __construct()
     {
         parent::__construct();
@@ -18,6 +20,9 @@ class User_model extends CI_Model {
     }
     public function load()
     {
+        //init new lazy state
+        $this->group_obj_ready=false;
+        
         $this->db->where('id',$this->id);
         $query = $this->db->get($this->_tbn);
         foreach($query->result() as $row)
@@ -34,6 +39,41 @@ class User_model extends CI_Model {
             return true;
         }
         return false;
+    }
+    public function get_group_obj()
+    {
+        if($this->group_obj_ready==true)
+        {
+            return $this->group_obj;
+        }
+        $this->group_obj_ready=true;
+        //load external user_obj
+            $this->db->select("group_id");
+            $this->db->from($this->_tbn);
+            $this->db->where("id",$this->id);
+            $query = $this->db->get();
+            foreach($query->result() as $row)
+            {
+                $tmp = new Group_model;
+                $tmp->id = $row->group_id;
+                $tmp->load(); 
+                //assign
+                $this->group_obj = $tmp;
+            }
+        return $this->group_obj;
+    }
+    public function set_group_obj($obj=null)
+    {
+        if($obj!=null)
+        {
+            if(!$obj->is_exist())
+            {
+                return false;
+            }
+        }
+        $this->group_obj = $obj;
+        $this->user_obj_ready=true;
+        return true;
     }
     public function get_by_id($id=0)
     {
