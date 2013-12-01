@@ -24,16 +24,15 @@ class Post_model extends CI_Model {
     }
     public function set_user_obj($user_obj=null)
     {
-        if($user_obj!=null)
+        if($user_obj!=null && !$user_obj->is_exist())
         {
-            if(!$user_obj->is_exist())
-            {
-                return false;
-            }            
+            $this->user_obj = null;           
         }
-        $this->user_obj = $user_obj;
-        $this->user_obj_ready=true;
-        return true;
+        else
+        {
+            $this->user_obj = $user_obj;
+        }
+        return $this->user_obj_ready=true;
     }
     public function get_user_obj()
     {
@@ -483,6 +482,16 @@ class Post_model extends CI_Model {
         foreach($query->result() as $row)
         {
             array_push($re,$row->id);
+        }
+        return $re;
+    }
+    public function get_cat_list_text()
+    {
+        $re = '';
+        foreach(self::get_cat_obj_list() as $item)
+        {
+            $re .=$item->name;
+            $re .=', ';
         }
         return $re;
     }

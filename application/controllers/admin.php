@@ -3,6 +3,9 @@ class Admin extends CI_Controller {
     protected $_data;
     protected $_user = null;
     protected $_permission=array();
+    protected $_temp = array();
+    //n?u chuy?n active n?i class b?ng self::... thì dùng $this->_temp;
+    //n?u chuy?n action = redirect(uri) thì dùng $this->session->set_flash('key',value);
     public function __construct()
     {
         parent::__construct();
@@ -23,6 +26,7 @@ class Admin extends CI_Controller {
         $this->load->library('session');
         $this->load->library('Qd_pagination');
         $this->load->library('uri');
+        $this->load->library('encrypt');
         //db
         $this->load->database();
         //prepare common data
@@ -64,11 +68,11 @@ class Admin extends CI_Controller {
         $this->_data['active_menu'] = array();
         //get user from cookie
             $user=new User_model;
-            $user->username=$this->session->userdata('user_username');
-            $user->password=$this->session->userdata('user_password');
+            $user->id = $this->session->userdata('user_id');
+            $user->set_password($this->session->userdata('user_password'));
             if($user->login()==true)
             {
-                $user->load_by_username();
+                $user->load();
                 $this->_user = $user;
             }
         if($this->_user!=null)
@@ -78,6 +82,8 @@ class Admin extends CI_Controller {
         else
         {
             $this->_permission = array();
+            //redirect to login page
+            //...
         }
         $this->_data['current_user'] =  $this->_user;
         $this->_data['html_title'] =  'Dashboard';
@@ -92,17 +98,16 @@ class Admin extends CI_Controller {
         $input = $this->input->post(NULL, TRUE);
         $test = new User_model;
         $test->username=$input['username'];
-        $test->password=$input['password'];
-        if($test->login()==true)
+        $test->set_password($input['password']);
+        if($test->login_by_username()==true)
         {
             //login ok
                 //get full info
-                $test->load();
-                //set cookies
+                $test->load_by_username();
+                //set session
                     $array= array(
                          'user_id'    => $test->id,
-                         'user_username'    => $test->username,
-                         'user_password' => $test->password
+                         'user_password' => $test->get_password()
                     );
                     $this->session->set_userdata($array);
             redirect('admin');
@@ -128,15 +133,14 @@ class Admin extends CI_Controller {
         //delete user session
         $array= array(
              'user_id'    => 0,
-             'user_username'    => "",
              'user_password' => ""
         );
         $this->session->set_userdata($array);
         redirect('admin');
     }
-    protected function _fail_permission($string_message='unknown')
+    protected function _fail_permission($permission_name='unknown')
     {
-        $this->_data['state'] = array('message'=>'You do not have permission on "'.$string_message.'" area!');
+        $this->_data['state'] = array('message'=>'You do not have permission on "'.$permission_name.'" area!');
         $this->load->view('admin/view_fail',$this->_data);
     }
     protected function _show_notification($string_message='unknown')

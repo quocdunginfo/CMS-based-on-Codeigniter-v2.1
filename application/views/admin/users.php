@@ -1,7 +1,11 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
-require_once('header.php');
+//registered varibles
+//$user_list array
+//$pagination Qd_pagination
+$this->load->view('admin/header');
+$page_current = $pagination->current_page;
+$page_total = $pagination->total_page;
 ?>
 
             <!-- module goes here -->
@@ -44,9 +48,9 @@ require_once('header.php');
                                 ?>
                                 <tr>                                    
                                     <td class="align-center"><?php echo $user_obj->id; ?></td>
-                                    <td><a <?php if($user_obj->group_id==0) echo 'style="color: red;"'; ?> href="<?=site_url('admin_users/edit/'.$user_obj->id)?>"><?php echo $user_obj->username; ?></a></td>
+                                    <td><a href="<?=site_url('admin_users/edit/'.$user_obj->id)?>"><?php echo $user_obj->username; ?></a></td>
                                     <td><?php echo $user_obj->fullname; ?></td>
-                                    <td><?php echo $user_obj->group_id; echo $user_obj->group_id==0?' (Admin)':' (User)'; ?></td>
+                                    <td><?php echo $user_obj->get_group_obj()->name; ?></td>
                                     <td><?php echo $user_obj->email; ?></td>
                                     <td><?php echo $user_obj->date_create; ?></td>
                                     <td><?php echo $user_obj->date_modify; ?></td>
@@ -142,5 +146,5 @@ require_once('header.php');
 			</div> <!-- End .grid_12 -->
             <div style="clear:both;"></div>
 <?php
-require_once('footer.php');
+$this->load->view('admin/footer');
 ?>

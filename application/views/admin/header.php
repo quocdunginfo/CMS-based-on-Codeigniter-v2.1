@@ -140,7 +140,7 @@ $template_path=base_url().'application/views/admin/';
                                 <li <?php if($this->uri->segment(1)=='admin') echo 'id="current"'; ?>><a href="<?php echo site_url('admin'); ?>">Dashboard</a></li>
                                 <li <?php if($this->uri->segment(1)=='admin_category') echo 'id="current"'; ?>><a href="<?php echo site_url('admin_category'); ?>" ">Categories</a></li>
                                 <li <?php if($this->uri->segment(1)=='admin_posts' || $this->uri->segment(1)=='admin_post') echo 'id="current"'; ?>><a href="<?php echo site_url('admin_posts'); ?>">Posts</a></li>
-                                <li <?php if($this->uri->segment(1)=='admin_users') echo 'id="current"'; ?>><a href="<?php echo site_url('admin_users'); ?>">Users</a></li>
+                                <li <?php if(in_array('admin_users',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_users'); ?>">Users</a></li>
                                 <li <?php if($this->uri->segment(1)=='admin_setting') echo 'id="current"'; ?>><a href="<?php echo site_url('admin_setting'); ?>">Settings</a></li>
                                 <li <?php if($this->uri->segment(1)=='admin_media') echo 'id="current"'; ?>><a href="<?php echo site_url('admin_media'); ?>">Media</a></li>
                                 <li <?php if($this->uri->segment(1)=='admin_help') echo 'id="current"'; ?>><a href="<?php echo site_url('admin_help'); ?>">Help</a></li>
@@ -153,38 +153,42 @@ $template_path=base_url().'application/views/admin/';
             </div> <!-- End #header-main -->
             <div style="clear: both;"></div>
             
+            <?php if(in_array('admin_category',$active_menu)): ?>
             <!-- Sub navigation -->
             <!-- for admin_category --> 
             <div class="subnav" id="subnav_category">
                 <div class="container_12">
                     <div class="grid_12">
                         <ul>
-                            <li><a href="<?=site_url('admin_category')?>">[Normal categories for posts]</a></li>
-                            <li><a href="<?=site_url('admin_category/index/1')?>">[Special categories for other features]</a></li>
-                            <li><a href="<?=site_url('admin_category/index/2')?>">[Painting categories]</a></li>
-                            <li><a href="<?=site_url('admin_category/index/3')?>">[Material categories]</a></li>
+                            <li><a href="<?=site_url('admin_category/index/special/0')?>">[Normal categories for posts]</a></li>
+                            <li><a href="<?=site_url('admin_category/index/special/1')?>">[Special categories for other features]</a></li>
+                            <li><a href="<?=site_url('admin_category/index/special/2')?>">[Painting categories]</a></li>
+                            <li><a href="<?=site_url('admin_category/index/special/3')?>">[Material categories]</a></li>
                         </ul>
                     </div><!-- End. .grid_12-->
                 </div><!-- End. .container_12 -->
                 <div style="clear: both;"></div>
             </div> <!-- End #subnav -->
+            <?php endif; ?>
             
+            <?php if(in_array('admin_posts',$active_menu)): ?>
             <!-- Sub navigation -->
-            <!-- for admin_posts --> 
+            <!-- for admin_posts -->
             <div class="subnav" id="subnav_post">
                 <div class="container_12">
                     <div class="grid_12">
                         <ul>
                             
-                            <li><a href="<?=site_url('admin_posts')?>">[Normal posts]</a></li>
-                            <li><a href="<?=site_url('admin_posts/index/-1/1/1')?>">[Special posts for other features]</a></li>
-                            <li><a href="<?=site_url('admin_posts/index/-1/1/2')?>">[Painting post]</a></li>
-                            <li><a href="<?=site_url('admin_posts/search/1/2')?>">[Painting post Search]</a></li>
+                            <li><a href="<?=site_url('admin_posts/index/special/0')?>">[Normal posts]</a></li>
+                            <li><a href="<?=site_url('admin_posts/index/special/1')?>">[Special posts for other features]</a></li>
+                            <li><a href="<?=site_url('admin_posts/index/special/2')?>">[Painting post]</a></li>
+                            <li><a href="<?=site_url('admin_posts/index/special/3')?>">[Painting post Search]</a></li>
                         </ul>
                     </div><!-- End. .grid_12-->
                 </div><!-- End. .container_12 -->
                 <div style="clear: both;"></div>
             </div> <!-- End #subnav -->
+            <?php endif; ?>
             
         </div> <!-- End #header -->
         

@@ -1,105 +1,106 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once('dashboard.php');
-class Admin_users extends Dashboard {
+require_once(APPPATH.'/controllers/admin.php');
+class Admin_users extends Admin {
     public function __construct()
     {
         parent::__construct();
-        // Your own constructor code
-        $this->load->model('User_model');
-        //$this->load->model('Post_model');
-        //$this->load->model('Cat_model');
-        $this->load->library('session');
-        $this->load->helper('url');
-        
-        if($this->session->userdata('user_logged_in')!=1)
-        {
-            redirect('admin');
-            return;
-        }
-        
-        $this->data['html_title'].=' - Users';
+        $this->_data['html_title'].=' - Users';
+        array_push($this->_data['active_menu'],'admin_users');
     }
-    public function index($page=1,$state='null')
+    public function index()//page
     {
         //check permission
-        if($this->session->userdata('user_view')!=1)
+        if(!in_array('user_view',$this->_permission))
         {
-            $this->data['state']='user_view';
-            
-            $this->load->view('admin/dashboard/view_fail',$this->data);
+            $this->_fail_permission('user_view');
             return;
         }
+        //get param
+        $get = $this->uri->uri_to_assoc(1,array('page',));
+        $get['page'] = $get['page']===false?1:$get['page'];
+        $base_url = site_url('admin_users/index/page/');
+        //varible
+        $max_item_per_page=40;
+        $model = new User_model;//model access
+        //pagination
+        $pagination = new Qd_pagination;
+        $pagination->set_current_page($get['page']);
+        $pagination->set_max_item_per_page($max_item_per_page);
+        $pagination->set_total_item(
+            $model->search_count()
+        );
+        $pagination->set_base_url(
+            $base_url,
+            4
+        );
         
-        $max_item_per_page = 40;
+        $pagination->update();
+        //echo $pagination->start_point.'-'.$pagination->max_item_per_page;
         
+        $this->_data['user_list']= $model->search(-1,'','','',-1,-1,$pagination->start_point,$pagination->max_item_per_page);
+        $this->_data['state']= (array)$this->session->flashdata('state');//noi khác set tru?c
+        $this->_data['pagination']=$pagination;
         
-        $this->data['user_list']= $this->User_model->get_all_user();
-        $this->data['state']= $state;
-        $this->data['page_total'] = (int)($this->User_model->count_all_user()/$max_item_per_page+1);
-        $this->data['page_current'] = $page;
-        
-        $this->load->view('admin/dashboard/users',$this->data);
+        $this->load->view('admin/users',$this->_data);
     }
-    public function edit($uid)
+    public function edit($uid=0)
     {
         //check permission
-        if($this->session->userdata('user_id')==$uid)
+        if($this->_user->id==$uid)
         {
-            
+            //ownner permission override
         }
-        elseif($this->session->userdata('user_edit')!=1)
+        else if(!in_array('user_edit',$this->_permission))
         {
-            $this->data['state'] = 'user_edit';
-            $this->load->view($this->avp.'view_fail',$this->data);
+            $this->_fail_permission('user_edit');
             return;
         }
-        redirect($thiss->acp.'admin_user/index/'.$uid);
+        redirect('admin_user/index/'.$uid);
     }
     public function delete($uid)
     {
         //check permission
         //xet permission
-        if($this->session->userdata['user_delete']!=1)
+        if(!in_array('user_delete',$this->_permission))
         {
-            $this->data['state']='user_delete';
-            $this->load->view($this->avp.'view_fail',$this->data);
+            $this->_fail_permission('user_delete');
             return;
         }
         //xet self delete
-        if($this->session->userdata['user_id']==$uid)
+        if($this->_user->id==$uid)
         {
-            $this->data['state']='user_can_not_delete_byself';
-            $this->load->view($this->avp.'view_fail',$this->data);
+            $this->_show_notification('user_can_not_delete_byself');
             return;
         }
         //kiem tra user id can xoa co ton tai
-        if(!$this->User_model->is_exist($uid) || !$this->User_model->is_exist($uid))
+        $obj = new User_model;
+        $obj->id = $uid;
+    
+        if(!$obj->is_exist($uid))
         {
-            $this->data['state']='user_id_is_not_valid';
-            $this->load->view($this->avp.'view_fail',$this->data);
+            $this->_show_notification('user_id_is_not_valid');
             return;
         }
         
-        $this->data['user_list'] = $this->User_model->get_all_user();
+        $this->_data['user_list'] = $this->User_model->search();
         //loai bo user can xoa khoi danh sach
-        for($i=0;$i<sizeof($this->data['user_list']);$i++)
+        for($i=0;$i<sizeof($this->_data['user_list']);$i++)
         {
-            if($this->data['user_list'][$i]->id==$uid)
+            if($this->_data['user_list'][$i]->id==$uid)
             {
-                unset($this->data['user_list'][$i]);
+                unset($this->_data['user_list'][$i]);
             }
         }
         
-        $this->data['user0'] = $this->User_model->get_by_id($uid);
-        $this->load->view($this->avp.'user_delete',$this->data);
+        $this->_data['user0'] = $this->User_model->get_by_id($uid);
+        $this->load->view('user_delete',$this->_data);
     }
     public function add()
     {
         //check permission
-        if($this->session->userdata['user_add']!=1)
+        if(!in_array('user_add',$this->_permission))
         {
-            $this->data['state']='user_delete';
-            $this->load->view($this->avp.'view_fail',$this->data);
+            $this->_fail_permission('user_add');
             return;
         }
         redirect('admin_user/index/0');

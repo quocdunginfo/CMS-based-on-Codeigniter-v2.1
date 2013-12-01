@@ -19,7 +19,7 @@ $this->load->view('admin/header');
                         Choose parent category:
                         </p>
                           
-                        <form action="<?php echo site_url('admin_category/add/'.$special); ?>" method="post">
+                        <form action="<?php echo site_url('admin_category/add/special/'.$special); ?>" method="post">
                             <fieldset>
                                 <ul class="qdClass" style="border:2px solid #ccc; width:80%px; height: 350px; overflow-y: scroll; padding:10px 10px 10px 10px;">
                                     <li>
@@ -96,7 +96,7 @@ $this->load->view('admin/header');
                      <div class="module-body">
                         <span class="notification n-success" <?php if(!in_array('edit_ok',$state)) echo 'style="display:none;"'; ?>>Updated successfully!</span>
                         <p>Edit category</p>  
-                        <form action="<?php echo site_url('admin_category/edit/'.$special); ?>" method="post">
+                        <form action="<?php echo site_url('admin_category/edit/special/'.$special); ?>" method="post">
                             <fieldset>
                                 Category name:
                                 <input id="cat_edit_id" name="cat_id" type="hidden" value=""/>

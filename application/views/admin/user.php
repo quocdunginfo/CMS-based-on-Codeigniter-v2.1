@@ -1,7 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
-require_once('header.php');
+//user0 obj, state array
+$this->load->view('admin/header');
 ?>
             <!-- module goes here -->
 			<!-- Form elements -->    
@@ -14,8 +14,8 @@ require_once('header.php');
                         <form action="<?php echo site_url('admin_user/edit')?>" method="post">
                             <input type="hidden" name="user_id" value="<?php echo $user0->id; ?>"/>
                             <div>
-                                <span class="notification n-success" <?php if($state!='update_ok') echo 'style="display:none;"'; ?>>Updated successfully!</span>
-                                <span class="notification n-success" <?php if($state!='add_ok') echo 'style="display:none;"'; ?>>Added successfully!</span>
+                                <span class="notification n-success" <?php if(!in_array('edit_ok',$state)) echo 'style="display:none;"'; ?>>Updated successfully!</span>
+                                <span class="notification n-success" <?php if(!in_array('add_ok',$state)) echo 'style="display:none;"'; ?>>Added successfully!</span>
                             </div>
                             
                             <p>
@@ -36,13 +36,13 @@ require_once('header.php');
                             </p>
                             <p>
                                 Password:
-                                <input type="password" class="input-short" name="user_password" value="<?php echo $user0->password; ?>"/>
+                                <input type="password" class="input-short" name="user_password" value="<?php echo $user0->get_password(); ?>"/>
                                 <span class="notification-input ni-correct" style="display:none;">This is correct, thanks!</span>
                             </p>
                             <p>
                                 Confirm password:
-                                <input type="password" class="input-short" name="user_repassword" value="<?php echo $user0->password; ?>"/>
-                                <span class="notification-input ni-error" <?php if($state!='password_fail') echo 'style="display:none;"'; ?> >Password does not confirm!</span>
+                                <input type="password" class="input-short" name="user_repassword" value="<?php echo $user0->get_password(); ?>"/>
+                                <span class="notification-input ni-error" <?php if(!in_array('password_fail',$state)) echo 'style="display:none;"'; ?> >Password does not confirm!</span>
                             </p>
                             
                             <fieldset>
@@ -55,10 +55,12 @@ require_once('header.php');
                             
                             <fieldset>
                                 User group:
-                                <select <?php //if($user->group_id==1) echo 'disabled="disabled"'; ?> class="input-short" name="user_groupid" style="width: 150px;">
-                                    <option value="0" <?php if($user0->group_id==0) echo 'selected="selected"'; ?> >Admin</option>
-                                    <option value="1" <?php if($user0->group_id==1) echo 'selected="selected"'; ?> >Normal user</option>
-                                    <option value="2" <?php if($user0->group_id==2) echo 'selected="selected"'; ?> >Guest user</option>
+                                <select name="user_groupid">
+                                <?php foreach($group_list as $item): ?>
+                                <option value="<?=$item->id?>"
+                                <?php if($user0->get_group_obj()!=null && $item->id==$user0->get_group_obj()->id) echo 'selected="selected"' ?>
+                                ><?=$item->name?></option>
+                                <?php endforeach; ?>
                                 </select>
                             </fieldset>
                             
@@ -73,5 +75,5 @@ require_once('header.php');
                 </div>  <!-- End .module -->
             </div>
 <?php
-require_once('footer.php');
+$this->load->view('admin/footer');
 ?>

@@ -40,7 +40,7 @@ $page_total = $pagination->total_page;
                     <script type="text/javascript">
                         function cat_item_click(elm)
                         {
-                            window.location = "<?=site_url('admin_posts/index/')?>/"+elm.value+"/<?=$page_current?>/<?=$special?>";
+                            window.location = "<?=site_url('admin_posts/index/special/'.$special)?>/cat_id/"+elm.value+"/page/<?=$page_current?>";
                         }
                     </script>
                     
@@ -79,7 +79,7 @@ $page_total = $pagination->total_page;
                                     
                                     </td>
                                     <td><?php 
-                                        //echo $post->get_cat_list_text();
+                                        echo $post->get_cat_list_text();
                                         ?></td>
                                     <td><?php echo $post->date_create; ?></td>
                                     <td><?php echo $post->date_modify; ?></td>

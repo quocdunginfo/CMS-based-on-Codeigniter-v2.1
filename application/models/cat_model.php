@@ -127,11 +127,16 @@ class Cat_model extends CI_Model {
     }
     function set_parent_cat_obj($cat_obj=null)
     {
-        if($cat_obj!=null && !$cat_obj->is_exist()) return false;
-        $this->parent_cat_obj = $cat_obj;
+        if($cat_obj!=null && !$cat_obj->is_exist())
+        {
+             $this->parent_cat_obj = null;
+        }
+        else
+        {
+            $this->parent_cat_obj = $cat_obj;
+        }
         //set lazy state
-        $this->parent_cat_obj_ready=true;
-        return true;
+        return $this->parent_cat_obj_ready=true;
     }
     function get_child_cat_list($special=-1)
     {
@@ -207,7 +212,7 @@ class Cat_model extends CI_Model {
             if($this->parent_cat_obj_ready==true)
             {
                 $array = array(
-                    'parent_id' => $this->parent_cat_obj==null?-1:$this->parent_cat_obj->id
+                    'parent_id' => $this->parent_cat_obj==null || $this->parent_cat_obj->id<=0?-1:$this->parent_cat_obj->id
                 );
                 $this->db->where('id',$this->id);
                 $this->db->update($this->_tbn,$array);

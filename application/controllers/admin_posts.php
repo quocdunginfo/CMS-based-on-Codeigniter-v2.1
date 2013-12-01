@@ -4,12 +4,8 @@ class Admin_posts extends Admin {
     public function __construct()
     {
         parent::__construct();
-        if($this->_user==null)
-        {
-            redirect('admin');
-            return;
-        }
         $this->_data['html_title'] .= ' - Posts';
+        $this->_data['active_menu'] = array('admin_posts');
     }
     
     public function index()//cat_id, special, page URI
@@ -22,32 +18,35 @@ class Admin_posts extends Admin {
             }
         //get param
         $get = $this->uri->uri_to_assoc(3,array('cat_id', 'special', 'page'));
-        $get['cat_id'] = $get['page']===false?-1:$get['cat_id'];
-        $get['special'] = $get['page']===false?0:$get['special'];
+        $get['cat_id'] = $get['cat_id']===false?-1:$get['cat_id'];
+        $get['special'] = $get['special']===false?0:$get['special'];
         $get['page'] = $get['page']===false?1:$get['page'];
-        $base_url = site_url('admin_posts/cat_id/'.$get['cat_id'].'/special/'.$get['special'].'/page/');
+        $base_url = site_url('admin_posts/index/cat_id/'.$get['cat_id'].'/special/'.$get['special'].'/page/');
         //varible
-        $max_item_per_page=2;
+        $max_item_per_page=40;
         $cat_list = null;//mặc định là tìm trong tất cả
         if($get['cat_id']>-1)
         {
             $cat_list = array($get['cat_id']);//có tìm kiếm theo cat_id
         }
+        $post_model = new Post_model;//model access
         //pagination
         $pagination = new Qd_pagination;
         $pagination->set_current_page($get['page']);
         $pagination->set_max_item_per_page($max_item_per_page);
         $pagination->set_total_item(
-            $this->Post_model->search_count("","","",-1,$get['special'],$cat_list,true)
+            $post_model->search_count("","","",-1,$get['special'],$cat_list,true)
         );
         $pagination->set_base_url(
-            site_url('admin_posts/index/cat_id/'.$get['cat_id'].'/special/'.$get['special'].'/page/'),
+            $base_url,
             8
         );
         
         $pagination->update();
         //get posts
-        $list_post = $this->Post_model->search("","","",-1,$get['special'],$cat_list,true,-1,"post.id","desc",$pagination->start_point,$pagination->max_item_per_page);
+        $post_model->special = $get['special'];
+        
+        $list_post = $post_model->search("","","",-1,$get['special'],$cat_list,true,-1,"post.id","desc",$pagination->start_point,$pagination->max_item_per_page);
         
         
         //prepare view

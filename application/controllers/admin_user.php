@@ -1,72 +1,67 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once('dashboard.php');
-class Admin_user extends Dashboard {
+require_once(APPPATH.'/controllers/admin.php');
+class Admin_user extends Admin {
     public function __construct()
     {
-        parent::__construct();
-        
-        $this->_check_login();
-        
-        $this->data['html_title'].=' - User';
+        parent::__construct();        
+        $this->_data['html_title'].=' - User';
+        array_push($this->_data['active_menu'],'admin_users');
     }
-    public function index($u_id,$state='null')
+    public function index($uid=0)
     {
         //check permission
-        if($this->session->userdata('user_view')!=1)
+        if(!in_array('user_view',$this->_permission))
         {
-            $this->data['state']='user_view';
-            
-            $this->load->view($this->avp.'view_fail',$this->data);
+            $this->_fail_permission('user_view');
             return;
         }
-        if($u_id==0)
+        if($uid==0)
         {
             //add mode
             //check permission
-            if($this->session->userdata('user_add')!=1)
+            if(!in_array('user_add',$this->_permission))
             {
-                $this->data['state']='user_add';
-                $this->load->view($this->avp.'view_fail',$this->data);
+                $this->_fail_permission('user_add');
                 return;
             }
             
-            $this->data['state'] = $state;
-            $this->data['user0'] = new User_model;
-            $this->load->view($this->avp.'user',$this->data);
+            $this->_data['state'] = array();
+            $this->_data['user0'] = new User_model;
+            $this->_data['group_list'] = $this->Group_model->search();
+            $this->load->view('admin/user',$this->_data);
             return;
         }
-        $this->data['state']=$state;
-        $this->data['user0'] = $this->User_model->get_by_id($u_id);
-        $this->load->view($this->avp.'user',$this->data);
+        //edit mode
+        $this->_data['state']= (array)$this->_temp;
+        $this->_data['user0'] = $this->User_model->get_by_id($uid);
+        $this->_data['group_list'] = $this->Group_model->search();
+        $this->load->view('admin/user',$this->_data);
     }
     public function delete()
     {
         $input = $this->input->post(NULL, TRUE);
         //check permission
         //xet permission
-        if($this->session->userdata['user_delete']!=1)
-        {
-            $this->data['state']='user_delete';
-            $this->load->view($this->avp.'view_fail',$this->data);
-            return;
-        }
+        if(!in_array('user_delete',$this->_permission))
+            {
+                $this->_fail_permission('user_delete');
+                return;
+            }
         //xet self delete
-        if($this->session->userdata['user_id']==$input['user_id'])
+        if($this->_user->id==$input['user_id'])
         {
-            $this->data['state']='user_can_not_delete_byself';
-            $this->load->view($this->avp.'view_fail',$this->data);
+            $this->_show_notification('user_can_not_delete_byself');
             return;
         }
         //kiem tra user id can xoa co ton tai
         if(!$this->User_model->is_exist($input['user_id']) || !$this->User_model->is_exist($input['user_tranfer_id']))
         {
-            $this->data['state']='user_id_is_not_valid';
-            $this->load->view($this->avp.'view_fail',$this->data);
+            $this->_show_notification('user_id_is_not_valid');
             return;
         }
         
         $this->User_model->delete($input['user_id'],$input['user_tranfer_id']);
-        $this->data['state'] = 'delete_ok';
+        $this->_data['state'] = 'delete_ok';
         redirect('admin_users/index/1/delete_ok');
     }
     public function edit()
@@ -74,20 +69,16 @@ class Admin_user extends Dashboard {
         //get all data
         $input = $this->input->post(NULL, TRUE);
         $input['user_active'] = $this->input->post('user_active')=='1'?'1':'0';//prevent XSS filter
-        $input['user_groupid'] = $this->input->post('user_groupid')=='1'?'1':'0';//prevent XSS filter
         
         //check permission
-        //xet owner permission
-        if($this->session->userdata['user_id']==$input['user_id'])
+        if($this->_user->id==$input['user_id'])
         {
-            
+            //xet owner permission
         }
         //xet global permission
-        elseif($this->session->userdata('user_edit')!=1)
+        else if(!in_array('user_edit',$this->_permission))
         {
-            $this->data['state']='user_edit';
-            
-            $this->load->view($this->avp.'view_fail',$this->data);
+            $this->_fail_permission('user_edit');
             return;
         }
         
@@ -105,15 +96,17 @@ class Admin_user extends Dashboard {
             if($input['user_password']!=$input['user_repassword'])
             {
                 //password khong trung
-                $this->index(0,'password_fail');
+                $this->_temp = array('password_fail');
+                self::index(0);
                 return;
             }
-            $user->password = $input['user_password'];
-            $user->groupid = $input['user_groupid'];
+            $user->set_password($input['user_password']);
+            $user->set_group_obj($this->Group_model->get_by_id($input['user_groupid']));
             $user->active = $input['user_active'];
             
             $user->add();
-            $this->index($user->id,'add_ok');
+            $this->_temp = array('add_ok');
+            $this->index($user->id);
         }
         else
         {
@@ -121,9 +114,7 @@ class Admin_user extends Dashboard {
             //xet uid co ton tai
             if(!$this->User_model->is_exist($input['user_id']))
             {
-                
-                $this->data['state']='user_id_is_not_valid';
-                $this->load->view($this->avp.'view_fail',$this->data);
+                $this->_show_notification('user_id_is_not_valid');
                 return;
             }
             //load current info
@@ -140,38 +131,36 @@ class Admin_user extends Dashboard {
             if($input['user_password']!=$input['user_repassword'])
             {
                 //password khong trung
-                $this->index($input['user_id'],'password_fail');
+                $this->_temp = array('password_fail');
+                $this->index($input['user_id']);
                 return;
             }
             
-            $user->password = $input['user_password'];
+            $user->set_password($input['user_password']);
             
             
-            //admin can modyfiy some things
-            if($this->User_model->get_group_id($this->session->userdata('user_id'))==0)
-            {
-                if($this->session->userdata('user_id')==$input['user_id'])
+            //n?u dang s?a chính mình
+            if($this->_user->id==$input['user_id'])
                 {
                     //neu co su thay doi ACTIVE va GROUPID
-                    if($input['user_active']!=$user->active || $input['user_groupid']!=$user->group_id)
+                    if($input['user_active']!=$user->active || $input['user_groupid']!=$user->get_group_obj()->id)
                     {
                         //ban than khong the deactivate hoac set minh thanh permission khac dc
-                        $this->data['state'] = 'user_can_not_deactivate_or_change_permission_by_self';
-                        $this->load->view($this->avp.'view_fail',$this->data);
+                        $this->_show_notification('user_can_not_deactivate_or_change_permission_by_self');
                         return;
                     }
                 }
                 else
                 {
                     $user->active = $input['user_active'];
-                    $user->group_id = $input['user_groupid'];
+                    $user->set_group_obj($this->Group_model->get_by_id($input['user_groupid']));
                 }
-            }
             
             //call update
             $user->update();
             //load view
-            $this->index($input['user_id'],'update_ok');
+            $this->_temp = array('edit_ok');
+            self::index($input['user_id']);
         }
     }
     
