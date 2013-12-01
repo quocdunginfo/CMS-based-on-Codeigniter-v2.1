@@ -122,7 +122,7 @@ $template_path=base_url().'application/views/admin/';
                         <a href="<?=site_url('admin_users/edit/'.$current_user->id)?>" id="qdUsername" style="vertical-align:baseline; color:#CCC; font-size:100%; padding: 9px 20px 11px 0px ; line-height:1; display:block; width:auto; height:auto; float:left; position:relative; font: 12px/1.5; margin-top: 4px;">
                          User:   <?php echo $current_user->username.' (fullname: '.$current_user->fullname.')'; ?>
                         </a>
-                        <a href="<?php echo site_url('admin/logout'); ?>" id="logout">
+                        <a href="<?php echo site_url('admin_login/logout'); ?>" id="logout">
                             Logout
                         </a>
                     </div>

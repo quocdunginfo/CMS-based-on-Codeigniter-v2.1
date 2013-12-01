@@ -16,8 +16,8 @@ $template_path=base_url().'application/views/admin/login/';
 <script type="text/javascript" src="src/placeholder.js"></script>
 </head>
 <body>
-<form id="slick-login" action="<?php echo site_url('admin/test_login');?>" method="post">
-<p align="right" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#CCC; margin-bottom:5px; margin-top:10px; text-align:center; <?php if(in_array('',$state)) echo "visibility:hidden;" ?>">Invalid username or password!</p>
+<form id="slick-login" action="<?php echo site_url('admin_login/test_login');?>" method="post">
+<p align="right" style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#CCC; margin-bottom:5px; margin-top:10px; text-align:center; <?php if(!in_array('fail',$state)) echo "visibility:hidden;" ?>">Invalid username or password!</p>
 <label for="username">username</label><input type="text" name="username" class="placeholder" placeholder="Username" value="guest">
 <label for="password">password</label><input type="password" name="password" class="placeholder" placeholder="Password">
 <input type="submit" value="Log In">

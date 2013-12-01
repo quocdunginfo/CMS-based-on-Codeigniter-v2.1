@@ -34,33 +34,27 @@ class Admin extends CI_Controller {
     }
     public function index()
     {
-        //check login
-        if($this->_user!=null)
+        //check permision
+        if(!in_array('home_view',$this->_permission))
         {
-            //check permision
-            if(!in_array('home_view',$this->_permission))
-            {
-                self::_fail_permission('home_view');
-                return;
-            }
-            //get post that hold comment
-            $feature_cat = $this->Setting_model->get_by_key('feedback_category');
-            $list_post = $this->Post_model->search('','','',-1,-1,array($feature_cat));
-            if(sizeof($list_post)>0)
-            {
-                $this->_data['post_cmt'] = $list_post[0];
-            }
-            else
-            {
-                $this->_data['post_cmt'] = null;
-            }
-            
-            //view dashboard
-            $this->load->view('admin/index',$this->_data);
+            self::_fail_permission('home_view');
             return;
         }
-        //view login form
-        $this->load->view('admin/login/index',$this->_data);
+        //get post that hold comment
+        $feature_cat = $this->Setting_model->get_by_key('feedback_category');
+        $list_post = $this->Post_model->search('','','',-1,-1,array($feature_cat));
+        if(sizeof($list_post)>0)
+        {
+            $this->_data['post_cmt'] = $list_post[0];
+        }
+        else
+        {
+            $this->_data['post_cmt'] = null;
+        }
+        
+        //view dashboard
+        $this->load->view('admin/index',$this->_data);
+        return;
     }
     protected function _build_common_data()
     {
@@ -83,37 +77,11 @@ class Admin extends CI_Controller {
         {
             $this->_permission = array();
             //redirect to login page
-            //...
+            redirect('admin_login');
+            return;
         }
         $this->_data['current_user'] =  $this->_user;
         $this->_data['html_title'] =  'Dashboard';
-    }
-    public function test_login()
-    {
-        if($this->_user!=null)
-        {
-            $this->index();
-            return;
-        }
-        $input = $this->input->post(NULL, TRUE);
-        $test = new User_model;
-        $test->username=$input['username'];
-        $test->set_password($input['password']);
-        if($test->login_by_username()==true)
-        {
-            //login ok
-                //get full info
-                $test->load_by_username();
-                //set session
-                    $array= array(
-                         'user_id'    => $test->id,
-                         'user_password' => $test->get_password()
-                    );
-                    $this->session->set_userdata($array);
-            redirect('admin');
-        }
-        $this->_data['state'] = array('fail');
-        self::index();
     }
     private function _reset_permission($user_obj=null)
     {
@@ -124,20 +92,7 @@ class Admin extends CI_Controller {
             array_push($this->_permission,$item->name);
         }
     }
-    public function login()
-    {
-        self::index();
-    }
-    public function logout()
-    {
-        //delete user session
-        $array= array(
-             'user_id'    => 0,
-             'user_password' => ""
-        );
-        $this->session->set_userdata($array);
-        redirect('admin');
-    }
+    
     protected function _fail_permission($permission_name='unknown')
     {
         $this->_data['state'] = array('message'=>'You do not have permission on "'.$permission_name.'" area!');
