@@ -11,11 +11,11 @@ class Admin_posts extends Admin {
     public function index()//cat_id, special, page URI
     {
         //check permision
-            if(!in_array('post_view',$this->_permission))
-            {
-                self::_fail_permission('post_view');
-                return;
-            }
+        if(!in_array('post_view',$this->_permission))
+        {
+            self::_fail_permission('post_view');
+            return;
+        }
         //get param
         $get = $this->uri->uri_to_assoc(3,array('cat_id', 'special', 'page'));
         $get['cat_id'] = $get['cat_id']===false?-1:$get['cat_id'];
@@ -129,14 +129,17 @@ class Admin_posts extends Admin {
         $this->_data['cat_list'] = $this->Cat_model->get_cat_tree_object(-1,0,$special);
         $this->load->view('admin/posts_search',$this->_data);
     }
-    public function add($special=0)
+    public function add()//special
     {
-        redirect('admin_post/index/0/null/'.$special);
-        //$this->index(0);
+        //get param
+        $get = $this->uri->uri_to_assoc(3,array('special'));
+        $get['special'] = $get['special']===false?0:$get['special'];
+        
+        redirect('admin_post/index/post_id/0/special/'.$get['special']);
     }
     public function edit($post_id)
     {
-        redirect('admin_post/index/'.$post_id);
+        redirect('admin_post/index/post_id/'.$post_id);
     }
     public function search_submit()
     {

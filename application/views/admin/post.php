@@ -50,11 +50,6 @@ require_once('header.php');
                                 <label>Short description</label>
                                 <textarea name="post_content_lite" rows="5" cols="180" class="input-medium"><?php echo $post->content_lite; ?></textarea>
                             </p>
-                            <p>
-                                <label>URL</label>
-                                <input id="url" type="text" name="post_url" class="input-medium" value="<?=$post->url?>"/>
-                            </p>
-                            
                             <fieldset>
                                 <legend>Checkbox</legend>
                                 <ul>

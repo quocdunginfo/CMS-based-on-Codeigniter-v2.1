@@ -168,9 +168,9 @@ class Post_model extends CI_Model {
             }
         return false;
     }
-    public function is_exist()
+    public function is_exist($id=-1)
     {
-        $this->db->where('id',$this->id);
+        $this->db->where('id',$id==-1?$this->id:$id);
         $query = $this->db->get($this->_tbn);
         return $query->num_rows()>0?true:false;
     }
@@ -494,6 +494,13 @@ class Post_model extends CI_Model {
             $re .=', ';
         }
         return $re;
+    }
+    public function get_by_id($post_id=0)
+    {
+        $obj=new Post_model;
+        $obj->id = $post_id;
+        $obj->load();
+        return $obj;
     }
 }
 ?>

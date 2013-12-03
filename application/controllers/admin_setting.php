@@ -1,94 +1,80 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once('dashboard.php');
-class Admin_setting extends Dashboard {
+require_once(APPPATH.'/controllers/admin.php');
+class Admin_setting extends Admin {
     public function __construct()
     {
         parent::__construct();
-        
-        if($this->session->userdata('user_logged_in')!=1)
-        {
-            redirect('admin');
-            return;
-        }
-        
-        $this->data['html_title'].=' - Setting';
+        $this->_data['html_title'].=' - Setting';
+        array_push($this->_data['active_menu'],'admin_setting');
     }
-    
-    /**
-     * Admin_posts::index()
-     * Mooxi page 40 item danh sách các bài vi?t hi?n có trong h? th?ng
-     * 
-     * @param mixed $cat_id
-     * @param mixed $page (1,2,3,4,...)
-     * @return void
-     */
-    public function index($state='null',$unlink_count=0)
+    public function index()//$state,$unlink_count
     {
         //check permission
-        if($this->session->userdata('setting_view')!=1)
+        if(!in_array('setting_view',$this->_permission))
         {
-            $this->data['state']='setting_view';
-            
-            $this->load->view('admin/dashboard/view_fail',$this->data);
+            self::_fail_permission('setting_view');
             return;
         }
-        
+        //get model
         $setting_obj = new Setting_model;
-        $this->data['state']=$state;
-        $this->data['unlink_count'] = $unlink_count;
-        $this->data['cache_time']=$setting_obj->get('cache_time');
-        $this->data['maintain_mode']=$setting_obj->get('maintain_mode');
-        $this->data['slider_category']=$setting_obj->get('slider_category');
-        $this->data['feedback_category']=$setting_obj->get('feedback_category');
-        $this->data['feedback_captcha']=$setting_obj->get('feedback_captcha');
-        $this->data['menu_categories_category']=$setting_obj->get('menu_categories_category');
-        $this->data['homepage_widget_category']=$setting_obj->get('homepage_widget_category');
-        $this->data['homepage_footer_widget_category']=$setting_obj->get('homepage_footer_widget_category');
-        $this->data['menu_latest_category']=$setting_obj->get('menu_latest_category');
-        $this->data['menu_about_category']=$setting_obj->get('menu_about_category');
-        $this->data['maximum_item_per_page']=$setting_obj->get('maximum_item_per_page');
-        $this->data['maximum_preview_post_content']=$setting_obj->get('maximum_preview_post_content');
-        $this->data['maximum_preview_post_title']=$setting_obj->get('maximum_preview_post_title');
-        $this->data['allow_guest_post_feedback']=$setting_obj->get('allow_guest_post_feedback');
+        //set view data from sb
+        $this->_data['state']=isset($this->_temp['state'])?(array)$this->_temp['state']:array();
+        $this->_data['unlink_count'] = isset($this->_temp['unlink_count'])?(int)$this->_temp['unlink_count']:0;
         
-        $this->data['html']['title']=$setting_obj->get('html_title');
-        $this->data['html']['footer_left']=$setting_obj->get('html_footer_left');
-        $this->data['html']['footer_right']=$setting_obj->get('html_footer_right');
-        $this->data['html']['seo_author']=$setting_obj->get('html_seo_author');
-        $this->data['html']['seo_keyword']=$setting_obj->get('html_seo_keyword');
-        $this->data['html']['seo_description']=$setting_obj->get('html_seo_description');
+        $this->_data['cache_time']=$setting_obj->get('cache_time');
+        $this->_data['maintain_mode']=$setting_obj->get('maintain_mode');
+        $this->_data['slider_category']=$setting_obj->get('slider_category');
+        $this->_data['feedback_category']=$setting_obj->get('feedback_category');
+        $this->_data['feedback_captcha']=$setting_obj->get('feedback_captcha');
+        $this->_data['menu_categories_category']=$setting_obj->get('menu_categories_category');
+        $this->_data['homepage_widget_category']=$setting_obj->get('homepage_widget_category');
+        $this->_data['homepage_footer_widget_category']=$setting_obj->get('homepage_footer_widget_category');
+        $this->_data['menu_latest_category']=$setting_obj->get('menu_latest_category');
+        $this->_data['menu_about_category']=$setting_obj->get('menu_about_category');
+        $this->_data['maximum_item_per_page']=$setting_obj->get('maximum_item_per_page');
+        $this->_data['maximum_preview_post_content']=$setting_obj->get('maximum_preview_post_content');
+        $this->_data['maximum_preview_post_title']=$setting_obj->get('maximum_preview_post_title');
+        $this->_data['allow_guest_post_feedback']=$setting_obj->get('allow_guest_post_feedback');
         
-        $this->data['slider_auto_scroll_time']=$setting_obj->get('slider_auto_scroll_time');
-        $this->data['cat_list_special'] = $this->Cat_model->get_cat_tree_object(-1,0,1);
-        $this->data['cat_list_normal'] = $this->Cat_model->get_cat_tree_object();
-        $this->data['cat_list_all'] = $this->Cat_model->get_cat_tree_object(-1,0,-1);
+        $this->_data['html']['title']=$setting_obj->get('html_title');
+        $this->_data['html']['footer_left']=$setting_obj->get('html_footer_left');
+        $this->_data['html']['footer_right']=$setting_obj->get('html_footer_right');
+        $this->_data['html']['seo_author']=$setting_obj->get('html_seo_author');
+        $this->_data['html']['seo_keyword']=$setting_obj->get('html_seo_keyword');
+        $this->_data['html']['seo_description']=$setting_obj->get('html_seo_description');
         
-        $this->load->view('admin/dashboard/setting',$this->data);
+        $this->_data['slider_auto_scroll_time']=$setting_obj->get('slider_auto_scroll_time');
+        $this->_data['cat_list_special'] = $this->Cat_model->get_cat_tree(-1,0,1);
+        $this->_data['cat_list_normal'] = $this->Cat_model->get_cat_tree(-1,0,0);
+        $this->_data['cat_list_all'] = $this->Cat_model->get_cat_tree(-1,0,-1);
+        //load view
+        $this->load->view('admin/setting', $this->_data);
     }
     public function delete_cache()
     {
         //check permission
-        if($this->session->userdata('setting_edit')!=1)
+        if(!in_array('setting_edit',$this->_permission))
         {
-            $this->data['state']='setting_edit';
-            $this->load->view('admin/dashboard/view_fail',$this->data);
+            self::_fail_permission('setting_edit');
             return;
         }
         
         $path='application/cache/';
         $count = qd_delete_files($path);
-        $this->index('delete_cache_ok',$count);
+        //set temp
+        $this->_temp['unlink_count'] = $count;
+        $this->_temp['state'] = array('delete_cache_ok');
+        self::index();
     }
     public function edit()
     {
         //check permission
-        if($this->session->userdata('setting_edit')!=1)
+        if(!in_array('setting_edit',$this->_permission))
         {
-            $this->data['state']='setting_edit';
-            $this->load->view('admin/dashboard/view_fail',$this->data);
+            self::_fail_permission('setting_edit');
             return;
         }
-        //get value
+        //get post value
         $cache_time = $this->input->post('cache_time');
         $maintain_mode=$this->input->post('maintain_mode');
         $slider_category = $this->input->post('slider_category');
@@ -113,30 +99,30 @@ class Admin_setting extends Dashboard {
         $html_seo_description = $this->input->post('html_seo_description');//
         //update to database
         $var = new Setting_model;
-        $var->update_add('cache_time',$cache_time);
-        $var->update_add('slider_auto_scroll_time',$slider_auto_scroll_time);
-        $var->update_add('slider_category',$slider_category);
-        $var->update_add('maintain_mode',$maintain_mode);
-        $var->update_add('feedback_category',$feedback_category);
-        $var->update_add('feedback_captcha',$feedback_captcha);
-        $var->update_add('menu_categories_category',$menu_categories_category);
-        $var->update_add('menu_latest_category',$menu_latest_category);
-        $var->update_add('menu_about_category',$menu_about_category);
-        $var->update_add('homepage_widget_category',$homepage_widget_category);
-        $var->update_add('homepage_footer_widget_category',$homepage_footer_widget_category);
-        $var->update_add('maximum_item_per_page',$maximum_item_per_page);
-        $var->update_add('maximum_preview_post_title',$maximum_preview_post_title);
-        $var->update_add('maximum_preview_post_content',$maximum_preview_post_content);
-        $var->update_add('allow_guest_post_feedback',$allow_guest_post_feedback);
+        $var->update_or_add('cache_time',$cache_time);
+        $var->update_or_add('slider_auto_scroll_time',$slider_auto_scroll_time);
+        $var->update_or_add('slider_category',$slider_category);
+        $var->update_or_add('maintain_mode',$maintain_mode);
+        $var->update_or_add('feedback_category',$feedback_category);
+        $var->update_or_add('feedback_captcha',$feedback_captcha);
+        $var->update_or_add('menu_categories_category',$menu_categories_category);
+        $var->update_or_add('menu_latest_category',$menu_latest_category);
+        $var->update_or_add('menu_about_category',$menu_about_category);
+        $var->update_or_add('homepage_widget_category',$homepage_widget_category);
+        $var->update_or_add('homepage_footer_widget_category',$homepage_footer_widget_category);
+        $var->update_or_add('maximum_item_per_page',$maximum_item_per_page);
+        $var->update_or_add('maximum_preview_post_title',$maximum_preview_post_title);
+        $var->update_or_add('maximum_preview_post_content',$maximum_preview_post_content);
+        $var->update_or_add('allow_guest_post_feedback',$allow_guest_post_feedback);
         
-        $var->update_add('html_title',$html_title);
-        $var->update_add('html_footer_left',$html_footer_left);
-        $var->update_add('html_footer_right',$html_footer_right);
-        $var->update_add('html_seo_author',$html_seo_author);
-        $var->update_add('html_seo_keyword',$html_seo_keyword);
-        $var->update_add('html_seo_description',$html_seo_description);
-        //latest_post_category
-        //redirect('admin_setting/index/edit_ok');
-        $this->index('edit_ok');
+        $var->update_or_add('html_title',$html_title);
+        $var->update_or_add('html_footer_left',$html_footer_left);
+        $var->update_or_add('html_footer_right',$html_footer_right);
+        $var->update_or_add('html_seo_author',$html_seo_author);
+        $var->update_or_add('html_seo_keyword',$html_seo_keyword);
+        $var->update_or_add('html_seo_description',$html_seo_description);
+        //set temp
+        $this->_temp['state'] = array('edit_ok');
+        self::index();
     }
 }

@@ -1,11 +1,12 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-$this->load->helper('url');
-$template_path=base_url().'application/views/admin/dashboard/';
-
-//load library
-$this->load->helper('url');
-require_once('header.php');
+$this->load->view('admin/header');
+function show_notification($state,$unlink_count)
+{
+    ?>
+    <span class="notification n-success" <?php if(!in_array('validate_ok',$state)) echo 'style="display:none;"'; ?>>Validated successfully! (Total files removed = <?php echo $unlink_count?>)</span>
+    <?php
+}
 ?>
 
             <!-- module goes here -->
@@ -17,7 +18,7 @@ require_once('header.php');
                      <h2><span>Media function</span></h2>
 
                      <div class="module-body">
-                        <span class="notification n-success" <?php if($state!='validate_ok') echo 'style="display:none;"'; ?>>Validated successfully! (Total files removed = <?php echo $unlink_count?>)</span>  
+                        <?=show_notification($state,$unlink_count)?>
                         <p>
                         Check and validate media file stored in upload folder.
                         <br />
@@ -30,5 +31,5 @@ require_once('header.php');
             </div> <!-- End .grid_6 -->
             <div style="clear:both;"></div>
 <?php
-require_once('footer.php');
+$this->load->view('admin/footer');
 ?>

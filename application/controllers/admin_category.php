@@ -15,7 +15,7 @@ class Admin_category extends Admin {
             return;
         }
         //get param
-        $get = $this->uri->uri_to_assoc(1,array('special'));
+        $get = $this->uri->uri_to_assoc(3,array('special'));
         $get['special'] = $get['special']===false?0:$get['special'];
         
         $cat_list = $this->Cat_model->get_cat_tree(-1,0,$get['special']);
@@ -31,7 +31,7 @@ class Admin_category extends Admin {
             return;
         }
         //get param
-        $get = $this->uri->uri_to_assoc(1,array('special'));
+        $get = $this->uri->uri_to_assoc(3,array('special'));
         $get['special'] = $get['special']===false?0:$get['special'];
         //post param
         $input = $this->input->post(null,true);

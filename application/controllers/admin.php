@@ -4,8 +4,8 @@ class Admin extends CI_Controller {
     protected $_user = null;
     protected $_permission=array();
     protected $_temp = array();
-    //n?u chuy?n active n?i class b?ng self::... thì dùng $this->_temp;
-    //n?u chuy?n action = redirect(uri) thì dùng $this->session->set_flash('key',value);
+    //n?u chuy?n active n?i class b?ng self::... thÃ¬ dÃ¹ng $this->_temp;
+    //n?u chuy?n action = redirect(uri) thÃ¬ dÃ¹ng $this->session->set_flash('key',value);
     public function __construct()
     {
         parent::__construct();

@@ -1,8 +1,17 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once('header.php');
+$this->load->view('admin/header');
 ?>
+<?php
+function show_notification($state=array(),$unlink_count=0)
+{
+    ?>
+    <span class="notification n-success" <?php if(!in_array('delete_cache_ok',$state)) echo 'style="display:none;"'; ?>>Caches deleted successfully! (Total pages removed = <?php echo $unlink_count; ?>)</span>
+    <span class="notification n-success" <?php if(!in_array('edit_ok',$state)) echo 'style="display:none;"'; ?>>Updated successfully!</span>
+    <?php
+}
+?> 
 
             <!-- module goes here -->
 			<form action="<?php echo site_url('admin_setting/edit'); ?>" method="post" >
@@ -14,8 +23,7 @@ require_once('header.php');
                          <h2><span>System option</span></h2>
     
                          <div class="module-body">
-                            <span class="notification n-success" <?php if($state!='delete_cache_ok') echo 'style="display:none;"'; ?>>Caches deleted successfully! (Total pages removed = <?php echo $unlink_count; ?>)</span>
-                            <span class="notification n-success" <?php if($state!='edit_ok') echo 'style="display:none;"'; ?>>Updated successfully!</span>  
+                            <?=show_notification($state,$unlink_count)?>  
                             <p>
                                 Delete caches to refesh all your web pages
                                 <br />
@@ -55,15 +63,14 @@ require_once('header.php');
                          <h2><span>Special options</span></h2>
     
                          <div class="module-body">
-                            <span class="notification n-success" <?php if($state!='delete_cache_ok') echo 'style="display:none;"'; ?>>Caches deleted successfully! (Total pages removed = <?php echo $unlink_count; ?>)</span>
-                            <span class="notification n-success" <?php if($state!='edit_ok') echo 'style="display:none;"'; ?>>Updated successfully!</span>  
+                            <?=show_notification($state,$unlink_count)?>  
                             <p>
                                 <label>Choose user's feedback category</label>
                                 <select class="input-long" name="feedback_category">
                                     <?php
                                         foreach($cat_list_special as $cat_obj):
                                     ?>
-                                    <option value="<?=$cat_obj->id?>" <?php if($feedback_category==$cat_obj->id) echo 'selected="selected"'; ?>><?php for($i=1;$i<=$cat_obj->level;$i++) { echo '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'; } echo $cat_obj->name.' ('.$cat_obj->count_post_recursive(-1,$cat_obj->special).')'; ?></option>
+                                    <option value="<?=$cat_obj->id?>" <?php if($feedback_category==$cat_obj->id) echo 'selected="selected"'; ?>><?php for($i=1;$i<=$cat_obj->level;$i++) { echo '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'; } echo $cat_obj->name; ?></option>
                                     <?php
                                         endforeach;
                                     ?>
@@ -94,14 +101,11 @@ require_once('header.php');
                 
                 <!-- Widget -->
                 <div class="grid_6">
-                    <!-- Notification boxes -->
-                    
                     <div class="module">
                          <h2><span>Widget</span></h2>
-    
+                        
                          <div class="module-body">
-                            <span class="notification n-success" <?php if($state!='delete_cache_ok') echo 'style="display:none;"'; ?>>Caches deleted successfully! (Total pages removed = <?php echo $unlink_count; ?>)</span>
-                            <span class="notification n-success" <?php if($state!='edit_ok') echo 'style="display:none;"'; ?>>Updated successfully!</span>  
+                            <?=show_notification($state,$unlink_count)?>  
                             
                             <p>
                                 <label>Choose homepage's widgets category</label>
@@ -109,7 +113,7 @@ require_once('header.php');
                                     <?php
                                         foreach($cat_list_special as $cat_obj):
                                     ?>
-                                    <option value="<?=$cat_obj->id?>" <?php if($homepage_widget_category==$cat_obj->id) echo 'selected="selected"'; ?>><?php for($i=1;$i<=$cat_obj->level;$i++) { echo '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'; } echo $cat_obj->name.' ('.$cat_obj->count_post_recursive(-1,$cat_obj->special).')'; ?></option>
+                                    <option value="<?=$cat_obj->id?>" <?php if($homepage_widget_category==$cat_obj->id) echo 'selected="selected"'; ?>><?php for($i=1;$i<=$cat_obj->level;$i++) { echo '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'; } echo $cat_obj->name; ?></option>
                                     <?php
                                         endforeach;
                                     ?>
@@ -121,7 +125,7 @@ require_once('header.php');
                                     <?php
                                         foreach($cat_list_special as $cat_obj):
                                     ?>
-                                    <option value="<?=$cat_obj->id?>" <?php if($homepage_footer_widget_category==$cat_obj->id) echo 'selected="selected"'; ?>><?php for($i=1;$i<=$cat_obj->level;$i++) { echo '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'; } echo $cat_obj->name.' ('.$cat_obj->count_post_recursive(-1,$cat_obj->special).')'; ?></option>
+                                    <option value="<?=$cat_obj->id?>" <?php if($homepage_footer_widget_category==$cat_obj->id) echo 'selected="selected"'; ?>><?php for($i=1;$i<=$cat_obj->level;$i++) { echo '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'; } echo $cat_obj->name; ?></option>
                                     <?php
                                         endforeach;
                                     ?>
@@ -136,14 +140,11 @@ require_once('header.php');
                 
                 <!-- Website's elements Setting -->
                 <div class="grid_6">
-                    <!-- Notification boxes -->
-                    
                     <div class="module">
                          <h2><span>Website's elements</span></h2>
     
                          <div class="module-body">
-                            <span class="notification n-success" <?php if($state!='delete_cache_ok') echo 'style="display:none;"'; ?>>Caches deleted successfully! (Total pages removed = <?php echo $unlink_count; ?>)</span>
-                            <span class="notification n-success" <?php if($state!='edit_ok') echo 'style="display:none;"'; ?>>Updated successfully!</span>  
+                            <?=show_notification($state,$unlink_count)?>  
                             
                             <p>
                                 <label>- Website title</label>
@@ -178,22 +179,19 @@ require_once('header.php');
                 <div style="clear:both;"></div>
                 
                 <!-- Slider Setting -->
-                <div class="grid_6">
-                    <!-- Notification boxes -->
-                    
+                <div class="grid_6">                    
                     <div class="module">
                          <h2><span>Images slider</span></h2>
     
                          <div class="module-body">
-                            <span class="notification n-success" <?php if($state!='delete_cache_ok') echo 'style="display:none;"'; ?>>Caches deleted successfully! (Total pages removed = <?php echo $unlink_count; ?>)</span>
-                            <span class="notification n-success" <?php if($state!='edit_ok') echo 'style="display:none;"'; ?>>Updated successfully!</span>  
+                            <?=show_notification($state,$unlink_count)?>          
                             <p>
                                 <label>Choose slider category</label>
                                 <select class="input-long" name="slider_category">
                                     <?php
                                         foreach($cat_list_special as $cat_obj):
                                     ?>
-                                    <option value="<?=$cat_obj->id?>" <?php if($slider_category==$cat_obj->id) echo 'selected="selected"'; ?>><?php for($i=1;$i<=$cat_obj->level;$i++) { echo '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'; } echo $cat_obj->name.' ('.$cat_obj->count_post_recursive(-1,$cat_obj->special).')'; ?></option>
+                                    <option value="<?=$cat_obj->id?>" <?php if($slider_category==$cat_obj->id) echo 'selected="selected"'; ?>><?php for($i=1;$i<=$cat_obj->level;$i++) { echo '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'; } echo $cat_obj->name; ?></option>
                                     <?php
                                         endforeach;
                                     ?>
@@ -212,14 +210,11 @@ require_once('header.php');
                 
                 <!-- Menu Setting -->
                 <div class="grid_6">
-                    <!-- Notification boxes -->
-                    
                     <div class="module">
                          <h2><span>Menu and pages</span></h2>
     
                          <div class="module-body">
-                            <span class="notification n-success" <?php if($state!='delete_cache_ok') echo 'style="display:none;"'; ?>>Caches deleted successfully! (Total pages removed = <?php echo $unlink_count; ?>)</span>
-                            <span class="notification n-success" <?php if($state!='edit_ok') echo 'style="display:none;"'; ?>>Updated successfully!</span>  
+                            <?=show_notification($state,$unlink_count)?>  
                             
                             <p>
                                 <label>Choose category for "Latest posts" menu on home page</label>
@@ -269,14 +264,11 @@ require_once('header.php');
                 
                 <!-- Widget -->
                 <div class="grid_6">
-                    <!-- Notification boxes -->
-                    
                     <div class="module">
                          <h2><span>Posts and Pagination</span></h2>
     
                          <div class="module-body">
-                            <span class="notification n-success" <?php if($state!='delete_cache_ok') echo 'style="display:none;"'; ?>>Caches deleted successfully! (Total pages removed = <?php echo $unlink_count; ?>)</span>
-                            <span class="notification n-success" <?php if($state!='edit_ok') echo 'style="display:none;"'; ?>>Updated successfully!</span>  
+                            <?=show_notification($state,$unlink_count)?> 
                             
                             <p>
                                 <label>Choose posts per page</label>
@@ -299,5 +291,5 @@ require_once('header.php');
                 
             </form>           
 <?php
-require_once('footer.php');
+$this->load->view('admin/footer');
 ?>

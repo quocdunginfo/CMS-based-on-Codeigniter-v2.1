@@ -19,7 +19,6 @@ class Group_model extends CI_Model {
     {
         //init new lazy state
         $this->permission_list_obj_ready=false;
-        
         $this->db->where('id',$this->id);
         $query = $this->db->get($this->_tbn);
         foreach($query->result() as $row)

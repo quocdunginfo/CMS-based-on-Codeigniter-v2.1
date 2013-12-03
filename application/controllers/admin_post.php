@@ -1,71 +1,76 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once('dashboard.php');
-class Admin_post extends Dashboard {
+require_once(APPPATH.'/controllers/admin.php');
+class Admin_post extends Admin {
     public function __construct()
     {
         parent::__construct();
-        if($this->session->userdata('user_logged_in')!=1)
-        {
-            redirect('admin');
-            return;
-        }
-        $this->data['html_title'].=' - Post';
+        $this->_data['html_title'].=' - Post';
+        array_push($this->_data['active_menu'],'admin_posts');
     }
-    public function index($post_id,$state='null',$special=0)
+    public function index()//$post_id, $special(for add only)
     {
+        //get param
+        $get = $this->uri->uri_to_assoc(3,array('post_id', 'special'));
+        echo $get['special'];
+        $get['post_id'] = $get['post_id']===false?-1:$get['post_id'];
+        $get['special'] = $get['special']===false?0:$get['special'];
+        
+        //varibles
+        $add_mode = false;
         //add new post mode
-        if($post_id==0)
+        if($get['post_id']==0)
         {
             //check permission
-            if($this->session->userdata('post_add')!=1)
+            if(!in_array('post_add',$this->_permission))
             {
-                $this->data['state']='post_add';
-                
-                $this->load->view('admin/dashboard/view_fail',$this->data);
+                self::_fail_permission('post_add');
                 return;
             }
-            
+            $add_mode=true;
         }
-        elseif(!$this->Post_model->is_exist($post_id))
+        else if(!$this->Post_model->is_exist($get['post_id']))
         {
             redirect('admin_posts');
-        }
-        //check view
-        //check permission
-        if($this->session->userdata('post_view')!=1)
-        {
-            $this->data['state']='post_view';
-            
-            $this->load->view('admin/dashboard/view_fail',$this->data);
             return;
         }
-        
-        
-        if($post_id==0)
+        //check edit
+        //check permission
+        if(!in_array('post_edit',$this->_permission))
         {
-            //add new post mode
+            self::_fail_permission('post_edit');
+            return;
+        }        
+        
+        //main action
+        if($add_mode)
+        {
+            //get new obj
             $post_obj = new Post_model;
-            $post_obj->special=$special;
+            $post_obj->special=$get['special'];
         }
         else
         {
-            $post_obj = $this->Post_model->get_by_id($post_id);
-        }
-        //chuyen tiep qua painting post view
-        if($post_obj->special==2)
+            //get db obj
+            $post_obj = new Post_model;
+            $post_obj->id=$get['post_id'];
+            $post_obj->load();
+        }        
+        
+        $this->_data['post']=$post_obj;
+        $this->_data['state']= array();
+        $this->_data['special']= $post_obj->special;
+        $this->_data['cat_list'] = $this->Cat_model->get_cat_tree(-1,0,0);
+        
+        $this->_data['html_title'].=' - '.$post_obj->title;
+        //load view base on special
+        $view = 'admin/post';
+        switch ($post_obj->special)
         {
-            redirect('admin_painting_post/index/'.$post_id.'/'.$state.'/'.$special);
-            return;
+            case 0:
+                $view='admin/post';
+                break; 
         }
-        
-        
-        $this->data['post']=$post_obj;
-        $this->data['state']= $state;
-        $this->data['special']= $post_obj->special;
-        $this->data['cat_list'] = $this->Cat_model->get_cat_tree_object(-1,0,$post_obj->special);
-        
-        $this->data['html_title'].=' - '.$post_obj->title;
-        $this->load->view('admin/dashboard/post',$this->data);
+        $this->load->view($view,$this->_data);
     }
     
     /**
@@ -81,30 +86,28 @@ class Admin_post extends Dashboard {
         if($this->input->post('post_id')==0)
         {
             //check permission
-            if($this->session->userdata('post_add')!=1)
+            if(!in_array('post_edit',$this->_permission))
             {
-                $this->data['state']='post_add';
-                
-                $this->load->view('admin/dashboard/view_fail',$this->data);
+                $this->_fail_permission('post_edit');
                 return;
             }
             //get data
             $post_obj = new Post_model;
-            //add mode co set them user_id
-            $post_obj->user_id = $this->session->userdata('user_id');
+            //add mode co set them user
+            $post_obj->set_user_obj(
+                $this->_user
+            );
             $post_obj->title = $this->input->post('post_title');
             $post_obj->content_lite = $this->input->post('post_content_lite');
-            $post_obj->active = $this->input->post('post_active')=='1'?'1':'0';
+            $post_obj->active = $this->input->post('post_active')=='1'?'1':'0';//checkbox have to do that
             $post_obj->content = $this->input->post('post_content');
-            $post_obj->avatar = $this->input->post('avatar');
-            $post_obj->url = $this->input->post('post_url');
+            $post_obj->avatar = $this->input->post('avatar');//link image
             $post_obj->special = $special;
-            $cat_list_id = $this->input->post('cat_checkbox_list');
-            if(!is_array($cat_list_id)) $cat_list_id=array();
-            foreach($cat_list_id as $cat_id)
-            {
-                array_push($post_obj->cat_list,$this->Cat_model->get_by_id($cat_id));
-            }
+            $cat_list_id = $this->input->post('cat_checkbox_list');//get array checkbox
+            if(!is_array($cat_list_id)) $cat_list_id=array();//for sure
+            $post_obj->set_cat_obj_list(
+                $this->Cat_model->to_obj_list($cat_list_id)
+            );
             
             
             //resize image
@@ -113,7 +116,8 @@ class Admin_post extends Dashboard {
             //call add function
             $post_obj->add();
             //redirect result
-            $this->index($post_obj->id,'add_ok');
+            redirect('admin_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
+            return;
         }
         //update mode
         else
@@ -134,9 +138,9 @@ class Admin_post extends Dashboard {
             //check permission
             if($this->session->userdata('post_edit')!=1)
             {
-                $this->data['state']='post_edit';
+                $this->_data['state']='post_edit';
                 
-                $this->load->view('admin/dashboard/view_fail',$this->data);
+                $this->load->view('admin/dashboard/view_fail',$this->_data);
                 return;
             }
             
@@ -203,29 +207,29 @@ class Admin_post extends Dashboard {
         }else
         if($this->session->userdata('post_view')!=1)
         {
-            $this->data['state']='post_view';
-            $this->load->view('admin/dashboard/view_fail',$this->data);
+            $this->_data['state']='post_view';
+            $this->load->view('admin/dashboard/view_fail',$this->_data);
             return;
         }else
         //check permission
         if($this->session->userdata('post_add')!=1)
         {
-            $this->data['state']='post_add';
-            $this->load->view('admin/dashboard/view_fail',$this->data);
+            $this->_data['state']='post_add';
+            $this->load->view('admin/dashboard/view_fail',$this->_data);
             return;
         }else
         //check permission
         if($this->session->userdata('post_edit')!=1)
         {
-            $this->data['state']='post_edit';
-            $this->load->view('admin/dashboard/view_fail',$this->data);
+            $this->_data['state']='post_edit';
+            $this->load->view('admin/dashboard/view_fail',$this->_data);
             return;
         }else
         //check permission
         if($this->session->userdata('post_delete')!=1)
         {
-            $this->data['state']='post_delete';
-            $this->load->view('admin/dashboard/view_fail',$this->data);
+            $this->_data['state']='post_delete';
+            $this->load->view('admin/dashboard/view_fail',$this->_data);
             return;
         }
         
