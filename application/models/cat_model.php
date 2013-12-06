@@ -441,8 +441,9 @@ class Cat_model extends CI_Model {
     }
     public function is_contain_post($post_id=0)
     {
-        $this->db->select('post_id');
-        $this->db->where('cat_id',$post_id);
+        $this->db->select('cat_id');
+        $this->db->where('post_id',$post_id);
+        $this->db->where('cat_id',$this->id);
         return $this->db->count_all_results('post_category')>0?true:false;      
     }
 }

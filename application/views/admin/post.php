@@ -29,8 +29,8 @@ require_once('header.php');
                             <p>
                                 <label>Avatar</label>
                                 <p>
-                                    <input id="avatar" type="text" name="avatar" class="input-medium" value="<?=$post->avatar?>" readonly="readonly"/>
-                                    <a href="javascript:open_popup('tinymce/plugins/filemanager/dialog.php?type=1&editor=mce_0&lang=eng&fldr=&popup=1&field_id=avatar')" class="btn iframe-btn" type="button">Choose</a>
+                                    <input id="avatar" type="text" name="avatar" class="input-medium" value="<?=$post->get_avatar()?>" readonly="readonly"/>
+                                    <a href="javascript:open_popup('<?=base_url()?>application/_static/filemanager/dialog.php?type=1&editor=mce_0&lang=eng&fldr=&popup=1&field_id=avatar')" class="btn iframe-btn" type="button">Choose</a>
                                     <script>
                                         function open_popup(url)
                                         {

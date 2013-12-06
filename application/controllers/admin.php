@@ -27,10 +27,16 @@ class Admin extends CI_Controller {
         $this->load->library('Qd_pagination');
         $this->load->library('uri');
         $this->load->library('encrypt');
+        $this->load->library('Image_resize');
         //db
         $this->load->database();
         //prepare common data
         $this->_build_common_data();
+        //define base path for TinyMCE
+        if(!isset($_SESSION)) {
+        	 session_start();
+        }
+        $_SESSION['qd_basepath'] = 1;
     }
     public function index()
     {

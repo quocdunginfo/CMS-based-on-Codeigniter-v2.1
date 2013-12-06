@@ -244,12 +244,12 @@ $config['encryption_key'] = 'hgd654s3';
 | 'sess_time_to_update'		= how many seconds between CI refreshing Session Information
 |
 */
-$config['sess_cookie_name']		= 'ci_session';
-$config['sess_expiration']		= 7200;
+$config['sess_cookie_name']		= 'cms_session';
+$config['sess_expiration']		= 86400;
 $config['sess_expire_on_close']	= FALSE;
-$config['sess_encrypt_cookie']	= FALSE;
+$config['sess_encrypt_cookie']	= TRUE;
 $config['sess_use_database']	= FALSE;
-$config['sess_table_name']		= 'ci_sessions';
+$config['sess_table_name']		= 'cms_sessions';
 $config['sess_match_ip']		= FALSE;
 $config['sess_match_useragent']	= TRUE;
 $config['sess_time_to_update']	= 300;
@@ -360,3 +360,23 @@ $config['proxy_ips'] = '';
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */
+
+//begin quocdunginfo config
+//duong dan upload codeigniter su dung (RELATIVE TO CODEIGNITER BASE URL) de validate media
+$config['qd_upload_path']='application/_static/upload/';
+//thumb image khi su dung resize
+$config['qd_upload_path_thumb']='application/_static/upload_thumb/';
+//maxwidth for thumb image
+$config['qd_upload_maxwidth_thumb']=300;//pixel
+//maxwidth for thumb image
+$config['qd_upload_maxheight_thumb']=300;//pixel
+//domain su dung trong truong hop IMG path dang full URL. KHONG co / cuoi
+$config['qd_tinymce_upload_domain']='http://localhost';
+//duong dan ma tinymce su dung (ROOT path) tinh tu domain tren
+$config['qd_tinymce_upload_path']='/cms/'.$config['qd_upload_path'];
+//duong dan image thum cho tinymce ROOT path
+$config['qd_tinymce_upload_path_thumb']='/cms/'.$config['qd_upload_path_thumb'];
+//duong dan thay the cho pre-path (DO NOT CHANGE IF DATABSE IS NOT BLANK)
+$config['qd_tinymce_upload_path_replace']='[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]';
+//timezone use in PHP supported function: date_default_timezone_set('zone_name')
+$config['qd_timezone'] = 'Asia/Ho_Chi_Minh';//GMT+7

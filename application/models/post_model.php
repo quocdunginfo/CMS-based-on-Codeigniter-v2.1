@@ -8,7 +8,8 @@ class Post_model extends CI_Model {
     public $content_lite='';
     public $active=1;
     public $special=0;
-    public $avatar='';
+    private $avatar='';//can be set, lúc nào cũng ở dạng CSDL
+    private $avatar_thumb='';//get only, lúc nào cũng ở dạng CSDL
     //non-table
     protected $_tbn = "post";
     //external
@@ -21,6 +22,46 @@ class Post_model extends CI_Model {
         parent::__construct();
         $this->load->database();
         $this->load->helper('qd_text_helper');
+    }
+    public function get_avatar_file_name()
+    {
+        self::filter_avatar(0);
+        if($this->avatar=='')
+        {
+            return '';
+        }
+        return basename($this->avatar);
+    }
+    /**
+     * Post_model::get_avatar_thumb()
+     * Lấy ra URL hình ảnh dạng root path
+     * @return
+     */
+    public function get_avatar()
+    {
+        self::filter_avatar(0);
+        return $this->avatar;
+    }
+    /**
+     * Post_model::get_avatar_thumb()
+     * Lấy ra URL hình ảnh thumb dạng root path
+     * @return
+     */
+    public function get_avatar_thumb()
+    {
+        self::filter_avatar(0);
+        return $this->avatar_thumb;
+    }
+    /**
+     * Post_model::set_avatar()
+     * Truyền vô url dạng full, vd: http://....
+     * @return void
+     */
+    public function set_avatar($url='')
+    {
+        $this->avatar=$url;
+        self::filter_avatar(1);
+        return true;
     }
     public function set_user_obj($user_obj=null)
     {
@@ -161,7 +202,7 @@ class Post_model extends CI_Model {
                 $this->content_lite=$row->content_lite;
                 $this->active=$row->active;
                 $this->special=$row->special;
-                $this->avatar=$row->avatar;            
+                $this->avatar=$row->avatar;      
                 $this->date_create=$row->date_create;
                 $this->date_modify=$row->date_modify;            
                 return true;
@@ -215,7 +256,10 @@ class Post_model extends CI_Model {
                     $this->db->insert("post_category",$data_tmp);
                 }
             }
+        //resize image
+        self::resize_avatar();
         //finish
+        return true;
     }
     public function add()
     {        
@@ -227,7 +271,7 @@ class Post_model extends CI_Model {
         //set date create
         $this->date_create = date('Y-m-d H:i:s');
         //call update function
-        $this->update();
+        return $this->update();
     }
     public function get_max_id()
     {
@@ -501,6 +545,61 @@ class Post_model extends CI_Model {
         $obj->id = $post_id;
         $obj->load();
         return $obj;
+    }
+    private function filter_avatar($direction_in=1)
+    {
+        $prefix=$this->config->item('qd_tinymce_upload_domain');
+        //replace avatar upload path
+        if($direction_in==1)
+        {    
+            //for full URL
+            $this->avatar = str_replace(
+                $prefix.$this->config->item('qd_tinymce_upload_path'),
+                $this->config->item('qd_tinymce_upload_path_replace'),
+                $this->avatar);
+            //for root path from domain
+            $prefix='';
+            $this->avatar = str_replace(
+                $prefix.$this->config->item('qd_tinymce_upload_path'),
+                $this->config->item('qd_tinymce_upload_path_replace'),
+                $this->avatar);
+        }
+        else
+        {
+            $tmp = $this->avatar;
+            $this->avatar = str_replace(
+                $this->config->item('qd_tinymce_upload_path_replace'),
+                $this->config->item('qd_tinymce_upload_path'),
+                $tmp);
+            //out có thêm thumb
+            $this->avatar_thumb = str_replace(
+                $this->config->item('qd_tinymce_upload_path_replace'),
+                $this->config->item('qd_tinymce_upload_path_thumb'),
+                $tmp);
+        }
+    }
+    /**
+     * Post_model::_image_resize()
+     * Resize hình ảnh avatar, sử dụng đường dẫn tương đối từ application và avatar file_name
+     * @param mixed $img_name
+     * @return true , false
+     */
+    private function resize_avatar()
+    {
+        try{
+            $img_name = self::get_avatar_file_name();
+            if($img_name=='') return false;
+            $thumb_path = $this->config->item('qd_upload_path_thumb');
+            $img_path = $this->config->item('qd_upload_path');
+                    
+            $re = $this->image_resize->load($img_path.$img_name);
+            $this->image_resize->autofit($this->config->item('qd_upload_maxwidth_thumb'),$this->config->item('qd_upload_maxheight_thumb'));
+            $this->image_resize->save($thumb_path.$img_name);
+            return true;
+        }catch(Exception $ex)
+        {
+            return false;
+        }
     }
 }
 ?>

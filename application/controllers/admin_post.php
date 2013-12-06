@@ -11,7 +11,6 @@ class Admin_post extends Admin {
     {
         //get param
         $get = $this->uri->uri_to_assoc(3,array('post_id', 'special'));
-        echo $get['special'];
         $get['post_id'] = $get['post_id']===false?-1:$get['post_id'];
         $get['special'] = $get['special']===false?0:$get['special'];
         
@@ -68,7 +67,7 @@ class Admin_post extends Admin {
         {
             case 0:
                 $view='admin/post';
-                break; 
+                break;
         }
         $this->load->view($view,$this->_data);
     }
@@ -86,9 +85,9 @@ class Admin_post extends Admin {
         if($this->input->post('post_id')==0)
         {
             //check permission
-            if(!in_array('post_edit',$this->_permission))
+            if(!in_array('post_add',$this->_permission))
             {
-                $this->_fail_permission('post_edit');
+                $this->_fail_permission('post_add');
                 return;
             }
             //get data
@@ -101,7 +100,7 @@ class Admin_post extends Admin {
             $post_obj->content_lite = $this->input->post('post_content_lite');
             $post_obj->active = $this->input->post('post_active')=='1'?'1':'0';//checkbox have to do that
             $post_obj->content = $this->input->post('post_content');
-            $post_obj->avatar = $this->input->post('avatar');//link image
+            $post_obj->set_avatar($this->input->post('avatar'));//link image
             $post_obj->special = $special;
             $cat_list_id = $this->input->post('cat_checkbox_list');//get array checkbox
             if(!is_array($cat_list_id)) $cat_list_id=array();//for sure
@@ -109,9 +108,6 @@ class Admin_post extends Admin {
                 $this->Cat_model->to_obj_list($cat_list_id)
             );
             
-            
-            //resize image
-            $this->_image_resize($post_obj->get_avatar_file_name());
             
             //call add function
             $post_obj->add();
@@ -128,67 +124,39 @@ class Admin_post extends Admin {
                 redirect('admin_posts');
                 return;
             }
-            
+            //get obj
+            $post_obj = $this->Post_model->get_by_id($this->input->post('post_id'));
             //owner permission override
-            if($this->session->userdata('user_id')==$this->Post_model->get_by_id($this->input->post('post_id'))->user_id)
+            if($this->_user->id==$post_obj->get_user_obj()->id)
             {
-                
+                //override
             }
             else
             //check permission
-            if($this->session->userdata('post_edit')!=1)
+            if(!in_array('post_edit',$this->_permission))
             {
-                $this->_data['state']='post_edit';
-                
-                $this->load->view('admin/dashboard/view_fail',$this->_data);
+                $this->_fail_permission('post_edit');
                 return;
             }
-            
-            //get data
-            $post_obj = $this->Post_model->get_by_id($this->input->post('post_id'));
-            
+            //assign value
             $post_obj->title = $this->input->post('post_title');
-            
             $post_obj->content_lite = $this->input->post('post_content_lite');
             $post_obj->active = $this->input->post('post_active')=='1'?'1':'0';
             $post_obj->content = $this->input->post('post_content');
-            $post_obj->avatar = $this->input->post('avatar');
-            $post_obj->url = $this->input->post('post_url');
+            $post_obj->set_avatar($this->input->post('avatar'));
             $cat_list_id = $this->input->post('cat_checkbox_list');
             if(!is_array($cat_list_id)) $cat_list_id=array();
-            foreach($cat_list_id as $cat_id)
-            {
-                array_push($post_obj->cat_list,$this->Cat_model->get_by_id($cat_id));
-            }
-            
-            //image resize
-            $this->_image_resize($post_obj->get_avatar_file_name());
+            $post_obj->set_cat_obj_list(
+                $this->Cat_model->to_obj_list($cat_list_id)
+            );
             //update mode
             $post_obj->update();
             //redirect result
-            $this->index($post_obj->id,'update_ok');
+            redirect('admin_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
             return;
         }
     }
-    /**
-     * Admin_post::_image_resize()
-     * cấu hình trong config.php
-     * 
-     * @param mixed $img_name tên file hình không bao gồm đường dẫn
-     * @return void
-     */
-    private function _image_resize($img_name)
-    {
-        if($img_name=='') return;
-        $thumb_path = $this->config->item('qd_upload_path_thumb');
-        $img_path = $this->config->item('qd_upload_path');
-        
-        $this->load->library('Image_resize');
-        
-        $re = $this->image_resize->load($img_path.$img_name);
-        $this->image_resize->autofit($this->config->item('qd_upload_maxwidth_thumb'),$this->config->item('qd_upload_maxheight_thumb'));
-        $this->image_resize->save($thumb_path.$img_name);
-    }
+    
     public function clone_to_top($post_id=0)
     {
         //check id
@@ -205,38 +173,16 @@ class Admin_post extends Admin {
         {
             //owner
         }else
-        if($this->session->userdata('post_view')!=1)
-        {
-            $this->_data['state']='post_view';
-            $this->load->view('admin/dashboard/view_fail',$this->_data);
-            return;
-        }else
         //check permission
-        if($this->session->userdata('post_add')!=1)
+        if(!in_array('post_edit',$this->_permission))
         {
-            $this->_data['state']='post_add';
-            $this->load->view('admin/dashboard/view_fail',$this->_data);
-            return;
-        }else
-        //check permission
-        if($this->session->userdata('post_edit')!=1)
-        {
-            $this->_data['state']='post_edit';
-            $this->load->view('admin/dashboard/view_fail',$this->_data);
-            return;
-        }else
-        //check permission
-        if($this->session->userdata('post_delete')!=1)
-        {
-            $this->_data['state']='post_delete';
-            $this->load->view('admin/dashboard/view_fail',$this->_data);
+            $this->_fail_permission('post_edit');
             return;
         }
         
         //remove post
-        $post_obj->delete($post_obj->id);
+        $post_obj->delete();
         //then add post
-        $post_obj->id=0;
         $post_obj->add();
         //view
         $this->index($post_obj->id,'clone_ok',$post_obj->special);

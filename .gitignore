@@ -8,3 +8,7 @@ application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
 /nbproject/private/
+
+#quocdunginfo
+application/_static/upload/
+application/_static/upload_thumb/

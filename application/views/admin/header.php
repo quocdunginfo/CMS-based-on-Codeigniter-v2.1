@@ -56,11 +56,14 @@ $template_path=base_url().'application/views/admin/';
                  "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
                  "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
                  "save table contextmenu directionality emoticons template paste textcolor",
-                 "jbimages filemanager"
+                 "jbimages responsivefilemanager "
            ],
            relative_urls: false,
            
-           toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons | link image jbimages", 
+           toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons | link jbimages | responsivefilemanager ",
+           external_filemanager_path:"/cms/application/_static/filemanager/",
+           filemanager_title:"Responsive Filemanager" ,
+           external_plugins: { "filemanager" : "/cms/application/_static/filemanager/plugin.min.js"} 
            
          });
         </script>
