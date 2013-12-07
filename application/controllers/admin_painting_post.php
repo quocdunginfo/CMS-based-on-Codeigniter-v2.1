@@ -1,188 +1,176 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once('dashboard.php');
-class Admin_painting_post extends Dashboard {
+require_once(APPPATH.'/controllers/admin.php');
+class Admin_painting_post extends Admin {
     public function __construct()
     {
         parent::__construct();
-        $this->_check_login();
-        $this->data['html_title'].=' - Post';
+        $this->_data['html_title'].=' - Painting post';
+        array_push($this->_data['active_menu'],'admin_posts');
     }
-    public function index($post_id,$state='null',$special=0)
+    public function index()
     {
+        //get param
+        $get = $this->uri->uri_to_assoc(3,array('post_id', 'special'));
+        $get['post_id'] = $get['post_id']===false?-1:$get['post_id'];
+        $get['special'] = $get['special']===false?0:$get['special'];
+        
+        //varibles
+        $add_mode = false;
         //add new post mode
-        if($post_id==0)
+        if($get['post_id']==0)
         {
             //check permission
-            if($this->session->userdata('post_add')!=1)
+            if(!in_array('post_add',$this->_permission))
             {
-                $this->data['state']='post_add';
-                $this->load->view($this->avp.'view_fail',$this->data);
+                self::_fail_permission('post_add');
                 return;
             }
-            
+            $add_mode=true;
         }
-        elseif(!$this->Post_model->is_exist($post_id))
+        else if(!$this->Post_model->is_exist($get['post_id']))
         {
             redirect('admin_posts');
-        }
-        //check view
-        //check permission
-        if($this->session->userdata('post_view')!=1)
-        {
-            $this->data['state']='post_view';
-            $this->load->view($this->avp.'view_fail',$this->data);
             return;
         }
-        
-        if($post_id==0)
+        //check edit
+        //check permission
+        if(!in_array('post_edit',$this->_permission))
         {
-            //add new post mode
+            self::_fail_permission('post_edit');
+            return;
+        }        
+        
+        //main action
+        if($add_mode)
+        {
+            //get new obj
             $post_obj = new Painting_post_model;
-            $post_obj->special=$special;
+            $post_obj->special=$get['special'];
         }
         else
         {
-            $post_obj = $this->Painting_post_model->get_by_id($post_id);
+            //get db obj
+            $post_obj = new Painting_post_model;
+            $post_obj->id=$get['post_id'];
+            $post_obj->load();
+        }        
+        
+        $this->_data['post']=$post_obj;
+        $this->_data['state']= array();
+        $this->_data['special']= $post_obj->special;
+        $this->_data['cat_list'] = $this->Cat_model->get_cat_tree(-1,0,0);
+        $this->_data['cat_list_painting'] = $this->Cat_model->get_cat_tree(-1,0,2);
+        $this->_data['cat_list_material'] = $this->Cat_model->get_cat_tree(-1,0,3);
+        
+        $this->_data['html_title'].=' - '.$post_obj->title;
+        //load view base on special
+        switch ($post_obj->special)
+        {
+            case 0:
+                redirect('admin_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
+                break;
         }
-        
-        $this->data['post']=$post_obj;
-        $this->data['state']= $state;
-        $this->data['special']= $post_obj->special;
-        $this->data['cat_list_painting'] = $this->Cat_model->get_cat_tree_object(-1,0,$post_obj->special);
-        $this->data['cat_list_material'] = $this->Cat_model->get_cat_tree_object(-1,0,3);
-        
-        $this->data['html_title'].=' - '.$post_obj->title;
-        $this->load->view($this->avp.'painting_post',$this->data);
+        $this->load->view('admin/painting_post',$this->_data);
     }
-    
-    /**
-     * Admin_post::edit()
-     * S? d?ng chung cho c? add ($post->id=0) và edit
-     * Nh?n POST data t? view lên
-     * 
-     * @return void
-     */
     public function edit($special=0)
     {
         //add mode
         if($this->input->post('post_id')==0)
         {
             //check permission
-            if($this->session->userdata('post_add')!=1)
+            if(!in_array('post_add',$this->_permission))
             {
-                $this->data['state']='post_add';
-                $this->_build_common_data();
-                $this->load->view($this->avp.'view_fail',$this->data);
+                $this->_fail_permission('post_add');
                 return;
             }
             //get data
             $post_obj = new Painting_post_model;
-            //add mode co set them user_id
-            $post_obj->user_id = $this->session->userdata('user_id');
+            //add mode co set them user
+            $post_obj->set_user_obj(
+                $this->_user
+            );
+            
             $post_obj->art_height = $this->input->post('post_art_height');
             $post_obj->art_price = $this->input->post('post_art_price');
             $post_obj->art_sizeunit = $this->input->post('post_art_sizeunit');
             $post_obj->art_width = $this->input->post('post_art_width');
             $post_obj->art_id = $this->input->post('post_art_id');
-            $post_obj->avatar = $this->input->post('avatar');
-            $post_obj->content_lite = $this->input->post('post_content_lite');
+            $post_obj->set_avatar($this->input->post('avatar'));
+            $post_obj->set_description($this->input->post('post_content'));
             $post_obj->title = $this->input->post('post_title');
             $post_obj->active = $this->input->post('post_active')=='1'?'1':'0';
             $post_obj->art_sold = $this->input->post('post_art_sold')=='1'?'1':'0';
             $post_obj->special = $special;
             $cat_list_id = $this->input->post('cat_checkbox_painting_list');
+            $cat_painting_id = $this->input->post('post_painting_material');
             if(!is_array($cat_list_id)) $cat_list_id=array();
-            foreach($cat_list_id as $cat_id)
-            {
-                array_push($post_obj->cat_list,$this->Cat_model->get_by_id($cat_id));
-            }
+            array_push($cat_list_id, $cat_painting_id);
+            $post_obj->set_cat_obj_list(
+                $this->Cat_model->to_obj_list($cat_list_id)
+            );
             
-            //resize image
-            $this->_image_resize($post_obj->get_avatar_file_name());
             //call add function
             $post_obj->add();
             //redirect result
-            $this->index($post_obj->id,'add_ok');
+            redirect('admin_painting_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
+            return;
         }
         //update mode
         else
         {
-            //check permission
-            if($this->session->userdata('post_edit')!=1)
-            {
-                $this->data['state']='post_edit';
-                $this->_build_common_data();
-                $this->load->view($this->avp.'view_fail',$this->data);
-                return;
-            }
             //check post
-            if(!$this->Post_model->is_exist($this->input->post('post_id')))
+            if(!$this->Painting_post_model->is_exist($this->input->post('post_id')))
             {
                 redirect('admin_posts');
                 return;
             }
-            //get data
+            //get obj
             $post_obj = $this->Painting_post_model->get_by_id($this->input->post('post_id'));
+            //owner permission override
+            if($this->_user->id==$post_obj->get_user_obj()->id)
+            {
+                //override
+            }
+            else
+            //check permission
+            if(!in_array('post_edit',$this->_permission))
+            {
+                $this->_fail_permission('post_edit');
+                return;
+            }
+            //get data
             
             $post_obj->art_height = $this->input->post('post_art_height');
             $post_obj->art_price = $this->input->post('post_art_price');
             $post_obj->art_sizeunit = $this->input->post('post_art_sizeunit');
             $post_obj->art_width = $this->input->post('post_art_width');
             $post_obj->art_id = $this->input->post('post_art_id');
-            
-            
-            $post_obj->content_lite = $this->input->post('post_content_lite');
+            $post_obj->set_avatar($this->input->post('avatar'));
+            $post_obj->set_description($this->input->post('post_content'));
             $post_obj->title = $this->input->post('post_title');
             $post_obj->active = $this->input->post('post_active')=='1'?'1':'0';
             $post_obj->art_sold = $this->input->post('post_art_sold')=='1'?'1':'0';
+            $post_obj->special = $special;
+            //maintain cat
             $cat_list_id = $this->input->post('cat_checkbox_painting_list');
+            $cat_painting_id = $this->input->post('post_painting_material');
             if(!is_array($cat_list_id)) $cat_list_id=array();
-            foreach($cat_list_id as $cat_id)
-            {
-                array_push($post_obj->cat_list,$this->Cat_model->get_by_id($cat_id));
-            }
+            array_push($cat_list_id, $cat_painting_id);
+            $post_obj->set_cat_obj_list(
+                $this->Cat_model->to_obj_list($cat_list_id)
+            );
             
-            //resize image
-            $post_obj->avatar = $this->input->post('avatar');
-            $this->_image_resize($post_obj->get_avatar_file_name());
-            
-            //echo 'begin update';
             //update mode
             $post_obj->update();
             //redirect result
-            $this->index($post_obj->id,'update_ok',$post_obj->special);
+            redirect('admin_painting_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
             return;
         }
-    }
-    /**
-     * Admin_painting_post::_image_resize()
-     * cấu hình trong config.php
-     * 
-     * @param mixed $img_name tên file hình không bao gồm đường dẫn
-     * @return void
-     */
-    private function _image_resize($img_name)
-    {
-        if($img_name=='') return;
-        $thumb_path = $this->config->item('qd_upload_path_thumb');
-        $img_path = $this->config->item('qd_upload_path');
-        
-        $this->load->library('Image_resize');
-        
-        $re = $this->image_resize->load($img_path.$img_name);
-        $this->image_resize->autofit($this->config->item('qd_upload_maxwidth_thumb'),$this->config->item('qd_upload_maxheight_thumb'));
-        $this->image_resize->save($thumb_path.$img_name);
-    }
-    public function test()
-    {
-        return;
-        $item = $this->Painting_post_model->get_by_id(18);
-        echo $item->avatar_thumb;
     }
     public function clone_to_top($post_id=0)
     {
         //check id
-        if(!$this->Post_model->is_exist($post_id))
+        if(!$this->Painting_post_model->is_exist($post_id))
         {
             redirect('admin_posts');
             return; 
@@ -191,44 +179,22 @@ class Admin_painting_post extends Dashboard {
         $post_obj = $this->Painting_post_model->get_by_id($post_id);
         
         //check permission
-        if($this->session->userdata('user_id')==$post_obj->user_id)
+        if($this->_user->id==$post_obj->user_id)
         {
             //owner
         }else
-        if($this->session->userdata('post_view')!=1)
-        {
-            $this->data['state']='post_view';
-            $this->load->view('admin/dashboard/view_fail',$this->data);
-            return;
-        }else
         //check permission
-        if($this->session->userdata('post_add')!=1)
+        if(!in_array('post_edit',$this->_permission))
         {
-            $this->data['state']='post_add';
-            $this->load->view('admin/dashboard/view_fail',$this->data);
-            return;
-        }else
-        //check permission
-        if($this->session->userdata('post_edit')!=1)
-        {
-            $this->data['state']='post_edit';
-            $this->load->view('admin/dashboard/view_fail',$this->data);
-            return;
-        }else
-        //check permission
-        if($this->session->userdata('post_delete')!=1)
-        {
-            $this->data['state']='post_delete';
-            $this->load->view('admin/dashboard/view_fail',$this->data);
+            self::_fail_permission('post_edit');
             return;
         }
         
         //remove post
-        $post_obj->delete($post_obj->id);
+        $post_obj->delete();
         //then add post
-        $post_obj->id=0;
         $post_obj->add();
         //view
-        $this->index($post_obj->id,'clone_ok',$post_obj->special);
+        redirect('admin_painting_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
     }
 }

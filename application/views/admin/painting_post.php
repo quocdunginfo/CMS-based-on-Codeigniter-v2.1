@@ -1,13 +1,12 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
-require_once('header.php');
+$this->load->view('admin/header');
 ?>
             <!-- module goes here -->
 			<!-- Form elements -->    
             <div class="grid_8">
                 <div class="module">
-                     <h2><span>Form</span></h2>
+                     <h2><span>Post's properties</span></h2>
                         
                      <div class="module-body">
                         <form action="<?php echo site_url('admin_painting_post/edit/'.$special)?>" method="post">
@@ -28,8 +27,8 @@ require_once('header.php');
                             <p>
                                 <label>Avatar</label>
                                 <p>
-                                    <input id="avatar" type="text" name="avatar" class="input-medium" value="<?=$post->avatar?>" readonly="readonly"/>
-                                    <a href="javascript:open_popup('tinymce/plugins/filemanager/dialog.php?type=1&editor=mce_0&lang=eng&fldr=&popup=1&field_id=avatar')" class="btn iframe-btn" type="button">Choose</a>
+                                    <input id="avatar" type="text" name="avatar" class="input-medium" value="<?=$post->get_avatar()?>" readonly="readonly"/>
+                                    <a href="javascript:open_popup('<?=base_url()?>application/_static/filemanager/dialog.php?type=1&editor=mce_0&lang=eng&fldr=&popup=1&field_id=avatar')" class="btn iframe-btn" type="button">Choose</a>
                                     <script>
                                         function open_popup(url)
                                         {
@@ -64,12 +63,6 @@ require_once('header.php');
                                 <p>
                                     <input style="width: 100px;" type="text" name="post_art_id" class="input-short" value="<?=$post->art_id?>"/>
                                 </p>
-                            </p>
-                            
-                            
-                            <p>
-                                <label>Short description</label>
-                                <textarea name="post_content_lite" rows="5" cols="180" class="input-medium"><?php echo $post->content_lite; ?></textarea>
                             </p>
                             
                             <fieldset>
@@ -114,8 +107,13 @@ require_once('header.php');
                             </fieldset>
                             
                             <fieldset>
-                                <a href="<?=site_url('admin_posts/index/-1/1/'.$special)?>" class="button" style="margin-right: 10px;"><span>Back</span></a>
-                                <a href="<?=site_url('admin_painting_post/index/'.$post->id.'/null/'.'/'.$special)?>" class="button" style="margin-right: 50px;"><span>Reload</span></a>
+                                <label>Main content</label>
+                                <textarea name="post_content" id="wysiwyg" rows="11" cols="90"><?php echo $post->content; ?></textarea> 
+                            </fieldset>
+                            
+                            <fieldset>
+                                <a href="<?=site_url('admin_posts/index/special/'.$special)?>" class="button" style="margin-right: 10px;"><span>Back</span></a>
+                                <a href="<?=site_url('admin_painting_post/index/post_id/'.$post->id)?>" class="button" style="margin-right: 50px;"><span>Reload</span></a>
                                 <input class="submit-green" type="submit" value="Submit" />
                             </fieldset>
                         </form>
@@ -157,7 +155,7 @@ require_once('header.php');
                     <div class="module-body">
                         <p>
                             <label>Preview Avatar</label>
-                            <img src="<?=$post->avatar_thumb?>" style="width: 100%; height: auto;"/>                
+                            <img src="<?=$post->get_avatar_thumb()?>" style="width: 100%; height: auto;"/>                
                         </p>
                     </div> <!-- End .module-body -->
                     
@@ -165,5 +163,5 @@ require_once('header.php');
             </div>
             <div style="clear: both;"></div>
 <?php
-require_once('footer.php');
+$this->load->view('admin/footer');
 ?>

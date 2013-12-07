@@ -12,15 +12,12 @@ class Test3 extends CI_Controller {
         $this->load->helper("url");
         $this->load->model("Setting_model");
         $this->load->library('Image_resize');
+        $this->load->library('Qd_pagination');
+        $this->load->model('order/order_model','Order_model');
+        $this->load->model('order/order_detail_model','Order_detail_model');
     }
     public function index($page=1)
     {
-        $obj = new Post_model;
-        $obj->id=74;
-        $obj->load();
-        $obj->set_avatar('/cms/application/_static/upload/1blackberry_wallpaper.png');
-        $obj->update();
-        $obj->load();
-        echo $obj->get_avatar_file_name();
+        
     }
 }

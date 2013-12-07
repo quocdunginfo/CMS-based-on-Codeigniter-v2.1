@@ -23,13 +23,14 @@ class Admin_posts extends Admin {
         $get['page'] = $get['page']===false?1:$get['page'];
         $base_url = site_url('admin_posts/index/cat_id/'.$get['cat_id'].'/special/'.$get['special'].'/page/');
         //varible
-        $max_item_per_page=40;
+        $max_item_per_page=10;
         $cat_list = null;//mặc định là tìm trong tất cả
         if($get['cat_id']>-1)
         {
             $cat_list = array($get['cat_id']);//có tìm kiếm theo cat_id
         }
         $post_model = new Post_model;//model access
+        $post_model->special = $get['special'];//must set
         //pagination
         $pagination = new Qd_pagination;
         $pagination->set_current_page($get['page']);
@@ -43,6 +44,7 @@ class Admin_posts extends Admin {
         );
         
         $pagination->update();
+        
         //get posts
         $post_model->special = $get['special'];
         
@@ -58,84 +60,55 @@ class Admin_posts extends Admin {
         //load view
         $this->load->view('admin/posts',$this->_data);
     }
-    public function delete($post_id, $cat_id=-1, $page=1, $special=0)
+    public function delete()
     {
+        //get param
+        $get = $this->uri->uri_to_assoc(3,array('post_id', 'special', 'page', 'cat_id'));
+        $get['post_id'] = $get['post_id']===false?0:$get['post_id'];
+        $get['cat_id'] = $get['cat_id']===false?-1:$get['cat_id'];
+        $get['special'] = $get['special']===false?0:$get['special'];
+        $get['page'] = $get['page']===false?1:$get['page'];
         //validate
-        if(!$this->Post_model->is_exist($post_id))
+        if(!$this->Post_model->is_exist($get['post_id']))
         {
-            $this->_data['state'] = 'post_id_is_invalid';
-            $this->load->view($this->avp.'view_fail',$this->_data);
+            $this->_show_notification('post_id_is_invalid');
             return;    
         }
         
-        
         //owner permission override
-        if($this->session->userdata('user_id')==$this->Post_model->get_by_id($post_id)->user_id)
+        if($this->_user->id==$this->Post_model->get_by_id($get['post_id'])->user_id)
         {
-            
+            //override
         }
         else
         //check permission
-        if($this->session->userdata('post_delete')!=1)
+        if(!in_array('post_delete',$this->_permission))
         {
-            $this->_data['state']='post_delete';
-            $this->load->view('admin/view_fail',$this->_data);
+            self::_fail_permission('post_delete');
             return;
         }
 
-        $this->Post_model->delete($post_id);
-        //redirect('admin_posts');
-        $this->index($cat_id,$page,$special);
-    }
-    public function delete_multi($post_id)
-    {
-        $var = new Post_model;
-        $var->id = $post_id;
-        $this->Post_model->delete();
-    }
-    public function activate($post_id_array)
-    {
+        $this->Post_model->delete($get['post_id']);
         
-    }
-    public function search($page=1, $special=2)
-    {
-        //check permission
-        if($this->session->userdata('post_view')!=1)
-        {
-            $this->_data['state']='post_view';
-            $this->load->view('admin/view_fail',$this->_data);
-            return;
-        }
-        
-        
-        $max_item_per_page = 40;
-        $begin_point = ($page-1)*$max_item_per_page;
-        $end_point = $begin_point+$max_item_per_page-1;
-        
-        //get from cookies
-        $art_id = $this->session->userdata('s_art_id');
-        $title = $this->session->userdata('s_title');
-        
-        $post_list = $this->Painting_post_model->search($title,'',$art_id,-1,-1,-1,$begin_point,$max_item_per_page,-1,$special);
-        
-        $this->_data['list_post'] = $post_list;
-        $this->_data['page_total'] = (int)($this->Painting_post_model->search_count($title,'',$art_id,-1,-1,-1,-1,$special)/$max_item_per_page+1);
-        $this->_data['page_current'] = $page;
-        $this->_data['cat_id'] = -1;
-        $this->_data['special'] = $special;
-        $this->_data['s_title']=$title;
-        $this->_data['s_art_id']=$art_id;
-        
-        $this->_data['cat_list'] = $this->Cat_model->get_cat_tree_object(-1,0,$special);
-        $this->load->view('admin/posts_search',$this->_data);
+        redirect('admin_posts/index/cat_id/'.$get['cat_id'].'/special/'.$get['special'].'/page/'.$get['page']);
     }
     public function add()//special
     {
         //get param
         $get = $this->uri->uri_to_assoc(3,array('special'));
         $get['special'] = $get['special']===false?0:$get['special'];
-        
-        redirect('admin_post/index/post_id/0/special/'.$get['special']);
+        switch($get['special'])
+        {
+            case 0:
+                redirect('admin_post/index/post_id/0/special/'.$get['special']);
+                break;
+            case 1:
+                redirect('admin_post/index/post_id/0/special/'.$get['special']);
+                break;
+            case 2:
+                redirect('admin_painting_post/index/post_id/0/special/'.$get['special']);
+                break;
+        }
     }
     public function edit($post_id)
     {

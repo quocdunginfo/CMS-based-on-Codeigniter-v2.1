@@ -62,14 +62,17 @@ class Admin_post extends Admin {
         
         $this->_data['html_title'].=' - '.$post_obj->title;
         //load view base on special
-        $view = 'admin/post';
         switch ($post_obj->special)
         {
             case 0:
-                $view='admin/post';
+                break;
+            case 1:
+                break;
+            case 2:
+                redirect('admin_painting_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
                 break;
         }
-        $this->load->view($view,$this->_data);
+        $this->load->view('admin/post',$this->_data);
     }
     
     /**
@@ -156,7 +159,6 @@ class Admin_post extends Admin {
             return;
         }
     }
-    
     public function clone_to_top($post_id=0)
     {
         //check id
@@ -169,7 +171,7 @@ class Admin_post extends Admin {
         $post_obj = $this->Post_model->get_by_id($post_id);
         
         //check permission
-        if($this->session->userdata('user_id')==$post_obj->user_id)
+        if($this->_user->id==$post_obj->user_id)
         {
             //owner
         }else
@@ -185,6 +187,6 @@ class Admin_post extends Admin {
         //then add post
         $post_obj->add();
         //view
-        $this->index($post_obj->id,'clone_ok',$post_obj->special);
+        redirect('admin_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
     }
 }

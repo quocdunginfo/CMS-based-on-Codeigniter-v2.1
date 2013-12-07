@@ -10,7 +10,8 @@ class Cat_model extends CI_Model {
     var $description = '';
     //not-in-table
     var $level=0;
-    private $_tbn="category";
+    protected $_tbn="category";
+    protected $_tbn2="post_category";
     //external
     private $parent_cat_obj=null;
         private $parent_cat_obj_ready = false;//for lazy loading
@@ -84,7 +85,7 @@ class Cat_model extends CI_Model {
         //load post list
             $this->db->select("post_id");
             $this->db->distinct();
-            $this->db->from('post_category');
+            $this->db->from($this->_tbn2);
             $this->db->where("cat_id",$this->id);
             $query = $this->db->get();
             foreach($query->result() as $row)
@@ -218,15 +219,25 @@ class Cat_model extends CI_Model {
                 $this->db->update($this->_tbn,$array);
             }
     }
-    function delete()
+    function delete($delete_post=0)
     {
         $cat_id=$this->id;
+        //delete post first
+        if($delete_post==1)
+        {
+            foreach(self::get_post_list_obj() as $item)
+            {
+                $item->delete();
+            }
+        }
         //delete in category
         $this->db->where('id',$cat_id);
         $this->db->delete($this->_tbn);
         //unlink in post_category
         $this->db->where('cat_id',$cat_id);
-        $this->db->delete('post_category');
+        $this->db->delete($this->_tbn2);
+        
+        return true;
     }
     function add()
     {
@@ -444,7 +455,7 @@ class Cat_model extends CI_Model {
         $this->db->select('cat_id');
         $this->db->where('post_id',$post_id);
         $this->db->where('cat_id',$this->id);
-        return $this->db->count_all_results('post_category')>0?true:false;      
+        return $this->db->count_all_results($this->_tbn2)>0?true:false;      
     }
 }
 ?>

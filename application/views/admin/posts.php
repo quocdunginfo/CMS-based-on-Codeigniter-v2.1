@@ -19,7 +19,7 @@ $page_total = $pagination->total_page;
                 
                     <!-- Button -->
                     <div class="float-right">
-                        <a href="<?php echo site_url('admin_posts/add/'.$special); ?>" class="button">
+                        <a href="<?php echo site_url('admin_posts/add/special/'.$special); ?>" class="button">
                         	<span>New Article <img src="src/plus-small.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/plus-small.gif" width="12" height="9" alt="New article" /></span>
                         </a>
                     </div>
@@ -49,7 +49,7 @@ $page_total = $pagination->total_page;
                 
                 <!-- Example table -->
                 <div class="module">
-                	<h2><span>Sample table</span></h2>
+                	<h2><span>Posts list</span></h2>
                     
                     <div class="module-table-body">
                     	<form action="">
@@ -89,14 +89,15 @@ $page_total = $pagination->total_page;
                                         &nbsp;&nbsp;
                                         <a href="<?php echo site_url('admin_posts/edit/'.$post->id); ?>"><img src="src/pencil.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/pencil.gif" width="16" height="16" alt="edit" /></a>
                                         &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a onclick="return confirm_click();" href="<?php echo site_url('admin_posts/delete/'.$post->id.'/'.$cat_id.'/'.$page_current.'/'.$special); ?>"><img src="src/bin.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/bin.gif" width="16" height="16" alt="delete"/></a>
+                                        <a onclick="return confirm_click('<?=site_url('admin_posts/delete/post_id/'.$post->id.'/cat_id/'.$cat_id.'/page/'.$page_current.'/special/'.$special); ?>');" href="javascript:void(0)"><img src="src/bin.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/bin.gif" width="16" height="16" alt="delete"/></a>
                                         
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
                                 <script language="javascript">
-                                    function confirm_click() {
+                                    function confirm_click(link) {
                                         if (confirm("Are you sure to do this task ?")) {
+                                            document.location = link;
                                             return true;
                                         } else {
                                             return false;
@@ -109,16 +110,16 @@ $page_total = $pagination->total_page;
                         <div class="pager" id="pager">
                             <form action="">
                                 <div>
-                                <img class="first" src="src/arrow-stop-180.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow-stop-180.gif" alt="first"/>
-                                <img class="prev" src="src/arrow-180.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow-180.gif" alt="prev"/> 
+                                <img class="first" src="src/arrow-stop-180.gif" alt="first"/>
+                                <img class="prev" src="src/arrow-180.gif" alt="prev"/> 
                                 <input type="text" class="pagedisplay input-short align-center"/>
-                                <img class="next" src="src/arrow.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow.gif" alt="next"/>
-                                <img class="last" src="src/arrow-stop.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow-stop.gif" alt="last"/> 
+                                <img class="next" src="src/arrow.gif" alt="next"/>
+                                <img class="last" src="src/arrow-stop.gif" alt="last"/> 
                                 <select class="pagesize input-short align-center">
-                                    <option value="10" selected="selected">10</option>
+                                    <option value="10">10</option>
                                     <option value="20">20</option>
                                     <option value="30">30</option>
-                                    <option value="40">40</option>
+                                    <option value="40" selected="selected">40</option>
                                 </select>
                                 </div>
                             </form>
@@ -142,16 +143,36 @@ $page_total = $pagination->total_page;
                 
                 
                 <div class="pagination">           
-                    <a href="<?php echo site_url('admin_posts/index/'.$cat_id.'/1'.'/'.$special); ?>" class="button"><span><img src="src/arrow-stop-180-small.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow-stop-180-small.gif" height="9" width="12" alt="First" /> First</span></a> 
-                    <a href="<?php echo site_url('admin_posts/index/'.$cat_id.'/'.($page_current-1<1?1:$page_current-1).'/'.$special); ?>" class="button"><span><img src="src/arrow-180-small.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow-180-small.gif" height="9" width="12" alt="Previous" /> Prev</span></a>
+                    <?php if($pagination->can_first_page==true) {
+                        ?>
+                        <a href="<?=site_url('admin_posts/index/cat_id/'.$cat_id.'/special/'.$special.'/page/1'); ?>" class="button"><span>First <img src="src/arrow-stop-180-small.gif" height="9" width="12" alt="First" /></span></a>
+                        <?php
+                        }
+                    ?>
+                    <?php if($pagination->can_prev_page==true) {
+                        ?>
+                        <a href="<?=site_url('admin_posts/index/cat_id/'.$cat_id.'/special/'.$special.'/page/'.($pagination->current_page-1)); ?>" class="button"><span>Prev <img src="src/arrow-180-small.gif" height="9" width="12" alt="Prev" /></span></a>
+                        <?php
+                        }
+                    ?>
+                    
                     <div class="numbers">
-                        <span>Page:</span>
-                        <a href=""><?php echo $page_current; ?>/<?php echo $page_total; ?></a> 
-                        <?php echo $pagination->generate_link() ?>
-                    </div> 
-                    <a href="<?php echo site_url('admin_posts/index/'.$cat_id.'/'.($page_current+1>$page_total?$page_total:$page_current+1).'/'.$special); ?>" class="button"><span>Next <img src="src/arrow-000-small.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow-000-small.gif" height="9" width="12" alt="Next" /></span></a> 
-                    <a href="<?php echo site_url('admin_posts/index/'.$this->uri->segment(3).'/'.$page_total.'/'.$special); ?>" class="button last"><span>Last <img src="src/arrow-stop-000-small.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow-stop-000-small.gif" height="9" width="12" alt="Last" /></span></a>
+                        <?php echo $pagination->generate_link(10) ?>
+                    </div>
+                    <?php if($pagination->can_next_page==true) {
+                        ?>
+                        <a href="<?=site_url('admin_posts/index/cat_id/'.$cat_id.'/special/'.$special.'/page/'.($pagination->current_page+1)); ?>" class="button"><span>Next <img src="src/arrow-000-small.gif" height="9" width="12" alt="Next" /></span></a>
+                        <?php
+                        }
+                    ?>
+                    <?php if($pagination->can_last_page==true) {
+                        ?>
+                        <a href="<?=site_url('admin_posts/index/cat_id/'.$cat_id.'/special/'.$special.'/page/'.($pagination->total_page)); ?>" class="button"><span>Last <img src="src/arrow-stop-000-small.gif" height="9" width="12" alt="Last" /></span></a>
+                        <?php
+                        }
+                    ?>
                     <div style="clear: both;"></div> 
+                    
                 </div>
                 
                 

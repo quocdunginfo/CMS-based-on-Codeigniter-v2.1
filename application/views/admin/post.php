@@ -1,14 +1,14 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once('header.php');
+$this->load->view('admin/header');
 ?>
             <!-- module goes here -->
 			<!-- Form elements -->    
             <div class="grid_8">
             
                 <div class="module">
-                     <h2><span>Form</span></h2>
+                     <h2><span>Post properties</span></h2>
                         
                      <div class="module-body">
                         <form action="<?php echo site_url('admin_post/edit/'.$special)?>" method="post">
@@ -24,7 +24,6 @@ require_once('header.php');
                                 <input type="text" class="input-medium" name="post_title" value="<?php echo $post->title; ?>"/>
                                 <span class="notification-input ni-correct" style="display:none;">This is correct, thanks!</span>
                             </p>
-                            
                             
                             <p>
                                 <label>Avatar</label>
@@ -111,5 +110,5 @@ require_once('header.php');
                 </div>  <!-- End .module -->
             </div>
 <?php
-require_once('footer.php');
+$this->load->view('admin/footer');
 ?>

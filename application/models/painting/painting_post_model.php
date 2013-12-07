@@ -90,7 +90,7 @@ class Painting_post_model extends Post_model {
             $this->art_price =$row->art_price;
             $this->art_sizeunit =$row->art_sizeunit;
             $this->art_sold=$row->art_sold;
-            $this->art_code=$row->art_id==''?'RAW'.$this->id:$row->art_id;
+            $this->art_id=$row->art_id;
             break;
         }
         self::filter(0);       
@@ -130,6 +130,7 @@ class Painting_post_model extends Post_model {
     {        
         //first: add new blank record
         $this->db->set('active', 1);
+        $this->db->set('special', $this->special);
         $this->db->insert('post');
         //second: get latest id from table
         $this->id=$this->get_max_id();
@@ -162,7 +163,6 @@ class Painting_post_model extends Post_model {
                 );
             
             $this->db->where('id', $this->id);
-            $this->db->where('special', $this->special);
             $this->db->update('post', $data);
     }
     
@@ -204,6 +204,13 @@ class Painting_post_model extends Post_model {
         
         return self::to_obj_list($id_array);
         
+    }
+    public function get_by_id($post_id=0)
+    {
+        $obj=new Painting_post_model;
+        $obj->id = $post_id;
+        $obj->load();
+        return $obj;
     }
     public function to_obj_list($id_array=array())
     {

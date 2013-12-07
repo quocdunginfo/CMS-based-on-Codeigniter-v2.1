@@ -1,5 +1,6 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
 $template_path=base_url().'application/views/admin/';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -140,13 +141,13 @@ $template_path=base_url().'application/views/admin/';
                     <div class="grid_12">
                         <div id="logo">
                             <ul id="nav">
-                                <li <?php if($this->uri->segment(1)=='admin') echo 'id="current"'; ?>><a href="<?php echo site_url('admin'); ?>">Dashboard</a></li>
-                                <li <?php if($this->uri->segment(1)=='admin_category') echo 'id="current"'; ?>><a href="<?php echo site_url('admin_category'); ?>" ">Categories</a></li>
-                                <li <?php if($this->uri->segment(1)=='admin_posts' || $this->uri->segment(1)=='admin_post') echo 'id="current"'; ?>><a href="<?php echo site_url('admin_posts'); ?>">Posts</a></li>
+                                <li <?php if(in_array('admin',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin'); ?>">Dashboard</a></li>
+                                <li <?php if(in_array('admin_category',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_category'); ?>" ">Categories</a></li>
+                                <li <?php if(in_array('admin_posts',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_posts'); ?>">Posts</a></li>
                                 <li <?php if(in_array('admin_users',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_users'); ?>">Users</a></li>
-                                <li <?php if($this->uri->segment(1)=='admin_setting') echo 'id="current"'; ?>><a href="<?php echo site_url('admin_setting'); ?>">Settings</a></li>
-                                <li <?php if($this->uri->segment(1)=='admin_media') echo 'id="current"'; ?>><a href="<?php echo site_url('admin_media'); ?>">Media</a></li>
-                                <li <?php if($this->uri->segment(1)=='admin_help') echo 'id="current"'; ?>><a href="<?php echo site_url('admin_help'); ?>">Help</a></li>
+                                <li <?php if(in_array('admin_setting',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_setting'); ?>">Settings</a></li>
+                                <li <?php if(in_array('admin_media',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_media'); ?>">Media</a></li>
+                                <li <?php if(in_array('admin_help',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_help'); ?>">Help</a></li>
                                 
                             </ul>
                         </div><!-- End. #Logo -->
@@ -185,7 +186,6 @@ $template_path=base_url().'application/views/admin/';
                             <li><a href="<?=site_url('admin_posts/index/special/0')?>">[Normal posts]</a></li>
                             <li><a href="<?=site_url('admin_posts/index/special/1')?>">[Special posts for other features]</a></li>
                             <li><a href="<?=site_url('admin_posts/index/special/2')?>">[Painting post]</a></li>
-                            <li><a href="<?=site_url('admin_posts/index/special/3')?>">[Painting post Search]</a></li>
                         </ul>
                     </div><!-- End. .grid_12-->
                 </div><!-- End. .container_12 -->

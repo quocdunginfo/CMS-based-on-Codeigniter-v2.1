@@ -8,15 +8,15 @@ class Post_model extends CI_Model {
     public $content_lite='';
     public $active=1;
     public $special=0;
-    private $avatar='';//can be set, lúc nào cũng ở dạng CSDL
-    private $avatar_thumb='';//get only, lúc nào cũng ở dạng CSDL
+    protected $avatar='';//can be set, lúc nào cũng ở dạng CSDL
+    protected $avatar_thumb='';//get only, lúc nào cũng ở dạng CSDL
     //non-table
     protected $_tbn = "post";
     //external
-    private $user_obj=null;
-        private $user_obj_ready = false;
-    private $cat_obj_list=array();
-        private $cat_obj_list_ready = false;
+    protected $user_obj=null;
+        protected $user_obj_ready = false;
+    protected $cat_obj_list=array();
+        protected $cat_obj_list_ready = false;
     function __construct()
     {
         parent::__construct();
@@ -39,6 +39,7 @@ class Post_model extends CI_Model {
      */
     public function get_avatar()
     {
+        self::filter_avatar(1);
         self::filter_avatar(0);
         return $this->avatar;
     }
@@ -49,6 +50,7 @@ class Post_model extends CI_Model {
      */
     public function get_avatar_thumb()
     {
+        self::filter_avatar(1);
         self::filter_avatar(0);
         return $this->avatar_thumb;
     }
@@ -218,6 +220,10 @@ class Post_model extends CI_Model {
     
     public function update()
     {
+        //pre filter avatar
+        self::filter_avatar(0);
+        self::filter_avatar(1);
+        
         $data = array(
                'title' => $this->title,
                'content' => $this->content,
@@ -265,13 +271,14 @@ class Post_model extends CI_Model {
     {        
         //add new blank record
         $this->db->set('active', 1);
+        $this->db->set('special', $this->special);
         $this->db->insert($this->_tbn);
         //get max id
         $this->id=self::get_max_id();
         //set date create
         $this->date_create = date('Y-m-d H:i:s');
         //call update function
-        return $this->update();
+        return self::update();
     }
     public function get_max_id()
     {
@@ -284,12 +291,12 @@ class Post_model extends CI_Model {
         }
         return 0;
     }
-    public function delete()
+    public function delete($post_id=-1)
     {
-        $this->db->where('id', $this->id);
+        $this->db->where('id',$post_id==-1?$this->id:$post_id);
         $this->db->delete($this->_tbn);
         //delete in post_category
-        $this->db->where('post_id',$this->id);
+        $this->db->where('post_id',$post_id==-1?$this->id:$post_id);
         $this->db->delete('post_category');
     }
     public function search_count($title='', $content='', $content_lite="", $active=-1,
@@ -546,7 +553,7 @@ class Post_model extends CI_Model {
         $obj->load();
         return $obj;
     }
-    private function filter_avatar($direction_in=1)
+    protected function filter_avatar($direction_in=1)
     {
         $prefix=$this->config->item('qd_tinymce_upload_domain');
         //replace avatar upload path
@@ -584,7 +591,7 @@ class Post_model extends CI_Model {
      * @param mixed $img_name
      * @return true , false
      */
-    private function resize_avatar()
+    protected function resize_avatar()
     {
         try{
             $img_name = self::get_avatar_file_name();
