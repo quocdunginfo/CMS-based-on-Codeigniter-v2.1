@@ -93,7 +93,7 @@ $template_path=base_url().'application/views/admin/';
 					// pass the headers argument and assing a object 
 					headers: { 
 						// assign the sixth column (we start counting zero) 
-						6: { 
+						10: { 
 							// disable it by setting the property sorter to false 
 							sorter: false 
 						} 

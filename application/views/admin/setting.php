@@ -223,7 +223,7 @@ function show_notification($state=array(),$unlink_count=0)
                                     <?php
                                         foreach($cat_list_normal as $cat_obj):
                                     ?>
-                                    <option value="<?=$cat_obj->id?>" <?php if($menu_latest_category==$cat_obj->id) echo 'selected="selected"'; ?>><?php for($i=1;$i<=$cat_obj->level;$i++) { echo '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'; } echo $cat_obj->name.' ('.$cat_obj->count_post_recursive(-1,$cat_obj->special).')'; ?></option>
+                                    <option value="<?=$cat_obj->id?>" <?php if($menu_latest_category==$cat_obj->id) echo 'selected="selected"'; ?>><?php for($i=1;$i<=$cat_obj->level;$i++) { echo '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'; } echo $cat_obj->name; ?></option>
                                     <?php
                                         endforeach;
                                     ?>
@@ -236,7 +236,7 @@ function show_notification($state=array(),$unlink_count=0)
                                     <?php
                                         foreach($cat_list_normal as $cat_obj):
                                     ?>
-                                    <option value="<?=$cat_obj->id?>" <?php if($menu_categories_category==$cat_obj->id) echo 'selected="selected"'; ?>><?php for($i=1;$i<=$cat_obj->level;$i++) { echo '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'; } echo $cat_obj->name.' ('.$cat_obj->count_post_recursive(-1,$cat_obj->special).')'; ?></option>
+                                    <option value="<?=$cat_obj->id?>" <?php if($menu_categories_category==$cat_obj->id) echo 'selected="selected"'; ?>><?php for($i=1;$i<=$cat_obj->level;$i++) { echo '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'; } echo $cat_obj->name; ?></option>
                                     <?php
                                         endforeach;
                                     ?>
@@ -249,7 +249,7 @@ function show_notification($state=array(),$unlink_count=0)
                                     <?php
                                         foreach($cat_list_special as $cat_obj):
                                     ?>
-                                    <option value="<?=$cat_obj->id?>" <?php if($menu_about_category==$cat_obj->id) echo 'selected="selected"'; ?>><?php for($i=1;$i<=$cat_obj->level;$i++) { echo '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'; } echo $cat_obj->name.' ('.$cat_obj->count_post_recursive(-1,$cat_obj->special).')'; ?></option>
+                                    <option value="<?=$cat_obj->id?>" <?php if($menu_about_category==$cat_obj->id) echo 'selected="selected"'; ?>><?php for($i=1;$i<=$cat_obj->level;$i++) { echo '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'; } echo $cat_obj->name; ?></option>
                                     <?php
                                         endforeach;
                                     ?>

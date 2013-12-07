@@ -25,7 +25,7 @@ $page_total = $pagination->total_page;
                 
                 <!-- Example table -->
                 <div class="module">
-                	<h2><span>User list</span></h2>
+                	<h2><span>Users list</span></h2>
                     
                     <div class="module-table-body">
                     	<form action="">
@@ -35,7 +35,7 @@ $page_total = $pagination->total_page;
                                     <th style="width:4%">ID</th>
                                     <th style="width:12%">Username</th>
                                     <th style="width:15%">Fullname</th>
-                                    <th style="width:7%">Group_id</th>
+                                    <th style="width:7%">Group</th>
                                     <th style="width:18%">Email</th>
                                     <th style="width:12%">Date created</th>
                                     <th style="width:12%">Date modified</th>
@@ -88,10 +88,10 @@ $page_total = $pagination->total_page;
                                 <img class="next" src="src/arrow.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow.gif" alt="next"/>
                                 <img class="last" src="src/arrow-stop.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow-stop.gif" alt="last"/> 
                                 <select class="pagesize input-short align-center">
-                                    <option value="10" selected="selected">10</option>
+                                    <option value="10" >10</option>
                                     <option value="20">20</option>
                                     <option value="30">30</option>
-                                    <option value="40">40</option>
+                                    <option value="40" selected="selected">40</option>
                                 </select>
                                 </div>
                             </form>
@@ -115,32 +115,36 @@ $page_total = $pagination->total_page;
                 
                 
                 <div class="pagination">           
-                    <a href="<?php echo site_url('admin_users/index/'.'/1'); ?>" class="button"><span><img src="src/arrow-stop-180-small.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow-stop-180-small.gif" height="9" width="12" alt="First" /> First</span></a> 
-                    <a href="<?php echo site_url('admin_users/index/'.($page_current-1<1?1:$page_current-1)); ?>" class="button"><span><img src="src/arrow-180-small.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow-180-small.gif" height="9" width="12" alt="Previous" /> Prev</span></a>
+                    <?php if($pagination->can_first_page==true) {
+                        ?>
+                        <a href="<?=site_url('admin_users/index/page/1'); ?>" class="button"><span>First <img src="src/arrow-stop-180-small.gif" height="9" width="12" alt="First" /></span></a>
+                        <?php
+                        }
+                    ?>
+                    <?php if($pagination->can_prev_page==true) {
+                        ?>
+                        <a href="<?=site_url('admin_users/index/page/'.($pagination->current_page-1)); ?>" class="button"><span>Prev <img src="src/arrow-180-small.gif" height="9" width="12" alt="Prev" /></span></a>
+                        <?php
+                        }
+                    ?>
+                    
                     <div class="numbers">
-                        <span>Page:</span>
-                        <a href=""><?php echo $page_current; ?>/<?php echo $page_total; ?></a> 
-                        <!-- do not use any more
-                            <a href="">2</a> 
-                            <span>|</span> 
-                            <span class="current">3</span> 
-                            <span>|</span> 
-                            <a href="">4</a> 
-                            <span>|</span> 
-                            <a href="">5</a> 
-                            <span>|</span> 
-                            <a href="">6</a> 
-                            <span>|</span> 
-                            <a href="">7</a> 
-                            <span>|</span> 
-                            <span>...</span> 
-                            <span>|</span> 
-                            <a href="">99</a>
-                        -->
-                    </div> 
-                    <a href="<?php echo site_url('admin_users/index/'.($page_current+1>$page_total?$page_total:$page_current+1)); ?>" class="button"><span>Next <img src="src/arrow-000-small.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow-000-small.gif" height="9" width="12" alt="Next" /></span></a> 
-                    <a href="<?php echo site_url('admin_users/index/'.$page_total); ?>" class="button last"><span>Last <img src="src/arrow-stop-000-small.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow-stop-000-small.gif" height="9" width="12" alt="Last" /></span></a>
+                        <?php echo $pagination->generate_link(10) ?>
+                    </div>
+                    <?php if($pagination->can_next_page==true) {
+                        ?>
+                        <a href="<?=site_url('admin_users/index/page/'.($pagination->current_page+1)); ?>" class="button"><span>Next <img src="src/arrow-000-small.gif" height="9" width="12" alt="Next" /></span></a>
+                        <?php
+                        }
+                    ?>
+                    <?php if($pagination->can_last_page==true) {
+                        ?>
+                        <a href="<?=site_url('admin_users/index/page/'.($pagination->total_page)); ?>" class="button"><span>Last <img src="src/arrow-stop-000-small.gif" height="9" width="12" alt="Last" /></span></a>
+                        <?php
+                        }
+                    ?>
                     <div style="clear: both;"></div> 
+                    
                 </div>
                  
 			</div> <!-- End .grid_12 -->
