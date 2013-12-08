@@ -87,10 +87,10 @@ $this->load->view('admin/header');
                                     }
                                 }
                                 </script>
+                                <?php if($order0->get_status()!='dabihuy') : ?>
                                 <span style="width: 150px;">
                                 
                                 <input type="hidden" name="id" value="<?=$order0->id?>" />
-                                <?php if($order0->get_status()!='dabihuy') : ?>
                                 <select name="status" class="input-medium" style="width: 150px;">
                                     <?php
                                     $_array = $order0->get_status_array_en();
@@ -111,6 +111,8 @@ $this->load->view('admin/header');
                                     
                                     ?>
                                 </select>
+                                
+                                </span>
                                 <img src="src/refresh-icon.png" style="margin-left: 10px;" onclick="form_submit('status')" OnMouseOver="this.style.cursor='pointer';" OnMouseOut="this.style.cursor='default';"/>
                                 <?php endif; ?>
                                 <?php if($order0->get_status()=='dabihuy') : ?>
@@ -118,9 +120,6 @@ $this->load->view('admin/header');
                                     <?=$order0->get_status_en()?>
                                 </span>
                                 <?php endif; ?>
-                                </span>
-                                
-                                
                                 
                                 
                                 <span style="float: right;">
