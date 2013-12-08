@@ -18,6 +18,12 @@ class Test3 extends CI_Controller {
     }
     public function index($page=1)
     {
-        
+        $o = new Order_model;
+        $re = $o->search('','','','','',0,0,'id','desc',0,1);
+    
+        foreach($re as $item)
+        {
+            echo $item.'-';
+        }
     }
 }

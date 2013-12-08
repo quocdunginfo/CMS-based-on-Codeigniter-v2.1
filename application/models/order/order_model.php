@@ -295,5 +295,58 @@ class Order_model extends Cat_model {
     {
         return parent::delete(true);
     }
+    public function filter_by_customer_name($id_list=null, $customer_name='')
+    {
+        $this->db->select('category.id');
+        $this->db->from($this->_tbn);
+        $this->db->join('user','category.order_customer_user_id=user.id','left');
+        $this->db->or_like('user.fullname',$customer_name);
+        $this->db->where('category.special',$this->special);
+        if(is_array($id_list) && sizeof($id_list<=0))
+        {
+            return $id_list;
+        }
+        if($id_list!=null)
+        {
+            $this->db->where_in('category.id',$id_list);
+        }
+        $query = $this->db->get();
+        $re=array();
+        foreach($query->result() as $row)
+        {
+            array_push($re,$row->id);
+        }
+        return $re;
+    }
+    public function search_count()
+    {
+        
+    }
+    public function search($id='',$customer_name='', $status='', $date_from_yyyyMMdd='', $date_to_yyyyMMdd='', $total_from=0, $total_to=0, $order_by='id', $order_rule='desc', $start_point=0, $count=-1)
+    {
+        //filter like first
+        $list = self::filter_by_customer_name(null,$customer_name);
+        if($id!='')
+        {
+            $list = self::filter_exact($list,'id',$id);
+        }
+        if($status!='')
+        {
+            $list =self::filter_exact($list,'order_status',$status);
+        }
+        if($total_from>0 || $total_to>0)
+        {
+            $list =self::filter_range($list,'order_total',$total_from,$total_to);
+        }
+        if($date_from_yyyyMMdd!='' && $date_to_yyyyMMdd!='')
+        {
+            $list =self::filter_date_range($list,'date_create',$date_from_yyyyMMdd,$date_to_yyyyMMdd);
+        }
+        if($start_point>=0 && $count>-1)
+        {
+            $list = self::filter_order_limit($list,$order_by,$order_rule,$start_point,$count);
+        }
+        return $list;
+    }
     
 }

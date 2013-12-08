@@ -367,6 +367,32 @@ class Post_model extends CI_Model {
         }
         return $re;
     }
+    public function filter_order_limit($id_array=null, $order_by='id', $order_rule='desc', $start_point=0, $count=-1)
+    {
+        $re=array();
+        if(is_array($id_array) && sizeof($id_array)<=0)
+        {
+            return $re;//tránh where in array rỗng
+        }
+        //select from sql again to order by
+        $this->db->select('id');
+        $this->db->from($this->_tbn);
+        if($id_array!=null)
+        {
+            $this->db->where_in('id',$id_array);
+        }
+        $this->db->order_by($order_by,$order_rule);
+        if($count>-1 && $start_point>=0)
+        {
+            $this->db->limit($count,$start_point);
+        }
+        $query = $this->db->get();
+        foreach($query->result() as $row)
+        {
+            array_push($re,$row->id);
+        }
+        return $re;
+    }
     public function filter_by_cat_name($id_array=null, $cat_name='', $category_special=0)
     {
         //mảng các post_id thỏa mãn cat_name
