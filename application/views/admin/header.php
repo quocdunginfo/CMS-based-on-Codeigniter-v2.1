@@ -144,6 +144,7 @@ $template_path=base_url().'application/views/admin/';
                                 <li <?php if(in_array('admin',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin'); ?>">Dashboard</a></li>
                                 <li <?php if(in_array('admin_category',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_category'); ?>" ">Categories</a></li>
                                 <li <?php if(in_array('admin_posts',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_posts'); ?>">Posts</a></li>
+                                <li <?php if(in_array('admin_orders',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_orders'); ?>">Orders</a></li>
                                 <li <?php if(in_array('admin_users',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_users'); ?>">Users</a></li>
                                 <li <?php if(in_array('admin_setting',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_setting'); ?>">Settings</a></li>
                                 <li <?php if(in_array('admin_media',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_media'); ?>">Media</a></li>

@@ -64,6 +64,12 @@ $this->load->view('admin/header');
                                     <input style="width: 100px;" type="text" name="post_art_id" class="input-short" value="<?=$post->art_id?>"/>
                                 </p>
                             </p>
+                            <p>
+                                <label>Count in stock</label>
+                                <p>
+                                    <input style="width: 100px;" type="text" name="post_art_count" class="input-short" value="<?=$post->art_count?>"/>
+                                </p>
+                            </p>
                             
                             <fieldset>
                                 <legend>Checkbox</legend>

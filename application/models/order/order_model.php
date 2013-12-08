@@ -2,7 +2,8 @@
 require_once(APPPATH.'/models/cat_model.php' );
 class Order_model extends Cat_model {
     public $order_total=0;
-    public $order_status='chualienlac';//chualienlac, chuagiao, dagiao, dabihuy
+    protected $order_status='chualienlac';//chualienlac, chuagiao, dagiao, dabihuy
+        protected $need_update_product_count=false;
     public $order_online_payment = 1;
     //external
     protected $order_user_obj = null;
@@ -16,6 +17,72 @@ class Order_model extends Cat_model {
     {
         parent::__construct();
         $this->special=5;
+    }
+    public function set_status($status='chualienlac')
+    {
+        if($status!=$this->order_status && $status=='dabihuy')
+        {
+            $this->need_update_product_count = true;
+        }
+        else
+        {
+            $this->need_update_product_count = false;
+        }
+        $this->order_status = $status;
+    }
+    public function get_status()
+    {
+        return $this->order_status;
+    }
+    public function get_status_vi()
+    {
+        $tmp = self::get_status_array_vi();
+        switch($this->order_status)
+        {
+            case 'chualienlac':
+                return $tmp['chualienlac'];
+            case 'chuagiao':
+                return $tmp['chuagiao'];
+            case 'dagiao':
+                return $tmp['dagiao'];
+            case 'dabihuy':
+                return $tmp['dabihuy'];
+        }
+        return 'unknown';
+    }
+    public function get_status_array_en()
+    {
+        return array(
+        'chualienlac' => 'Not contacted yet',
+        'chuagiao' => 'Not deliveried yet',
+        'dagiao' => 'Deliveried',
+        'dabihuy' => 'Canceled'
+        );
+    }
+    public function get_status_array_vi()
+    {
+        return array(
+        'chualienlac' => 'Chưa liên lạc',
+        'chuagiao' => 'Chưa giao',
+        'dagiao' => 'Đã giao',
+        'dabihuy' => 'Đã bị hủy'
+        );
+    }
+    public function get_status_en()
+    {
+        $tmp = self::get_status_array_en();
+        switch($this->order_status)
+        {
+            case 'chualienlac':
+                return $tmp['chualienlac'];
+            case 'chuagiao':
+                return $tmp['chuagiao'];
+            case 'dagiao':
+                return $tmp['dagiao'];
+            case 'dabihuy':
+                return $tmp['dabihuy'];
+        }
+        return 'unknown';
     }
     public function set_user_obj($user_obj=null)
     {
@@ -232,6 +299,16 @@ class Order_model extends Cat_model {
                 }
                 $this->order_total = $sum;
             }
+        //cộng ngược sl sản phẩm nếu cần thiết
+        if($this->need_update_product_count==true)
+        {
+            foreach($this->get_order_detail_list() as $item)
+            {
+                $tmpp= $item->get_product_obj();
+                $tmpp->art_count +=$item->order_count;
+                $tmpp->update();
+            }
+        }
         //update extend var
             //prepare data
             $data = array(
@@ -318,11 +395,25 @@ class Order_model extends Cat_model {
         }
         return $re;
     }
-    public function search_count()
+    public function search_count($id='',$customer_name='', $status='', $date_from_yyyyMMdd='', $date_to_yyyyMMdd='', $total_from=0, $total_to=0)
     {
-        
+        return sizeof(self::search_return_list_id(
+            $id,$customer_name,$status,$date_from_yyyyMMdd,$date_to_yyyyMMdd,$total_from,$total_to
+        ));
     }
-    public function search($id='',$customer_name='', $status='', $date_from_yyyyMMdd='', $date_to_yyyyMMdd='', $total_from=0, $total_to=0, $order_by='id', $order_rule='desc', $start_point=0, $count=-1)
+    public function to_obj_list($list_id=array())
+    {
+        $re = array();
+        foreach($list_id as $item)
+        {
+            $obj = new Order_model;
+            $obj->id=$item;
+            $obj->load();
+            array_push($re,$obj);
+        }
+        return $re;
+    }
+    protected function search_return_list_id($id='',$customer_name='', $status='', $date_from_yyyyMMdd='', $date_to_yyyyMMdd='', $total_from=0, $total_to=0, $order_by='id', $order_rule='desc', $start_point=0, $count=-1)
     {
         //filter like first
         $list = self::filter_by_customer_name(null,$customer_name);
@@ -347,6 +438,13 @@ class Order_model extends Cat_model {
             $list = self::filter_order_limit($list,$order_by,$order_rule,$start_point,$count);
         }
         return $list;
+    }
+    public function search($id='',$customer_name='', $status='', $date_from_yyyyMMdd='', $date_to_yyyyMMdd='', $total_from=0, $total_to=0, $order_by='id', $order_rule='desc', $start_point=0, $count=-1)
+    {
+        $list = self::search_return_list_id(
+            $id,$customer_name,$status,$date_from_yyyyMMdd,$date_to_yyyyMMdd,$total_from,$total_to,$order_by,$order_rule,$start_point,$count
+        );
+        return self::to_obj_list($list);
     }
     
 }

@@ -107,5 +107,8 @@ class Order_detail_model extends Post_model {
             }
         return true;
     }
-    
+    public function get_total()
+    {
+        return $this->order_unitprice * $this->order_count;
+    }
 }

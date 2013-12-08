@@ -120,10 +120,10 @@ class Cat_model extends CI_Model {
             }
         return $this->parent_cat_obj;
     }
-    public function is_exist()
+    public function is_exist($id=-1)
     {
         $this->db->select("id");
-        $this->db->where("id",$this->id);
+        $this->db->where("id",$id==-1?$this->id:$id);
         return $this->db->count_all_results($this->_tbn)>0?true:false;
     }
     function set_parent_cat_obj($cat_obj=null)
@@ -452,7 +452,7 @@ class Cat_model extends CI_Model {
         foreach($cat_list_id as $item)
         {
             //id k tồn tại => bỏ qua
-            if(self::is_exist($item))
+            if(!self::is_exist($item))//becareful
             {
                 continue;
             }

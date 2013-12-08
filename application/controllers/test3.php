@@ -18,12 +18,21 @@ class Test3 extends CI_Controller {
     }
     public function index($page=1)
     {
+        /*$name = 'order';
+        $o = new Permission_model;
+        $o->name = $name.'_view';
+        $o->add();
+        $o->name = $name.'_edit';
+        $o->add();
+        $o->name = $name.'_delete';
+        $o->add();
+        $o->name = $name.'_add';
+        $o->add();*/
+        /*
         $o = new Order_model;
-        $re = $o->search('','','','','',0,0,'id','desc',0,1);
-    
-        foreach($re as $item)
-        {
-            echo $item.'-';
-        }
+        $o->id = 73;
+        $o->load();
+        $o->add();
+        */
     }
 }

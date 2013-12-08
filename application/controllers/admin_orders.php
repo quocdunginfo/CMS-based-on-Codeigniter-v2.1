@@ -27,13 +27,30 @@ class Admin_orders extends Admin {
         $pagination->set_current_page($get['page']);
         $pagination->set_max_item_per_page($max_item_per_page);
         $pagination->set_total_item(
-            1
+            $model->search_count()
         );
         $pagination->set_base_url(
             $base_url,
             4
         );
-        
         $pagination->update();
+        //view data
+        $this->_data['order_list']= $model->search(
+        '','','','','',0,0,'id','desc',
+        $pagination->start_point,$pagination->max_item_per_page
+        );
+        $this->_data['state']= (array)$this->session->flashdata('state');//noi khác set trước
+        $this->_data['pagination']=$pagination;
+        
+        $this->load->view('admin/orders',$this->_data);
+    }
+    public function edit($id=0)
+    {
+        if(!in_array('order_edit',$this->_permission))
+        {
+            $this->_fail_permission('order_edit');
+            return;
+        }
+        redirect('admin_order/index/order_id/'.$id);
     }
 }

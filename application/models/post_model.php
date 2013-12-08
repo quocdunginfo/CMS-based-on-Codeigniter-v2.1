@@ -317,7 +317,8 @@ class Post_model extends CI_Model {
             //chuẩn bị list cat id
             if($cat_recursive===true)
             {
-                $cat_list_id = $this->Cat_model->find_recursive_cat_id($cat_list_id);    
+                $cat_list_id = $this->Cat_model->find_recursive_cat_id($cat_list_id);
+                //var_dump($cat_list_id);  
             }
             //liệt kê tất cả các post id thuộc array cat trên
             $list = $this->Cat_model->get_post_id_from_cat($cat_list_id);
@@ -326,6 +327,7 @@ class Post_model extends CI_Model {
         {
             $list = self::filter_like(null,'id','');//get all posts in post table
         }
+        
         //filter dần theo từng thuộc tính
         $list = self::filter_like($list,'title',$title);
         $list = self::filter_like($list,'content',$content);

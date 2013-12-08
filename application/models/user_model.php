@@ -6,6 +6,8 @@ class User_model extends CI_Model {
     public $fullname = '';
     public $active = 1;
     public $email = '';
+    public $address = '';
+    public $phone = '';
     public $date_create = '';//datetime
     public $date_modify = '';//datetime
     //private
@@ -37,6 +39,8 @@ class User_model extends CI_Model {
             $this->fullname=$row->fullname;
             $this->active=$row->active;
             $this->email = $row->email;
+            $this->address = $row->address;
+            $this->phone = $row->phone;
             $this->date_create = $row->date_create;
             $this->date_modify = $row->date_modify;
             return true;
@@ -225,6 +229,8 @@ class User_model extends CI_Model {
             'fullname' => $this->fullname,
             'password' => $this->password,
             'email' => $this->email,
+            'address' => $this->address,
+            'phone' => $this->phone,
             'active' => $this->active,
             'date_create' => $this->date_create,
             'date_modify' => date('Y-m-d H:i:s'),

@@ -11,9 +11,7 @@ class Permission_model extends CI_Model {
     }
     public function load()
     {
-        //init new lazy state
-        $this->group_obj_ready=false;
-        
+        //init new lazy state        
         $this->db->where('id',$this->id);
         $query = $this->db->get($this->_tbn);
         foreach($query->result() as $row)
@@ -45,12 +43,11 @@ class Permission_model extends CI_Model {
     public function add()
     {
         //insert new record
-        $data = array();
-        $this->db->insert('user',$data);
+        $this->db->set('name','');
+        $this->db->insert($this->_tbn);
         //get max id
         $this->id=self::get_max_id();
         //auto datetime
-        $this->date_create = date('Y-m-d H:i:s');
         //...
         self::update();
     }

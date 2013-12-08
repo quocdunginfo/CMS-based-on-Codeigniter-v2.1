@@ -16,7 +16,7 @@ class Admin_users extends Admin {
             return;
         }
         //get param
-        $get = $this->uri->uri_to_assoc(1,array('page',));
+        $get = $this->uri->uri_to_assoc(3,array('page',));
         $get['page'] = $get['page']===false?1:$get['page'];
         $base_url = site_url('admin_users/index/page/');
         //varible

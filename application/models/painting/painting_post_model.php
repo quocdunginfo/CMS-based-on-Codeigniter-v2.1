@@ -8,6 +8,7 @@ class Painting_post_model extends Post_model {
     public $art_price=0;//=>//=>art_price
     public $art_sold=0;//=>art_sold
     public $art_id='';//=>art_id
+    public $art_count='';//=>art_id
     //Alias
     public function get_description()
     {
@@ -80,6 +81,7 @@ class Painting_post_model extends Post_model {
         $this->db->select('art_sizeunit');
         $this->db->select('art_sold');
         $this->db->select('art_id');
+        $this->db->select('art_count');
         $this->db->where('id',$this->id);
         $this->db->where('special',$this->special);
         $query = $this->db->get('post');
@@ -91,6 +93,7 @@ class Painting_post_model extends Post_model {
             $this->art_sizeunit =$row->art_sizeunit;
             $this->art_sold=$row->art_sold;
             $this->art_id=$row->art_id;
+            $this->art_count=$row->art_count;
             break;
         }
         self::filter(0);       
@@ -153,13 +156,24 @@ class Painting_post_model extends Post_model {
                 $this->art_id='RAW'.$this->id;
             }
             //prepare data
+            //to ensure art_count always >=0
+            if($this->art_count<0)
+            {
+                $this->art_count=0;
+            }
+            //to ensure art_price always >=0
+            if($this->art_price<0)
+            {
+                $this->art_price=0;
+            }
             $data = array(
                    'art_height' => $this->art_height,
                    'art_width' => $this->art_width,
                    'art_price' => $this->art_price,
                    'art_sizeunit' => $this->art_sizeunit,
                    'art_sold' => $this->art_sold,
-                   'art_id' => $this->art_id
+                   'art_id' => $this->art_id,
+                   'art_count' => $this->art_count
                 );
             
             $this->db->where('id', $this->id);

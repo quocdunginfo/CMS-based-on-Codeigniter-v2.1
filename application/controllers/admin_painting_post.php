@@ -95,6 +95,7 @@ class Admin_painting_post extends Admin {
             $post_obj->art_sizeunit = $this->input->post('post_art_sizeunit');
             $post_obj->art_width = $this->input->post('post_art_width');
             $post_obj->art_id = $this->input->post('post_art_id');
+            $post_obj->art_count = $this->input->post('post_art_count');
             $post_obj->set_avatar($this->input->post('avatar'));
             $post_obj->set_description($this->input->post('post_content'));
             $post_obj->title = $this->input->post('post_title');
@@ -145,6 +146,7 @@ class Admin_painting_post extends Admin {
             $post_obj->art_sizeunit = $this->input->post('post_art_sizeunit');
             $post_obj->art_width = $this->input->post('post_art_width');
             $post_obj->art_id = $this->input->post('post_art_id');
+            $post_obj->art_count = $this->input->post('post_art_count');
             $post_obj->set_avatar($this->input->post('avatar'));
             $post_obj->set_description($this->input->post('post_content'));
             $post_obj->title = $this->input->post('post_title');

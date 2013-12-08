@@ -29,6 +29,7 @@ class Admin_posts extends Admin {
         {
             $cat_list = array($get['cat_id']);//có tìm kiếm theo cat_id
         }
+        
         $post_model = new Post_model;//model access
         $post_model->special = $get['special'];//must set
         //pagination
