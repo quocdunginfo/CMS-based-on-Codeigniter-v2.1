@@ -1,0 +1,38 @@
+
+				<!-- Render body -->
+                <div class="cleaner"></div>
+		</div>
+		<!-- END of templatemo_main -->
+		<div id="templatemo_footer">
+			<p>
+				<a href="/">Trang chủ</a> | <a href="/FrontSanPham?id_loaisp=0&amp;level_loaisp=0">Sản phẩm</a> | <a href="/FrontTimKiem">Tìm kiếm nâng cao</a> | <a href="/FrontContact">Liên hệ</a> | <a href="#">Giới thiệu</a>
+			</p>
+			 Copyright © 2013 <a href="#">quocdunginfo ft kienkimkhung Corp.</a> | <a href="http://www.templatemo.com/preview/templatemo_367_shoes">Special thanks</a> to <a href="http://www.templatemo.com" target="_parent" title="free css templates">templatemo</a>
+		</div>
+		<!-- END of templatemo_footer -->
+	</div>
+	<!-- END of templatemo_wrapper -->
+</div>
+<!-- END of templatemo_body_wrapper -->
+<div id="lbOverlay" style="display: none;">
+</div>
+<div id="lbCenter" style="display: none;">
+	<div id="lbImage">
+		<div style="position: relative;">
+			<a id="lbPrevLink" href="#"></a><a id="lbNextLink" href="#"></a>
+		</div>
+	</div>
+</div>
+<div id="lbBottomContainer" style="display: none;">
+	<div id="lbBottom">t
+		<a id="lbCloseLink" href="#"></a>
+		<div id="lbCaption">
+		</div>
+		<div id="lbNumber">
+		</div>
+		<div style="clear: both;">
+		</div>
+	</div>
+</div>
+</body>
+</html>

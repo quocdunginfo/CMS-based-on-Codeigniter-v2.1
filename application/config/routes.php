@@ -40,7 +40,8 @@
 
 $route['default_controller'] = "welcome";
 $route['404_override'] = '';
-
+//quocdunginfo
+$route['front'] = "front/home";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
