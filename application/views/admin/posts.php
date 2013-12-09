@@ -58,6 +58,7 @@ $page_total = $pagination->total_page;
                                 <tr>
                                     <th style="width:4%">ID</th>
                                     <th style="width:20%">Title</th>
+                                    <th style="width:7%">Avatar</th>
                                     <th style="width:10%">Author</th>
                                     <th style="width:16%">Category</th>
                                     <th style="width:13%">Date created</th>
@@ -73,6 +74,12 @@ $page_total = $pagination->total_page;
                                 <tr>
                                     <td class="align-center"><?php echo $post->id; ?></td>
                                     <td><a href="<?php echo site_url('admin_posts/edit/'.$post->id); ?>"><?php echo $post->title; ?></a></td>
+                                    <td>
+                                        <?php if($post->get_avatar_thumb()!='') :?>
+                                        
+                                        <img src="<?=$post->get_avatar_thumb()?>" style="max-width: 70px; max-height: 70px;" />
+                                        <?php endif; ?>
+                                    </td>
                                     <td><?php if($post->get_user_obj()!=null)
                                         echo $post->get_user_obj()->username;
                                      ?>

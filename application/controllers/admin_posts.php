@@ -37,7 +37,7 @@ class Admin_posts extends Admin {
         $pagination->set_current_page($get['page']);
         $pagination->set_max_item_per_page($max_item_per_page);
         $pagination->set_total_item(
-            $post_model->search_count("","","",-1,$get['special'],$cat_list,true)
+            $post_model->search_count('','','',-1,$get['special'],$cat_list,true)
         );
         $pagination->set_base_url(
             $base_url,
@@ -49,7 +49,7 @@ class Admin_posts extends Admin {
         //get posts
         $post_model->special = $get['special'];
         
-        $list_post = $post_model->search("","","",-1,$get['special'],$cat_list,true,-1,"post.id","desc",$pagination->start_point,$pagination->max_item_per_page);
+        $list_post = $post_model->search('','','',-1,$get['special'],$cat_list,true,-1,"post.id","desc",$pagination->start_point,$pagination->max_item_per_page);
         
         
         //prepare view

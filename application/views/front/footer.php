@@ -1,4 +1,7 @@
+<?php
+if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+?>
 				<!-- Render body -->
                 <div class="cleaner"></div>
 		</div>

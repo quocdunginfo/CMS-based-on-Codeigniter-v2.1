@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Admin extends CI_Controller {
-    protected $_data;
+    protected $_data = array();
     protected $_user = null;
     protected $_permission=array();
     protected $_temp = array();
@@ -33,12 +33,7 @@ class Admin extends CI_Controller {
         //db
         $this->load->database();
         //prepare common data
-        $this->_build_common_data();
-        //define base path for TinyMCE
-        if(!isset($_SESSION)) {
-        	 session_start();
-        }
-        $_SESSION['qd_basepath'] = 1;
+        self::_build_common_data();
     }
     public function index()
     {
@@ -66,8 +61,6 @@ class Admin extends CI_Controller {
     }
     protected function _build_common_data()
     {
-        $this->_data['state']= array();
-        $this->_data['active_menu'] = array();
         //get user from cookie
             $user=new User_model;
             $user->id = $this->session->userdata('user_id');
@@ -88,6 +81,9 @@ class Admin extends CI_Controller {
             redirect('admin_login');
             return;
         }
+        //common view data
+        $this->_data['state']= array();
+        $this->_data['active_menu'] = array();
         $this->_data['current_user'] =  $this->_user;
         $this->_data['html_title'] =  'Dashboard';
     }
@@ -95,10 +91,15 @@ class Admin extends CI_Controller {
     {
         $this->_permission = array();
         //load permission from object
+        if($user_obj==null)
+        {
+            return false;
+        }
         foreach($user_obj->get_group_obj()->get_permission_list_obj() as $item)
         {
             array_push($this->_permission,$item->name);
         }
+        return true;
     }
     
     protected function _fail_permission($permission_name='unknown')

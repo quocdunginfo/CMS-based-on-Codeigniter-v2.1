@@ -48,7 +48,7 @@ $page_total = $pagination->total_page;
                                 <tr>                                    
                                     <td class="align-center"><?php echo $obj->id; ?></td>
                                     <td><a href="<?=site_url('admin_orders/edit/'.$obj->id)?>"><?php echo $obj->get_customer_user_obj()->fullname; ?></a></td>
-                                    <td><?php echo $obj->order_total; ?></td>
+                                    <td><?php echo $obj->get_order_total(); ?> VNĐ</td>
                                     <td><?php echo sizeof($obj->get_order_detail_list()); ?></td>
                                     <td><?php echo $obj->get_status_en(); ?></td>
                                     <td><?php echo $obj->get_user_obj()->fullname; ?></td>

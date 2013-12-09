@@ -307,26 +307,60 @@ class Post_model extends CI_Model {
      $special, $cat_list_id, $cat_recursive, $user_id,
      $order_by, $order_rule, 0, -1));
     }
+    public function filter_cat_list_id($id_array=null, $cat_list_id=null, $cat_recursive=true)
+    {
+        //filter by cat_list_id
+            $list = array();
+            if($cat_list_id!=null)
+            {
+                //chuẩn bị list cat id
+                if($cat_recursive===true)
+                {
+                    $cat_list_id = $this->Cat_model->find_recursive_cat_id($cat_list_id);
+                    //var_dump($cat_list_id);  
+                }
+                //liệt kê tất cả các post id thuộc array cat trên
+                $list = $this->Cat_model->get_post_id_from_cat($cat_list_id);
+            }
+            else
+            {
+                $list = null;//coi nhu khong tim kiem theo list          
+            }
+            if(is_array($list) && sizeof($list)<=0)
+            {
+                return array();
+            }
+        //filter in id_array
+            $re=array();
+            //validate
+            if(is_array($id_array) && sizeof($id_array)<=0)
+            {
+                return $re; 
+            }
+            $this->db->select('id');
+            $this->db->from($this->_tbn);
+            if(is_array($id_array))
+            {
+                $this->db->where_in('id',$id_array);
+            }
+            if(is_array($list))
+            {
+                $this->db->where_in('id',$list);
+            }
+            $query = $this->db->get();
+            foreach($query->result() as $row)
+            {
+                array_push($re,$row->id);    
+            }
+        return $re;         
+    }        
     public function search($title='', $content='', $content_lite="", $active=-1,
      $special=-1, $cat_list_id = null, $cat_recursive=false, $user_id=-1,
      $order_by="post.id", $order_rule="desc", $start_point=0, $count=-1)
     {
         $list = array();
-        if($cat_list_id!=null)
-        {
-            //chuẩn bị list cat id
-            if($cat_recursive===true)
-            {
-                $cat_list_id = $this->Cat_model->find_recursive_cat_id($cat_list_id);
-                //var_dump($cat_list_id);  
-            }
-            //liệt kê tất cả các post id thuộc array cat trên
-            $list = $this->Cat_model->get_post_id_from_cat($cat_list_id);
-        }
-        else
-        {
-            $list = self::filter_like(null,'id','');//get all posts in post table
-        }
+        
+        $list = self::filter_cat_list_id(null ,$cat_list_id,$cat_recursive);
         
         //filter dần theo từng thuộc tính
         $list = self::filter_like($list,'title',$title);

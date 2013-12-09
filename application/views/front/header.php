@@ -1,10 +1,14 @@
 <?php
+if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
 $template_path=base_url().'application/views/front/';
 ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Trang chủ</title>
+<title><?=$html_title?></title>
 <base href="<?=$template_path?>"/>
 <meta name="keywords" content="shoes store, free template, ecommerce, online shop, website templates, CSS, HTML">
 <meta name="description" content="Shoes Store is a free ecommerce template provided by templatemo.com">
@@ -142,14 +146,25 @@ width: 80px;
 	<div id="templatemo_wrapper">
 		<div id="templatemo_header">
 			<div id="site_title">
-				<h1><a href="/">Cửa hàng giày dép</a></h1>
+				<h1><a href="<?=site_url('front')?>">Cửa hàng điện thoại di động</a></h1>
 			</div>
 			<div id="header_right">
-				<p>
-					<a href="/FrontRegister">Chưa có tài khoản? Hãy đăng kí ngay</a> | <a href="/FrontLogin">Đăng nhập</a>
+				<?php if($current_user==null) { ?>
+                <p>
+					<a href="<?=site_url('front/register')?>">Chưa có tài khoản? Hãy đăng kí ngay</a> | <a href="<?=site_url('front/login')?>">Đăng nhập</a>
 				</p>
+                <?php } else { ?>
+                <p>
+
+                    <a href="javascript:void(0)">Chào, <?=$current_user->fullname?> </a> |
+                    <a href="<?=site_url('front/account')?>">Quản lý tài khoản cá nhân</a> |
+                    <a href="<?=site_url('front/logout')?>">Đăng xuất</a>
+                </p>
+                <?php } ?>
+                
 				<p>
-					 Giỏ hàng hiện có: <strong>0 sản phẩm</strong> ( <a href="/FrontCart">Xem giỏ hàng</a> | <a href="/FrontCart/CheckOut">Thanh toán</a> )
+					 Giỏ hàng hiện có: <strong><?=sizeof($giohang->get_order_detail_list())?> sản phẩm</strong>
+                     ( <a href="<?=site_url('front/cart')?>">Xem giỏ hàng</a> | <a href="<?=site_url('front/cart/checkout')?>">Thanh toán</a> )
 				</p>
 			</div>
 			<div class="cleaner">
@@ -159,24 +174,13 @@ width: 80px;
 		<div id="templatemo_menubar">
 			<div id="top_nav" class="ddsmoothmenu">
 				<ul>
-					<li><a href="/" class="selected">Trang chủ</a></li>
+					<li><a href="<?=site_url('front')?>" class="selected">Trang chủ</a></li>
 					<li style="z-index: 100;"><a href="/FrontSanPham?id_loaisp=0&amp;level_loaisp=0" class="">Sản phẩm</a>
 					<ul style="display: none; top: 40px; visibility: visible;">
-						<li><a href="/FrontSanPham?id_loaisp=1&amp;level_loaisp=0"> Giày nữ</a></li>
-						<li><a href="/FrontSanPham?id_loaisp=3&amp;level_loaisp=1">-- Giày bít</a></li>
-						<li><a href="/FrontSanPham?id_loaisp=4&amp;level_loaisp=2">---- Gót cao</a></li>
-						<li><a href="/FrontSanPham?id_loaisp=5&amp;level_loaisp=2">---- Gót trung thấp</a></li>
-						<li><a href="/FrontSanPham?id_loaisp=6&amp;level_loaisp=2">---- Đế bằng</a></li>
-						<li><a href="/FrontSanPham?id_loaisp=7&amp;level_loaisp=1">-- Giày búp bê</a></li>
-						<li><a href="/FrontSanPham?id_loaisp=8&amp;level_loaisp=2">---- Gót thấp</a></li>
-						<li><a href="/FrontSanPham?id_loaisp=9&amp;level_loaisp=2">---- Gót cao</a></li>
-						<li><a href="/FrontSanPham?id_loaisp=10&amp;level_loaisp=1">-- Giày bata</a></li>
-						<li><a href="/FrontSanPham?id_loaisp=11&amp;level_loaisp=2">---- Cổ cao</a></li>
-						<li><a href="/FrontSanPham?id_loaisp=12&amp;level_loaisp=2">---- Cổ thấp</a></li>
-						<li><a href="/FrontSanPham?id_loaisp=2&amp;level_loaisp=0"> Giày nam</a></li>
-						<li><a href="/FrontSanPham?id_loaisp=14&amp;level_loaisp=1">-- Giày sneaker</a></li>
-						<li><a href="/FrontSanPham?id_loaisp=15&amp;level_loaisp=1">-- Giày thể thao</a></li>
-						<li><a href="/FrontSanPham?id_loaisp=16&amp;level_loaisp=1">-- Giày da</a></li>
+						<?php foreach($painting_list_cat as $item) {
+                        ?>
+						<li><a href="<?=site_url('front/products/painting_cat/id/'.$item->id.'#qd_sapxep')?>"><?=$item->get_prefix_name()?></a></li>
+                        <?php } ?>
 					</ul>
 					</li>
 					<li><a href="/FrontTimKiem">Tìm kiếm nâng cao</a></li>
@@ -206,24 +210,36 @@ width: 80px;
 			<div id="sidebar" class="float_l">
 				<div class="sidebar_box">
 					<span class="bottom"></span>
-					<h3>Danh mục sản phẩm</h3>
+					<a href="<?=site_url('front/products')?>" style="text-decoration: none;">
+                    <h3>
+                    Danh mục sản phẩm
+                    </h3>
+                    </a>
 					<div class="content">
 						<ul class="sidebar_list">
-							<li class="first"><a href="/FrontSanPham?id_loaisp=1&amp;level_loaisp=0"> Giày nữ</a></li>
-							<li><a href="/FrontSanPham?id_loaisp=3&amp;level_loaisp=1">-&gt; Giày bít</a></li>
-							<li><a href="/FrontSanPham?id_loaisp=4&amp;level_loaisp=2">----&gt; Gót cao</a></li>
-							<li><a href="/FrontSanPham?id_loaisp=5&amp;level_loaisp=2">----&gt; Gót trung thấp</a></li>
-							<li><a href="/FrontSanPham?id_loaisp=6&amp;level_loaisp=2">----&gt; Đế bằng</a></li>
-							<li><a href="/FrontSanPham?id_loaisp=7&amp;level_loaisp=1">-&gt; Giày búp bê</a></li>
-							<li><a href="/FrontSanPham?id_loaisp=8&amp;level_loaisp=2">----&gt; Gót thấp</a></li>
-							<li><a href="/FrontSanPham?id_loaisp=9&amp;level_loaisp=2">----&gt; Gót cao</a></li>
-							<li><a href="/FrontSanPham?id_loaisp=10&amp;level_loaisp=1">-&gt; Giày bata</a></li>
-							<li><a href="/FrontSanPham?id_loaisp=11&amp;level_loaisp=2">----&gt; Cổ cao</a></li>
-							<li><a href="/FrontSanPham?id_loaisp=12&amp;level_loaisp=2">----&gt; Cổ thấp</a></li>
-							<li><a href="/FrontSanPham?id_loaisp=2&amp;level_loaisp=0"> Giày nam</a></li>
-							<li><a href="/FrontSanPham?id_loaisp=14&amp;level_loaisp=1">-&gt; Giày sneaker</a></li>
-							<li><a href="/FrontSanPham?id_loaisp=15&amp;level_loaisp=1">-&gt; Giày thể thao</a></li>
-							<li class="last"><a href="/FrontSanPham?id_loaisp=16&amp;level_loaisp=1">-&gt; Giày da</a></li>
+							<?php
+                              $_len = sizeof($painting_list_cat);
+                              $ii=0;
+                              
+                              foreach($painting_list_cat as $item) {
+        						  $_class = '';
+                                  if($ii==0)
+                                  {
+                                    $_class = 'first';
+                                  }
+                                  else if($ii==$_len-1)
+                                  {
+                                    $_class = 'last';
+                                  }
+                                  $ii++;
+                              
+                            ?>
+                            <li class="<?=$_class?>">
+                                <a href="<?=site_url('front/products/painting_cat/id/'.$item->id.'#qd_sapxep')?>">
+                                 <?=$item->get_prefix_name()?>
+                                 </a>
+                            </li>
+                            <?php } ?>
 						</ul>
 					</div>
 				</div>

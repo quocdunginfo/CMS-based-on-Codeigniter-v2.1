@@ -26,7 +26,18 @@ class Cat_model extends CI_Model {
         $this->load->database();
         $this->load->helper('qd_text_helper');
     }
-    function load()
+    public function get_by_id($id=0)
+    {
+        $obj = new Cat_model;
+        $obj->id = $id;
+        if(!$obj->is_exist())
+        {
+            return null;
+        }
+        $obj->load();
+        return $obj;
+    }
+    public function load()
     {
         //init new lazy state
             $this->parent_cat_obj_ready=false;
@@ -196,6 +207,21 @@ class Cat_model extends CI_Model {
         $this->_cat_tree_tmp = array();
         return $re;
     }
+    /**
+     * Cat_model::get_prefix_name()
+     * Item phải có level trước
+     * @param string $separate
+     * @return void
+     */
+    public function get_prefix_name($separate='--')
+    {
+        $_prefix = '';
+        for($i=1;$i<=$this->level;$i++)
+        {
+            $_prefix .=$separate;
+        }
+        return $_prefix.$this->name;
+    }
     function update()
     {
         $array = array(
@@ -335,6 +361,7 @@ class Cat_model extends CI_Model {
         }
         return $re;
     }
+    
     public function filter_range($id_array=null, $key='id', $value_from=0, $value_to=0)
     {
         $re=array();
@@ -404,14 +431,39 @@ class Cat_model extends CI_Model {
         }
         return $re;
     }
-    public function search_count()
+    public function search_count($name='', $active=-1,
+     $special=-1)
     {
-        
+        return sizeof(
+            self::search_return_id(
+                $name,$active,$special
+                )
+        );
     }
     public function search($name='', $active=-1,
-     $special=-1, $order_by="cat.id", $order_rule="desc", $start_point=0, $count=-1)
+     $special=-1, $order_by="id", $order_rule="desc", $start_point=0, $count=-1)
+     {
+        return self::to_obj_list(
+            self::search_return_id(
+            $name,$active,$special,$order_by,$order_rule,$start_point,$count
+            )
+        );
+     }
+    protected function search_return_id($name='', $active=-1,
+     $special=-1, $order_by="id", $order_rule="desc", $start_point=0, $count=-1)
     {
-        
+        $list = array();
+        $list = self::filter_like(null,'name',$name);
+        if($active>-1)
+        {
+            $list = self::filter_exact(null,'active',$active);
+        }
+        if($active>-1)
+        {
+            $list = self::filter_exact(null,'special',$special);
+        }
+        $list = self::filter_order_limit($list,$order_by,$order_rule,$start_point,$count);
+        return $list;
     }
     public function filter_order_limit($id_array=null, $order_by='id', $order_rule='desc', $start_point=0, $count=-1)
     {

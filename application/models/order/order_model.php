@@ -30,6 +30,23 @@ class Order_model extends Cat_model {
         }
         $this->order_status = $status;
     }
+    public function get_order_total()
+    {
+        return number_format($this->order_total,0,'.',',');
+    }
+    public function get_order_total_unsave_int()
+    {
+        $sum=0;
+        foreach($this->get_order_detail_list() as $item)
+        {
+            $sum+=$item->order_count * $item->order_unitprice;
+        }
+        return $sum;
+    }
+    public function get_order_total_unsave_string()
+    {
+        return number_format(self::get_order_total_unsave_int(),0,'.',',');
+    }
     public function get_status()
     {
         return $this->order_status;
@@ -175,14 +192,6 @@ class Order_model extends Cat_model {
                 $this->order_customer_user_obj = $user_obj_tmp;
             }
         return $this->order_customer_user_obj;
-    }
-    public function get_total_unsave_int()
-    {
-        //lay total dang int
-    }
-    public function get_total_unsave_string()
-    {
-        //lay total dang int
     }
     public function add_or_update_item($painting_id=0, $count=0)
     {

@@ -15,6 +15,7 @@ class Test3 extends CI_Controller {
         $this->load->library('Qd_pagination');
         $this->load->model('order/order_model','Order_model');
         $this->load->model('order/order_detail_model','Order_detail_model');
+        $this->load->library('cart');
     }
     public function index($page=1)
     {
@@ -34,5 +35,6 @@ class Test3 extends CI_Controller {
         $o->load();
         $o->add();
         */
+        
     }
 }

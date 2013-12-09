@@ -109,7 +109,7 @@ $this->load->view('admin/header');
                             
                             <fieldset>
                                 <legend>Price</legend>
-                                <input style="width: 100px;" name="post_art_price" class="input-short" type="text" value="<?=$post->art_price?>" />&nbsp;(VND)
+                                <input style="width: 100px;" name="post_art_price" class="input-short" type="text" value="<?=$post->get_art_price()?>" />&nbsp;(VND)
                             </fieldset>
                             
                             <fieldset>

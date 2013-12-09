@@ -187,9 +187,9 @@ $this->load->view('admin/header');
                                     <img src="<?=$obj->get_product_obj()->get_avatar_thumb(); ?>" style="max-width: 70px; max-height: 70px;" />
                                     
                                     </td>
-                                    <td><?=$obj->order_unitprice?></td>
+                                    <td><?=$obj->get_order_unit_price()?> VNĐ</td>
                                     <td><?=$obj->order_count?></td>
-                                    <td><?=$obj->get_total(); ?></td>
+                                    <td><?=$obj->get_total_string(); ?> VNĐ</td>
                                 </tr>
                                 <?php endforeach; ?>
                                 
@@ -203,7 +203,7 @@ $this->load->view('admin/header');
                         }
                         </style>
                         <div class="qd_cell" style="width: 100px; ">
-                        <?=$order0->order_total?>
+                        <?=$order0->get_order_total()?>
                         </div>
                         <span class="qd_cell" style="width: 70px; margin-right: -1px;">
                         Total:

@@ -88,6 +88,9 @@ class Order_detail_model extends Post_model {
     }
     public function update()
     {
+        //call filter first
+        self::filter(1);
+        //call 
         parent::update();
         $data = array(
                'order_count' => $this->order_count,
@@ -107,8 +110,31 @@ class Order_detail_model extends Post_model {
             }
         return true;
     }
-    public function get_total()
+    public function get_total_int()
     {
-        return $this->order_unitprice * $this->order_count;
+        self::filter(1);
+        $num = $this->order_unitprice * $this->order_count;
+        return $num;
+    }
+    public function get_total_string()
+    {
+        return number_format(self::get_total_int(),0,'.',',');
+    }
+    public function get_order_unit_price()
+    {
+        return number_format($this->order_unitprice,0,'.',',');
+    }
+    public function filter($direction_in=1)
+    {
+        if($direction_in==1)
+        {
+            $this->order_unitprice = str_replace(' ','',$this->order_unitprice);
+            $this->order_unitprice = str_replace(',','',$this->order_unitprice);
+        }
+        else
+        {
+            $this->order_unitprice='0'.$this->order_unitprice;
+            $this->order_unitprice = number_format($this->order_unitprice,0,'.',',');
+        }   
     }
 }
