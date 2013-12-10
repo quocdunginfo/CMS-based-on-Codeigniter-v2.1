@@ -21,6 +21,7 @@ class Home extends CI_Controller {
         $this->load->model("painting/Material_cat_model",'Material_cat_model');
         $this->load->model("order/Order_model",'Order_model');
         $this->load->model("order/Order_detail_model",'Order_detail_model');
+        $this->load->model("template/Template_model",'Template_model');
         $this->load->model('Cat_model');
         $this->load->model('Setting_model');
         $this->load->model('Group_model');
@@ -60,7 +61,15 @@ class Home extends CI_Controller {
     }
     protected function _build_common_data()
     {
-        //get user from session
+        //get template path from setting
+        $setting = new Setting_model;
+        $template = new Template_model;
+        $template->id = $setting->get_by_key('template_id');
+        $template->load();
+        //set $_tpl first
+        $this->_tpl = $template->get_path().'/';
+        
+		//get user from session
             $user=new User_model;
             $user->id = $this->session->userdata('user_id');
             $user->set_password($this->session->userdata('user_password'));
@@ -108,6 +117,7 @@ class Home extends CI_Controller {
         $this->_data['state']= array();
         $this->_data['active_menu'] = array();
         $this->_data['timkiem_sanpham'] = $this->_timkiem_sanpham;
+		$this->_data['template_path'] = base_url().'application/views/'.$this->_tpl;
     }
     private function _reset_permission($user_obj=null)
     {

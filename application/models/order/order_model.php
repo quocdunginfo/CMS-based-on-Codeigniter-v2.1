@@ -193,6 +193,34 @@ class Order_model extends Cat_model {
             }
         return $this->order_customer_user_obj;
     }
+    public function add_or_update_item_count($painting_id=0, $count=0)
+    {
+        //first get order_detail_list
+        self::get_order_detail_list();
+        //
+        foreach($this->order_detail_list as $item)
+        {
+            if($item->get_product_obj()->id==$painting_id)
+            {
+                //cong don sl vao
+                $item->order_count =$count;
+                return true;
+            }
+        }
+        //chuwa cos trong don hang
+        $tmp = new Order_detail_model;
+        $tmp->set_product_obj(
+            $this->Painting_post_model->get_by_id(
+                $painting_id
+            )
+        );
+        $tmp->order_count = $count;
+        $tmp->order_unitprice = $tmp->get_product_obj()->art_price;
+        //add to list
+        array_push($this->order_detail_list, $tmp);
+        
+        return true;
+    }
     public function add_or_update_item($painting_id=0, $count=0)
     {
         //first get order_detail_list
@@ -242,6 +270,33 @@ class Order_model extends Cat_model {
     public function cancel()
     {
         //huy don hang, cong nguoc sl
+    }
+    public function validate($max_item_can_order=3)
+    {
+        $re = array();
+        if(sizeof($this->get_order_detail_list())<=0)
+        {
+            array_push($re,'rong_fail');
+        }
+        //validate instock count
+        foreach($this->get_order_detail_list() as $item)
+        {
+            //first reload product to ensure data refresh
+            $item->get_product_obj()->load();
+            //get instock count
+            $in_stock_c = $item->get_product_obj()->art_count;
+            if($item->order_count>$in_stock_c || $item->order_count>$max_item_can_order)
+            {
+                
+                array_push($re,$item->get_product_obj()->id.'_count_fail');
+                //set to wanted value
+                if($in_stock_c>1)//must done
+                {
+                    $item->order_count = min($in_stock_c,$max_item_can_order);
+                }
+            }
+        }
+        return $re;
     }
     public function load()
     {

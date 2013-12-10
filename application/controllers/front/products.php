@@ -15,7 +15,7 @@ class Products extends Home {
     {
         //get param
         $get = $this->uri->uri_to_assoc(4,array('id','page'));
-        $get['id'] = $get['id']===false?-1:$get['id'];
+        $get['id'] = $get['id']===false?0:$get['id'];
         $get['page'] = $get['page']===false?1:$get['page'];
         //varible
         $model = new Painting_post_model;

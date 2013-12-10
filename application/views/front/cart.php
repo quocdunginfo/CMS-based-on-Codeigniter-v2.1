@@ -11,8 +11,8 @@ $this->load->view('front/header');
                 <th width="70" align="center">Hình ảnh</th>
                 <th align="center">Tên sản phẩm</th>
                 <th width="60" align="center">Số lượng</th>
-                <th width="90" align="right">Đơn giá</th>
-                <th width="110" align="right">Tổng cộng</th>
+                <th width="120" align="right">Đơn giá</th>
+                <th width="130" align="right">Tổng cộng</th>
                 <th width="20"></th>
             </tr>
             <tr>
@@ -34,14 +34,14 @@ $this->load->view('front/header');
                 </td>
                 
                 <td align="center">
-                    <form id="qd_form_0" action="/tmdtud/FrontCart/Add_Or_Update" method="post">
-                        <input type="hidden" value="132" name="painting_id">
+                    <form id="qd_form_0" action="<?=site_url('front/cart/add_or_update_from_cart')?>" method="post">
+                        <input type="hidden" value="<?=$item->get_product_obj()->id?>" name="painting_id">
                         <input type="hidden" value="1" name="update_from_cart">
                       <label class="mylabel">
                       <select name="count" style="width: 40px;" onchange="submit()">
-                            <option value="1" <?php if($item->order_count==1) echo 'selected="selected"'; ?>>1</option>
-                            <option value="2" <?php if($item->order_count==2) echo 'selected="selected"'; ?>>2</option>
-                            <option value="3" <?php if($item->order_count==3) echo 'selected="selected"'; ?>>3</option>
+                            <?php for($i=1;$i<=$max_item_can_order;$i++){ ?>
+                            <option value="<?=$i?>" <?php if($item->order_count==$i) echo 'selected="selected"'; ?>><?=$i?></option>
+                            <?php } ?>
                         </select></label>
                         
                     </form>
@@ -49,16 +49,22 @@ $this->load->view('front/header');
                 <td align="right"><?=$item->get_order_unit_price()?> VNĐ</td>
                 <td align="right"><?=$item->get_total_string()?> VNĐ</td>
                 <td align="center">
-                    <a href="javascript:qd_confirm( '/tmdtud/FrontCart/Remove?chitietsp_id=132' )">
-                    <img src="/tmdtud/Content/front/images/remove_x.gif" alt="remove" style="width: 15px; height: 15px" title="Xóa khỏi giỏ hàng"></a>
+                    <a href="javascript:qd_confirm( '<?=site_url('front/cart/remove/painting_id/'.$item->get_product_obj()->id)?>' )">
+                    <img src="images/remove_x.gif" alt="remove" style="width: 15px; height: 15px" title="Xóa khỏi giỏ hàng"></a>
 
                 </td>
             </tr>
-            <?php } ?>
             <tr>
                 <td colspan="6" style="color:red;">
+                <?php
+                if(in_array($item->get_product_obj()->id.'_count_fail',$state))
+                {
+                    echo 'Sản phẩm ['.$item->get_product_obj()->title.']: số lượng đặt vượt tồn kho hoặc không hợp lệ!';
+                }
+                ?>
                 </td>
             </tr>
+            <?php } ?>
             <tr>
                 <td colspan="3" align="right" height="30px"></td>
                 <td align="right" style="font-weight: bold">Tổng tiền:</td>

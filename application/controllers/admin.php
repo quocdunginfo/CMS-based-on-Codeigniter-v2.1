@@ -16,6 +16,7 @@ class Admin extends CI_Controller {
         $this->load->model("painting/Painting_post_model",'Painting_post_model');
         $this->load->model("order/Order_model",'Order_model');
         $this->load->model("order/Order_detail_model",'Order_detail_model');
+        $this->load->model("template/Template_model",'Template_model');
         $this->load->model('Cat_model');
         $this->load->model('Setting_model');
         $this->load->model('Group_model');
