@@ -5,6 +5,9 @@ class Order_model extends Cat_model {
     protected $order_status='chualienlac';//chualienlac, chuagiao, dagiao, dabihuy
         protected $need_update_product_count=false;
     public $order_online_payment = 1;
+    public $order_rc_address = '';
+    public $order_rc_phone = '';
+    public $order_rc_fullname = '';
     //external
     protected $order_user_obj = null;
         protected $order_user_ready=false;
@@ -12,11 +15,47 @@ class Order_model extends Cat_model {
         protected $order_customer_user_ready=false;
     protected $order_detail_list = array();
         protected $order_detail_list_ready=false;
+    protected $order_shippingfee_obj = null;
+        protected $order_shippingfee_ready=false;
         
     function __construct()
     {
         parent::__construct();
         $this->special=5;
+    }
+    public function get_shippingfee_obj()
+    {
+        if($this->order_shippingfee_ready==true)
+        {
+            return $this->order_shippingfee_obj;
+        }
+        $this->order_shippingfee_ready=true;
+        //load external user_obj
+            $this->db->select("order_shippingfee_id");
+            $this->db->from($this->_tbn);
+            $this->db->where("id",$this->id);
+            $query = $this->db->get();
+            foreach($query->result() as $row)
+            {
+                $obj = new Shippingfee_model;
+                $obj->id = $row->order_customer_user_id;
+                $obj->load();
+                //assign
+                $this->order_shippingfee_obj = $obj;
+            }
+        return $this->order_shippingfee_obj;
+    }
+    public function set_shippingfee_obj($obj=null)
+    {
+        if($obj!=null && !$obj->is_exist())
+        {
+            $this->order_shippingfee_obj = null;           
+        }
+        else
+        {
+            $this->order_shippingfee_obj = $obj;
+        }
+        return $this->order_shippingfee_ready=true;
     }
     public function set_status($status='chualienlac')
     {
@@ -271,6 +310,32 @@ class Order_model extends Cat_model {
     {
         //huy don hang, cong nguoc sl
     }
+    /**
+     * Order_model::validate_rc()
+     * Kiểm tra thông tin người nhận
+     * @return void
+     */
+    public function validate_rc()
+    {
+        $re = array();
+        if($this->order_rc_address=='')
+        {
+            array_push($re,'rc_address_fail');
+        }
+        if($this->order_rc_phone=='')
+        {
+            array_push($re,'rc_phone_fail');
+        }
+        if($this->order_rc_fullname=='')
+        {
+            array_push($re,'rc_fullname_fail');
+        }
+        if($this->get_shippingfee_obj()==null)
+        {
+            array_push($re,'shippingfee_fail');
+        }
+        return $re;
+    }
     public function validate($max_item_can_order=3)
     {
         $re = array();
@@ -310,6 +375,9 @@ class Order_model extends Cat_model {
         $this->db->select('order_total');
         $this->db->select('order_status');
         $this->db->select('order_online_payment');
+        $this->db->select('order_rc_address');
+        $this->db->select('order_rc_phone');
+        $this->db->select('order_rc_fullname');
         $this->db->where('id',$this->id);
         $this->db->where('special',$this->special);
         $query = $this->db->get($this->_tbn);
@@ -318,6 +386,9 @@ class Order_model extends Cat_model {
             $this->order_total = $row->order_total;
             $this->order_status =$row->order_status;
             $this->order_online_payment =$row->order_online_payment;
+            $this->order_rc_address = $row->order_rc_address;
+            $this->order_rc_phone = $row->order_rc_phone;
+            $this->order_rc_fullname = $row->order_rc_fullname;
             return true;
         }
         return false;
@@ -378,7 +449,10 @@ class Order_model extends Cat_model {
             $data = array(
                    'order_total' => $this->order_total,
                    'order_online_payment' => $this->order_online_payment,
-                   'order_status' => $this->order_status
+                   'order_status' => $this->order_status,
+                   'order_rc_address' => $this->order_rc_address,
+                   'order_rc_phone' => $this->order_rc_phone,
+                   'order_rc_fullname' => $this->order_rc_fullname
                 );
             
             $this->db->where('id', $this->id);

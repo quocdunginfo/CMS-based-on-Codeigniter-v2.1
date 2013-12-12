@@ -77,4 +77,53 @@ class Cart extends Home {
         //redirect
         redirect('front/cart');
     }
+    public function checkout()
+    {
+        //nếu chưa đăng nhập thì chuyển tới trang login hoặc register
+        if($this->_user==null)
+        {
+            redirect('login_or_register');
+            return;
+        }
+        //set default value
+        $this->_giohang->order_rc_address = $this->_user->address;
+        $this->_giohang->order_rc_phone = $this->_user->phone;
+        $this->_giohang->order_rc_fullname = $this->_user->fullname;
+        //re assign gio hang
+        $this->_data['giohang'] = $this->_giohang;
+        parent::_luu_giohang();
+        //show form lay thông tin người nhận
+        $this->_data['shippingfee_list'] = $this->Shippingfee_model->get_all_obj();
+        parent::_view('cart_checkout',$this->_data);
+    }
+    public function confirm()
+    {
+        
+    }
+    public function checkout_submit()
+    {
+        //get post value
+        $input = $this->input->post(null,true);
+        //assign to giohang
+        $this->_giohang->order_rc_address = $input['address'];
+        $this->_giohang->order_rc_fullname = $input['fullname'];
+        $this->_giohang->order_rc_phone = $input['phone'];
+        $this->_giohang->order_online_payment = $input['online_payment'];
+        $this->_giohang->set_shippingfee_obj(
+            $this->Shippingfee_model->get_by_id($input['shippingfee_id'])
+        );
+        parent::_luu_giohang();
+        //validate
+        $validate = $this->_giohang->validate_rc();
+        if(sizeof($validate)==0)
+        {
+            redirect('front/cart/confirm');
+            return;
+        }
+        //show error
+        $this->_data['giohang'] = $this->_giohang;
+        $this->_data['shippingfee_list'] = $this->Shippingfee_model->get_all_obj();
+        //load view
+        parent::_view('cart_checkout',$this->_data);
+    }
 }

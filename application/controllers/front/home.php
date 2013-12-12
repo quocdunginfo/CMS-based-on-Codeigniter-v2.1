@@ -4,7 +4,7 @@ class Home extends CI_Controller {
     protected $_data = array();
     protected $_user = null;
     protected $_permission=array();
-    protected $_temp = array();
+    protected $_temp = '';
     
     protected $_giohang = null;
     protected $_tpl = 'front/';
@@ -26,6 +26,7 @@ class Home extends CI_Controller {
         $this->load->model('Setting_model');
         $this->load->model('Group_model');
         $this->load->model('Permission_model');
+        $this->load->model('order/Shippingfee_model','Shippingfee_model');
         //helper
         $this->load->helper('url');
         $this->load->helper('file');

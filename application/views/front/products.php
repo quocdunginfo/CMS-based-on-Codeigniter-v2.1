@@ -63,7 +63,7 @@ $this->load->view('front/header');
         <option value="<?=$i?>" <?php if($pagination->current_page==$i) echo 'selected="selected"' ?>><?=$i?></option> 
         <?php } ?>              
         </select>
-        </label>/ 1 trang
+        </label>/ <?=$pagination->total_page?> trang
         </form>
         </div>
         <div class="cleaner" style="height: 10px;"></div>      

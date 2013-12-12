@@ -174,7 +174,7 @@ width: 80px;
 			<div id="top_nav" class="ddsmoothmenu">
 				<ul>
 					<li><a href="<?=site_url('front')?>" class="selected">Trang chủ</a></li>
-					<li style="z-index: 100;"><a href="/FrontSanPham?id_loaisp=0&amp;level_loaisp=0" class="">Sản phẩm</a>
+					<li style="z-index: 100;"><a href="<?=site_url('front/products')?>" class="">Sản phẩm</a>
 					<ul style="display: none; top: 40px; visibility: visible;">
 						<?php foreach($painting_list_cat as $item) {
                         ?>
