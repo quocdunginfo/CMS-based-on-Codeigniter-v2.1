@@ -192,10 +192,7 @@ class Admin_painting_post extends Admin {
             return;
         }
         
-        //remove post
-        $post_obj->delete();
-        //then add post
-        $post_obj->add();
+        $post_obj->clone_to_top();
         //view
         redirect('admin_painting_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
     }

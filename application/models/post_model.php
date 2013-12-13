@@ -240,7 +240,7 @@ class Post_model extends CI_Model {
             if($this->user_obj_ready==true)
             {
                 $data = array(
-                    'user_id' => $this->user_obj == null ?0:$this->user_obj->id
+                    'user_id' => $this->get_user_obj() == null ?0:$this->get_user_obj()->id
                 );
                 $this->db->where('id', $this->id);
                 $this->db->update($this->_tbn, $data);
@@ -266,6 +266,16 @@ class Post_model extends CI_Model {
         self::resize_avatar();
         //finish
         return true;
+    }
+    public function clone_to_top()
+    {
+        //first: force to load all external first
+        self::get_user_obj();
+        self::get_cat_obj_list();
+        //then delete curent
+        self::delete();
+        //finally call add
+        return self::add();
     }
     public function add()
     {        

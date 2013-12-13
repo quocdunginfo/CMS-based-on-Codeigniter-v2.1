@@ -66,11 +66,10 @@ $this->load->view('front/header');
                     </tr>
                 </tbody></table>
                 <div class="cleaner h20"></div>
-                <form id="order_frm" action="/tmdtud/FrontCart/Add_Or_Update" method="post">
-                    <input type="hidden" id="ctsp_id" name="giohang_chitietsp_id" value="122">
-                    <input type="hidden" id="sanpham_id" name="giohang_sanpham_id" value="37">
-                    <input type="hidden" id="soluong" name="giohang_soluong" value="1">
-                <a class="addtocart" id="btnsubmit" onclick="kim4()">Thêm vào giỏ</a>
+                <form id="order_frm" action="<?=site_url('front/cart/add_or_update_from_cart')?>" method="post">
+                    <input type="hidden" id="ctsp_id" name="painting_id" value="<?=$painting_obj->id?>">
+                    <input type="hidden" id="soluong" name="count" value="1">
+                    <a class="addtocart" id="btnsubmit" onclick="document.getElementById('order_frm').submit()">Thêm vào giỏ</a>
                     </form>
 			</div>
             <div class="cleaner h30"></div>

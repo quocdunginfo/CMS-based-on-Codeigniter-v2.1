@@ -132,6 +132,16 @@ class Painting_post_model extends Post_model {
         }
         return $text;
     }
+    public function clone_to_top()
+    {
+        //first: force to load all external first
+        self::get_user_obj();
+        self::get_cat_obj_list();
+        //then delete curent
+        self::delete();
+        //finally call add
+        return self::add();
+    }
     public function add()
     {        
         //first: add new blank record

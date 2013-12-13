@@ -23,6 +23,36 @@ class Order_model extends Cat_model {
         parent::__construct();
         $this->special=5;
     }
+    public function get_order_online_payment_vi()
+    {
+        if($this->order_online_payment==1)
+        {
+            return 'Thanh toán trực tuyến';
+        }
+        else
+        {
+            return 'Thanh toán tại nhà';
+        }
+    }
+    public function get_order_online_payment_en()
+    {
+        if($this->order_online_payment==1)
+        {
+            return 'Online payment';
+        }
+        else
+        {
+            return 'Delivered post-paid';
+        }
+    }
+    public function get_order_total_include_shipping_fee_int()
+    {
+        return self::get_order_total_unsave_int() + $this->get_shippingfee_obj()->fee;
+    }
+    public function get_order_total_include_shipping_fee_string()
+    {
+        return number_format(self::get_order_total_include_shipping_fee_int(),0,'.',',');
+    }
     public function get_shippingfee_obj()
     {
         if($this->order_shippingfee_ready==true)
@@ -395,7 +425,7 @@ class Order_model extends Cat_model {
     }
     public function add()
     {
-        //force get customer and user obj before add
+        //force get customer before add
             self::get_customer_user_obj();
             self::get_user_obj();
         //must reset order detail_id to force add
@@ -489,17 +519,26 @@ class Order_model extends Cat_model {
             if($this->order_customer_user_ready==true)
             {
                 $data = array(
-                       'order_customer_user_id' => $this->order_customer_user_obj->id
+                       'order_customer_user_id' => $this->get_customer_user_obj()==null?0:$this->get_customer_user_obj()->id
                     );
-                echo 'cid: '.$this->order_customer_user_obj->id;
-                echo 'id: '.$this->id;
+                //echo 'cid: '.$this->get_customer_user_obj()->id;
+                //echo 'id: '.$this->id;
                 $this->db->where('id', $this->id);
                 $this->db->update($this->_tbn, $data);
             }
             if($this->order_user_ready==true)
             {
                 $data = array(
-                       'order_user_id' => $this->order_user_obj->id
+                       'order_user_id' => $this->get_user_obj()==null?0:$this->get_user_obj()->id
+                    );
+                
+                $this->db->where('id', $this->id);
+                $this->db->update($this->_tbn, $data);
+            }
+            if($this->order_shippingfee_ready==true)
+            {
+                $data = array(
+                       'order_shippingfee_id' => $this->get_shippingfee_obj()==null?0:$this->get_shippingfee_obj()->id
                     );
                 
                 $this->db->where('id', $this->id);

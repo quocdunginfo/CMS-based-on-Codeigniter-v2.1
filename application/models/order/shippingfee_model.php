@@ -35,6 +35,10 @@ class Shippingfee_model extends CI_Model {
         $this->db->where("id",$id==-1?$this->id:$id);
         return $this->db->count_all_results($this->_tbn)>0?true:false;
     }
+    public function get_fee()
+    {
+        return number_format($this->fee,0,'.',',');
+    }
     public function get_all_obj()
     {
         $re=array();

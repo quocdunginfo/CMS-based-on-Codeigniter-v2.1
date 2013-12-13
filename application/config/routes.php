@@ -37,10 +37,10 @@
 | in the URL cannot be matched to a valid route.
 |
 */
-
-$route['default_controller'] = "welcome";
+$route['default_controller'] = "webpage";
 $route['404_override'] = '';
 //quocdunginfo
+
 $route['front'] = "front/home";
 
 /* End of file routes.php */

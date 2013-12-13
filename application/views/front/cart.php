@@ -75,9 +75,9 @@ $this->load->view('front/header');
     </table>
     <div style="float: right;margin-right:10px; margin-top: 20px;">
 
-        <p><a href="/tmdtud/FrontCart/CheckOut" class="mybutton" style="color:white;height:20px;width:120px;font-size:12px;font-weight:bold">Thanh toán</a></p></div>
+        <p><a href="<?=site_url('front/cart/checkout')?>" class="mybutton" style="color:white;height:20px;width:120px;font-size:12px;font-weight:bold">Thanh toán</a></p></div>
      <div style="float: left; margin-top: 20px;">
-        <p><a href="/tmdtud/" class="mybutton" style="color:white;height:20px;width:120px;font-size:12px;font-weight:bold">Tiếp tục mua hàng</a></p>
+        <p><a href="<?=site_url('front')?>" class="mybutton" style="color:white;height:20px;width:120px;font-size:12px;font-weight:bold">Tiếp tục mua hàng</a></p>
          </div>
  <div style="clear:both"></div>
 </div>

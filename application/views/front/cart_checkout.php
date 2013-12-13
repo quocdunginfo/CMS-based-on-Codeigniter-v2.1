@@ -14,6 +14,12 @@ $this->load->view('front/header');
                 <input type="text" name="fullname" class="required input_field" value="<?=$giohang->order_rc_fullname?>" style="float:left">
                 <sup style="color:red; float:left">* </sup>
                 <span style="color:red; float:left">
+                <?php
+                if(in_array('rc_fullname_fail',$state))
+                {
+                    echo 'Không hợp lệ!';    
+                }
+                ?>
                 </span>
                 <div class="cleaner h10"></div>
 
@@ -21,6 +27,12 @@ $this->load->view('front/header');
                 <input type="text" name="phone" class="input_field" value="<?=$giohang->order_rc_phone?>" style="float:left">
                 <sup style="color:red; float:left">* </sup>
                 <span style="color:red; float:left">
+                <?php
+                if(in_array('rc_phone_fail',$state))
+                {
+                    echo 'Không hợp lệ!';    
+                }
+                ?>
                 </span>
                 <div class="cleaner h10"></div>
 
@@ -28,6 +40,12 @@ $this->load->view('front/header');
                 <input type="text" name="address" class="input_field" value="<?=$giohang->order_rc_address?>" style="float:left">
                 <sup style="color:red; float:left">* </sup>
                 <span style="color:red; float:left">
+                <?php
+                if(in_array('rc_address_fail',$state))
+                {
+                    echo 'Không hợp lệ!';    
+                }
+                ?>
                 </span>
                 <div class="cleaner h10"></div>
                 <label style="width:auto;">Tỉnh/Thành Phố (tính phí vận chuyển):</label>

@@ -181,11 +181,7 @@ class Admin_post extends Admin {
             $this->_fail_permission('post_edit');
             return;
         }
-        
-        //remove post
-        $post_obj->delete();
-        //then add post
-        $post_obj->add();
+        $post_obj->clone_to_top();
         //view
         redirect('admin_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
     }

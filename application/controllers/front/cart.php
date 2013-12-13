@@ -9,10 +9,9 @@ class Cart extends Home {
     }
     public function index()
     {
-        //return home
-        //get flash
+        //get setting
         $max_item_can_order = $this->Setting_model->get_by_key('max_count_order_per_product');
-        
+        //validate   
         $validate = $this->_giohang->validate($max_item_can_order);
         $this->_data['state'] = $validate;
         $this->_data['max_item_can_order'] = $max_item_can_order;
@@ -85,6 +84,14 @@ class Cart extends Home {
             redirect('login_or_register');
             return;
         }
+        //get setting
+        $max_item_can_order = $this->Setting_model->get_by_key('max_count_order_per_product');
+        //nếu đơn hàng còn lỗi
+        if(sizeof($this->_giohang->validate($max_item_can_order))>0)
+        {
+            redirect('front/cart');
+            return;
+        }
         //set default value
         $this->_giohang->order_rc_address = $this->_user->address;
         $this->_giohang->order_rc_phone = $this->_user->phone;
@@ -98,7 +105,75 @@ class Cart extends Home {
     }
     public function confirm()
     {
-        
+        //get setting
+        $max_item_can_order = $this->Setting_model->get_by_key('max_count_order_per_product');
+        //show confirm
+            //re validate
+            $validate = $this->_giohang->validate($max_item_can_order);
+            
+            if(sizeof($validate)>0)
+            {
+                redirect('front/cart');
+                return;
+            }
+            $validate = $this->_giohang->validate_rc();
+            if(sizeof($validate)>0)
+            {
+                redirect('front/cart/checkout');
+                return;
+            }
+            //ready to view
+            $this->_data['giohang'] = $this->_giohang;
+            parent::_view('cart_confirm', $this->_data);
+    }
+    public function finish()
+    {
+        //re validate
+        //get setting
+        $max_item_can_order = $this->Setting_model->get_by_key('max_count_order_per_product');
+        if(sizeof($this->_giohang->validate($max_item_can_order))>0)
+        {
+            redirect('front/cart');
+            return;
+        }
+        if(sizeof($this->_giohang->validate_rc())>0)
+        {
+            redirect('front/cart/checkout');
+            return;
+        }
+        //set customer
+        $this->_giohang->set_customer_user_obj($this->_user);
+        //ready
+        //save cart to system orders
+        $this->_giohang->add();
+        //send email (optional)
+        //...
+        //show OK message
+        parent::_view('cart_finish',$this->_data);
+        //done process
+    }
+    public function payment()
+    {
+        //get setting
+        $max_item_can_order = $this->Setting_model->get_by_key('max_count_order_per_product');
+        if(sizeof($this->_giohang->validate($max_item_can_order))>0)
+        {
+            redirect('front/cart');
+            return;
+        }
+        if(sizeof($this->_giohang->validate_rc())>0)
+        {
+            redirect('front/cart/checkout');
+            return;
+        }
+        if($this->_giohang->order_online_payment==1)
+        {
+            //show online payment emulation
+            parent::_view('cart_online_payment',$this->_data);
+            return;
+        }
+        //continue to finish
+        redirect('front/cart/finish');
     }
     public function checkout_submit()
     {
@@ -121,6 +196,7 @@ class Cart extends Home {
             return;
         }
         //show error
+        $this->_data['state'] = $validate;
         $this->_data['giohang'] = $this->_giohang;
         $this->_data['shippingfee_list'] = $this->Shippingfee_model->get_all_obj();
         //load view
