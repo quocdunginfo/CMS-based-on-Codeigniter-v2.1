@@ -9,6 +9,7 @@ $this->load->view('front/header');
         	<a id="qd_main_a_tag" rel="lightbox[portfolio]" href="<?=$painting_obj->get_avatar()?>">
             <img id="qd_main_img_tag" src="<?=$painting_obj->get_avatar_thumb()?>" alt="image" style="max-width:250px;max-height:250px"></a>
             </div>
+            <form id="order_frm" action="<?=site_url('front/cart/add_or_update_from_cart')?>" method="post">
             <div class="content_half float_r">
                 <table class="detail">
                     <tbody><tr>
@@ -58,20 +59,25 @@ $this->load->view('front/header');
                         ?>
                         </td>
                     </tr>
+                    <?php if($painting_obj->art_count>0) { ?>
                     <tr>
                     	<td><b>Số lượng đặt:</b> </td>
                         <td>
-                        <input id="sl" type="text" value="1" style="width: 20px; text-align: right">
+                        <input type="hidden" id="ctsp_id" name="painting_id" value="<?=$painting_obj->id?>">
+                        <input name="count" id="sl" type="text" value="1" style="width: 20px; text-align: right">
                         </td>
                     </tr>
+                    <?php } ?>
+                    
                 </tbody></table>
                 <div class="cleaner h20"></div>
-                <form id="order_frm" action="<?=site_url('front/cart/add_or_update_from_cart')?>" method="post">
-                    <input type="hidden" id="ctsp_id" name="painting_id" value="<?=$painting_obj->id?>">
-                    <input type="hidden" id="soluong" name="count" value="1">
-                    <a class="addtocart" id="btnsubmit" onclick="document.getElementById('order_frm').submit()">Thêm vào giỏ</a>
-                    </form>
+                <?php if($painting_obj->art_count>0) { ?>
+                <a class="addtocart" id="btnsubmit" onclick="document.getElementById('order_frm').submit()">Thêm vào giỏ</a>
+                <?php } else { ?>
+                <a style="background-color: #696969;" href="javascript:void(0)" class="addtocart" id="btnsubmit">Tạm hết hàng</a>
+                <?php } ?>
 			</div>
+            </form>
             <div class="cleaner h30"></div>
             
         

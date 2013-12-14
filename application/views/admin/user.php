@@ -6,7 +6,11 @@ $this->load->view('admin/header');
             <!-- module goes here -->
 			<!-- Form elements -->    
             <div class="grid_8">
-            
+                <style type="text/css">
+                    .module-body label{
+                        float: left; width: 120px;
+                    }
+                </style>
                 <div class="module">
                      <h2><span>Form</span></h2>
                         
@@ -19,40 +23,40 @@ $this->load->view('admin/header');
                             </div>
                             
                             <p>
-                                User name:
+                                <label>User name:</label>
                                 <input type="text" class="input-medium" name="user_username" value="<?php echo $user0->username; ?>"/>
                                 <span class="notification-input ni-correct" style="display:none;">This is correct, thanks!</span>
                             </p>
                             
                             <p>
-                                Fullname:
+                                <label>Fullname:</label>
                                 <input type="text" class="input-medium" name="user_fullname" value="<?php echo $user0->fullname; ?>"/>
                                 <span class="notification-input ni-correct" style="display:none;">This is correct, thanks!</span>
                             </p>
                             <p>
-                                Email:
+                                <label>Email:</label>
                                 <input type="text" class="input-medium" name="user_email" value="<?php echo $user0->email; ?>"/>
                                 <span class="notification-input ni-correct" style="display:none;">This is correct, thanks!</span>
                             </p>
                             <p>
-                                Password:
-                                <input type="password" class="input-short" name="user_password" value="<?php echo $user0->get_password(); ?>"/>
+                                <label>Password:</label>
+                                <input type="password" class="input-medium" name="user_password" value="<?php echo $user0->get_password(); ?>"/>
                                 <span class="notification-input ni-correct" style="display:none;">This is correct, thanks!</span>
                             </p>
                             <p>
-                                Confirm password:
-                                <input type="password" class="input-short" name="user_repassword" value="<?php echo $user0->get_password(); ?>"/>
+                                <label>Confirm password:</label>
+                                <input type="password" class="input-medium" name="user_repassword" value="<?php echo $user0->get_password(); ?>"/>
                                 <span class="notification-input ni-error" <?php if(!in_array('password_fail',$state)) echo 'style="display:none;"'; ?> >Password does not confirm!</span>
                             </p>
                             
-                            <fieldset>
-                                <legend>Checkbox</legend>
-                                <ul>
-                                    <li><label><input name="user_active" type="checkbox" value="1" <?php if($user0->active==1) echo 'checked="checked"'; ?> /> Active user</label></li>
-                                </ul>
-                            </fieldset>
+                            <p>
+                                <label>Active:</label>
+                                <input name="user_active" type="checkbox" value="1" <?php if($user0->active==1) echo 'checked="checked"'; ?> >
+                                
+                            </p>
                             
                             
+                            <?php if($user0->is_manager()) { ?>
                             <fieldset>
                                 User group:
                                 <select name="user_groupid">
@@ -63,7 +67,15 @@ $this->load->view('admin/header');
                                 <?php endforeach; ?>
                                 </select>
                             </fieldset>
+                            <?php } else { ?>
                             
+                            <fieldset>
+                                <input type="hidden" name="user_groupid" value="0" />
+                            </fieldset>
+                            
+                            <?php } ?>
+                            
+                            <br />
                             <fieldset>
                                 <a href="<?=site_url('admin_users')?>" class="button" style="margin-right: 10px;"><span>Back</span></a>
                                 <a href="<?=site_url('admin_user/index/'.$user0->id)?>" class="button" style="margin-right: 50px;"><span>Reload</span></a>

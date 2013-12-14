@@ -10,6 +10,7 @@ class User_model extends CI_Model {
     public $phone = '';
     public $date_create = '';//datetime
     public $date_modify = '';//datetime
+    public $special = 0;//0:manager, 1: customer
     //private
     private $_tbn="user";
     private $is_hashed = false;
@@ -20,6 +21,52 @@ class User_model extends CI_Model {
     {
         parent::__construct();
     }
+    public function get_group_name()
+    {
+        if(self::get_group_obj()!=null)
+        {
+            return self::get_group_obj()->name;
+        }
+        return 'unknown';
+    }
+    public function get_type_en()
+    {
+        if(self::is_manager())
+        {
+            return 'Manager';
+        }else if(self::is_customer())
+        {
+            return 'Customer';
+        }
+        return 'unknown';
+    }
+    public function get_type_vi()
+    {
+        if(self::is_manager())
+        {
+            return 'Nhân viên';
+        }else if(self::is_customer())
+        {
+            return 'Khách hàng';
+        }
+        return 'unknown';
+    }
+    public function is_customer()
+    {
+        if($this->special==1)
+        {
+            return true;
+        }
+        return false;
+    }
+    public function is_manager()
+    {
+        if($this->special==0)
+        {
+            return true;
+        }
+        return false;
+    } 
     public function load()
     {
         //init new lazy state
@@ -43,6 +90,7 @@ class User_model extends CI_Model {
             $this->phone = $row->phone;
             $this->date_create = $row->date_create;
             $this->date_modify = $row->date_modify;
+            $this->special = $row->special;
             return true;
         }
         return false;
@@ -158,6 +206,7 @@ class User_model extends CI_Model {
         $this->db->from($this->_tbn);
         $this->db->where('id',''.$this->id);
         $this->db->where('password',''.$this->password);
+        $this->db->where('active',1);
         $count = $this->db->count_all_results();
         return $count>0?true:false;
     }
@@ -175,6 +224,7 @@ class User_model extends CI_Model {
         $this->db->select('username');
         $this->db->from($this->_tbn);
         $this->db->where('username',''.$this->username);
+        $this->db->where('active',1);
         $this->db->where('password',''.$this->password);
         $count = $this->db->count_all_results();
         return $count>0?true:false;
@@ -189,7 +239,7 @@ class User_model extends CI_Model {
     {
         //insert new record
         $this->db->set('active', 1); 
-        $this->db->insert('user');
+        $this->db->insert($this->_tbn);
         //get max id
         $this->id=self::get_max_id();
         //auto datetime
@@ -234,10 +284,19 @@ class User_model extends CI_Model {
             'active' => $this->active,
             'date_create' => $this->date_create,
             'date_modify' => date('Y-m-d H:i:s'),
-            'group_id' => $this->group_obj->id
+            'special' => $this->special
         );
         $this->db->where('id',$this->id);
         $this->db->update($this->_tbn,$array);
+        //update external
+        if($this->group_obj_ready==true && self::is_manager()==true)
+        {
+            $array = array(
+                'group_id' => $this->get_group_obj()==null?0:$this->get_group_obj()->id
+            );
+            $this->db->where('id',$this->id);
+            $this->db->update($this->_tbn,$array);
+        }
         return true;
     }
     public function search($id=-1,$username="",$fullname="",$email="",$active=-1,$group_id=-1, $start_point = 0, $count=-1)
@@ -278,6 +337,52 @@ class User_model extends CI_Model {
     public function search_count($id=-1,$username="",$fullname="",$email="",$active=-1,$group_id=-1)
     {
         return sizeof(self::search($id,$username,$fullname,$email,$active,$group_id));
+    }
+    public function can_use_username()
+    {
+        $this->db->select('id');
+        $this->db->where('id !=',$this->id);
+        $this->db->where('username',$this->username);
+        return $this->db->count_all_results($this->_tbn)>0?false:true;
+    }
+    public function can_use_email()
+    {
+        $this->db->select('id');
+        $this->db->where('id !=',$this->id);
+        $this->db->where('email',$this->email);
+        return $this->db->count_all_results($this->_tbn)>0?false:true;
+    }
+    public function validate($password='',$password2='')
+    {
+        $re=array();
+        //check username
+        if(!self::can_use_username())
+        {
+            array_push($re,'username_exist_fail');
+        }
+        if($this->username=='')
+        {
+            array_push($re,'username_fail');
+        }
+        if($this->fullname=='')
+        {
+            array_push($re,'fullname_fail');
+        }
+        if(!$this->form_validate->is_email($this->email))
+        {
+            array_push($re,'email_fail');
+        }
+        if(!self::can_use_email())
+        {
+            array_push($re,'email_exist_fail');
+        }
+        
+        //check password
+        if($password!=$password2 || $password=='')
+        {
+            array_push($re,'password_fail');
+        }
+        return $re;
     }
 }
 ?>

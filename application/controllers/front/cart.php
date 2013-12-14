@@ -13,6 +13,8 @@ class Cart extends Home {
         $max_item_can_order = $this->Setting_model->get_by_key('max_count_order_per_product');
         //validate   
         $validate = $this->_giohang->validate($max_item_can_order);
+        //save cart to make default change
+        parent::_luu_giohang();
         $this->_data['state'] = $validate;
         $this->_data['max_item_can_order'] = $max_item_can_order;
         parent::_view('cart', $this->_data);
@@ -66,6 +68,7 @@ class Cart extends Home {
     }
     public function remove()
     {
+        
         //get param
         $get = $this->uri->uri_to_assoc(4,array('painting_id'));
         $get['painting_id'] = $get['painting_id']===false?-1:$get['painting_id'];
@@ -81,7 +84,10 @@ class Cart extends Home {
         //nếu chưa đăng nhập thì chuyển tới trang login hoặc register
         if($this->_user==null)
         {
-            redirect('login_or_register');
+            //set return url
+            $this->session->set_userdata(array('login_next_url' => 'front/cart/checkout'));
+            
+            redirect('front/login_or_register');
             return;
         }
         //get setting
@@ -105,6 +111,12 @@ class Cart extends Home {
     }
     public function confirm()
     {
+        //nếu chưa đăng nhập thì chuyển tới trang login hoặc register
+        if($this->_user==null)
+        {
+            redirect('login_or_register');
+            return;
+        }
         //get setting
         $max_item_can_order = $this->Setting_model->get_by_key('max_count_order_per_product');
         //show confirm
@@ -128,6 +140,12 @@ class Cart extends Home {
     }
     public function finish()
     {
+        //nếu chưa đăng nhập thì chuyển tới trang login hoặc register
+        if($this->_user==null)
+        {
+            redirect('login_or_register');
+            return;
+        }
         //re validate
         //get setting
         $max_item_can_order = $this->Setting_model->get_by_key('max_count_order_per_product');
@@ -154,6 +172,12 @@ class Cart extends Home {
     }
     public function payment()
     {
+        //nếu chưa đăng nhập thì chuyển tới trang login hoặc register
+        if($this->_user==null)
+        {
+            redirect('login_or_register');
+            return;
+        }
         //get setting
         $max_item_can_order = $this->Setting_model->get_by_key('max_count_order_per_product');
         if(sizeof($this->_giohang->validate($max_item_can_order))>0)
@@ -177,6 +201,12 @@ class Cart extends Home {
     }
     public function checkout_submit()
     {
+        //nếu chưa đăng nhập thì chuyển tới trang login hoặc register
+        if($this->_user==null)
+        {
+            redirect('login_or_register');
+            return;
+        }
         //get post value
         $input = $this->input->post(null,true);
         //assign to giohang

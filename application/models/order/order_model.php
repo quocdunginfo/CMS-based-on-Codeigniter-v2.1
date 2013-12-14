@@ -382,12 +382,13 @@ class Order_model extends Cat_model {
             $in_stock_c = $item->get_product_obj()->art_count;
             if($item->order_count>$in_stock_c || $item->order_count>$max_item_can_order)
             {
-                
                 array_push($re,$item->get_product_obj()->id.'_count_fail');
                 //set to wanted value
-                if($in_stock_c>1)//must done
+                if($in_stock_c>=1)//must done
                 {
+                    
                     $item->order_count = min($in_stock_c,$max_item_can_order);
+                    
                 }
             }
         }

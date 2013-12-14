@@ -93,7 +93,14 @@ $this->load->view('front/header');
                                 </h3>
                             </a>
                             <p class="product_price"><?=$item->get_art_price()?> đ</p>
-                            <a href="<?=site_url('front/cart/add_or_update/painting_id/'.$item->id.'/count/1')?>" class="addtocart">Thêm vào giỏ</a>                         <a href="<?=$_link?>" class="detail">Xem chi tiết</a>
+                            <?php if($item->art_count>0) { ?>
+                            <a href="<?=site_url('front/cart/add_or_update/painting_id/'.$item->id.'/count/1')?>" class="addtocart">Thêm vào giỏ</a>      
+                            <?php } else { ?>
+                            <a style="background-color: #696969;" href="javascript:void(0)" class="addtocart">Tạm hết hàng</a>
+                            
+                            <?php } ?>
+                            
+                            <a href="<?=$_link?>" class="detail">Xem chi tiết</a>
                          </div>
                       <?php } ?>
                       

@@ -11,6 +11,13 @@ class Login extends Home {
     {
         if($this->_user!=null)
         {
+            $next = $this->session->userdata('login_next_url');
+            if($next!='')
+            {
+                $this->session->set_userdata(array('login_next_url' => ''));
+                redirect($next);
+                return;
+            }
             redirect('front');
         }
         //view form

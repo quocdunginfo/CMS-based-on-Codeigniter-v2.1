@@ -34,6 +34,7 @@ class Home extends CI_Controller {
         //library
         $this->load->library('session');
         $this->load->library('Qd_pagination');
+        $this->load->library('Form_validate');
         $this->load->library('uri');
         $this->load->library('encrypt');
         $this->load->library('Image_resize');

@@ -35,6 +35,7 @@ $page_total = $pagination->total_page;
                                     <th style="width:4%">ID</th>
                                     <th style="width:12%">Username</th>
                                     <th style="width:15%">Fullname</th>
+                                    <th style="width:7%">Type</th>
                                     <th style="width:7%">Group</th>
                                     <th style="width:18%">Email</th>
                                     <th style="width:12%">Date created</th>
@@ -50,7 +51,8 @@ $page_total = $pagination->total_page;
                                     <td class="align-center"><?php echo $user_obj->id; ?></td>
                                     <td><a href="<?=site_url('admin_users/edit/'.$user_obj->id)?>"><?php echo $user_obj->username; ?></a></td>
                                     <td><?php echo $user_obj->fullname; ?></td>
-                                    <td><?php echo $user_obj->get_group_obj()->name; ?></td>
+                                    <td><?=$user_obj->get_type_en()?></td>
+                                    <td><?=$user_obj->get_group_name()?></td>
                                     <td><?php echo $user_obj->email; ?></td>
                                     <td><?php echo $user_obj->date_create; ?></td>
                                     <td><?php echo $user_obj->date_modify; ?></td>
