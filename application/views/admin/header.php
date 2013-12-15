@@ -148,6 +148,7 @@ $template_path=base_url().'application/views/admin/';
                                 <li <?php if(in_array('admin_users',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_users'); ?>">Users</a></li>
                                 <li <?php if(in_array('admin_setting',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_setting'); ?>">Settings</a></li>
                                 <li <?php if(in_array('admin_template',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_template'); ?>">Template & Style</a></li>
+                                <li <?php if(in_array('admin_antivirus',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_antivirus'); ?>">Anti-Virus</a></li>
                                 <li <?php if(in_array('admin_media',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_media'); ?>">Media</a></li>
                                 <li <?php if(in_array('admin_help',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_help'); ?>">Help</a></li>
                                 
