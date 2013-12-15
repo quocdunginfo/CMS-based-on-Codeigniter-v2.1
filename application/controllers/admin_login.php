@@ -45,8 +45,15 @@ class Admin_login extends CI_Controller {
             $user->set_password($this->session->userdata('user_password'));
             if($user->login()==true)
             {
-                $user->load();
-                $this->_user = $user;
+                $user->load();//load by id
+                if($user->is_customer())
+                {
+                    //do nothing
+                }
+                else
+                {
+                    $this->_user = $user;
+                }
             }
         $this->_data['html_title'] =  'Login';
     }
@@ -66,6 +73,13 @@ class Admin_login extends CI_Controller {
             //login ok
                 //get full info
                 $test->load_by_username();
+                //chặn KH
+                if($test->is_customer())
+                {
+                    $this->_data['state'] = array('fail');
+                    self::index();
+                    return;
+                }
                 //set session
                     $array= array(
                          'user_id'    => $test->id,
@@ -73,11 +87,11 @@ class Admin_login extends CI_Controller {
                     );
                     $this->session->set_userdata($array);
                 $this->_user = $test;
+                self::index();
+                return;
         }
-        else
-        {
-            $this->_data['state'] = array('fail');
-        }
+        $this->_data['state'] = array('fail');
+        
         self::index();
     }
     public function logout()

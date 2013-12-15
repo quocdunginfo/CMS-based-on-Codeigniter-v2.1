@@ -27,6 +27,7 @@ class Home extends CI_Controller {
         $this->load->model('Group_model');
         $this->load->model('Permission_model');
         $this->load->model('order/Shippingfee_model','Shippingfee_model');
+        $this->load->model('Feedback_model');
         //helper
         $this->load->helper('url');
         $this->load->helper('file');
@@ -176,5 +177,23 @@ class Home extends CI_Controller {
                  'user_password' => $this->_user->get_password()
             );
             $this->session->set_userdata($array);
+    }
+    /**
+     * Home::new_captcha()
+     * Tạo 2 mã và đưa vào session 'captcha_name', 'captcha_value'
+     * @return array('name'=>?,'value'=>?) trong session đang có
+     */
+    protected function _new_captcha()
+    {
+        $re = array('name' => '','value'=> '');
+        //random name and value
+        $re['name'] = random_string('alnum', rand(8,16));
+        $re['value'] = random_string('nozero', 3);
+        //save to session
+        $this->session->set_userdata(
+            array('captcha_name' => $re['name'],'captcha_value' => $re['value'])
+        );
+        //return array
+        return $re;
     }
 }

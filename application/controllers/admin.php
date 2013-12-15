@@ -21,6 +21,7 @@ class Admin extends CI_Controller {
         $this->load->model('Setting_model');
         $this->load->model('Group_model');
         $this->load->model('Permission_model');
+        $this->load->model('Feedback_model');
         //helper
         $this->load->helper('url');
         $this->load->helper('file');
@@ -68,8 +69,16 @@ class Admin extends CI_Controller {
             $user->set_password($this->session->userdata('user_password'));
             if($user->login()==true)
             {
-                $user->load();
-                $this->_user = $user;
+                $user->load();//load by id
+                //chặn KH
+                if($user->is_customer())
+                {
+                    //do not thing
+                }
+                else
+                {
+                    $this->_user = $user;
+                }
             }
         if($this->_user!=null)
         {

@@ -182,9 +182,9 @@ width: 80px;
                         <?php } ?>
 					</ul>
 					</li>
-					<li><a href="/FrontTimKiem">Tìm kiếm nâng cao</a></li>
-					<li><a href="/FrontContact">Liên hệ</a></li>
-					<li><a href="/FrontAbout">Giới thiệu</a>
+					<li><a href="<?=site_url('front/search') ?>">Tìm kiếm nâng cao</a></li>
+					<li><a href="<?=site_url('front/contact') ?>">Liên hệ</a></li>
+					<li><a href="<?=site_url('front/about') ?>">Giới thiệu</a>
 					</li>
 				</ul>
 				<br style="clear: left">

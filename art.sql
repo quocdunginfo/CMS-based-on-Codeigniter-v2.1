@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 14, 2013 at 04:04 PM
+-- Generation Time: Dec 15, 2013 at 06:48 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.16
 
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   `menu_param` text NOT NULL COMMENT 'kết hợp với controller và action trong menu_provider để ra URL',
   `menu_order` int(11) NOT NULL DEFAULT '0' COMMENT 'Lưu thứ tự menuitem',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=80 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=82 ;
 
 --
 -- Dumping data for table `category`
@@ -88,7 +88,9 @@ INSERT INTO `category` (`id`, `name`, `description`, `parent_id`, `date_create`,
 (76, '', '', 0, '2013-12-13 16:23:29', '2013-12-13 16:23:29', 1, 5, 12000, 'chualienlac', 0, 0, 0, 'Tran Hung Dao', '1212121212', 'Quarn trij2222', 0, 0, '', 0),
 (77, '', '', 0, '2013-12-13 16:26:31', '2013-12-13 16:26:31', 1, 5, 12000, 'chualienlac', 0, 0, 9, 'Tran Hung Dao', '1212121212', 'Quarn trij2222', 0, 0, '', 0),
 (78, '', '', 0, '2013-12-13 16:31:03', '2013-12-13 16:31:03', 1, 5, 12000, 'chualienlac', 0, 0, 9, 'Tran Hung Dao', '1212121212', 'Quarn trij2222', 0, 0, '', 0),
-(79, '', '', 0, '2013-12-13 16:32:22', '2013-12-13 16:33:15', 1, 5, 12000, 'chuagiao', 0, 0, 9, 'Tran Hung Dao', '1212121212', 'Quarn trij2222', 1, 0, '', 0);
+(79, '', '', 0, '2013-12-13 16:32:22', '2013-12-13 16:33:15', 1, 5, 12000, 'chuagiao', 0, 0, 9, 'Tran Hung Dao', '1212121212', 'Quarn trij2222', 1, 0, '', 0),
+(80, '', '', 0, '2013-12-15 14:16:40', '2013-12-15 14:16:40', 1, 5, 1234, 'chualienlac', 1, 0, 9, 'Tran Hung Dao', '0979996234', 'Quarn trij2222', 18, 0, '', 0),
+(81, '', '', 0, '2013-12-15 14:19:43', '2013-12-15 14:19:43', 1, 5, 1234, 'chualienlac', 0, 0, 9, 'Tran Hung Dao', '0979996234', 'Quarn trij2222', 1, 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -328,65 +330,70 @@ CREATE TABLE IF NOT EXISTS `post` (
   `active` int(11) NOT NULL DEFAULT '1',
   `avatar` text NOT NULL,
   `special` int(11) NOT NULL DEFAULT '0' COMMENT '0: normal post, 1: special post, 2: painting post,3: [not yet], 4: order_detail, 5: template',
+  `optional1` text NOT NULL,
+  `optional2` text NOT NULL,
   `art_id` text NOT NULL,
   `art_count` int(11) NOT NULL DEFAULT '0',
   `art_width` int(11) NOT NULL DEFAULT '0',
   `art_height` int(11) NOT NULL DEFAULT '0',
   `art_sizeunit` varchar(4) NOT NULL DEFAULT 'cm' COMMENT 'm, cm, inch, mm',
-  `art_price` text NOT NULL COMMENT 'VND only',
+  `art_price` int(11) NOT NULL COMMENT 'VND only',
   `art_sold` int(11) NOT NULL DEFAULT '0',
   `order_product_id` int(11) NOT NULL DEFAULT '0',
   `order_count` int(11) NOT NULL DEFAULT '0',
   `order_unitprice` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=124 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=128 ;
 
 --
 -- Dumping data for table `post`
 --
 
-INSERT INTO `post` (`id`, `title`, `content`, `date_create`, `date_modify`, `user_id`, `content_lite`, `active`, `avatar`, `special`, `art_id`, `art_count`, `art_width`, `art_height`, `art_sizeunit`, `art_price`, `art_sold`, `order_product_id`, `order_count`, `order_unitprice`) VALUES
-(1, 'Slider11456', '<p>alo1235</p>', '2013-09-05 14:52:19', '2013-09-15 19:19:16', 8, 'alo1234', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]windows_8_wallpaper_download_metro20.jpg', 1, '', 0, 300, 0, 'cm', '', 0, 0, 0, 0),
-(3, 'slider2', '<p>wtf</p>', '2013-09-05 15:21:07', '2013-09-15 19:19:39', 8, 'Cuoojc doi quanh hieu', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file30.jpg', 1, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(4, 'feedback', '', '2013-09-05 15:36:33', '2013-09-08 19:25:19', 8, '', 1, '', 1, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(7, 'what', '', '2013-09-06 12:47:32', '2013-09-16 15:58:05', 8, '', 1, '', 0, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(8, 'day ne', '', '2013-09-06 12:47:47', '2013-09-16 15:56:45', 8, '', 1, '', 0, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(9, 'hajshjdhahsudasdsad', '', '2013-09-06 12:48:24', '2013-09-06 14:40:03', 8, '', 1, '', 0, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(38, 'About me', '<p>Giới thiệu về bản th&acirc;n ở đ&acirc;y</p>', '2013-09-14 12:46:19', '2013-09-14 12:46:19', 8, 'Chưa có', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file51.jpg', 1, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(40, 'sdfsdfsdf', '', '2013-09-14 14:00:25', '2013-09-14 14:00:25', 8, 'sdfsdfsdfsdf', 1, '', 0, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(41, 'ertret', '<p>ertertrt</p>', '2013-09-14 14:00:35', '2013-09-14 14:00:35', 8, 'ertertert', 1, '', 0, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(42, 'rtyr', '', '2013-09-14 14:10:28', '2013-09-15 15:44:24', 8, 'ytryrtytr', 1, '', 0, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(43, 'Tranh vẽ trên lá chuối', '<p class="Normal" style="font-size: 16px;">Trưa 15/9, gần 12 tiếng sau khi ngọn lửa b&ugrave;ng ph&aacute;t, lực lượng chữa ch&aacute;y đ&atilde; cơ bản khống chế được hỏa hoạn<span style="font-size: 11.8pt;"> tại </span>Trung t&acirc;m Thương mại TP Hải Dương.<span style="font-size: 11.8pt;"> Tuy nhi&ecirc;n kh&oacute;i vẫn bốc m&ugrave; mịt, hơi n&oacute;ng ng&ugrave;n ngụt c&ugrave;ng c&aacute;c mảnh vỡ từ trần trong c&aacute;c kiot tiếp tục rơi.<br /></span></p>', '2013-09-15 15:20:38', '2013-09-15 15:39:20', 8, 'Mo ta tai day', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]xuan_044.jpg', 1, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(44, 'Day nua ne', '<p>day nua ne ba con</p>', '2013-09-15 15:25:36', '2013-09-15 15:44:52', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file30.jpg', 1, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(47, 'sdadsad', '', '2013-09-15 15:58:00', '2013-09-15 17:26:16', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]windows_8_wallpaper_download_metro20.jpg', 1, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(50, 'Địa chỉ phòng tranh', '<p>- <strong>Showroom 1:</strong> Số 50, đường Thi&ecirc;n Sơn Tự, TP Tr&agrave; Vinh, tỉnh Tr&agrave; Vinh.</p>\r\n<p>- <strong>Showroom 2:</strong> Số 37, đường C&aacute;ch mạng th&aacute;ng 8, quận 1, TP HCM.</p>', '2013-09-15 17:16:40', '2013-09-15 18:43:12', 8, '', 1, '', 1, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(53, 'day nua ne 232323 34234', '<p>hjhjj</p>', '2013-09-15 19:13:13', '2013-12-06 20:30:27', 8, 'hjhjhjhj', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]xuan_035.jpg', 0, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(54, 'Liên kết mạng xã hội', '<p>-Facebook:</p>\r\n<p>-Twitter:</p>\r\n<p>-Youtube:</p>', '2013-09-15 19:14:24', '2013-09-15 19:14:24', 8, '', 1, '', 1, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(55, 'Hỗ trợ mua hàng', '<p><strong>-Yahoo:</strong></p>\r\n<p><img src="http://opi.yahoo.com/online?u=quocdunginfo&amp;m=g&amp;t=2" alt="" /></p>\r\n<p><strong><br />-Số điện thoại đặt h&agrave;ng</strong><br />+84 97 999 6 234<br />+84 1689 178 7 235</p>', '2013-09-15 19:14:53', '2013-11-05 18:48:32', 8, '', 1, '', 1, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(56, 'Chuẩn bị tinh thần vào đại học', '<p>14h chiều nay, l&atilde;nh đạo tỉnh Hải Dương đ&atilde; triệu tập họp khẩn cấp. Chủ tịch UBND tỉnh Nguyễn Mạnh Hiển cho hay, vụ ch&aacute;y kh&ocirc;ng g&acirc;y thiệt hại về người song t&agrave;i sản thiệt hại ước t&iacute;nh l&ecirc;n tới 500 tỷ đồng, trong đ&oacute; khoảng 100 tỷ l&agrave; cơ sở vật chất, số c&ograve;n lại l&agrave; t&agrave;i sản của c&aacute;c hộ kinh doanh.</p>', '2013-09-15 19:15:17', '2013-12-09 13:25:41', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file30.jpg', 1, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(58, 'sdsdgsdg', '', '2013-09-16 07:15:19', '2013-12-07 11:45:52', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file51.jpg', 2, 'JHU', 0, 12, 34, 'cm', '3123', 0, 0, 0, 0),
-(60, 'bai 1', '', '2013-09-16 16:25:06', '2013-12-09 09:41:32', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]toshiba_lightfield_module_aj201212270055.jpg', 2, 'RAW60', 0, 0, 0, 'cm', '2000000', 0, 0, 0, 0),
-(61, 'bai2', '', '2013-09-16 16:25:24', '2013-12-09 09:35:41', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]xuan_035.jpg', 2, 'RAW61', 0, 0, 0, 'cm', '0', 0, 0, 0, 0),
-(63, 'bai 4', '', '2013-09-16 16:25:38', '2013-12-09 09:40:13', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]alo/avarta.jpg', 2, 'RAW63', 0, 0, 0, 'cm', '0', 0, 0, 0, 0),
-(64, 'bai 5', '<p>Chưa c&oacute; g&igrave; đ&acirc;u mấy th&iacute;m</p>\r\n<p><img src="/cms/application/_static/upload/1blackberry_wallpaper.png" alt="1blackberry_wallpaper" /></p>', '2013-09-16 16:25:46', '2013-12-10 08:19:27', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]windows_8_wallpaper_download_metro20.jpg', 2, 'RAW64', 1, 12, 23, 'inch', '12000', 0, 0, 0, 0),
-(65, 'sadsds', '<p>aloajksjkdasd</p>\r\n<p>&nbsp;</p>', '2013-12-07 11:01:45', '2013-12-09 13:47:41', 8, 'ererer', 0, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]windows_8_wallpaper_download_metro20.jpg', 2, 'RAW65', 11, 34, 12, 'cm', '13445', 1, 0, 0, 0),
-(74, 'sdfgsdg sg sdf sdg sg sdgf sdg ', '<p>-Triễn l&atilde;m diễn ra từ ng&agrave;y 20-4-2013 đến n&agrave;y 23-4-2013 tại viện đại học Vạn Hạnh.<br /><br /></p>\r\n<p>&nbsp;</p>\r\n<div id="__m_w_ucNavigatorBar19">\r\n<h2>Hoạt động của JUACH</h2>\r\n<h2>TH&Ocirc;NG B&Aacute;O CHƯƠNG TR&Igrave;NH KHAI MẠC TRIỂN L&Atilde;M TRANH</h2>\r\n</div>\r\n<div class="pc_header">\r\n<div>&nbsp;</div>\r\n</div>\r\n<div class="pc_brief">\r\n<div style="margin: 0mm 0mm 0pt; text-align: left;" align="left"><span style="font-size: 12pt; font-family: ''Times New Roman'';">C&ocirc;ng ty Minh Tr&acirc;n - Trường Doanh Thương Tr&iacute; Dũng phối hợp với Bảo t&agrave;ng Chứng t&iacute;ch Chiến tranh v&agrave; Sở Văn H&oacute;a&ndash;Thể Thao&ndash;Du Lịch&nbsp;Tp. HCM tổ chức triển l&atilde;m tranh thiếu nhi với chủ đề:<br />&nbsp;<strong>&ldquo;Chia sẻ với nh&acirc;n d&acirc;n Nhật Bản&nbsp;</strong><strong>sau thảm họa th&aacute;ng 03 năm 2011&rdquo;</strong></span></div>\r\n</div>\r\n<p><span lang="EN-US" style="font-size: 12pt; font-family: ''Times New Roman'';">Triển l&atilde;m sẽ diễn ra từ ng&agrave;y 12/05/2012 đến ng&agrave;y 01/06/2012<br /><em><span lang="EN-US">(Giờ mở cửa tham quan từ 9:00 đến 16:00, từ Thứ Hai đến thứ Bảy trong tuần)</span></em>&nbsp;<br /><br />Đ&acirc;y l&agrave; 50 tranh của c&aacute;c em thiếu nhi được chọn ra sau đợt thi &ldquo;N&eacute;t Vẽ Xanh&rdquo; lần thứ 14 năm 2011 tại Bảo t&agrave;ng Chứng t&iacute;ch Chiến tranh.Bằng những suy nghĩ v&agrave; cảm x&uacute;c ch&acirc;n th&agrave;nh của m&igrave;nh, c&aacute;c em thiếu nhi Tp. HCM lu&ocirc;n mong muốn được thể hiện sự đồng cảm, chia sẻv&agrave; kh&acirc;m phục với thiếu nhi v&agrave; nh&acirc;n d&acirc;n Nhật Bản đ&atilde; phấn đấu vươn l&ecirc;n sau thảm họa.<br /><br />Thời gian: &nbsp;15:00, thứ S&aacute;u ng&agrave;y 11 / 05 / 2012&middot; &nbsp; &nbsp; <br />&nbsp;Địa điểm: &nbsp;Vườn Minh Tr&acirc;n&nbsp; &nbsp; &nbsp;51 Cống Lở, P. 15, Q. T&acirc;n B&igrave;nh, Tp. HCM.(Đ&iacute;nh k&egrave;m sơ đồ đường đi)<br />Ph&iacute; tham dự 200.000 VND/ người.<br /><br /><strong><em><span lang="EN-US">V&igrave;</span></em></strong><strong><span lang="EN-US"> THƯ MỜI </span></strong><strong><em><span lang="EN-US">đặc biệt miễn ph&iacute; tiệc tham dự c&oacute; hạn, xin vui l&ograve;ng li&ecirc;n lạc sớm.</span></em></strong></span></p>', '2013-09-23 18:04:52', '2013-12-06 20:29:21', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]1blackberry_wallpaper.png', 0, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(75, 'moi them vao', '', '2013-10-05 17:09:02', '2013-11-09 07:54:27', 0, '', 1, '', 0, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(106, '', '', '2013-12-07 15:14:39', '2013-12-07 15:14:39', 0, '', 1, '', 4, '', 0, 0, 0, 'cm', '', 0, 65, 1, 109000),
-(107, '', '', '2013-12-07 15:14:39', '2013-12-07 15:14:39', 0, '', 1, '', 4, '', 0, 0, 0, 'cm', '', 0, 88, 2, 200000),
-(108, '', '', '2013-12-08 14:06:11', '2013-12-08 14:06:11', 0, '', 1, '', 4, '', 0, 0, 0, 'cm', '', 0, 65, 1, 109000),
-(109, '', '', '2013-12-08 14:06:11', '2013-12-08 14:06:11', 0, '', 1, '', 4, '', 0, 0, 0, 'cm', '', 0, 88, 2, 200000),
-(110, 'Default Template', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'front', 1, '', 5, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(111, 'Dark Style (Default template)', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'front_style_2', 1, '', 5, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(112, '', '', '2013-12-13 16:23:29', '2013-12-13 16:23:29', 0, '', 1, '', 4, '', 0, 0, 0, 'cm', '', 0, 64, 1, 12000),
-(113, '', '', '2013-12-13 16:26:31', '2013-12-13 16:26:31', 0, '', 1, '', 4, '', 0, 0, 0, 'cm', '', 0, 64, 1, 12000),
-(114, '', '', '2013-12-13 16:31:03', '2013-12-13 16:31:03', 0, '', 1, '', 4, '', 0, 0, 0, 'cm', '', 0, 64, 1, 12000),
-(115, '', '', '2013-12-13 16:32:22', '2013-12-13 16:32:22', 0, '', 1, '', 4, '', 0, 0, 0, 'cm', '', 0, 64, 1, 12000),
-(117, 'alo', '<p>dfgfgfg</p>', '2013-12-13 16:43:09', '2013-12-13 16:43:09', 0, 'srgdfg', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]xuan_035.jpg', 0, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(118, 'sua', '<p>hjshjdsfd</p>', '2013-12-13 16:47:10', '2013-12-13 16:47:10', 0, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file30.jpg', 0, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(120, 'kakaka', '', '2013-12-13 16:47:37', '2013-12-13 16:47:37', 9, 'aloha', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]alo/avarta.jpg', 0, '', 0, 0, 0, 'cm', '', 0, 0, 0, 0),
-(122, 'wtf', '<p>sdgdsfgfg</p>', '2013-12-13 16:53:49', '2013-12-13 16:53:49', 9, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file51.jpg', 2, '34', 4, 13, 23, 'inch', '1234', 0, 0, 0, 0),
-(123, 'bai 3', '', '2013-12-13 16:54:09', '2013-12-13 16:54:09', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]bb_picture.jpg', 2, 'RAW62', 0, 0, 0, 'cm', '12000', 0, 0, 0, 0);
+INSERT INTO `post` (`id`, `title`, `content`, `date_create`, `date_modify`, `user_id`, `content_lite`, `active`, `avatar`, `special`, `optional1`, `optional2`, `art_id`, `art_count`, `art_width`, `art_height`, `art_sizeunit`, `art_price`, `art_sold`, `order_product_id`, `order_count`, `order_unitprice`) VALUES
+(1, 'Slider11456', '<p>alo1235</p>', '2013-09-05 14:52:19', '2013-09-15 19:19:16', 8, 'alo1234', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]windows_8_wallpaper_download_metro20.jpg', 1, '', '', '', 0, 300, 0, 'cm', 0, 0, 0, 0, 0),
+(3, 'slider2', '<p>wtf</p>', '2013-09-05 15:21:07', '2013-09-15 19:19:39', 8, 'Cuoojc doi quanh hieu', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file30.jpg', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(4, 'feedback', '', '2013-09-05 15:36:33', '2013-09-08 19:25:19', 8, '', 1, '', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(7, 'what', '', '2013-09-06 12:47:32', '2013-09-16 15:58:05', 8, '', 1, '', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(8, 'day ne', '', '2013-09-06 12:47:47', '2013-09-16 15:56:45', 8, '', 1, '', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(9, 'hajshjdhahsudasdsad', '', '2013-09-06 12:48:24', '2013-09-06 14:40:03', 8, '', 1, '', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(38, 'About me', '<p>Giới thiệu về bản th&acirc;n ở đ&acirc;y</p>', '2013-09-14 12:46:19', '2013-09-14 12:46:19', 8, 'Chưa có', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file51.jpg', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(40, 'sdfsdfsdf', '', '2013-09-14 14:00:25', '2013-09-14 14:00:25', 8, 'sdfsdfsdfsdf', 1, '', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(41, 'ertret', '<p>ertertrt</p>', '2013-09-14 14:00:35', '2013-09-14 14:00:35', 8, 'ertertert', 1, '', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(42, 'rtyr', '', '2013-09-14 14:10:28', '2013-09-15 15:44:24', 8, 'ytryrtytr', 1, '', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(43, 'Tranh vẽ trên lá chuối', '<p class="Normal" style="font-size: 16px;">Trưa 15/9, gần 12 tiếng sau khi ngọn lửa b&ugrave;ng ph&aacute;t, lực lượng chữa ch&aacute;y đ&atilde; cơ bản khống chế được hỏa hoạn<span style="font-size: 11.8pt;"> tại </span>Trung t&acirc;m Thương mại TP Hải Dương.<span style="font-size: 11.8pt;"> Tuy nhi&ecirc;n kh&oacute;i vẫn bốc m&ugrave; mịt, hơi n&oacute;ng ng&ugrave;n ngụt c&ugrave;ng c&aacute;c mảnh vỡ từ trần trong c&aacute;c kiot tiếp tục rơi.<br /></span></p>', '2013-09-15 15:20:38', '2013-09-15 15:39:20', 8, 'Mo ta tai day', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]xuan_044.jpg', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(44, 'Day nua ne', '<p>day nua ne ba con</p>', '2013-09-15 15:25:36', '2013-09-15 15:44:52', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file30.jpg', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(47, 'sdadsad', '', '2013-09-15 15:58:00', '2013-09-15 17:26:16', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]windows_8_wallpaper_download_metro20.jpg', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(50, 'Địa chỉ phòng tranh', '<p>- <strong>Showroom 1:</strong> Số 50, đường Thi&ecirc;n Sơn Tự, TP Tr&agrave; Vinh, tỉnh Tr&agrave; Vinh.</p>\r\n<p>- <strong>Showroom 2:</strong> Số 37, đường C&aacute;ch mạng th&aacute;ng 8, quận 1, TP HCM.</p>', '2013-09-15 17:16:40', '2013-09-15 18:43:12', 8, '', 1, '', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(53, 'day nua ne 232323 34234', '<p>hjhjj</p>', '2013-09-15 19:13:13', '2013-12-06 20:30:27', 8, 'hjhjhjhj', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]xuan_035.jpg', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(54, 'Liên kết mạng xã hội', '<p>-Facebook:</p>\r\n<p>-Twitter:</p>\r\n<p>-Youtube:</p>', '2013-09-15 19:14:24', '2013-09-15 19:14:24', 8, '', 1, '', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(55, 'Hỗ trợ mua hàng', '<p><strong>-Yahoo:</strong></p>\r\n<p><img src="http://opi.yahoo.com/online?u=quocdunginfo&amp;m=g&amp;t=2" alt="" /></p>\r\n<p><strong><br />-Số điện thoại đặt h&agrave;ng</strong><br />+84 97 999 6 234<br />+84 1689 178 7 235</p>', '2013-09-15 19:14:53', '2013-11-05 18:48:32', 8, '', 1, '', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(56, 'Chuẩn bị tinh thần vào đại học', '<p>14h chiều nay, l&atilde;nh đạo tỉnh Hải Dương đ&atilde; triệu tập họp khẩn cấp. Chủ tịch UBND tỉnh Nguyễn Mạnh Hiển cho hay, vụ ch&aacute;y kh&ocirc;ng g&acirc;y thiệt hại về người song t&agrave;i sản thiệt hại ước t&iacute;nh l&ecirc;n tới 500 tỷ đồng, trong đ&oacute; khoảng 100 tỷ l&agrave; cơ sở vật chất, số c&ograve;n lại l&agrave; t&agrave;i sản của c&aacute;c hộ kinh doanh.</p>', '2013-09-15 19:15:17', '2013-12-09 13:25:41', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file30.jpg', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(58, 'sdsdgsdg', '', '2013-09-16 07:15:19', '2013-12-07 11:45:52', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file51.jpg', 2, '', '', 'JHU', 0, 12, 34, 'cm', 3123, 0, 0, 0, 0),
+(60, 'bai 1', '', '2013-09-16 16:25:06', '2013-12-09 09:41:32', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]toshiba_lightfield_module_aj201212270055.jpg', 2, '', '', 'RAW60', 0, 0, 0, 'cm', 2000000, 0, 0, 0, 0),
+(61, 'bai2', '', '2013-09-16 16:25:24', '2013-12-09 09:35:41', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]xuan_035.jpg', 2, '', '', 'RAW61', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(63, 'bai 4', '', '2013-09-16 16:25:38', '2013-12-09 09:40:13', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]alo/avarta.jpg', 2, '', '', 'RAW63', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(64, 'bai 5', '<p>Chưa c&oacute; g&igrave; đ&acirc;u mấy th&iacute;m</p>\r\n<p><img src="/cms/application/_static/upload/1blackberry_wallpaper.png" alt="1blackberry_wallpaper" /></p>', '2013-09-16 16:25:46', '2013-12-10 08:19:27', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]windows_8_wallpaper_download_metro20.jpg', 2, '', '', 'RAW64', 1, 12, 23, 'inch', 12000, 0, 0, 0, 0),
+(65, 'sadsds', '<p>aloajksjkdasd</p>\r\n<p>&nbsp;</p>', '2013-12-07 11:01:45', '2013-12-09 13:47:41', 8, 'ererer', 0, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]windows_8_wallpaper_download_metro20.jpg', 2, '', '', 'RAW65', 11, 34, 12, 'cm', 13445, 1, 0, 0, 0),
+(74, 'sdfgsdg sg sdf sdg sg sdgf sdg ', '<p>-Triễn l&atilde;m diễn ra từ ng&agrave;y 20-4-2013 đến n&agrave;y 23-4-2013 tại viện đại học Vạn Hạnh.<br /><br /></p>\r\n<p>&nbsp;</p>\r\n<div id="__m_w_ucNavigatorBar19">\r\n<h2>Hoạt động của JUACH</h2>\r\n<h2>TH&Ocirc;NG B&Aacute;O CHƯƠNG TR&Igrave;NH KHAI MẠC TRIỂN L&Atilde;M TRANH</h2>\r\n</div>\r\n<div class="pc_header">\r\n<div>&nbsp;</div>\r\n</div>\r\n<div class="pc_brief">\r\n<div style="margin: 0mm 0mm 0pt; text-align: left;" align="left"><span style="font-size: 12pt; font-family: ''Times New Roman'';">C&ocirc;ng ty Minh Tr&acirc;n - Trường Doanh Thương Tr&iacute; Dũng phối hợp với Bảo t&agrave;ng Chứng t&iacute;ch Chiến tranh v&agrave; Sở Văn H&oacute;a&ndash;Thể Thao&ndash;Du Lịch&nbsp;Tp. HCM tổ chức triển l&atilde;m tranh thiếu nhi với chủ đề:<br />&nbsp;<strong>&ldquo;Chia sẻ với nh&acirc;n d&acirc;n Nhật Bản&nbsp;</strong><strong>sau thảm họa th&aacute;ng 03 năm 2011&rdquo;</strong></span></div>\r\n</div>\r\n<p><span lang="EN-US" style="font-size: 12pt; font-family: ''Times New Roman'';">Triển l&atilde;m sẽ diễn ra từ ng&agrave;y 12/05/2012 đến ng&agrave;y 01/06/2012<br /><em><span lang="EN-US">(Giờ mở cửa tham quan từ 9:00 đến 16:00, từ Thứ Hai đến thứ Bảy trong tuần)</span></em>&nbsp;<br /><br />Đ&acirc;y l&agrave; 50 tranh của c&aacute;c em thiếu nhi được chọn ra sau đợt thi &ldquo;N&eacute;t Vẽ Xanh&rdquo; lần thứ 14 năm 2011 tại Bảo t&agrave;ng Chứng t&iacute;ch Chiến tranh.Bằng những suy nghĩ v&agrave; cảm x&uacute;c ch&acirc;n th&agrave;nh của m&igrave;nh, c&aacute;c em thiếu nhi Tp. HCM lu&ocirc;n mong muốn được thể hiện sự đồng cảm, chia sẻv&agrave; kh&acirc;m phục với thiếu nhi v&agrave; nh&acirc;n d&acirc;n Nhật Bản đ&atilde; phấn đấu vươn l&ecirc;n sau thảm họa.<br /><br />Thời gian: &nbsp;15:00, thứ S&aacute;u ng&agrave;y 11 / 05 / 2012&middot; &nbsp; &nbsp; <br />&nbsp;Địa điểm: &nbsp;Vườn Minh Tr&acirc;n&nbsp; &nbsp; &nbsp;51 Cống Lở, P. 15, Q. T&acirc;n B&igrave;nh, Tp. HCM.(Đ&iacute;nh k&egrave;m sơ đồ đường đi)<br />Ph&iacute; tham dự 200.000 VND/ người.<br /><br /><strong><em><span lang="EN-US">V&igrave;</span></em></strong><strong><span lang="EN-US"> THƯ MỜI </span></strong><strong><em><span lang="EN-US">đặc biệt miễn ph&iacute; tiệc tham dự c&oacute; hạn, xin vui l&ograve;ng li&ecirc;n lạc sớm.</span></em></strong></span></p>', '2013-09-23 18:04:52', '2013-12-06 20:29:21', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]1blackberry_wallpaper.png', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(75, 'moi them vao', '', '2013-10-05 17:09:02', '2013-11-09 07:54:27', 0, '', 1, '', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(106, '', '', '2013-12-07 15:14:39', '2013-12-07 15:14:39', 0, '', 1, '', 4, '', '', '', 0, 0, 0, 'cm', 0, 0, 65, 1, 109000),
+(107, '', '', '2013-12-07 15:14:39', '2013-12-07 15:14:39', 0, '', 1, '', 4, '', '', '', 0, 0, 0, 'cm', 0, 0, 88, 2, 200000),
+(108, '', '', '2013-12-08 14:06:11', '2013-12-08 14:06:11', 0, '', 1, '', 4, '', '', '', 0, 0, 0, 'cm', 0, 0, 65, 1, 109000),
+(109, '', '', '2013-12-08 14:06:11', '2013-12-08 14:06:11', 0, '', 1, '', 4, '', '', '', 0, 0, 0, 'cm', 0, 0, 88, 2, 200000),
+(110, 'Default Template', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'front', 1, '', 5, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(111, 'Dark Style (Default template)', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'front_style_2', 1, '', 5, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(112, '', '', '2013-12-13 16:23:29', '2013-12-13 16:23:29', 0, '', 1, '', 4, '', '', '', 0, 0, 0, 'cm', 0, 0, 64, 1, 12000),
+(113, '', '', '2013-12-13 16:26:31', '2013-12-13 16:26:31', 0, '', 1, '', 4, '', '', '', 0, 0, 0, 'cm', 0, 0, 64, 1, 12000),
+(114, '', '', '2013-12-13 16:31:03', '2013-12-13 16:31:03', 0, '', 1, '', 4, '', '', '', 0, 0, 0, 'cm', 0, 0, 64, 1, 12000),
+(115, '', '', '2013-12-13 16:32:22', '2013-12-13 16:32:22', 0, '', 1, '', 4, '', '', '', 0, 0, 0, 'cm', 0, 0, 64, 1, 12000),
+(117, 'alo', '<p>dfgfgfg</p>', '2013-12-13 16:43:09', '2013-12-13 16:43:09', 0, 'srgdfg', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]xuan_035.jpg', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(118, 'sua', '<p>hjshjdsfd</p>', '2013-12-13 16:47:10', '2013-12-13 16:47:10', 0, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file30.jpg', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(120, 'kakaka', '', '2013-12-13 16:47:37', '2013-12-13 16:47:37', 9, 'aloha', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]alo/avarta.jpg', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(122, 'wtf', '<p>sdgdsfgfg</p>', '2013-12-13 16:53:49', '2013-12-15 18:47:48', 9, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file51.jpg', 2, '', '', '34', 4, 13, 23, 'inch', 1234, 0, 0, 0, 0),
+(123, 'bai 3', '', '2013-12-13 16:54:09', '2013-12-13 16:54:09', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]bb_picture.jpg', 2, '', '', 'RAW62', 0, 0, 0, 'cm', 12000, 0, 0, 0, 0),
+(124, '', '', '2013-12-15 14:16:40', '2013-12-15 14:16:40', 0, '', 1, '', 4, '', '', '', 0, 0, 0, 'cm', 0, 0, 122, 1, 1234),
+(125, '', '', '2013-12-15 14:19:43', '2013-12-15 14:19:43', 0, '', 1, '', 4, '', '', '', 0, 0, 0, 'cm', 0, 0, 122, 1, 1234),
+(127, 'alo', 'hahaa', '2013-12-15 18:20:33', '2013-12-15 18:20:33', 9, '', 1, '', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -458,7 +465,11 @@ INSERT INTO `post_category` (`post_id`, `cat_id`) VALUES
 (122, 47),
 (122, 63),
 (123, 48),
-(123, 49);
+(123, 49),
+(124, 80),
+(125, 81),
+(126, 39),
+(127, 39);
 
 -- --------------------------------------------------------
 
@@ -564,7 +575,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `active` int(11) NOT NULL DEFAULT '1',
   `special` int(11) NOT NULL DEFAULT '0' COMMENT '0: manager, 1: customer',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `user`
@@ -572,8 +583,10 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id`, `username`, `fullname`, `birth`, `sex`, `password`, `group_id`, `date_create`, `date_modify`, `email`, `address`, `phone`, `active`, `special`) VALUES
 (8, 'quocdunginfo', 'Nguyen Dung2', '0000-00-00 00:00:00', 1, '356a192b7913b04c54574d18c28d46e6395428ab', 2, '0000-00-00 00:00:00', '2013-12-01 18:57:12', 'alo', 'Nguyen Trai', '097852678', 1, 0),
-(9, 'admin', 'Quarn trij2222', '0000-00-00 00:00:00', 1, 'd033e22ae348aeb5660fc2140aec35850c4da997', 1, '0000-00-00 00:00:00', '2013-12-01 19:37:33', 'quocdunginfo@gmai.com', 'Tran Hung Dao', '0979996234', 1, 0),
-(11, 'mi', 'Trần Thị Khách Hàng', '0000-00-00 00:00:00', 1, '9c51ad8660eaae45f7965cd83d1f447cf6378547', 2, '2013-12-01 19:01:27', '2013-12-01 19:01:27', 'hellogirl@yahoo.com', 'Trần Phú', '01699969145', 1, 1);
+(9, 'admin', 'dung2', '0000-00-00 00:00:00', 1, 'd033e22ae348aeb5660fc2140aec35850c4da997', 1, '0000-00-00 00:00:00', '2013-12-15 15:05:01', 'quocdunginfo@gmail.com', '', '', 1, 0),
+(11, 'mi', 'Trần Thị Khách Hàng', '0000-00-00 00:00:00', 1, '9c51ad8660eaae45f7965cd83d1f447cf6378547', 2, '2013-12-01 19:01:27', '2013-12-14 18:43:00', 'hellogirl@yahoo.com', 'Trần Phú', '01699969145', 1, 0),
+(12, 'hoang', 'Hoàng', '0000-00-00 00:00:00', 1, '356a192b7913b04c54574d18c28d46e6395428ab', 0, '2013-12-14 18:36:09', '2013-12-14 18:57:53', 'h@hjhj.com', 'ádsdsd', '3456789', 0, 1),
+(13, 'bekim', 'Xì Kim', '0000-00-00 00:00:00', 1, '479f92cbec6d7b041a874a4b7757c96a50ec1295', 0, '2013-12-15 15:09:28', '2013-12-15 15:18:19', 'alo@gmail.com.vn', 'jk', 'al', 1, 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

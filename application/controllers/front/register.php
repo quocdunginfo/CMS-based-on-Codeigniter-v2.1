@@ -19,7 +19,7 @@ class Register extends Home {
             }
             redirect('front/account');
         }
-        $captcha = self::new_captcha();
+        $captcha = parent::_new_captcha();
         $obj = new User_model;        
         $this->_data['user0'] = $obj;
         $this->_data['captcha_name'] = $captcha['name'];
@@ -63,7 +63,7 @@ class Register extends Home {
             return;
         }
         
-        $captcha = self::new_captcha();
+        $captcha = parent::_new_captcha();
         $this->_data['captcha_name'] = $captcha['name'];
         $this->_data['captcha_value'] = $captcha['value'];
         //show error
@@ -72,18 +72,5 @@ class Register extends Home {
         $this->_data['password'] = $input['password'];
         $this->_data['password2'] = $input['password2'];
         parent::_view('register',$this->_data);
-    }
-    protected function new_captcha()
-    {
-        $re = array('name' => '','value'=> '');
-        //random name and value
-        $re['name'] = random_string('alnum', rand(8,16));
-        $re['value'] = random_string('nozero', 3);
-        //save to session
-        $this->session->set_userdata(
-            array('captcha_name' => $re['name'],'captcha_value' => $re['value'])
-        );
-        //return array
-        return $re;
     }
 }

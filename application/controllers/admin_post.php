@@ -62,15 +62,27 @@ class Admin_post extends Admin {
         
         $this->_data['html_title'].=' - '.$post_obj->title;
         //load view base on special
+        $tmp = new Cat_model;
+        $setting = new Setting_model;
         switch ($post_obj->special)
         {
             case 0:
                 break;
             case 1:
+                //nếu như mà là feedback post
+                $tmp = new Cat_model;
+                $tmp->id = $setting->get_by_key('feedback_category');
+                $tmp->load();
+                
+                if($tmp->is_contain_post($get['post_id']))
+                {
+                    redirect('admin_feedback/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
+                    return;   
+                }
                 break;
             case 2:
                 redirect('admin_painting_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
-                break;
+                return;
         }
         $this->load->view('admin/post',$this->_data);
     }

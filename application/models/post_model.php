@@ -8,6 +8,8 @@ class Post_model extends CI_Model {
     public $content_lite='';
     public $active=1;
     public $special=0;
+    public $optional1='';
+    public $optional2='';
     protected $avatar='';//can be set, lúc nào cũng ở dạng CSDL
     protected $avatar_thumb='';//get only, lúc nào cũng ở dạng CSDL
     //non-table
@@ -204,6 +206,8 @@ class Post_model extends CI_Model {
                 $this->content_lite=$row->content_lite;
                 $this->active=$row->active;
                 $this->special=$row->special;
+                $this->optional1=$row->optional1;
+                $this->optional2=$row->optional2;
                 $this->avatar=$row->avatar;      
                 $this->date_create=$row->date_create;
                 $this->date_modify=$row->date_modify;            
@@ -230,6 +234,8 @@ class Post_model extends CI_Model {
                'active' => $this->active,
                'avatar' => $this->avatar,
                'special' => $this->special,
+               'optional1' => $this->optional1,
+               'optional2' => $this->optional2,
                'date_modify' => date('Y-m-d H:i:s'),
                'date_create' => $this->date_create,
                'content_lite' => $this->content_lite
