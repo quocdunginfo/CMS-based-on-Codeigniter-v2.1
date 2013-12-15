@@ -56,14 +56,8 @@ class Register extends Home {
             $obj->set_password($input['password']);
             //call add
             $obj->add();
-            //auto logon by set session
-                //set session
-                    $array= array(
-                         'user_id'    => $obj->id,
-                         'user_password' => $obj->get_password()
-                    );
-                    $this->session->set_userdata($array);
-                $this->_user = $obj;
+            $this->_user = $obj;
+            parent::_save_user_to_session();
             
             redirect('front/register');
             return;

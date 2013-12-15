@@ -5,6 +5,11 @@ $this->load->view('front/header');
 ?>
 <div id="content" class="float_r">
     <h2>Giỏ hàng</h2>
+    <?php if(sizeof($giohang->get_order_detail_list())<=0) { ?>
+    <div style="color:red; font-size:14px; margin-bottom:10px;">
+        Chưa có sản phẩm nào trong giỏ hàng
+    </div>
+    <?php } ?>
     <table width="680px" cellspacing="0" cellpadding="5">
         <tbody>
             <tr bgcolor="#ddd">
@@ -15,11 +20,7 @@ $this->load->view('front/header');
                 <th width="130" align="right">Tổng cộng</th>
                 <th width="20"></th>
             </tr>
-            <tr>
-                <td colspan="7">
-                    
-                </td>
-            </tr>
+            
             <?php foreach($giohang->get_order_detail_list() as $item) { ?>
             <tr>
                 <td>

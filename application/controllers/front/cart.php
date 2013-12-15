@@ -4,8 +4,8 @@ class Cart extends Home {
     public function __construct()
     {
         parent::__construct();
-        $this->_data['html_title'].=' - Products';
-        $this->_data['active_menu'] = array('front_products');
+        $this->_data['html_title'].=' - Cart';
+        $this->_data['active_menu'] = array('front_cart');
     }
     public function index()
     {
@@ -166,6 +166,11 @@ class Cart extends Home {
         $this->_giohang->add();
         //send email (optional)
         //...
+        //clear cart on session
+        parent::_khoitao_giohang();
+        parent::_luu_giohang();
+        //update to view ngay vaf luoon
+        $this->_data['giohang'] = $this->_giohang;
         //show OK message
         parent::_view('cart_finish',$this->_data);
         //done process
@@ -193,6 +198,7 @@ class Cart extends Home {
         if($this->_giohang->order_online_payment==1)
         {
             //show online payment emulation
+            $this->_data['html_title'] .=' - Online payment';
             parent::_view('cart_online_payment',$this->_data);
             return;
         }

@@ -162,4 +162,19 @@ class Home extends CI_Controller {
     {
         $_SESSION['f_timkiem_sanpham'] = $this->_timkiem_sanpham;
     } 
+    protected function _save_user_to_session()
+    {
+        if($this->_user==null)
+        {
+            return;
+        }
+        //get full info
+        $this->_user->load_by_username();
+        //set session
+            $array= array(
+                 'user_id'    => $this->_user->id,
+                 'user_password' => $this->_user->get_password()
+            );
+            $this->session->set_userdata($array);
+    }
 }

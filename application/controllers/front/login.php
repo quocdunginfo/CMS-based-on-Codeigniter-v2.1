@@ -19,6 +19,7 @@ class Login extends Home {
                 return;
             }
             redirect('front');
+            return;
         }
         //view form
         $this->_data['pre_username'] = $this->_temp!=null?$this->_temp:'';
@@ -35,16 +36,8 @@ class Login extends Home {
         $obj->set_password($input['password']);
         if($obj->login_by_username()==true)
         {
-            //login ok
-                //get full info
-                $obj->load_by_username();
-                //set session
-                    $array= array(
-                         'user_id'    => $obj->id,
-                         'user_password' => $obj->get_password()
-                    );
-                    $this->session->set_userdata($array);
-                $this->_user = $obj;
+            $this->_user = $obj;
+            parent::_save_user_to_session();
         }
         else
         {
