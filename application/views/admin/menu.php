@@ -116,7 +116,7 @@ $this->load->view('admin/header');
                                     //get alt of selected option
                                     $selector = $("#menu_provider_id option:selected").attr("alt");
                                     window.open($selector,'popuppage',
-      'width=600,toolbar=1,resizable=1,scrollbars=yes,height=400,top=100,left=100');
+      'width=800,toolbar=1,resizable=1,scrollbars=yes,height=600,top=100,left=100');
                                 }
                                 function qd_menu_param(value)
                                 {

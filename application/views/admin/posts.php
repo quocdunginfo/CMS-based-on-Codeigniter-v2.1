@@ -132,7 +132,7 @@ $page_total = $pagination->total_page;
                             </tbody>
                         </table>
                         </form>
-                        <div class="pager" id="pager">
+                        <div class="pager" id="pager" style="width: 600px;">
                             <form action="">
                                 
                                 <div>
@@ -155,7 +155,7 @@ $page_total = $pagination->total_page;
                                 </div>
                             </form>
                         </div>
-                        <div class="table-apply">
+                        <div class="table-apply" style="display: none;">
                             <form action="">
                             <div>
                             <span>Apply action to selected:</span> 
