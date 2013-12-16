@@ -9,6 +9,7 @@ class Home extends CI_Controller {
     protected $_giohang = null;
     protected $_tpl = 'front/';
     protected $_timkiem_sanpham = array();
+    protected $_timkiem_nangcao = array();
     public function __construct()
     {
         parent::__construct();
@@ -110,6 +111,17 @@ class Home extends CI_Controller {
                 //gio hang da co trong session
                 $this->_timkiem_sanpham = $_SESSION['f_timkiem_sanpham'];
             }
+        //xur ly session tim kiem nangcao
+            if(!isset($_SESSION['f_timkiem_nangcao']))
+            {
+                self::_khoitao_timkiem_nangcao();
+                self::_luu_timkiem_nangcao();
+            }
+            else
+            {
+                //gio hang da co trong session
+                $this->_timkiem_nangcao = $_SESSION['f_timkiem_nangcao'];
+            }
         //get model
         $model_cat = new Painting_cat_model;
         //common view data
@@ -120,6 +132,7 @@ class Home extends CI_Controller {
         $this->_data['state']= array();
         $this->_data['active_menu'] = array();
         $this->_data['timkiem_sanpham'] = $this->_timkiem_sanpham;
+        $this->_data['timkiem_nangcao'] = $this->_timkiem_nangcao;
 		$this->_data['template_path'] = base_url().'application/views/'.$this->_tpl;
     }
     private function _reset_permission($user_obj=null)
@@ -163,6 +176,23 @@ class Home extends CI_Controller {
     {
         $_SESSION['f_timkiem_sanpham'] = $this->_timkiem_sanpham;
     } 
+    protected function _khoitao_timkiem_nangcao()
+    {
+        $this->_timkiem_nangcao = array(
+        'art_id' => '',
+        'title' => 'title',
+        'art_price_from' => 0,
+        'art_price_to' => 0,
+        'cat_id' => array(),
+        'max_item_per_page' => 6,
+        'order_by' => 'id',
+        'order_rule' => 'desc'
+        );
+    }
+    protected function _luu_timkiem_nangcao()
+    {
+        $_SESSION['f_timkiem_nangcao'] = $this->_timkiem_nangcao;
+    }
     protected function _save_user_to_session()
     {
         if($this->_user==null)
