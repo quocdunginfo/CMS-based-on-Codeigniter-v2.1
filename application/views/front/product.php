@@ -88,13 +88,24 @@ $this->load->view('front/header');
 	       </div>
           <div class="cleaner h50"></div> 
             <h3 style="border-bottom:double 1px #2f2f2f;padding:5px;width:640px">Sản phẩm liên quan</h3>
+            <?php
+            $i=1;
+            foreach($relative_painting as $item)
+            {
+                
+            ?>
                       <div class="product_box">
-            	<a href="/tmdtud/FrontSanPhamDetail/Index/40"><img src="/tmdtud/_Upload/HinhAnh/_thumb_B056B140007-1.jpg" style="max-width:200px; max-height:150px" alt="Shoes 1"></a>
-                <h3>Giày bata nữ cổ cao</h3>
-                <p class="product_price">1350000 đ</p>
-                        <a href="/tmdtud/FrontCart/Add_Or_Update?sanphamid=40&amp;ctsp_id=132&amp;soluong=1" class="addtocart">Thêm vào giỏ</a>                         <a href="/tmdtud/FrontSanPhamDetail/Index/40" class="detail">Xem chi tiết</a>
+            	<a href="<?=site_url('front/product/index/'.$item->id)?>"><img src="<?=$item->get_avatar_thumb()?>" style="max-width:200px; height:150px" alt="Shoes 1"></a>
+                <h3><?=$item->title?></h3>
+                <p class="product_price"><?=$item->get_art_price()?> đ</p>
+                <?php if($item->art_count>0) {?>
+                        <a href="<?=site_url('front/cart/add_or_update/painting_id/'.$item->id.'/count/1')?>" class="addtocart">Thêm vào giỏ</a> <?php } else {?>      
+                        <a href="javascript:void(0)" style="background-color: #696969;" class="addtocart">Tạm hết hàng</a>  
+                        <?php } ?>             
+                        <a href="<?=site_url('front/product/index/'.$item->id)?>" class="detail">Xem chi tiết</a>
                 </div> 
-                       
+                
+               <?php if($i%3==0) break; $i++; }?>        
 </div>
 
 
