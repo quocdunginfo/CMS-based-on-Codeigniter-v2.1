@@ -6,7 +6,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 		
            
         <!-- Footer -->
-        <div id="footer">
+        <div id="footer" <?php if($view_mode=='selector') echo 'style="display: none;"' ?>>
         	<div class="container_12">
             	<div class="grid_12">
                 	<!-- You can change the copyright line for your own -->

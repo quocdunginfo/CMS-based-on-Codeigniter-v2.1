@@ -109,12 +109,23 @@ $template_path=base_url().'application/views/admin/';
 			$('.password').pstrength();
 			});
         </script>
+        <script language="javascript">
+        function confirm_click(link) {
+            if (confirm("Are you sure to do this task ?")) {
+                document.location = link;
+                return true;
+            } else {
+                return false;
+            }
+        }
+        </script>
+
 	</head>
 	<body>
     	<!-- Header -->
-        <div id="header">
+        <div id="header" <?php if($view_mode=='selector') echo 'style="display: none;"' ?>>
             <!-- Header. Status part -->
-            <div id="header-status">
+            <div id="header-status" >
                 <div class="container_12">
                                        
                     <div class="grid_8">
@@ -142,6 +153,7 @@ $template_path=base_url().'application/views/admin/';
                         <div id="logo">
                             <ul id="nav">
                                 <li <?php if(in_array('admin',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin'); ?>">Dashboard</a></li>
+                                <li <?php if(in_array('admin_menu',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_menu'); ?>" ">Menu</a></li>
                                 <li <?php if(in_array('admin_category',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_category'); ?>" ">Categories</a></li>
                                 <li <?php if(in_array('admin_posts',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_posts'); ?>">Posts</a></li>
                                 <li <?php if(in_array('admin_orders',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_orders'); ?>">Orders</a></li>
@@ -203,7 +215,7 @@ $template_path=base_url().'application/views/admin/';
 
             
             <!-- Dashboard icons -->
-            <div class="grid_7">
+            <div class="grid_7" <?php if($view_mode=='selector') echo 'style="display: none;"' ?>>
             	<a href="<?php echo site_url('admin_posts/add'); ?>" class="dashboard-module">
                 	<img src="src/Crystal_Clear_write.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/Crystal_Clear_write.gif" width="64" height="64" alt="edit" />
                 	<span>New post</span>

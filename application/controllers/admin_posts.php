@@ -17,10 +17,12 @@ class Admin_posts extends Admin {
             return;
         }
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('cat_id', 'special', 'page'));
+        $get = $this->uri->uri_to_assoc(3,array('cat_id', 'special', 'page','view_mode'));
         $get['cat_id'] = $get['cat_id']===false?-1:$get['cat_id'];
         $get['special'] = $get['special']===false?0:$get['special'];
         $get['page'] = $get['page']===false?1:$get['page'];
+        $get['view_mode'] = $get['view_mode']===false?'normal':$get['view_mode'];
+        
         $base_url = site_url('admin_posts/index/cat_id/'.$get['cat_id'].'/special/'.$get['special'].'/page/');
         //varible
         $max_item_per_page=10;
@@ -54,6 +56,7 @@ class Admin_posts extends Admin {
         
         //prepare view
         $this->_data['list_post'] = $list_post;
+        $this->_data['view_mode'] = $get['view_mode'];
         $this->_data['cat_id'] = $get['cat_id'];
         $this->_data['special'] = $get['special'];
         $this->_data['pagination'] = $pagination;

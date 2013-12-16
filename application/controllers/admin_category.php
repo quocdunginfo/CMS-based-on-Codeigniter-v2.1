@@ -9,9 +9,9 @@ class Admin_category extends Admin {
     }
     public function index()//special
     {
-        if(!in_array('cat_view',$this->_permission))
+        if(!in_array('category_view',$this->_permission))
         {
-            $this->_fail_permission('cat_view');
+            $this->_fail_permission('category_view');
             return;
         }
         //get param
@@ -90,7 +90,7 @@ class Admin_category extends Admin {
         $cat->id=$cat_id;
         $cat->delete_resursive($delete_post==0?false:true,$special);
         $this->_data['state'] = array('delete_ok');
-        self::index($special);
+        redirect('admin_category/index/special/'.$special);
     }
     
 }

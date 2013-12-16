@@ -40,7 +40,7 @@ $page_total = $pagination->total_page;
                     <script type="text/javascript">
                         function cat_item_click(elm)
                         {
-                            window.location = "<?=site_url('admin_posts/index/special/'.$special)?>/cat_id/"+elm.value+"/page/<?=$page_current?>";
+                            window.location = "<?=site_url('admin_posts/index/special/'.$special)?>/cat_id/"+elm.value+"/page/<?=$page_current?>"+"/view_mode/"+"<?=$view_mode?>";
                         }
                     </script>
                     
@@ -56,6 +56,9 @@ $page_total = $pagination->total_page;
                         <table id="myTable" class="tablesorter">
                         	<thead>
                                 <tr>
+                                    <?php if($view_mode=='selector') { ?>
+                                    <th style="width:4%"></th>
+                                    <?php } ?>
                                     <th style="width:4%">ID</th>
                                     <th style="width:20%">Title</th>
                                     <th style="width:7%">Avatar</th>
@@ -72,7 +75,32 @@ $page_total = $pagination->total_page;
                                     foreach($list_post as $post):
                                 ?>
                                 <tr>
-                                    <td class="align-center"><?php echo $post->id; ?></td>
+                                    <?php if($view_mode=='selector') { ?>
+                                    <script>
+                                    function qd_choose()
+                                    {
+                                        var rates = document.getElementsByName('qd_id[]');
+                                        var rate_value;
+                                        for(var i = 0; i < rates.length; i++){
+                                            if(rates[i].checked){
+                                                rate_value = rates[i].value;
+                                                //call parent function
+                                                window.opener.qd_menu_param(rate_value);
+                                                window.close();
+                                                return false;
+                                            }
+                                        }
+                                        
+                                        return false;
+                                    }
+                                    </script>
+                                    <td>
+                                    <input type="radio" name="qd_id[]" value="<?=$post->id; ?>" />
+                                    </td>
+                                    <?php }?>
+                                    <td class="align-center">            
+                                    <?php echo $post->id; ?>
+                                    </td>
                                     <td><a href="<?php echo site_url('admin_posts/edit/'.$post->id); ?>"><?php echo $post->title; ?></a></td>
                                     <td>
                                         <?php if($post->get_avatar_thumb()!='') :?>
@@ -101,22 +129,17 @@ $page_total = $pagination->total_page;
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
-                                <script language="javascript">
-                                    function confirm_click(link) {
-                                        if (confirm("Are you sure to do this task ?")) {
-                                            document.location = link;
-                                            return true;
-                                        } else {
-                                            return false;
-                                        }
-                                    }
-                                </script>
                             </tbody>
                         </table>
                         </form>
                         <div class="pager" id="pager">
                             <form action="">
+                                
                                 <div>
+                                <span <?php if($view_mode!='selector') echo 'style="display: none;"' ?>>
+                                <input class="submit-green" type="button" value="Choose" onclick="return qd_choose()">
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                </span>
                                 <img class="first" src="src/arrow-stop-180.gif" alt="first"/>
                                 <img class="prev" src="src/arrow-180.gif" alt="prev"/> 
                                 <input type="text" class="pagedisplay input-short align-center"/>
@@ -128,6 +151,7 @@ $page_total = $pagination->total_page;
                                     <option value="30">30</option>
                                     <option value="40" selected="selected">40</option>
                                 </select>
+                                
                                 </div>
                             </form>
                         </div>

@@ -22,6 +22,8 @@ class Admin extends CI_Controller {
         $this->load->model('Group_model');
         $this->load->model('Permission_model');
         $this->load->model('Feedback_model');
+        $this->load->model('menu/Menu_model','Menu_model');
+        $this->load->model('menu/Menu_provider_model','Menu_provider_model');
         //helper
         $this->load->helper('url');
         $this->load->helper('file');
@@ -93,6 +95,7 @@ class Admin extends CI_Controller {
         }
         //common view data
         $this->_data['state']= array();
+        $this->_data['view_mode']= 'normal';
         $this->_data['active_menu'] = array();
         $this->_data['current_user'] =  $this->_user;
         $this->_data['html_title'] =  'Dashboard';

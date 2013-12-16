@@ -69,15 +69,6 @@ $page_total = $pagination->total_page;
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
-                                <script language="javascript">
-                                    function confirm_click() {
-                                        if (confirm("Are you sure to do this task ?")) {
-                                            return true;
-                                        } else {
-                                            return false;
-                                        }
-                                    }
-                                </script>
                             </tbody>
                         </table>
                         </form>
