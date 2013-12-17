@@ -5,7 +5,6 @@ class Product extends Home {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Product';
-        $this->_data['active_menu'] = array('front_products');
     }
     public function index($id=0)
     {
@@ -26,6 +25,8 @@ class Product extends Home {
         //view data
         $this->_data['painting_obj'] = $obj;
         $this->_data['relative_painting']=$item_cat_final;
+        
+        parent::_add_active_menu(site_url('front/product/index/'.$obj->id));
         parent::_view('product',$this->_data);
     }
 }

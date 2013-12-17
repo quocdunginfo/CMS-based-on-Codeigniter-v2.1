@@ -172,7 +172,11 @@ width: 80px;
 		<!-- END of templatemo_header -->
 		<div id="templatemo_menubar">
 			<div id="top_nav" class="ddsmoothmenu">
-				<ul>
+				<?=$menu->generate()?>
+                
+                
+                <?php if(false) { ?>
+                <ul>
 					<li><a href="<?=site_url('front')?>" class="selected">Trang chủ</a></li>
 					<li style="z-index: 100;"><a href="<?=site_url('front/products')?>" class="">Sản phẩm</a>
 					<ul style="display: none; top: 40px; visibility: visible;">
@@ -187,6 +191,7 @@ width: 80px;
 					<li><a href="<?=site_url('front/about') ?>">Giới thiệu</a>
 					</li>
 				</ul>
+                <?php } ?>
 				<br style="clear: left">
 			</div>
 			<!-- end of ddsmoothmenu -->

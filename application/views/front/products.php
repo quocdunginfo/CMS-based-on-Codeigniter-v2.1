@@ -83,7 +83,7 @@ $this->load->view('front/header');
                         $_link = site_url('front/product/index/'.$item->id);
                       ?>
                         <div class="product_box <?=$_class_sufix?>">
-                            <div class="new-icon"><img src="images/icon_new.gif" style="width:58px;height:60px"/></div>
+                            
                             <a href="<?=$_link?>">
                                 <img src="<?=$item->get_avatar_thumb()?>" style="max-width:200px; height:150px;z-index:-1" alt="Shoes 1" />
                             </a>

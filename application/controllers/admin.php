@@ -59,6 +59,7 @@ class Admin extends CI_Controller {
             $this->_data['post_cmt'] = null;
         }
         
+        $this->_data['active_menu'] = array('admin');
         //view dashboard
         $this->load->view('admin/index',$this->_data);
         return;

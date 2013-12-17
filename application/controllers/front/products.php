@@ -5,7 +5,7 @@ class Products extends Home {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Products';
-        $this->_data['active_menu'] = array('front_products');
+        parent::_add_active_menu(site_url('front/products/painting_cat'));
     }
     public function index()
     {
@@ -56,7 +56,8 @@ class Products extends Home {
         $this->_data['painting_cat'] = $this->Cat_model->get_by_id($get['id']);
         $this->_data['pagination'] = $pagination;
         //load view
-        $this->_view('products',$this->_data);
+        parent::_add_active_menu(site_url('front/products/painting_cat/'.$get['id']));
+        parent::_view('products',$this->_data);
     }
     public function submit()
     {

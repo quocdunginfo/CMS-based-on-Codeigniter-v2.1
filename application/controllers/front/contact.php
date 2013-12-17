@@ -5,7 +5,7 @@ class Contact extends Home {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Contact';
-        $this->_data['active_menu'] = array('front_contact');
+        parent::_add_active_menu(site_url('front/contact/index'));
     }
     public function index()
     {

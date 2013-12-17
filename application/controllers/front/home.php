@@ -10,6 +10,7 @@ class Home extends CI_Controller {
     protected $_tpl = 'front/';
     protected $_timkiem_sanpham = array();
     protected $_timkiem_nangcao = array();
+    protected $_menu = null;
     public function __construct()
     {
         parent::__construct();
@@ -29,6 +30,9 @@ class Home extends CI_Controller {
         $this->load->model('Permission_model');
         $this->load->model('order/Shippingfee_model','Shippingfee_model');
         $this->load->model('Feedback_model');
+        $this->load->model('menu/Menu_model','Menu_model');
+        $this->load->model('menu/Menu_provider_model','Menu_provider_model');
+        $this->load->model('menu/Template_menu_model','Template_menu_model');
         //helper
         $this->load->helper('url');
         $this->load->helper('file');
@@ -57,7 +61,9 @@ class Home extends CI_Controller {
         array_push($this->_data['active_menu'],'home');
         
         $this->_data['slider_list'] = $this->qd_slider->get_slider_list();
-        $this->_view('index', $this->_data);
+        
+        self::_add_active_menu(site_url('front/home'));
+        self::_view('index', $this->_data);
     }
     protected function _view($view_name='index', $data = array())
     {
@@ -134,6 +140,21 @@ class Home extends CI_Controller {
         $this->_data['timkiem_sanpham'] = $this->_timkiem_sanpham;
         $this->_data['timkiem_nangcao'] = $this->_timkiem_nangcao;
 		$this->_data['template_path'] = base_url().'application/views/'.$this->_tpl;
+        
+        
+        //Menu
+        $this->_menu = new Template_menu_model;
+        $this->_menu->set_root(
+            $this->Menu_model->get_by_id(
+                $setting->get_by_key('main_menu_category')
+            )
+        );
+        $this->_data['menu'] =  $this->_menu;
+    }
+    protected function _add_active_menu($full_url='')
+    {
+        $this->_menu->add_active_menu($full_url);
+        $this->_data['menu'] = $this->_menu;
     }
     private function _reset_permission($user_obj=null)
     {

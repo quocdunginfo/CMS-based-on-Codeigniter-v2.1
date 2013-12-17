@@ -82,67 +82,7 @@ $this->load->view('admin/header');
                         
                             <p>
                                 Your right permission:
-                                <p>
-                                    <?php $this->load->library('session'); ?>
-                                    -View dashboard: <?php echo $this->session->userdata('dashboard_view')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                </p>
-                                <p>
-                                    -View post: <?php echo $this->session->userdata('post_view')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                    -Add new post: <?php echo $this->session->userdata('post_add')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                    -Edit post <?php echo $this->session->userdata('post_edit')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                    -Delete post <?php echo $this->session->userdata('post_delete')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                </p>
-                                <p>
-                                    -View comment: <?php echo $this->session->userdata('comment_view')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                    -Add new comment: <?php echo $this->session->userdata('comment_add')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                    -Edit comment <?php echo $this->session->userdata('comment_edit')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                    -Delete comment <?php echo $this->session->userdata('comment_delete')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                </p>
-                                <p>
-                                    -View category: <?php echo $this->session->userdata('category_view')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                    -Add new category: <?php echo $this->session->userdata('category_add')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                    -Edit category: <?php echo $this->session->userdata('category_edit')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                    -Delete category: <?php echo $this->session->userdata('category_delete')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                </p>
-                                <p>
-                                    -View user: <?php echo $this->session->userdata('user_view')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                    -Add new user: <?php echo $this->session->userdata('user_add')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                    -Edit user : <?php echo $this->session->userdata('user_edit')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                    -Delete user : <?php echo $this->session->userdata('user_delete')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                </p>
-                                <p>
-                                    -View setting: <?php echo $this->session->userdata('setting_view')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                    -Edit setting : <?php echo $this->session->userdata('setting_edit')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                </p>
-                                <p>
-                                    -View media: <?php echo $this->session->userdata('media_view')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                    -Edit media : <?php echo $this->session->userdata('media_edit')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                </p>
-                                <p>
-                                    -View help: <?php echo $this->session->userdata('help_view')==1?'TRUE':'FALSE'; ?>
-                                    <br />
-                                </p>
+                                
                                 
                             </p>
 

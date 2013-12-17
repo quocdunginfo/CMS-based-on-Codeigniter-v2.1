@@ -5,7 +5,7 @@ class Register extends Home {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Logout';
-        $this->_data['active_menu'] = array('front_logout');
+        parent::_add_active_menu(site_url('front/register'));
     }
     public function index()
     {
@@ -26,6 +26,7 @@ class Register extends Home {
         $this->_data['captcha_value'] = $captcha['value'];
         $this->_data['password'] = '';
         $this->_data['password2'] = '';
+        
         parent::_view('register',$this->_data);
     }
     public function submit()

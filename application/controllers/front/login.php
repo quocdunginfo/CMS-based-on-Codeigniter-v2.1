@@ -5,7 +5,7 @@ class Login extends Home {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Login';
-        $this->_data['active_menu'] = array('front_login');
+        parent::_add_active_menu(site_url('front/login'));
     }
     public function index()
     {
