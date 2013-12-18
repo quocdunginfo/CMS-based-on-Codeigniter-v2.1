@@ -299,7 +299,7 @@ class User_model extends CI_Model {
         }
         return true;
     }
-    public function search($id=-1,$username="",$fullname="",$email="",$active=-1,$group_id=-1, $start_point = 0, $count=-1)
+    public function search($id=-1,$username="",$fullname="",$email="",$active=-1,$group_id=-1, $special=-1, $start_point = 0, $count=-1)
     {
         $this->db->from($this->_tbn);
         $this->db->select("id");
@@ -313,6 +313,10 @@ class User_model extends CI_Model {
         if($active>-1)
         {
             $this->db->where("active",$active);   
+        }
+        if($special>-1)
+        {
+            $this->db->where("special",$special); 
         }
         if($group_id>-1)
         {
@@ -334,9 +338,9 @@ class User_model extends CI_Model {
         }
         return $re;
     }
-    public function search_count($id=-1,$username="",$fullname="",$email="",$active=-1,$group_id=-1)
+    public function search_count($id=-1,$username="",$fullname="",$email="",$active=-1,$group_id=-1, $special=-1)
     {
-        return sizeof(self::search($id,$username,$fullname,$email,$active,$group_id));
+        return sizeof(self::search($id,$username,$fullname,$email,$active,$group_id,$special));
     }
     public function can_use_username()
     {

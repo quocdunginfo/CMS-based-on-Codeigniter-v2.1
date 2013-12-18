@@ -5,7 +5,7 @@ class Admin_category extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Categories';
-        $this->_data['active_menu'] = array('admin_category');
+        array_push($this->_data['active_menu'],'admin_category');
     }
     public function index()//special
     {
@@ -15,12 +15,14 @@ class Admin_category extends Admin {
             return;
         }
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('special'));
+        $get = $this->uri->uri_to_assoc(3,array('special','view_mode'));
         $get['special'] = $get['special']===false?0:$get['special'];
+        $get['view_mode'] = $get['view_mode']===false?'normal':$get['view_mode'];
         
         $cat_list = $this->Cat_model->get_cat_tree(-1,0,$get['special']);
         $this->_data['cat_list'] = $cat_list;
         $this->_data['special'] = $get['special'];
+        $this->_data['view_mode'] = $get['view_mode'];
         $this->load->view('admin/category',$this->_data);
     }
     public function add()//special

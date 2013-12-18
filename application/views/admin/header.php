@@ -158,9 +158,8 @@ $template_path=base_url().'application/views/admin/';
                                 <li <?php if(in_array('admin_posts',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_posts'); ?>">Posts</a></li>
                                 <li <?php if(in_array('admin_orders',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_orders'); ?>">Orders</a></li>
                                 <li <?php if(in_array('admin_users',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_users'); ?>">Users</a></li>
+                                <li <?php if(in_array('admin_groups',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_groups'); ?>">Groups</a></li>
                                 <li <?php if(in_array('admin_setting',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_setting'); ?>">Settings</a></li>
-                                <li <?php if(in_array('admin_template',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_template'); ?>">Template & Style</a></li>
-                                <li <?php if(in_array('admin_antivirus',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_antivirus'); ?>">Anti-Virus</a></li>
                                 <li <?php if(in_array('admin_media',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_media'); ?>">Media</a></li>
                                 <li <?php if(in_array('admin_help',$active_menu)) echo 'id="current"'; ?>><a href="<?php echo site_url('admin_help'); ?>">Help</a></li>
                                 
@@ -175,7 +174,7 @@ $template_path=base_url().'application/views/admin/';
             <?php if(in_array('admin_category',$active_menu)): ?>
             <!-- Sub navigation -->
             <!-- for admin_category --> 
-            <div class="subnav" id="subnav_category">
+            <div class="subnav">
                 <div class="container_12">
                     <div class="grid_12">
                         <ul>
@@ -193,7 +192,7 @@ $template_path=base_url().'application/views/admin/';
             <?php if(in_array('admin_posts',$active_menu)): ?>
             <!-- Sub navigation -->
             <!-- for admin_posts -->
-            <div class="subnav" id="subnav_post">
+            <div class="subnav">
                 <div class="container_12">
                     <div class="grid_12">
                         <ul>
@@ -201,6 +200,40 @@ $template_path=base_url().'application/views/admin/';
                             <li><a href="<?=site_url('admin_posts/index/special/0')?>">[Normal posts]</a></li>
                             <li><a href="<?=site_url('admin_posts/index/special/1')?>">[Special posts for other features]</a></li>
                             <li><a href="<?=site_url('admin_posts/index/special/2')?>">[Painting post]</a></li>
+                        </ul>
+                    </div><!-- End. .grid_12-->
+                </div><!-- End. .container_12 -->
+                <div style="clear: both;"></div>
+            </div> <!-- End #subnav -->
+            <?php endif; ?>
+            
+            <?php if(in_array('admin_setting',$active_menu)): ?>
+            <!-- Sub navigation -->
+            <!-- for admin_posts -->
+            <div class="subnav">
+                <div class="container_12">
+                    <div class="grid_12">
+                        <ul>
+                            
+                            <li><a href="<?=site_url('admin_setting')?>">[Common setting]</a></li>
+                            <li><a href="<?=site_url('admin_template')?>">[Template & Style]</a></li>
+                            <li><a href="<?=site_url('admin_antivirus')?>">[Anti-Virus]</a></li>
+                        </ul>
+                    </div><!-- End. .grid_12-->
+                </div><!-- End. .container_12 -->
+                <div style="clear: both;"></div>
+            </div> <!-- End #subnav -->
+            <?php endif; ?>
+            
+            <?php if(in_array('admin_users',$active_menu)): ?>
+            <!-- Sub navigation -->
+            <!-- for admin_posts -->
+            <div class="subnav">
+                <div class="container_12">
+                    <div class="grid_12">
+                        <ul>
+                            <li><a href="<?=site_url('admin_users/index/special/0')?>">[Manager]</a></li>
+                            <li><a href="<?=site_url('admin_users/index/special/1')?>">[Customer]</a></li>
                         </ul>
                     </div><!-- End. .grid_12-->
                 </div><!-- End. .container_12 -->

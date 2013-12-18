@@ -81,6 +81,7 @@ class Permission_model extends CI_Model {
             $this->db->where("id",$id);   
         }
         $this->db->like("name",$name);
+        $this->db->order_by("name",'asc');
         
         $query = $this->db->get();
         $re = array();
@@ -90,6 +91,22 @@ class Permission_model extends CI_Model {
             $tmp->id=$row->id;
             $tmp->load();
             array_push($re,$tmp);
+        }
+        return $re;
+    }
+    public function to_obj_list($id_array=array())
+    {
+        $re=array();
+        
+        if(is_array($id_array))
+        {
+            foreach($id_array as $tmp)
+            {
+                $obj=new Permission_model;
+                $obj->id = $tmp;
+                $obj->load();
+                array_push($re,$obj);                
+            }
         }
         return $re;
     }

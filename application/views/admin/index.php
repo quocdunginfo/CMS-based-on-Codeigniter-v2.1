@@ -81,9 +81,12 @@ $this->load->view('admin/header');
                         <div class="module-body">
                         
                             <p>
-                                Your right permission:
+                                <b>Your right permission:</b>
+                                <?php foreach($current_user->get_group_obj()->get_permission_list_obj() as $item) { ?>
                                 
+                                <?=$item->name.', '?>
                                 
+                                <?php } ?>
                             </p>
 
                         </div>

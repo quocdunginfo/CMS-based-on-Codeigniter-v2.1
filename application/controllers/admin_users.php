@@ -16,9 +16,10 @@ class Admin_users extends Admin {
             return;
         }
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('page',));
+        $get = $this->uri->uri_to_assoc(3,array('page','special'));
         $get['page'] = $get['page']===false?1:$get['page'];
-        $base_url = site_url('admin_users/index/page/');
+        $get['special'] = $get['special']===false?0:$get['special'];
+        $base_url = site_url('admin_users/index/special/'.$get['special'].'/page/');
         //varible
         $max_item_per_page=40;
         $model = new User_model;//model access
@@ -27,26 +28,30 @@ class Admin_users extends Admin {
         $pagination->set_current_page($get['page']);
         $pagination->set_max_item_per_page($max_item_per_page);
         $pagination->set_total_item(
-            $model->search_count()
+            $model->search_count(-1,'','','',-1,-1,$get['special'])
         );
         $pagination->set_base_url(
             $base_url,
-            4
+            6
         );
         
         $pagination->update();
         //echo $pagination->start_point.'-'.$pagination->max_item_per_page;
         
-        $this->_data['user_list']= $model->search(-1,'','','',-1,-1,$pagination->start_point,$pagination->max_item_per_page);
+        $this->_data['user_list']= $model->search(-1,'','','',-1,-1,$get['special'],$pagination->start_point,$pagination->max_item_per_page);
         $this->_data['state']= (array)$this->session->flashdata('state');//noi khác set tru?c
         $this->_data['pagination']=$pagination;
-        
+        $this->_data['special'] = $get['special'];
         $this->load->view('admin/users',$this->_data);
     }
-    public function edit($uid=0)
+    public function edit()
     {
+        //get param
+        $get = $this->uri->uri_to_assoc(3,array('special','id'));
+        $get['special'] = $get['special']===false?0:$get['special'];
+        $get['id'] = $get['id']===false?0:$get['id'];
         //check permission
-        if($this->_user->id==$uid)
+        if($this->_user->id==$get['id'])
         {
             //ownner permission override
         }
@@ -55,7 +60,7 @@ class Admin_users extends Admin {
             $this->_fail_permission('user_edit');
             return;
         }
-        redirect('admin_user/index/'.$uid);
+        redirect('admin_user/index/special/'.$get['special'].'/id/'.$get['id']);
     }
     public function delete($uid)
     {
@@ -97,12 +102,15 @@ class Admin_users extends Admin {
     }
     public function add()
     {
+        //get param
+        $get = $this->uri->uri_to_assoc(3,array('special'));
+        $get['special'] = $get['special']===false?0:$get['special'];
         //check permission
         if(!in_array('user_add',$this->_permission))
         {
             $this->_fail_permission('user_add');
             return;
         }
-        redirect('admin_user/index/0');
+        redirect('admin_user/index/special/'.$get['special'].'/id/0');
     }
 }

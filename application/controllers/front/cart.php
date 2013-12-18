@@ -5,7 +5,7 @@ class Cart extends Home {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Cart';
-        $this->_data['active_menu'] = array('front_cart');
+        parent::_add_active_menu(site_url('front/cart'));
     }
     public function index()
     {

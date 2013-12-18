@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 require_once(APPPATH.'/controllers/admin.php');
-class Admin_post extends Admin {
+class Admin_system_post extends Admin {
     public function __construct()
     {
         parent::__construct();
-        $this->_data['html_title'].=' - Post';
+        $this->_data['html_title'].=' - System post';
         array_push($this->_data['active_menu'],'admin_posts');
     }
     public function index()//$post_id, $special(for add only)
@@ -60,7 +60,7 @@ class Admin_post extends Admin {
         $this->_data['state']= array();
         $this->_data['special']= $post_obj->special;
         $this->_data['cat_id']= $get['cat_id'];
-        $this->_data['cat_list'] = $this->Cat_model->get_cat_tree(-1,0,0);
+        $this->_data['cat_list'] = $this->Cat_model->get_cat_tree(-1,0,1);
         
         $this->_data['html_title'].=' - '.$post_obj->title;
         //load view base on special
@@ -69,7 +69,8 @@ class Admin_post extends Admin {
         switch ($post_obj->special)
         {
             case 0:
-                break;
+                redirect('admin_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special.'/cat_id/'.$get['cat_id']);
+                return;
             case 1:
                 //nếu như mà là feedback post
                 $tmp = new Cat_model;
@@ -81,13 +82,12 @@ class Admin_post extends Admin {
                     redirect('admin_feedback/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special.'/cat_id/'.$get['cat_id']);
                     return;   
                 }
-                redirect('admin_system_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special.'/cat_id/'.$get['cat_id']);
-                return;
+                break;
             case 2:
                 redirect('admin_painting_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special.'/cat_id/'.$get['cat_id']);
                 return;
         }
-        $this->load->view('admin/post',$this->_data);
+        $this->load->view('admin/system_post',$this->_data);
     }
     
     /**

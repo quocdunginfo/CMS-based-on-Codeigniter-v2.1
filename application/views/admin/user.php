@@ -25,28 +25,89 @@ $this->load->view('admin/header');
                             <p>
                                 <label>User name:</label>
                                 <input type="text" class="input-medium" name="user_username" value="<?php echo $user0->username; ?>"/>
-                                <span class="notification-input ni-correct" style="display:none;">This is correct, thanks!</span>
+                                <sup style="color: red;">*</sup>
+                                <span style="color: red;">
+                                    <?php if(in_array('username_fail',$state))
+                                    {
+                                        echo 'Fail';
+                                    }
+                                    else if(in_array('username_exist_fail',$state))
+                                    {
+                                        echo 'Already existed!';
+                                    }
+                                        
+                                    ?>
+                                </span>
                             </p>
                             
                             <p>
                                 <label>Fullname:</label>
                                 <input type="text" class="input-medium" name="user_fullname" value="<?php echo $user0->fullname; ?>"/>
-                                <span class="notification-input ni-correct" style="display:none;">This is correct, thanks!</span>
+                                <sup style="color: red;">*</sup>
+                                <span style="color: red;">
+                                    <?php if(in_array('fullname_fail',$state))
+                                    {
+                                        echo 'Fail';
+                                    }
+                                      
+                                    ?>
+                                </span>
+                                
                             </p>
                             <p>
                                 <label>Email:</label>
                                 <input type="text" class="input-medium" name="user_email" value="<?php echo $user0->email; ?>"/>
-                                <span class="notification-input ni-correct" style="display:none;">This is correct, thanks!</span>
+                                <sup style="color: red;">*</sup>
+                                <span style="color: red;">
+                                    <?php if(in_array('email_fail',$state))
+                                    {
+                                        echo 'Fail';
+                                    }
+                                    else if(in_array('email_exist_fail',$state))
+                                    {
+                                        echo 'Already existed!';
+                                    }
+                                        
+                                    ?>
+                                </span>
+                                
+                            </p>
+                            <p>
+                                <label>Phone:</label>
+                                <input type="text" class="input-medium" name="user_phone" value="<?php echo $user0->phone; ?>"/>
+                                
+                            </p>
+                            <p>
+                                <label>Address:</label>
+                                <input type="text" class="input-medium" name="user_address" value="<?php echo $user0->address; ?>"/>
+                                
                             </p>
                             <p>
                                 <label>Password:</label>
                                 <input type="password" class="input-medium" name="user_password" value="<?php echo $user0->get_password(); ?>"/>
-                                <span class="notification-input ni-correct" style="display:none;">This is correct, thanks!</span>
+                                <sup style="color: red;">*</sup>
+                                <span style="color: red;">
+                                    <?php if(in_array('password_fail',$state))
+                                    {
+                                        echo 'Fail';
+                                    }
+                                        
+                                    ?>
+                                </span>
+                                
                             </p>
                             <p>
                                 <label>Confirm password:</label>
                                 <input type="password" class="input-medium" name="user_repassword" value="<?php echo $user0->get_password(); ?>"/>
-                                <span class="notification-input ni-error" <?php if(!in_array('password_fail',$state)) echo 'style="display:none;"'; ?> >Password does not confirm!</span>
+                                <span style="color: red;">
+                                <?php
+                                if(in_array('password_fail',$state))
+                                {
+                                    echo 'Fail';
+                                }
+                                        
+                                ?>
+                                </span>
                             </p>
                             
                             <p>
@@ -77,8 +138,8 @@ $this->load->view('admin/header');
                             
                             <br />
                             <fieldset>
-                                <a href="<?=site_url('admin_users')?>" class="button" style="margin-right: 10px;"><span>Back</span></a>
-                                <a href="<?=site_url('admin_user/index/'.$user0->id)?>" class="button" style="margin-right: 50px;"><span>Reload</span></a>
+                                <a href="<?=site_url('admin_users/index/special/'.$special)?>" class="button" style="margin-right: 10px;"><span>Back</span></a>
+                                <a href="<?=site_url('admin_user/index/special/'.$special.'/id/'.$user0->id)?>" class="button" style="margin-right: 50px;"><span>Reload</span></a>
                                 <input class="submit-green" type="submit" value="Submit" /> 
                             </fieldset>
                         </form>

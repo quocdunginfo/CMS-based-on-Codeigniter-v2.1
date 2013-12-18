@@ -6,7 +6,7 @@ class Admin_antivirus extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Antivirus';
-        $this->_data['active_menu'] = array('admin_antivirus');
+        array_push($this->_data['active_menu'],'admin_antivirus', 'admin_setting');
     }
     public function index()
     {

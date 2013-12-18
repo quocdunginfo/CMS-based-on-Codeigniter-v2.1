@@ -7,15 +7,19 @@ class Admin_user extends Admin {
         $this->_data['html_title'].=' - User';
         array_push($this->_data['active_menu'],'admin_users');
     }
-    public function index($uid=0)
+    public function index()
     {
+        //get param
+        $get = $this->uri->uri_to_assoc(3,array('special','id'));
+        $get['special'] = $get['special']===false?0:$get['special'];
+        $get['id'] = $get['id']===false?0:$get['id'];
         //check permission
         if(!in_array('user_view',$this->_permission))
         {
             $this->_fail_permission('user_view');
             return;
         }
-        if($uid==0)
+        if($get['id']==0)
         {
             //add mode
             //check permission
@@ -26,14 +30,18 @@ class Admin_user extends Admin {
             }
             
             $this->_data['state'] = array();
-            $this->_data['user0'] = new User_model;
+            $obj = new User_model;
+            $obj->special = $get['special'];
+            $this->_data['user0'] = $obj;
+            $this->_data['special'] = $get['special'];
             $this->_data['group_list'] = $this->Group_model->search();
             $this->load->view('admin/user',$this->_data);
             return;
         }
         //edit mode
-        $this->_data['state']= (array)$this->_temp;
-        $this->_data['user0'] = $this->User_model->get_by_id($uid);
+        $this->_data['state']= (array)$this->session->flashdata('state');
+        $this->_data['user0'] = $this->User_model->get_by_id($get['id']);
+        $this->_data['special'] = $get['special'];
         $this->_data['group_list'] = $this->Group_model->search();
         $this->load->view('admin/user',$this->_data);
     }
@@ -66,6 +74,10 @@ class Admin_user extends Admin {
     }
     public function edit()
     {
+        //get param
+        $get = $this->uri->uri_to_assoc(3,array('special'));
+        $get['special'] = $get['special']===false?0:$get['special'];
+        
         //get all data
         $input = $this->input->post(NULL, TRUE);
         $input['user_active'] = $this->input->post('user_active')=='1'?'1':'0';//prevent XSS filter
@@ -92,21 +104,29 @@ class Admin_user extends Admin {
             $user->username = $input['user_username'];
             $user->fullname = $input['user_fullname'];
             $user->email = $input['user_email'];
+            $user->phone = $input['user_phone'];
+            $user->address = $input['user_address'];
             
-            if($input['user_password']!=$input['user_repassword'])
+            $validate=$user->validate($input['user_password'], $input['user_repassword']);
+            if(sizeof($validate)>0)
             {
-                //password khong trung
-                $this->_temp = array('password_fail');
-                self::index(0);
+                //show error
+                $this->_data['state']= $validate;
+                $this->_data['user0'] = $user;
+                $this->_data['group_list'] = $this->Group_model->search();
+                $this->_data['special'] = $get['special'];
+                $this->load->view('admin/user',$this->_data);
                 return;
             }
+            
             $user->set_password($input['user_password']);
             $user->set_group_obj($this->Group_model->get_by_id($input['user_groupid']));
             $user->active = $input['user_active'];
             
             $user->add();
-            $this->_temp = array('add_ok');
-            $this->index($user->id);
+            $this->session->set_flashdata('state',array('add_ok'));
+            redirect('admin_user/index/special/'.$get['special'].'/id/'.$user->id);
+            return;
         }
         else
         {
@@ -127,19 +147,25 @@ class Admin_user extends Admin {
             $user->username = $input['user_username'];
             $user->fullname = $input['user_fullname'];
             $user->email = $input['user_email'];
+            $user->phone = $input['user_phone'];
+            $user->address = $input['user_address'];
             
-            if($input['user_password']!=$input['user_repassword'])
+            $validate=$user->validate($input['user_password'], $input['user_repassword']);
+            if(sizeof($validate)>0)
             {
-                //password khong trung
-                $this->_temp = array('password_fail');
-                $this->index($input['user_id']);
+                //show error
+                $this->_data['state']= $validate;
+                $this->_data['user0'] = $user;
+                $this->_data['group_list'] = $this->Group_model->search();
+                $this->_data['special'] = $get['special'];
+                $this->load->view('admin/user',$this->_data);
                 return;
             }
             
             $user->set_password($input['user_password']);
             
             
-            //n?u dang s?a chính mình
+            //n?u dang s?a chÃ­nh mÃ¬nh
             if($this->_user->id==$input['user_id'])
                 {
                     //neu co su thay doi ACTIVE va GROUPID
@@ -159,8 +185,9 @@ class Admin_user extends Admin {
             //call update
             $user->update();
             //load view
-            $this->_temp = array('edit_ok');
-            self::index($input['user_id']);
+            $this->session->set_flashdata('state', array('edit_ok'));
+            redirect('admin_user/index/special/'.$get['special'].'/id/'.$user->id);
+            return;
         }
     }
     

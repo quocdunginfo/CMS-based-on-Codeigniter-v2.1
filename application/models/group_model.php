@@ -15,6 +15,17 @@ class Group_model extends CI_Model {
     {
         parent::__construct();
     }
+    public function is_has_permission($permission_obj=null)
+    {
+        foreach(self::get_permission_list_obj() as $item)
+        {
+            if($permission_obj->id==$item->id)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     public function load()
     {
         //init new lazy state
@@ -77,10 +88,10 @@ class Group_model extends CI_Model {
         $obj->load();
         return $obj;
     }
-    public function is_exist()
+    public function is_exist($id=-1)
     {
         $this->db->select("id");
-        $this->db->where("id",$this->id);
+        $this->db->where("id",$id==-1?$this->id:$id);
         return $this->db->count_all_results($this->_tbn)>0?true:false;
     }
     
@@ -92,7 +103,7 @@ class Group_model extends CI_Model {
     public function add()
     {
         //insert new record
-        $data = array();
+        $data = array('active'=> $this->active);
         $this->db->insert($this->_tbn,$data);
         //get max id
         $this->id=self::get_max_id();
@@ -122,8 +133,30 @@ class Group_model extends CI_Model {
         );
         $this->db->where('id',$this->id);
         $this->db->update($this->_tbn,$array);
+        //update external
+        if($this->permission_list_obj_ready==true)
+        {
+            //delete old map
+            $this->db->where('group_id',$this->id);
+            $this->db->from($this->_tbn3);
+            $this->db->delete();
+            //build new map
+                foreach($this->get_permission_list_obj() as $obj)
+                {
+                    $data_tmp = array(
+                        "group_id" => $this->id,
+                        "permission_id" => $obj->id
+                    );
+                    $this->db->insert($this->_tbn3,$data_tmp);
+                }
+            //finish
+        }
     }
-    public function search($id=-1,$name="",$description="",$active=-1)
+    public function search_count($id=-1,$name="",$description="",$active=-1)
+    {
+        return sizeof(self::search($id,$name,$description,$active));
+    }
+    public function search($id=-1,$name="",$description="",$active=-1, $start_point=0, $count=-1)
     {
         $this->db->from($this->_tbn);
         $this->db->select("id");
@@ -137,7 +170,10 @@ class Group_model extends CI_Model {
         {
             $this->db->where("active",$active);   
         }
-        
+        if($start_point>=0 && $count>-1)
+        {
+            $this->db->limit($count,$start_point);
+        }
         $query = $this->db->get();
         $re = array();
         foreach($query->result() as $row)

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 17, 2013 at 05:38 PM
+-- Generation Time: Dec 18, 2013 at 06:19 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.16
 
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   `menu_provider_id` int(11) NOT NULL DEFAULT '0',
   `menu_param` text NOT NULL COMMENT 'kết hợp với controller và action trong menu_provider để ra URL',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=94 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=96 ;
 
 --
 -- Dumping data for table `category`
@@ -66,7 +66,7 @@ INSERT INTO `category` (`id`, `name`, `description`, `parent_id`, `date_create`,
 (28, 'HTC', '', 3, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
 (29, 'Mobell', '', 3, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
 (30, 'Samsung', '', 5, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(39, 'feedback', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(39, 'feedback', '', -1, '0000-00-00 00:00:00', '2013-12-18 15:03:04', 1, 1, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
 (40, 'Slider for home page2', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
 (47, 'Trừu tượng2', '', -1, '0000-00-00 00:00:00', '2013-12-02 06:54:21', 1, 2, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
 (48, 'Khỏa thân', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 2, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
@@ -93,7 +93,9 @@ INSERT INTO `category` (`id`, `name`, `description`, `parent_id`, `date_create`,
 (90, 'Register', '', 91, '2013-12-17 17:13:35', '2013-12-17 17:18:31', 1, 4, 0, '', 1, 0, 0, '', '', '', 0, 7, ''),
 (91, 'Account', '', 82, '2013-12-17 17:16:11', '2013-12-17 17:16:11', 1, 4, 0, '', 1, 0, 0, '', '', '', 0, 8, ''),
 (92, 'Logout', '', 91, '2013-12-17 17:17:22', '2013-12-17 17:18:26', 1, 4, 0, '', 1, 0, 0, '', '', '', 0, 9, ''),
-(93, 'Tất cả sản phẩm', '', 82, '2013-12-17 17:25:42', '2013-12-17 17:25:42', 1, 4, 0, '', 1, 0, 0, '', '', '', 0, 4, '');
+(93, 'Tất cả sản phẩm', '', 82, '2013-12-17 17:25:42', '2013-12-17 17:25:42', 1, 4, 0, '', 1, 0, 0, '', '', '', 0, 4, ''),
+(94, 'Tìm kiếm ', '', 82, '2013-12-18 10:03:54', '2013-12-18 10:03:54', 1, 4, 0, '', 1, 0, 0, '', '', '', 0, 10, ''),
+(95, 'Khỏa thân', '', 82, '2013-12-18 15:01:35', '2013-12-18 16:47:41', 1, 4, 0, '', 1, 0, 0, '', '', '', 0, 12, '47');
 
 -- --------------------------------------------------------
 
@@ -148,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `group` (
   `description` text NOT NULL,
   `active` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `group`
@@ -156,7 +158,8 @@ CREATE TABLE IF NOT EXISTS `group` (
 
 INSERT INTO `group` (`id`, `name`, `description`, `active`) VALUES
 (1, 'Admin', 'Nhân viên hệ thống', 1),
-(2, 'User', 'Normal user', 1);
+(2, 'User', 'Normal user', 1),
+(3, 'KeToan', 'Kế toán', 1);
 
 -- --------------------------------------------------------
 
@@ -172,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `menu_provider` (
   `action` text NOT NULL,
   `active` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `menu_provider`
@@ -187,7 +190,10 @@ INSERT INTO `menu_provider` (`id`, `name`, `controller`, `selector_uri`, `action
 (6, 'Template Login page', 'front/login/', '', 'index/', 1),
 (7, 'Template Register page', 'front/register/', '', 'index/', 1),
 (8, 'Template Account page', 'front/account/', '', 'index/', 1),
-(9, 'Template Logout page', 'front/logout/', '', 'index/', 1);
+(9, 'Template Logout page', 'front/logout/', '', 'index/', 1),
+(10, 'Template Search page', 'front/search/', '', 'index/', 1),
+(11, 'Template Cart page', 'front/cart/', '', 'index/', 1),
+(12, 'Template Painting Category >', 'front/products/', 'admin_category/index/special/2/view_mode/selector', 'painting_cat/id/', 1);
 
 -- --------------------------------------------------------
 
@@ -200,7 +206,7 @@ CREATE TABLE IF NOT EXISTS `option` (
   `key` text NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=32 ;
 
 --
 -- Dumping data for table `option`
@@ -232,7 +238,8 @@ INSERT INTO `option` (`id`, `key`, `value`) VALUES
 (24, 'feedback_captcha', '0'),
 (26, 'template_id', '110'),
 (29, 'max_count_order_per_product', '3'),
-(30, 'main_menu_category', '82');
+(30, 'main_menu_category', '82'),
+(31, '', '');
 
 -- --------------------------------------------------------
 
@@ -244,7 +251,7 @@ CREATE TABLE IF NOT EXISTS `permission` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=39 ;
 
 --
 -- Dumping data for table `permission`
@@ -259,8 +266,6 @@ INSERT INTO `permission` (`id`, `name`) VALUES
 (6, 'category_edit'),
 (7, 'category_delete'),
 (8, 'category_add'),
-(9, 'category_view'),
-(10, 'category_edit'),
 (11, 'post_view'),
 (12, 'post_edit'),
 (13, 'post_delete'),
@@ -280,7 +285,15 @@ INSERT INTO `permission` (`id`, `name`) VALUES
 (27, 'order_view'),
 (28, 'order_edit'),
 (29, 'order_delete'),
-(30, 'order_add');
+(30, 'order_add'),
+(31, 'menu_view'),
+(32, 'menu_add'),
+(33, 'menu_edit'),
+(34, 'menu_delete'),
+(35, 'group_add'),
+(36, 'group_edit'),
+(37, 'group_delete'),
+(38, 'group_view');
 
 -- --------------------------------------------------------
 
@@ -298,38 +311,49 @@ CREATE TABLE IF NOT EXISTS `permission_group` (
 --
 
 INSERT INTO `permission_group` (`permission_id`, `group_id`) VALUES
-(1, 1),
-(2, 1),
-(3, 1),
-(4, 1),
-(5, 1),
-(6, 1),
-(7, 1),
+(5, 3),
+(1, 3),
+(23, 3),
+(27, 3),
+(11, 3),
+(19, 3),
+(15, 3),
 (8, 1),
-(9, 1),
-(10, 1),
-(11, 1),
-(12, 1),
-(11, 1),
-(12, 1),
-(13, 1),
-(14, 1),
-(15, 1),
-(16, 1),
-(17, 1),
-(18, 1),
-(19, 1),
-(20, 1),
-(21, 1),
-(22, 1),
-(23, 1),
-(24, 1),
-(25, 1),
+(7, 1),
+(6, 1),
+(5, 1),
+(35, 1),
+(37, 1),
+(36, 1),
+(38, 1),
+(4, 1),
+(3, 1),
+(2, 1),
+(1, 1),
 (26, 1),
-(27, 1),
-(28, 1),
+(25, 1),
+(24, 1),
+(23, 1),
+(32, 1),
+(34, 1),
+(33, 1),
+(31, 1),
+(30, 1),
 (29, 1),
-(30, 1);
+(28, 1),
+(27, 1),
+(14, 1),
+(13, 1),
+(12, 1),
+(11, 1),
+(22, 1),
+(21, 1),
+(20, 1),
+(19, 1),
+(18, 1),
+(17, 1),
+(16, 1),
+(15, 1);
 
 -- --------------------------------------------------------
 
@@ -361,7 +385,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   `order_count` int(11) NOT NULL DEFAULT '0',
   `order_unitprice` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=128 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=130 ;
 
 --
 -- Dumping data for table `post`
@@ -385,13 +409,13 @@ INSERT INTO `post` (`id`, `title`, `content`, `date_create`, `date_modify`, `use
 (53, 'day nua ne 232323 34234', '<p>hjhjj</p>', '2013-09-15 19:13:13', '2013-12-06 20:30:27', 8, 'hjhjhjhj', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]xuan_035.jpg', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (54, 'Liên kết mạng xã hội', '<p>-Facebook:</p>\r\n<p>-Twitter:</p>\r\n<p>-Youtube:</p>', '2013-09-15 19:14:24', '2013-09-15 19:14:24', 8, '', 1, '', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (55, 'Hỗ trợ mua hàng', '<p><strong>-Yahoo:</strong></p>\r\n<p><img src="http://opi.yahoo.com/online?u=quocdunginfo&amp;m=g&amp;t=2" alt="" /></p>\r\n<p><strong><br />-Số điện thoại đặt h&agrave;ng</strong><br />+84 97 999 6 234<br />+84 1689 178 7 235</p>', '2013-09-15 19:14:53', '2013-11-05 18:48:32', 8, '', 1, '', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
-(56, 'Chuẩn bị tinh thần vào đại học', '<p>14h chiều nay, l&atilde;nh đạo tỉnh Hải Dương đ&atilde; triệu tập họp khẩn cấp. Chủ tịch UBND tỉnh Nguyễn Mạnh Hiển cho hay, vụ ch&aacute;y kh&ocirc;ng g&acirc;y thiệt hại về người song t&agrave;i sản thiệt hại ước t&iacute;nh l&ecirc;n tới 500 tỷ đồng, trong đ&oacute; khoảng 100 tỷ l&agrave; cơ sở vật chất, số c&ograve;n lại l&agrave; t&agrave;i sản của c&aacute;c hộ kinh doanh.</p>', '2013-09-15 19:15:17', '2013-12-09 13:25:41', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file30.jpg', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(56, 'Chuẩn bị tinh thần vào đại học', '<p>14h chiều nay, l&atilde;nh đạo tỉnh Hải Dương đ&atilde; triệu tập họp khẩn cấp. Chủ tịch UBND tỉnh Nguyễn Mạnh Hiển cho hay, vụ ch&aacute;y kh&ocirc;ng g&acirc;y thiệt hại về người song t&agrave;i sản thiệt hại ước t&iacute;nh l&ecirc;n tới 500 tỷ đồng, trong đ&oacute; khoảng 100 tỷ l&agrave; cơ sở vật chất, số c&ograve;n lại l&agrave; t&agrave;i sản của c&aacute;c hộ kinh doanh.</p>', '2013-09-15 19:15:17', '2013-12-18 15:15:50', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]bb_picture.jpg', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (58, 'sdsdgsdg', '', '2013-09-16 07:15:19', '2013-12-07 11:45:52', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file51.jpg', 2, '', '', 'JHU', 0, 12, 34, 'cm', 3123, 0, 0, 0, 0),
 (60, 'bai 1', '', '2013-09-16 16:25:06', '2013-12-09 09:41:32', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]toshiba_lightfield_module_aj201212270055.jpg', 2, '', '', 'RAW60', 0, 0, 0, 'cm', 2000000, 0, 0, 0, 0),
 (61, 'bai2', '', '2013-09-16 16:25:24', '2013-12-09 09:35:41', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]xuan_035.jpg', 2, '', '', 'RAW61', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (63, 'bai 4', '', '2013-09-16 16:25:38', '2013-12-09 09:40:13', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]alo/avarta.jpg', 2, '', '', 'RAW63', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (64, 'bai 5', '<p>Chưa c&oacute; g&igrave; đ&acirc;u mấy th&iacute;m</p>\r\n<p><img src="/cms/application/_static/upload/1blackberry_wallpaper.png" alt="1blackberry_wallpaper" /></p>', '2013-09-16 16:25:46', '2013-12-10 08:19:27', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]windows_8_wallpaper_download_metro20.jpg', 2, '', '', 'RAW64', 1, 12, 23, 'inch', 12000, 0, 0, 0, 0),
-(65, 'sadsds', '<p>aloajksjkdasd</p>\r\n<p>&nbsp;</p>', '2013-12-07 11:01:45', '2013-12-09 13:47:41', 8, 'ererer', 0, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]windows_8_wallpaper_download_metro20.jpg', 2, '', '', 'RAW65', 11, 34, 12, 'cm', 13445, 1, 0, 0, 0),
+(65, 'sadsds', '<p>aloajksjkdasd</p>\r\n<p>&nbsp;</p>', '2013-12-07 11:01:45', '2013-12-18 04:29:03', 8, 'ererer', 0, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]windows_8_wallpaper_download_metro20.jpg', 2, '', '', 'RAW65', 11, 34, 12, 'cm', 13445, 1, 0, 0, 0),
 (74, 'sdfgsdg sg sdf sdg sg sdgf sdg ', '<p>-Triễn l&atilde;m diễn ra từ ng&agrave;y 20-4-2013 đến n&agrave;y 23-4-2013 tại viện đại học Vạn Hạnh.<br /><br /></p>\r\n<p>&nbsp;</p>\r\n<div id="__m_w_ucNavigatorBar19">\r\n<h2>Hoạt động của JUACH</h2>\r\n<h2>TH&Ocirc;NG B&Aacute;O CHƯƠNG TR&Igrave;NH KHAI MẠC TRIỂN L&Atilde;M TRANH</h2>\r\n</div>\r\n<div class="pc_header">\r\n<div>&nbsp;</div>\r\n</div>\r\n<div class="pc_brief">\r\n<div style="margin: 0mm 0mm 0pt; text-align: left;" align="left"><span style="font-size: 12pt; font-family: ''Times New Roman'';">C&ocirc;ng ty Minh Tr&acirc;n - Trường Doanh Thương Tr&iacute; Dũng phối hợp với Bảo t&agrave;ng Chứng t&iacute;ch Chiến tranh v&agrave; Sở Văn H&oacute;a&ndash;Thể Thao&ndash;Du Lịch&nbsp;Tp. HCM tổ chức triển l&atilde;m tranh thiếu nhi với chủ đề:<br />&nbsp;<strong>&ldquo;Chia sẻ với nh&acirc;n d&acirc;n Nhật Bản&nbsp;</strong><strong>sau thảm họa th&aacute;ng 03 năm 2011&rdquo;</strong></span></div>\r\n</div>\r\n<p><span lang="EN-US" style="font-size: 12pt; font-family: ''Times New Roman'';">Triển l&atilde;m sẽ diễn ra từ ng&agrave;y 12/05/2012 đến ng&agrave;y 01/06/2012<br /><em><span lang="EN-US">(Giờ mở cửa tham quan từ 9:00 đến 16:00, từ Thứ Hai đến thứ Bảy trong tuần)</span></em>&nbsp;<br /><br />Đ&acirc;y l&agrave; 50 tranh của c&aacute;c em thiếu nhi được chọn ra sau đợt thi &ldquo;N&eacute;t Vẽ Xanh&rdquo; lần thứ 14 năm 2011 tại Bảo t&agrave;ng Chứng t&iacute;ch Chiến tranh.Bằng những suy nghĩ v&agrave; cảm x&uacute;c ch&acirc;n th&agrave;nh của m&igrave;nh, c&aacute;c em thiếu nhi Tp. HCM lu&ocirc;n mong muốn được thể hiện sự đồng cảm, chia sẻv&agrave; kh&acirc;m phục với thiếu nhi v&agrave; nh&acirc;n d&acirc;n Nhật Bản đ&atilde; phấn đấu vươn l&ecirc;n sau thảm họa.<br /><br />Thời gian: &nbsp;15:00, thứ S&aacute;u ng&agrave;y 11 / 05 / 2012&middot; &nbsp; &nbsp; <br />&nbsp;Địa điểm: &nbsp;Vườn Minh Tr&acirc;n&nbsp; &nbsp; &nbsp;51 Cống Lở, P. 15, Q. T&acirc;n B&igrave;nh, Tp. HCM.(Đ&iacute;nh k&egrave;m sơ đồ đường đi)<br />Ph&iacute; tham dự 200.000 VND/ người.<br /><br /><strong><em><span lang="EN-US">V&igrave;</span></em></strong><strong><span lang="EN-US"> THƯ MỜI </span></strong><strong><em><span lang="EN-US">đặc biệt miễn ph&iacute; tiệc tham dự c&oacute; hạn, xin vui l&ograve;ng li&ecirc;n lạc sớm.</span></em></strong></span></p>', '2013-09-23 18:04:52', '2013-12-06 20:29:21', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]1blackberry_wallpaper.png', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (75, 'moi them vao', '', '2013-10-05 17:09:02', '2013-11-09 07:54:27', 0, '', 1, '', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (106, '', '', '2013-12-07 15:14:39', '2013-12-07 15:14:39', 0, '', 1, '', 4, '', '', '', 0, 0, 0, 'cm', 0, 0, 65, 1, 109000),
@@ -411,7 +435,8 @@ INSERT INTO `post` (`id`, `title`, `content`, `date_create`, `date_modify`, `use
 (123, 'bai 3', '', '2013-12-13 16:54:09', '2013-12-16 04:20:34', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]bb_picture.jpg', 2, '', '', 'RAW62', 0, 0, 0, 'cm', 12000, 0, 0, 0, 0),
 (124, '', '', '2013-12-15 14:16:40', '2013-12-15 14:16:40', 0, '', 1, '', 4, '', '', '', 0, 0, 0, 'cm', 0, 0, 122, 1, 1234),
 (125, '', '', '2013-12-15 14:19:43', '2013-12-15 14:19:43', 0, '', 1, '', 4, '', '', '', 0, 0, 0, 'cm', 0, 0, 122, 1, 1234),
-(127, 'alo', 'hahaa', '2013-12-15 18:20:33', '2013-12-15 18:20:33', 9, '', 1, '', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0);
+(127, 'alo', 'hahaa', '2013-12-15 18:20:33', '2013-12-15 18:20:33', 9, '', 1, '', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(128, 'sdfsdfdfd', 'fkhung', '2013-12-18 04:38:56', '2013-12-18 04:38:56', 0, 'khách ngoài', 1, '', 1, 'h@gmail.com', '0979996345', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -449,6 +474,7 @@ INSERT INTO `post_category` (`post_id`, `cat_id`) VALUES
 (53, 27),
 (54, 53),
 (55, 53),
+(56, 40),
 (58, 47),
 (58, 50),
 (60, 48),
@@ -488,7 +514,8 @@ INSERT INTO `post_category` (`post_id`, `cat_id`) VALUES
 (124, 80),
 (125, 81),
 (126, 39),
-(127, 39);
+(127, 39),
+(128, 39);
 
 -- --------------------------------------------------------
 
@@ -594,18 +621,19 @@ CREATE TABLE IF NOT EXISTS `user` (
   `active` int(11) NOT NULL DEFAULT '1',
   `special` int(11) NOT NULL DEFAULT '0' COMMENT '0: manager, 1: customer',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id`, `username`, `fullname`, `birth`, `sex`, `password`, `group_id`, `date_create`, `date_modify`, `email`, `address`, `phone`, `active`, `special`) VALUES
-(8, 'quocdunginfo', 'Nguyen Dung2', '0000-00-00 00:00:00', 1, '356a192b7913b04c54574d18c28d46e6395428ab', 2, '0000-00-00 00:00:00', '2013-12-01 18:57:12', 'alo', 'Nguyen Trai', '097852678', 1, 0),
-(9, 'admin', 'dung2', '0000-00-00 00:00:00', 1, 'd033e22ae348aeb5660fc2140aec35850c4da997', 1, '0000-00-00 00:00:00', '2013-12-15 15:05:01', 'quocdunginfo@gmail.com', '', '', 1, 0),
+(8, 'khung', 'Khung', '0000-00-00 00:00:00', 1, '356a192b7913b04c54574d18c28d46e6395428ab', 2, '0000-00-00 00:00:00', '2013-12-18 15:50:12', 'h@h.com', '', '', 1, 0),
+(9, 'admin', 'dung2', '0000-00-00 00:00:00', 1, 'd033e22ae348aeb5660fc2140aec35850c4da997', 1, '0000-00-00 00:00:00', '2013-12-18 15:53:56', 'quocdunginfo@gmail.com', '', '234234', 1, 0),
 (11, 'mi', 'Trần Thị Khách Hàng', '0000-00-00 00:00:00', 1, '9c51ad8660eaae45f7965cd83d1f447cf6378547', 2, '2013-12-01 19:01:27', '2013-12-14 18:43:00', 'hellogirl@yahoo.com', 'Trần Phú', '01699969145', 1, 0),
-(12, 'hoang', 'Hoàng', '0000-00-00 00:00:00', 1, '356a192b7913b04c54574d18c28d46e6395428ab', 0, '2013-12-14 18:36:09', '2013-12-14 18:57:53', 'h@hjhj.com', 'ádsdsd', '3456789', 0, 1),
-(13, 'bekim', 'Xì Kim', '0000-00-00 00:00:00', 1, '479f92cbec6d7b041a874a4b7757c96a50ec1295', 0, '2013-12-15 15:09:28', '2013-12-15 15:18:19', 'alo@gmail.com.vn', 'jk', 'al', 1, 1);
+(12, 'hoang', 'Hoàng', '0000-00-00 00:00:00', 1, '356a192b7913b04c54574d18c28d46e6395428ab', 0, '2013-12-14 18:36:09', '2013-12-18 16:20:53', 'h@hjhj.com', 'ádsdsd', '3456789', 1, 1),
+(13, 'bekim', 'Xì Kim', '0000-00-00 00:00:00', 1, '479f92cbec6d7b041a874a4b7757c96a50ec1295', 0, '2013-12-15 15:09:28', '2013-12-18 16:21:53', 'alo@gmail.com.vn', 'jk', 'al', 1, 1),
+(14, '1', '1', '0000-00-00 00:00:00', 1, '356a192b7913b04c54574d18c28d46e6395428ab', 1, '2013-12-18 16:26:12', '2013-12-18 16:26:12', 'aloha@gmail.com', '', '', 1, 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

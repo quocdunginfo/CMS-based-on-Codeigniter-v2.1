@@ -35,6 +35,7 @@ class Admin extends CI_Controller {
         $this->load->library('encrypt');
         $this->load->library('Image_resize');
         $this->load->library('email');
+        $this->load->library('Form_validate');
         //db
         $this->load->database();
         //prepare common data
@@ -60,7 +61,7 @@ class Admin extends CI_Controller {
             $this->_data['post_cmt'] = null;
         }
         
-        $this->_data['active_menu'] = array('admin');
+        array_push($this->_data['active_menu'],'admin');
         //view dashboard
         $this->load->view('admin/index',$this->_data);
         return;

@@ -5,13 +5,13 @@ class Admin_menu extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Menus';
-        $this->_data['active_menu'] = array('admin_menu');
+        array_push($this->_data['active_menu'],'admin_menu');
     }
     public function index()//special
     {
-        if(!in_array('category_view',$this->_permission))
+        if(!in_array('menu_view',$this->_permission))
         {
-            $this->_fail_permission('category_view');
+            $this->_fail_permission('menu_view');
             return;
         }
         
@@ -32,6 +32,12 @@ class Admin_menu extends Admin {
         }
         if($add_mode==true)
         {
+            if(!in_array('menu_add',$this->_permission))
+            {
+                $this->_fail_permission('menu_add');
+                return;
+            }
+            
             $obj = new Menu_model;
             $obj->set_name($input['menu_name']);
             $obj->set_menu_provider_obj(
@@ -52,6 +58,11 @@ class Admin_menu extends Admin {
         }
         else
         {
+            if(!in_array('menu_edit',$this->_permission))
+            {
+                $this->_fail_permission('menu_edit');
+                return;
+            }
             
             $obj = new Menu_model;
             $obj->id = $input['menu_id'];
@@ -78,9 +89,9 @@ class Admin_menu extends Admin {
     }
     public function edit($id=0)
     {
-        if(!in_array('category_edit',$this->_permission))
+        if(!in_array('menu_edit',$this->_permission))
         {
-            $this->_fail_permission('category_edit');
+            $this->_fail_permission('menu_edit');
             return;
         }
         $obj = new Menu_model;
@@ -96,9 +107,9 @@ class Admin_menu extends Admin {
     }
     public function delete($id=0)
     {
-        if(!in_array('category_delete',$this->_permission))
+        if(!in_array('menu_delete',$this->_permission))
         {
-            $this->_fail_permission('category_delete');
+            $this->_fail_permission('menu_delete');
             return;
         }
         $obj = new Menu_model;

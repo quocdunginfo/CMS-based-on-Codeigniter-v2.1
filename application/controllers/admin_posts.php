@@ -5,7 +5,7 @@ class Admin_posts extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'] .= ' - Posts';
-        $this->_data['active_menu'] = array('admin_posts');
+        array_push($this->_data['active_menu'],'admin_posts');
     }
     
     public function index()//cat_id, special, page URI

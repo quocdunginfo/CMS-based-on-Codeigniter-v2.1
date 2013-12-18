@@ -5,7 +5,7 @@ class Search extends Home {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Search';
-     //   parent::_add_active_menu(site_url('front/search/painting_cat'));
+        parent::_add_active_menu(site_url('front/search'));
     }
     public function index()
     {
