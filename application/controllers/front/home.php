@@ -201,13 +201,13 @@ class Home extends CI_Controller {
     {
         $this->_timkiem_nangcao = array(
         'art_id' => '',
-        'title' => 'title',
+        'title' => '',
         'art_price_from' => 0,
         'art_price_to' => 0,
-        'cat_id' => array(),
+        'cat_id' => '',
         'max_item_per_page' => 6,
         'order_by' => 'id',
-        'order_rule' => 'desc'
+        'order_rule' => 'desc',
         );
     }
     protected function _luu_timkiem_nangcao()

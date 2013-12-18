@@ -196,7 +196,7 @@ width: 80px;
 			</div>
 			<!-- end of ddsmoothmenu -->
 			<div id="templatemo_search">
-				<form action="/FrontTimKiem/Submit" method="post">
+				<form action="<?=site_url('front/search')?>" method="post">
 					<input type="text" value="Nhập từ khóa tìm kiếm" name="front_sanpham_ten" id="keyword" title="keyword" onfocus="clearText(this)" onclick="this.value = '';" onblur="this.value=!this.value?'Nhập từ khóa tìm kiếm':this.value;" class="txt_field">
 					<input type="hidden" value="6" name="front_sanpham_max_item_per_page">
 					<input type="hidden" value="0" name="front_sanpham_gia_from">
