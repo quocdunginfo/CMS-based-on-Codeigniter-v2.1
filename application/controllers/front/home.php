@@ -130,8 +130,10 @@ class Home extends CI_Controller {
             }
         //get model
         $model_cat = new Painting_cat_model;
+        $model_mat= new Material_cat_model;
         //common view data
         $this->_data['painting_list_cat'] = $model_cat->get_cat_tree(-1,0,$model_cat->special);
+        $this->_data['painting_list_mat']=$model_mat->search('',1,$model_mat->special,'id','asc',0,-1);
         $this->_data['giohang'] = $this->_giohang;
         $this->_data['current_user'] =  $this->_user;
         $this->_data['html_title'] =  'Site';
@@ -205,6 +207,7 @@ class Home extends CI_Controller {
         'art_price_from' => 0,
         'art_price_to' => 0,
         'cat_id' => '',
+        'mat_id'=>'',
         'max_item_per_page' => 6,
         'order_by' => 'id',
         'order_rule' => 'desc',

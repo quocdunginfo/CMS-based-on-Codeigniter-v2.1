@@ -5,6 +5,13 @@ $this->load->view('front/header');
 ?>
 <div id="content" class="float_r">
     <div class="timkiemnangcao" style="width:690px">
+    <script type="text/javascript">
+      function qd_change_page(sender)
+        {
+            id = $( "#qd_page option:selected" ).val();
+            document.location = '<?=site_url('front/search/painting_cat/page/')?>/'+id;
+        }
+    </script>
         <a id="qd_sapxep"></a>
         <h2>Kết quả tìm kiếm (Có <?=$pagination->total_item?> sản phẩm)</h2>
         <form method="post" action="<?=site_url('front/search/submit')?>"  class="form" style="width:650px">
@@ -23,6 +30,21 @@ $this->load->view('front/header');
                         {
                         ?>
                         <option value="<?=$item->id?>"  <?php if($timkiem_nangcao['cat_id']==$item->id) echo 'selected="selected"'  ?>><?=$item->get_prefix_name()?></option>
+                        <?php } ?>
+                        }
+                    }
+                </select>
+            </label>
+             <label style="width:100px; display:inline-block; margin-left:20px">Chất liệu:</label>
+            <label class="mylabel">
+                <select name="mat_id" style="width:205px">
+                    @{
+                        <option value="" <?php if($timkiem_nangcao['mat_id']=='') echo 'selected="selected"'  ?>>Tất cả các chất liệu</option>
+                         <?php
+                        foreach($painting_list_mat as $item)
+                        {
+                        ?>
+                        <option value="<?=$item->id?>"  <?php if($timkiem_nangcao['mat_id']==$item->id) echo 'selected="selected"'  ?>><?=$item->get_prefix_name()?></option>
                         <?php } ?>
                         }
                     }
@@ -69,11 +91,10 @@ $this->load->view('front/header');
                 </label>
                 sản phẩm /trang</div>
         <div style="margin-top:10px;float:right;margin-right:40px">
-      
-        <label style="float:right">
+      <label style="float:right">
             Hiển thị trang 
             <label class="mylabel">
-                <select name="page" onchange="submit()" style="margin-left: 10px;width:50px">
+                <select id="qd_page" name="page" onchange="qd_change_page(this);" style="margin-left: 10px;width:50px">
         <?php for($i=1;$i<=$pagination->total_page;$i++) { ?>        
         <option value="<?=$i?>" <?php if($pagination->current_page==$i) echo 'selected="selected"' ?>><?=$i?></option> 
         <?php } ?>              

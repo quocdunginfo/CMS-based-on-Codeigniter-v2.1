@@ -17,6 +17,7 @@ class Search extends Home {
         $get = $this->uri->uri_to_assoc(4,array('page'));
   //      $get['id'] = $get['id']===false?0:$get['id'];
         $get['page'] = $get['page']===false?1:$get['page'];
+        $page=$this->input->get('page');
         //varible
         $cat_model = new Painting_cat_model;
         $model= new Painting_post_model;
@@ -24,6 +25,10 @@ class Search extends Home {
         if($cat_model->is_exist($this->_timkiem_nangcao['cat_id']))
         {
             $cat_array = array($this->_timkiem_nangcao['cat_id']);
+        }
+        if($cat_model->is_exist($this->_timkiem_nangcao['mat_id']))
+        {
+            array_push($cat_array,$this->_timkiem_nangcao['mat_id']);
         }
         $max_item_per_page = $this->_timkiem_nangcao['max_item_per_page'];
         
@@ -38,7 +43,7 @@ class Search extends Home {
             $base_url,
             7
         );
-        
+      
         $pagination->update();
         //get objs
         
@@ -73,7 +78,7 @@ class Search extends Home {
         $this->_timkiem_nangcao['cat_id']=$input['cat_id'];
         $this->_timkiem_nangcao['art_price_from']=$input['art_price_from'];
         $this->_timkiem_nangcao['art_price_to']=$input['art_price_to'];
-        
+        $this->_timkiem_nangcao['mat_id']=$input['mat_id'];
         $this->_timkiem_nangcao['order_by'] = $input['order_by'];
         $this->_timkiem_nangcao['order_rule'] = $input['order_rule'];
         $this->_timkiem_nangcao['max_item_per_page'] = $input['max_item_per_page'];
@@ -81,6 +86,6 @@ class Search extends Home {
         //save to session
         parent::_luu_timkiem_nangcao();
         //redirect
-        redirect('front/search/painting_cat/page/'.$input['page'].'#qd_sapxep');
+        redirect('front/search/painting_cat/page/1#qd_sapxep');
     }
 }
