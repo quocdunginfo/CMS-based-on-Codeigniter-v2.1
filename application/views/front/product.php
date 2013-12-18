@@ -27,7 +27,7 @@ $this->load->view('front/header');
                         </td>
                     </tr>
                     <tr>
-                        <td><b>Chát liệu:</b></td>
+                        <td><b>Chất liệu:</b></td>
                         <td>
                         <?=$painting_obj->get_cat_material_list_text()?>
                         </td>
