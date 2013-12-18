@@ -75,6 +75,6 @@ class Products extends Home {
         //save to session
         parent::_luu_timkiem_sanpham();
         //redirect
-        redirect('front/products/painting_cat/id/'.$input['painting_cat_id'].'/page/'.$input['page'].'#qd_sapxep');
+        redirect('front/products/painting_cat/id/'.$input['painting_cat_id'].'/page/1'.'#qd_sapxep');
     }
 }

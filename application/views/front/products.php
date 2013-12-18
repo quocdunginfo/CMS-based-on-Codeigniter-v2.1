@@ -57,8 +57,15 @@ $this->load->view('front/header');
         <div style="margin-top:10px">
           
         <label style="padding-left:250px">Hiển thị trang</label>
+        <script>
+        function qd_change_page(sender)
+        {
+            id = $( "#qd_page option:selected" ).val();
+            document.location = '<?=site_url('front/products/painting_cat/page/')?>/'+id;
+        }
+        </script>
         <label class="mylabel">
-        <select name="page" onchange="submit()" style="margin-left: 10px;width:50px">
+        <select id="qd_page" name="page" onchange="qd_change_page(this)" style="margin-left: 10px;width:50px">
         <?php for($i=1;$i<=$pagination->total_page;$i++) { ?>        
         <option value="<?=$i?>" <?php if($pagination->current_page==$i) echo 'selected="selected"' ?>><?=$i?></option> 
         <?php } ?>              
