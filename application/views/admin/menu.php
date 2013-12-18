@@ -3,14 +3,26 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 $this->load->view('admin/header');
 ?>
-
+            <div class="bottom-spacing" style="margin-left: 10px;">
+                
+                    <!-- Button -->
+                    <div class="float-left">
+                        <a href="<?=site_url('admin_menu')?>" class="button">
+                        	<span>New menu <img src="src/plus-small.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/plus-small.gif" width="12" height="9" alt="New menu"></span>
+                        </a>
+                    </div>
+                    
+            </div>
+            <div style="clear: both;"></div>
             <!-- module goes here -->
 			<!-- Category -->
             <div class="grid_6">
                 <!-- Notification boxes -->
                 
+                
+                
                 <div class="module">
-                     <h2><span>Menu function</span></h2>
+                     <h2><span>Menus</span></h2>
 
                      <div class="module-body">
                         <a name="cat_add"></a>
@@ -153,7 +165,7 @@ $this->load->view('admin/header');
                                 
                                 
                                 <div style="clear: both; height: 10px;"></div>
-                                <input class="submit-green" type="submit" value="Submit" />
+                                <input class="submit-green" type="submit" value="Done" />
                                 <a name="cat_edit"></a>
                             </fieldset>
                         </form>

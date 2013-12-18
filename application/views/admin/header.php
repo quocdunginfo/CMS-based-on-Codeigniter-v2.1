@@ -213,7 +213,7 @@ $template_path=base_url().'application/views/admin/';
 		<div class="container_12">
         
 
-            
+            <?php if(false) { ?>
             <!-- Dashboard icons -->
             <div class="grid_7" <?php if($view_mode=='selector') echo 'style="display: none;"' ?>>
             	<a href="<?php echo site_url('admin_posts/add'); ?>" class="dashboard-module">
@@ -252,7 +252,7 @@ $template_path=base_url().'application/views/admin/';
                 </a>
                 <div style="clear: both"></div>
             </div> <!-- End .grid_7 -->
-            
+            <?php } ?>
             
             
             <div style="clear:both;"></div>

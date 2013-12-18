@@ -10,9 +10,10 @@ class Admin_post extends Admin {
     public function index()//$post_id, $special(for add only)
     {
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('post_id', 'special'));
+        $get = $this->uri->uri_to_assoc(3,array('post_id', 'special', 'cat_id'));
         $get['post_id'] = $get['post_id']===false?-1:$get['post_id'];
         $get['special'] = $get['special']===false?0:$get['special'];
+        $get['cat_id'] = $get['cat_id']===false?-1:$get['cat_id'];
         
         //varibles
         $add_mode = false;
@@ -58,6 +59,7 @@ class Admin_post extends Admin {
         $this->_data['post']=$post_obj;
         $this->_data['state']= array();
         $this->_data['special']= $post_obj->special;
+        $this->_data['cat_id']= $get['cat_id'];
         $this->_data['cat_list'] = $this->Cat_model->get_cat_tree(-1,0,0);
         
         $this->_data['html_title'].=' - '.$post_obj->title;
@@ -74,14 +76,14 @@ class Admin_post extends Admin {
                 $tmp->id = $setting->get_by_key('feedback_category');
                 $tmp->load();
                 
-                if($tmp->is_contain_post($get['post_id']))
+                if($tmp->is_contain_post($get['post_id']) || $tmp->id==$get['cat_id'])//nếu chỉnh sửa hoặc add item cho feedback thì redirect
                 {
-                    redirect('admin_feedback/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
+                    redirect('admin_feedback/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special.'/cat_id/'.$get['cat_id']);
                     return;   
                 }
                 break;
             case 2:
-                redirect('admin_painting_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
+                redirect('admin_painting_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special.'/cat_id/'.$get['cat_id']);
                 return;
         }
         $this->load->view('admin/post',$this->_data);

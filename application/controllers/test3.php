@@ -19,22 +19,31 @@ class Test3 extends CI_Controller {
         $this->load->model('menu/Menu_provider_model','Menu_provider_model');
         $this->load->model('menu/Template_menu_model','Template_menu_model');
         $this->load->library('cart');
+        $this->load->library('email');
     }
     public function index($page=1)
     {
-        $root = $this->Menu_model->get_by_id(82);
-        $obj = new Template_menu_model;
-        $obj->set_root($root);
-        echo $obj->generate();
+        $config = array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://smtp.gmail.com',
+            'smtp_port' => 465,
+            'smtp_user' => 'quocdunginfo@gmail.com',
+            'smtp_pass' => 'doyohaanthtode77859',
+            'mailtype' => 'text',
+            'newline' =>'\r\n',
+            'starttls'  => true,
+            'charset'   => 'iso-8859-1'
+        );
+        $this->email->initialize($config);
+        
+        $this->email->from('quocdunginfo@gmail.com', 'Nguyen Dung');
+        $this->email->to('quocdunginfo@gmail.com'); 
+        
+        $this->email->subject('quocdunginfo@gmail.com');
+        $this->email->message('quocdunginfo@gmail.com');	
+        
+        $this->email->send();
+        
     }
-    function make_list($arr)
-    {
-        $return = '<ul>';
-        foreach ($arr as $item)
-        {
-            $return .= '<li>' . (is_array($item) ? self::make_list($item) : $item) . '</li>';
-        }
-        $return .= '</ul>';
-        return $return;
-    }
+    
 }

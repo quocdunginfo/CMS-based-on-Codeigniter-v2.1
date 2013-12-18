@@ -18,9 +18,11 @@ class Products extends Home {
         $get['id'] = $get['id']===false?0:$get['id'];
         $get['page'] = $get['page']===false?1:$get['page'];
         //varible
+        $model_cat = new Painting_cat_model;
         $model = new Painting_post_model;
+        
         $cat_array = array();
-        if($model->is_exist($get['id']))
+        if($model_cat->is_exist($get['id']))
         {
             $cat_array = array($get['id']);
         }

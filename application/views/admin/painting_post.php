@@ -118,8 +118,8 @@ $this->load->view('admin/header');
                             </fieldset>
                             
                             <fieldset>
-                                <a href="<?=site_url('admin_posts/index/special/'.$special)?>" class="button" style="margin-right: 10px;"><span>Back</span></a>
-                                <a href="<?=site_url('admin_painting_post/index/post_id/'.$post->id)?>" class="button" style="margin-right: 50px;"><span>Reload</span></a>
+                                <a href="<?=site_url('admin_posts/index/special/'.$special.'/cat_id/'.$cat_id.'/') ?>" class="button" style="margin-right: 10px;"><span>Back</span></a>
+                                <a href="<?=site_url('admin_post/index/post_id/'.$post->id.'/special/'.$special.'/cat_id/'.$cat_id) ?>" class="button" style="margin-right: 50px;"><span>Reload</span></a>
                                 <input class="submit-green" type="submit" value="Submit" />
                             </fieldset>
                         </form>

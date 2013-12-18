@@ -34,6 +34,7 @@ class Admin extends CI_Controller {
         $this->load->library('uri');
         $this->load->library('encrypt');
         $this->load->library('Image_resize');
+        $this->load->library('email');
         //db
         $this->load->database();
         //prepare common data

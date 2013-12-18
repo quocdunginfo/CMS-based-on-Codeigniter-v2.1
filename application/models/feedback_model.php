@@ -7,6 +7,30 @@ class Feedback_model extends Post_model {
         parent::__construct();
         $this->special=1;
     }
+    public function get_sender_name()
+    {
+        if(parent::get_user_obj()!=null)
+        {
+            return parent::get_user_obj()->fullname;
+        }
+        return self::get_guest_name();
+    }
+    public function get_sender_email()
+    {
+        if(parent::get_user_obj()!=null)
+        {
+            return parent::get_user_obj()->email;
+        }
+        return self::get_guest_email();
+    }
+    public function get_sender_phone()
+    {
+        if(parent::get_user_obj()!=null)
+        {
+            return parent::get_user_obj()->phone;
+        }
+        return self::get_guest_phone();
+    }
     public function get_title()
     {
         return $this->title;

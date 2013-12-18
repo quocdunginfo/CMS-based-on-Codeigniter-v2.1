@@ -95,6 +95,10 @@ class Post_model extends CI_Model {
             {
                 $user_obj_tmp = new User_model;
                 $user_obj_tmp->id = $row->user_id;
+                if(!$user_obj_tmp->is_exist())
+                {
+                    break;
+                }
                 $user_obj_tmp->load(); 
                 //assign
                 $this->user_obj = $user_obj_tmp;

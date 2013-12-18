@@ -10,10 +10,10 @@ class Admin_painting_post extends Admin {
     public function index()
     {
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('post_id', 'special'));
+        $get = $this->uri->uri_to_assoc(3,array('post_id', 'special', 'cat_id'));
         $get['post_id'] = $get['post_id']===false?-1:$get['post_id'];
         $get['special'] = $get['special']===false?0:$get['special'];
-        
+        $get['cat_id'] = $get['cat_id']===false?-1:$get['cat_id']; 
         //varibles
         $add_mode = false;
         //add new post mode
@@ -58,6 +58,7 @@ class Admin_painting_post extends Admin {
         $this->_data['post']=$post_obj;
         $this->_data['state']= array();
         $this->_data['special']= $post_obj->special;
+        $this->_data['cat_id']= $get['cat_id'];
         $this->_data['cat_list'] = $this->Cat_model->get_cat_tree(-1,0,0);
         $this->_data['cat_list_painting'] = $this->Cat_model->get_cat_tree(-1,0,2);
         $this->_data['cat_list_material'] = $this->Cat_model->get_cat_tree(-1,0,3);

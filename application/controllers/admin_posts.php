@@ -23,7 +23,7 @@ class Admin_posts extends Admin {
         $get['page'] = $get['page']===false?1:$get['page'];
         $get['view_mode'] = $get['view_mode']===false?'normal':$get['view_mode'];
         
-        $base_url = site_url('admin_posts/index/cat_id/'.$get['cat_id'].'/special/'.$get['special'].'/page/');
+        $base_url = site_url('admin_posts/index/cat_id/'.$get['cat_id'].'/special/'.$get['special'].'/view_mode/'.$get['view_mode'].'/page/');
         //varible
         $max_item_per_page=10;
         $cat_list = null;//mặc định là tìm trong tất cả
@@ -43,7 +43,7 @@ class Admin_posts extends Admin {
         );
         $pagination->set_base_url(
             $base_url,
-            8
+            10
         );
         
         $pagination->update();
@@ -101,22 +101,18 @@ class Admin_posts extends Admin {
         //get param
         $get = $this->uri->uri_to_assoc(3,array('special'));
         $get['special'] = $get['special']===false?0:$get['special'];
-        switch($get['special'])
-        {
-            case 0:
-                redirect('admin_post/index/post_id/0/special/'.$get['special']);
-                break;
-            case 1:
-                redirect('admin_post/index/post_id/0/special/'.$get['special']);
-                break;
-            case 2:
-                redirect('admin_painting_post/index/post_id/0/special/'.$get['special']);
-                break;
-        }
+        $get['cat_id'] = $get['cat_id']===false?-1:$get['cat_id'];
+        redirect('admin_post/index/post_id/0/special/'.$get['special'].'/cat_id/'.$get['cat_id']);
     }
-    public function edit($post_id)
+    public function edit()
     {
-        redirect('admin_post/index/post_id/'.$post_id);
+        //get param
+        $get = $this->uri->uri_to_assoc(3,array('special'));
+        $get['post_id'] = $get['post_id']===false?0:$get['post_id'];
+        $get['special'] = $get['special']===false?0:$get['special'];
+        $get['cat_id'] = $get['cat_id']===false?-1:$get['cat_id'];
+        
+        redirect('admin_post/index/post_id/'.$get['post_id'].'/special/'.$get['special'].'/cat_id/'.$get['cat_id']);
     }
     public function search_submit()
     {
