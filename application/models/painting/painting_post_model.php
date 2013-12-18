@@ -105,7 +105,7 @@ class Painting_post_model extends Post_model {
     {
         $i=0;
         $text ='';
-        $len = sizeof($this->cat_material_list);
+        $len = sizeof(self::get_cat_material_list());
         for($i=0;$i<$len;$i++)
         {
             $text.=$this->cat_material_list[$i]->name;
@@ -120,7 +120,7 @@ class Painting_post_model extends Post_model {
     {
         $i=0;
         $text ='';
-        $len = sizeof($this->cat_painting_list);
+        $len = sizeof(self::get_cat_painting_list());
         for($i=0;$i<$len;$i++)
         {
             $cat_obj = $this->cat_painting_list[$i];

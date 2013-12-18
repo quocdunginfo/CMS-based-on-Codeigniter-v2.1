@@ -23,7 +23,13 @@ $this->load->view('front/header');
                     <tr>
                         <td><b>Thể loại:</b></td>
                         <td>
-                        <?=$painting_obj->get_cat_list_text()?>
+                        <?=$painting_obj->get_cat_painting_list_text()?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Chát liệu:</b></td>
+                        <td>
+                        <?=$painting_obj->get_cat_material_list_text()?>
                         </td>
                     </tr>
                     
