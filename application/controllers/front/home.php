@@ -56,7 +56,7 @@ class Home extends CI_Controller {
         $model = new Painting_post_model;
         
         $this->_data['painting_list'] = $model->search(
-        '','','','',null,true,'',0,0,-1,1,0,6
+        '','','','',null,true,-1,'',0,0,-1,1,0,6
         );
         array_push($this->_data['active_menu'],'home');
         
@@ -207,7 +207,7 @@ class Home extends CI_Controller {
         'art_price_from' => 0,
         'art_price_to' => 0,
         'cat_id' => '',
-        'mat_id'=>'',
+        'mat_id'=>-1,
         'max_item_per_page' => 6,
         'order_by' => 'id',
         'order_rule' => 'desc',

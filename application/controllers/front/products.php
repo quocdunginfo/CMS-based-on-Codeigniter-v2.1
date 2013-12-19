@@ -35,7 +35,7 @@ class Products extends Home {
         $pagination->set_max_item_per_page($max_item_per_page);
         $pagination->set_total_item(
             $model->search_count(
-            '','','','',$cat_array,true,'',0,0,-1,1,0,-1
+            '','','','',$cat_array,true,-1,'',0,0,-1,1,0,-1
             )
         );
         $pagination->set_base_url(
@@ -47,7 +47,7 @@ class Products extends Home {
         //get objs
         
         $list = $model->search(
-        '','','','',$cat_array,true,'',0,0,-1,1,$pagination->start_point,
+        '','','','',$cat_array,true,-1,'',0,0,-1,1,$pagination->start_point,
         $pagination->max_item_per_page,
         $this->_timkiem_sanpham['order_by'],
         $this->_timkiem_sanpham['order_rule']

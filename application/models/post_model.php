@@ -449,6 +449,10 @@ class Post_model extends CI_Model {
         }
         return $re;
     }
+    public function filter_by_cat_id($id_array=null,$cat_id=0)
+    {
+        return self::filter_cat_list_id($id_array,array($cat_id),false);
+    }
     public function filter_by_cat_name($id_array=null, $cat_name='', $category_special=0)
     {
         //mảng các post_id thỏa mãn cat_name

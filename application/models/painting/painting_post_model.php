@@ -206,24 +206,24 @@ class Painting_post_model extends Post_model {
             $this->art_price = number_format($this->art_price,0,'.',',');
         }   
     }
-    public function search_count($title='', $description='', $art_id='', $material_name='', $cat_list_id=null,$cat_recursive=true ,$category_name='', $art_price_from=0, $art_price_to=0, $art_sold=-1, $active=1)
+    public function search_count($title='', $description='', $art_id='', $material_name='', $cat_list_id=null,$cat_recursive=true,$cat_material_id=-1 ,$category_name='', $art_price_from=0, $art_price_to=0, $art_sold=-1, $active=1)
     {
         return sizeof(
         self::search_return_id(
-            $title, $description, $art_id, $material_name, $cat_list_id,$cat_recursive ,$category_name, $art_price_from, $art_price_to, $art_sold, $active
+            $title, $description, $art_id, $material_name, $cat_list_id,$cat_recursive,$cat_material_id ,$category_name, $art_price_from, $art_price_to, $art_sold, $active
         )
         );
     }
-    public function search($title='', $description='', $art_id='', $material_name='', $cat_list_id=null,$cat_recursive=true ,$category_name='', $art_price_from=0, $art_price_to=0, $art_sold=-1, $active=1, $start_point=0, $count=-1, $order_by='id', $order_rule='desc')
+    public function search($title='', $description='', $art_id='', $material_name='', $cat_list_id=null,$cat_recursive=true,$cat_material_id=-1 ,$category_name='', $art_price_from=0, $art_price_to=0, $art_sold=-1, $active=1, $start_point=0, $count=-1, $order_by='id', $order_rule='desc')
     {
         return self::to_obj_list(
         self::search_return_id(
         
-            $title, $description, $art_id, $material_name, $cat_list_id,$cat_recursive ,$category_name, $art_price_from, $art_price_to, $art_sold, $active, $start_point, $count, $order_by,$order_rule
+            $title, $description, $art_id, $material_name, $cat_list_id,$cat_recursive,$cat_material_id ,$category_name, $art_price_from, $art_price_to, $art_sold, $active, $start_point, $count, $order_by,$order_rule
         )
         );
     }
-    protected function search_return_id($title='', $description='', $art_id='', $material_name='', $cat_list_id=null,$cat_recursive=true ,$category_name='', $art_price_from=0, $art_price_to=0, $art_sold=-1, $active=1, $start_point=0, $count=-1, $order_by='id', $order_rule='desc')
+    protected function search_return_id($title='', $description='', $art_id='', $material_name='', $cat_list_id=null,$cat_recursive=true,$cat_material_id=-1 ,$category_name='', $art_price_from=0, $art_price_to=0, $art_sold=-1, $active=1, $start_point=0, $count=-1, $order_by='id', $order_rule='desc')
     {
         $id_array=parent::filter_cat_list_id(null,$cat_list_id,$cat_recursive);
         $id_array=parent::filter_like($id_array,'title',$title);
@@ -240,6 +240,11 @@ class Painting_post_model extends Post_model {
         if($active>-1)
         {
             $id_array=parent::filter_exact($id_array,'active',$active);
+        }
+        //filter lan` 2 theo material
+        if($cat_material_id>-1 && $cat_material_id!='')
+        {
+            $id_array=self::filter_by_material_id($id_array,$cat_material_id);
         }
         //order_by limit
         $id_array = parent::filter_order_limit($id_array,$order_by,$order_rule,$start_point,$count);
@@ -281,6 +286,10 @@ class Painting_post_model extends Post_model {
     public function filter_by_material_cat_name($id_array=null, $cat_name='')
     {
         return parent::filter_by_cat_name($id_array,$cat_name,3);
+    }
+    public function filter_by_material_id($id_array=null, $cat_id=0)
+    {
+        return parent::filter_by_cat_id($id_array,$cat_id);
     }
 }
 ?>

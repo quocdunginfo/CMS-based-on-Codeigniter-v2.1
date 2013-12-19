@@ -39,7 +39,7 @@ $this->load->view('front/header');
             <label class="mylabel">
                 <select name="mat_id" style="width:205px">
                     @{
-                        <option value="" <?php if($timkiem_nangcao['mat_id']=='') echo 'selected="selected"'  ?>>Tất cả các chất liệu</option>
+                        <option value="-1" <?php if($timkiem_nangcao['mat_id']=='' || $timkiem_nangcao['mat_id']==-1) echo 'selected="selected"'  ?>>Tất cả các chất liệu</option>
                          <?php
                         foreach($painting_list_mat as $item)
                         {

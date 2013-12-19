@@ -16,7 +16,7 @@ class Product extends Home {
         {
             array_push($item_cat,$item->id);
         }
-        $list=$this->Painting_post_model->search('','','','',$item_cat,true,'',0,0,-1,'1',0,4,'id','desc');
+        $list=$this->Painting_post_model->search('','','','',$item_cat,true,-1,'',0,0,-1,'1',0,4,'id','desc');
         $item_cat_final=array();
         foreach($list as $item)
         {

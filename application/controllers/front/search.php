@@ -26,10 +26,7 @@ class Search extends Home {
         {
             $cat_array = array($this->_timkiem_nangcao['cat_id']);
         }
-        if($cat_model->is_exist($this->_timkiem_nangcao['mat_id']))
-        {
-            array_push($cat_array,$this->_timkiem_nangcao['mat_id']);
-        }
+        
         $max_item_per_page = $this->_timkiem_nangcao['max_item_per_page'];
         
         $base_url = site_url('front/search/painting_cat/page/');
@@ -38,7 +35,7 @@ class Search extends Home {
         $pagination->set_current_page($get['page']);
         $pagination->set_max_item_per_page($max_item_per_page);
         $pagination->set_total_item(
-            $model->search_count($this->_timkiem_nangcao['title'],'',$this->_timkiem_nangcao['art_id'],'',$cat_array,true,'',$this->_timkiem_nangcao['art_price_from'],$this->_timkiem_nangcao['art_price_to'],-1,1));
+            $model->search_count($this->_timkiem_nangcao['title'],'',$this->_timkiem_nangcao['art_id'],'',$cat_array,true,$this->_timkiem_nangcao['mat_id'],'',$this->_timkiem_nangcao['art_price_from'],$this->_timkiem_nangcao['art_price_to'],-1,1));
         $pagination->set_base_url(
             $base_url,
             7
@@ -48,7 +45,7 @@ class Search extends Home {
         //get objs
         
         $list = $model->search(
-        $this->_timkiem_nangcao['title'],'',$this->_timkiem_nangcao['art_id'],'',$cat_array,true,'',$this->_timkiem_nangcao['art_price_from'],$this->_timkiem_nangcao['art_price_to'],-1,1,$pagination->start_point,
+        $this->_timkiem_nangcao['title'],'',$this->_timkiem_nangcao['art_id'],'',$cat_array,true,$this->_timkiem_nangcao['mat_id'],'',$this->_timkiem_nangcao['art_price_from'],$this->_timkiem_nangcao['art_price_to'],-1,1,$pagination->start_point,
         $pagination->max_item_per_page,
         $this->_timkiem_nangcao['order_by'],
         $this->_timkiem_nangcao['order_rule']
