@@ -60,7 +60,7 @@ class Admin_post extends Admin {
         $this->_data['state']= array();
         $this->_data['special']= $post_obj->special;
         $this->_data['cat_id']= $get['cat_id'];
-        $this->_data['cat_list'] = $this->Cat_model->get_cat_tree(-1,0,0);
+        $this->_data['cat_list'] = $this->Cat_model->get_cat_tree(-1,0,qd_special_post_to_cat($post_obj->special));
         
         $this->_data['html_title'].=' - '.$post_obj->title;
         //load view base on special
@@ -81,11 +81,22 @@ class Admin_post extends Admin {
                     redirect('admin_feedback/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special.'/cat_id/'.$get['cat_id']);
                     return;   
                 }
-                redirect('admin_system_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special.'/cat_id/'.$get['cat_id']);
-                return;
+                
+                //nếu như mà là slider
+                $tmp->id = $setting->get_by_key('slider_category');
+                $tmp->load();
+                if($tmp->is_contain_post($get['post_id']) || $tmp->id==$get['cat_id'])//nếu chỉnh sửa hoặc add item cho slider thì redirect
+                {
+                    redirect('admin_slide_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special.'/cat_id/'.$get['cat_id']);
+                    return;
+                }
+                
+                break;
             case 2:
                 redirect('admin_painting_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special.'/cat_id/'.$get['cat_id']);
                 return;
+            case 6:
+                break;
         }
         $this->load->view('admin/post',$this->_data);
     }

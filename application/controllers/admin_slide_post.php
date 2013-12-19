@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 require_once(APPPATH.'/controllers/admin.php');
-class Admin_system_post extends Admin {
+class Admin_slide_post extends Admin {
     public function __construct()
     {
         parent::__construct();
-        $this->_data['html_title'].=' - System post';
+        $this->_data['html_title'].=' - Slide post';
         array_push($this->_data['active_menu'],'admin_posts');
     }
     public function index()//$post_id, $special(for add only)
@@ -60,34 +60,14 @@ class Admin_system_post extends Admin {
         $this->_data['state']= array();
         $this->_data['special']= $post_obj->special;
         $this->_data['cat_id']= $get['cat_id'];
-        $this->_data['cat_list'] = $this->Cat_model->get_cat_tree(-1,0,1);
+        $this->_data['cat_list'] = $this->Cat_model->get_cat_tree(-1,0,qd_special_post_to_cat($post_obj->special));
         
         $this->_data['html_title'].=' - '.$post_obj->title;
         //load view base on special
         $tmp = new Cat_model;
         $setting = new Setting_model;
-        switch ($post_obj->special)
-        {
-            case 0:
-                redirect('admin_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special.'/cat_id/'.$get['cat_id']);
-                return;
-            case 1:
-                //nếu như mà là feedback post
-                $tmp = new Cat_model;
-                $tmp->id = $setting->get_by_key('feedback_category');
-                $tmp->load();
-                
-                if($tmp->is_contain_post($get['post_id']) || $tmp->id==$get['cat_id'])//nếu chỉnh sửa hoặc add item cho feedback thì redirect
-                {
-                    redirect('admin_feedback/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special.'/cat_id/'.$get['cat_id']);
-                    return;   
-                }
-                break;
-            case 2:
-                redirect('admin_painting_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special.'/cat_id/'.$get['cat_id']);
-                return;
-        }
-        $this->load->view('admin/system_post',$this->_data);
+        
+        $this->load->view('admin/slide_post',$this->_data);
     }
     
     /**
@@ -115,9 +95,8 @@ class Admin_system_post extends Admin {
                 $this->_user
             );
             $post_obj->title = $this->input->post('post_title');
-            $post_obj->content_lite = $this->input->post('post_content_lite');
+            
             $post_obj->active = $this->input->post('post_active')=='1'?'1':'0';//checkbox have to do that
-            $post_obj->content = $this->input->post('post_content');
             $post_obj->set_avatar($this->input->post('avatar'));//link image
             $post_obj->special = $special;
             $cat_list_id = $this->input->post('cat_checkbox_list');//get array checkbox
@@ -158,9 +137,7 @@ class Admin_system_post extends Admin {
             }
             //assign value
             $post_obj->title = $this->input->post('post_title');
-            $post_obj->content_lite = $this->input->post('post_content_lite');
             $post_obj->active = $this->input->post('post_active')=='1'?'1':'0';
-            $post_obj->content = $this->input->post('post_content');
             $post_obj->set_avatar($this->input->post('avatar'));
             $cat_list_id = $this->input->post('cat_checkbox_list');
             if(!is_array($cat_list_id)) $cat_list_id=array();

@@ -44,11 +44,6 @@ $this->load->view('admin/header');
                                 </p>
                             </p>
                             
-                            
-                            <p>
-                                <label>Short description</label>
-                                <textarea name="post_content_lite" rows="5" cols="180" class="input-medium"><?php echo $post->content_lite; ?></textarea>
-                            </p>
                             <fieldset>
                                 <legend>Checkbox</legend>
                                 <ul>
@@ -70,10 +65,6 @@ $this->load->view('admin/header');
                                 </ul>
                             </fieldset>
 
-                            <fieldset>
-                                <label>Main content</label>
-                                <textarea name="post_content" id="wysiwyg" rows="11" cols="90"><?php echo $post->content; ?></textarea> 
-                            </fieldset>
                             
                             <fieldset>
                                 <a href="<?=site_url('admin_posts/index/special/'.$special.'/cat_id/'.$cat_id.'/') ?>" class="button" style="margin-right: 10px;"><span>Back</span></a>

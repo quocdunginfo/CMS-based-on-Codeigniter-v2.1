@@ -64,13 +64,7 @@ class Admin_painting_post extends Admin {
         $this->_data['cat_list_material'] = $this->Cat_model->get_cat_tree(-1,0,3);
         
         $this->_data['html_title'].=' - '.$post_obj->title;
-        //load view base on special
-        switch ($post_obj->special)
-        {
-            case 0:
-                redirect('admin_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
-                break;
-        }
+
         $this->load->view('admin/painting_post',$this->_data);
     }
     public function edit($special=0)

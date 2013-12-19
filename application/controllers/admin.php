@@ -28,6 +28,7 @@ class Admin extends CI_Controller {
         $this->load->helper('url');
         $this->load->helper('file');
         $this->load->helper('qd_file_helper');
+        $this->load->helper('qd_special_translate');
         //library
         $this->load->library('session');
         $this->load->library('Qd_pagination');
