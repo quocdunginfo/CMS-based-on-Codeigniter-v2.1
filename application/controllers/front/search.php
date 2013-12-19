@@ -59,6 +59,16 @@ class Search extends Home {
       //  parent::_add_active_menu(site_url('front/search/painting_cat/');
         parent::_view('search',$this->_data);
     }
+    public function simple_submit()
+    {
+        $input = $this->input->post(null,true);
+        parent::_khoitao_timkiem_nangcao();
+        $this->_timkiem_nangcao['title']=$input['title'];
+        //save to session
+        parent::_luu_timkiem_nangcao();
+        //redirect
+        redirect('front/search/painting_cat/page/1#qd_sapxep');
+    }
     public function submit()
     {
         //get param      
@@ -71,7 +81,7 @@ class Search extends Home {
         }
         else{
         $this->_timkiem_nangcao['art_id']=$input['art_id'];
-        $this->_timkiem_nangcao['title']=$input['art_id'];
+        $this->_timkiem_nangcao['title']=$input['title'];
         $this->_timkiem_nangcao['cat_id']=$input['cat_id'];
         $this->_timkiem_nangcao['art_price_from']=$input['art_price_from'];
         $this->_timkiem_nangcao['art_price_to']=$input['art_price_to'];

@@ -118,8 +118,13 @@ $template_path=base_url().'application/views/admin/';
                 return false;
             }
         }
+        function qd_blink(selector)
+        {
+            //blink
+            $(selector).fadeIn(1000).fadeOut(200).fadeIn(500).fadeOut(200).fadeIn(500);
+        }
         </script>
-
+        
 	</head>
 	<body>
     	<!-- Header -->
@@ -178,11 +183,11 @@ $template_path=base_url().'application/views/admin/';
                 <div class="container_12">
                     <div class="grid_12">
                         <ul>
-                            <li><a href="<?=site_url('admin_category/index/special/0')?>">[Normal categories for posts]</a></li>
-                            <li><a href="<?=site_url('admin_category/index/special/1')?>">[Special categories for other features]</a></li>
-                            <li><a href="<?=site_url('admin_category/index/special/2')?>">[Painting categories]</a></li>
-                            <li><a href="<?=site_url('admin_category/index/special/3')?>">[Material categories]</a></li>
-                            <li><a href="<?=site_url('admin_category/index/special/6')?>">[Static page categories]</a></li>
+                            <li><a href="<?=site_url('admin_category/index/special/0')?>">[Normal]</a></li>
+                            <li><a href="<?=site_url('admin_category/index/special/1')?>">[System]</a></li>
+                            <li><a href="<?=site_url('admin_category/index/special/2')?>">[Painting]</a></li>
+                            <li><a href="<?=site_url('admin_category/index/special/3')?>">[Material]</a></li>
+                            <li><a href="<?=site_url('admin_category/index/special/6')?>">[Static page]</a></li>
                         </ul>
                     </div><!-- End. .grid_12-->
                 </div><!-- End. .container_12 -->
@@ -198,9 +203,9 @@ $template_path=base_url().'application/views/admin/';
                     <div class="grid_12">
                         <ul>
                             
-                            <li><a href="<?=site_url('admin_posts/index/special/0')?>">[Normal posts]</a></li>
-                            <li><a href="<?=site_url('admin_posts/index/special/1')?>">[Special posts for other features]</a></li>
-                            <li><a href="<?=site_url('admin_posts/index/special/2')?>">[Painting post]</a></li>
+                            <li><a href="<?=site_url('admin_posts/index/special/0')?>">[Normal]</a></li>
+                            <li><a href="<?=site_url('admin_posts/index/special/1')?>">[System]</a></li>
+                            <li><a href="<?=site_url('admin_posts/index/special/2')?>">[Painting]</a></li>
                             <li><a href="<?=site_url('admin_posts/index/special/6')?>">[Static page]</a></li>
                         </ul>
                     </div><!-- End. .grid_12-->

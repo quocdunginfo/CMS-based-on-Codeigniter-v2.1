@@ -2,14 +2,13 @@
 class Setting_model extends CI_Model {
 
     public $id=0;
-    public $key="";
-    public $value="";
+    public $key='';
+    public $value='';
     //private
-    private $_tbn="option";
+    private $_tbn='option';
     function __construct()
     {
         parent::__construct();
-        $this->load->database();
     }
     public function load_by_key()
     {
@@ -41,7 +40,7 @@ class Setting_model extends CI_Model {
     }
     public function add_or_update($key=null,$value=null)
     {
-        if(self::is_key_exist())
+        if(self::is_key_exist($key))
         {
             //neu da ton tai thi update
             self::update($key,$value);
@@ -61,24 +60,24 @@ class Setting_model extends CI_Model {
         );
     }
     
-    public function is_key_exist($key=null)
+    public function is_key_exist($_key=null)
     {
-        $this->db->select("id");
-        $this->db->where("key",$key==null?$this->key:$key);
+        $this->db->select('id');
+        $this->db->where('key',$_key==null?$this->key:$_key);
         return $this->db->count_all_results($this->_tbn)>0?true:false;
     }
     //private
-    private function update($key=null,$value=null)
+    private function update($_key=null,$_value=null)
     {
-        $this->db->set('value',$value==null? $this->value:$value);
-        $this->db->where('key',$key==null?$this->key:$key);
+        $this->db->set('value',$_value==null? $this->value:$_value);
+        $this->db->where('key',$_key==null?$this->key:$_key);
         $this->db->update($this->_tbn);
     }
-    private function add($key=null,$value=null)
+    private function add($_key=null,$_value=null)
     {
         $array = array(
-            'key'=>$this->key,
-            'value'=>$this->value);
+            'key'=>$_key==null?$this->key:$_key,
+            'value'=>$_value==null?$this->value:$_value);
         $this->db->insert($this->_tbn,$array);
     }
 }

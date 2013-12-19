@@ -92,7 +92,7 @@ $this->load->view('admin/header');
             <div class="grid_6">
                 <!-- Notification boxes -->
                 
-                <div class="module">
+                <div class="module" id="qd_add_or_update">
                      <h2><span>Add or update</span></h2>
                         <style type="text/css">
                         .module-body #menu_detail label{
@@ -135,8 +135,12 @@ $this->load->view('admin/header');
                                     // this gets called from the popup window and updates the field with a new value
                                     document.getElementById("menu_param").value = value;
                                 }
+                                //notification
                                 $( document ).ready(function() {
                                     qd_validate();
+                                    //auto focus
+                                    $("#menu_name").focus();
+                                    qd_blink("#qd_add_or_update");
                                 });
                                 </script>
                                 <input  id="menu_parent_id" name="menu_parent_id" type="hidden" value="-1"/>

@@ -18,7 +18,7 @@ class Admin_setting extends Admin {
         //get model
         $setting_obj = new Setting_model;
         //set view data from sb
-        $this->_data['state']=isset($this->_temp['state'])?(array)$this->_temp['state']:array();
+        $this->_data['state']=(array)$this->session->flashdata('state');
         $this->_data['unlink_count'] = isset($this->_temp['unlink_count'])?(int)$this->_temp['unlink_count']:0;
         
         $this->_data['cache_time']=$setting_obj->get('cache_time');
@@ -26,12 +26,12 @@ class Admin_setting extends Admin {
         $this->_data['slider_category']=$setting_obj->get('slider_category');
         $this->_data['feedback_category']=$setting_obj->get('feedback_category');
         $this->_data['feedback_captcha']=$setting_obj->get('feedback_captcha');
-        $this->_data['menu_categories_category']=$setting_obj->get('menu_categories_category');
+        
         $this->_data['homepage_widget_category']=$setting_obj->get('homepage_widget_category');
         $this->_data['homepage_footer_widget_category']=$setting_obj->get('homepage_footer_widget_category');
-        $this->_data['menu_latest_category']=$setting_obj->get('menu_latest_category');
-        $this->_data['menu_about_category']=$setting_obj->get('menu_about_category');
-        $this->_data['maximum_item_per_page']=$setting_obj->get('maximum_item_per_page');
+       
+       
+       
         $this->_data['maximum_preview_post_content']=$setting_obj->get('maximum_preview_post_content');
         $this->_data['maximum_preview_post_title']=$setting_obj->get('maximum_preview_post_title');
         $this->_data['allow_guest_post_feedback']=$setting_obj->get('allow_guest_post_feedback');
@@ -63,8 +63,8 @@ class Admin_setting extends Admin {
         $count = qd_delete_files($path);
         //set temp
         $this->_temp['unlink_count'] = $count;
-        $this->_temp['state'] = array('delete_cache_ok');
-        self::index();
+        $this->session->set_flashdata('state', array('delete_cache_ok'));
+        redirect('admin_setting');
     }
     public function edit()
     {
@@ -81,12 +81,12 @@ class Admin_setting extends Admin {
         $feedback_category = $this->input->post('feedback_category');
         $feedback_captcha = $this->input->post('feedback_captcha');
         $slider_auto_scroll_time = $this->input->post('slider_auto_scroll_time');
-        $menu_categories_category = $this->input->post('menu_categories_category');
-        $menu_latest_category = $this->input->post('menu_latest_category');//
-        $menu_about_category = $this->input->post('menu_about_category');//
+       
+        
+        
         $homepage_widget_category = $this->input->post('homepage_widget_category');//
         $homepage_footer_widget_category = $this->input->post('homepage_footer_widget_category');//
-        $maximum_item_per_page = $this->input->post('maximum_item_per_page');//
+        
         $maximum_preview_post_title = $this->input->post('maximum_preview_post_title');//
         $maximum_preview_post_content = $this->input->post('maximum_preview_post_content');//
         $allow_guest_post_feedback = $this->input->post('allow_guest_post_feedback');//
@@ -105,12 +105,12 @@ class Admin_setting extends Admin {
         $var->update_or_add('maintain_mode',$maintain_mode);
         $var->update_or_add('feedback_category',$feedback_category);
         $var->update_or_add('feedback_captcha',$feedback_captcha);
-        $var->update_or_add('menu_categories_category',$menu_categories_category);
-        $var->update_or_add('menu_latest_category',$menu_latest_category);
-        $var->update_or_add('menu_about_category',$menu_about_category);
+        
+        
+        
         $var->update_or_add('homepage_widget_category',$homepage_widget_category);
         $var->update_or_add('homepage_footer_widget_category',$homepage_footer_widget_category);
-        $var->update_or_add('maximum_item_per_page',$maximum_item_per_page);
+        
         $var->update_or_add('maximum_preview_post_title',$maximum_preview_post_title);
         $var->update_or_add('maximum_preview_post_content',$maximum_preview_post_content);
         $var->update_or_add('allow_guest_post_feedback',$allow_guest_post_feedback);
@@ -122,7 +122,7 @@ class Admin_setting extends Admin {
         $var->update_or_add('html_seo_keyword',$html_seo_keyword);
         $var->update_or_add('html_seo_description',$html_seo_description);
         //set temp
-        $this->_temp['state'] = array('edit_ok');
-        self::index();
+        $this->session->set_flashdata('state', array('edit_ok'));
+        redirect('admin_setting');
     }
 }

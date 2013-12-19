@@ -31,6 +31,7 @@ $this->load->view('admin/header');
                             
                             return false;
                         }
+                        
                         </script>
                         <span class="notification n-success" <?php if(!in_array('add_ok',$state)) echo 'style="display:none;"'; ?>>Added successfully!</span>
                         <?php if($view_mode=='selector') { ?>
@@ -88,14 +89,24 @@ $this->load->view('admin/header');
                                             $('#cat_id_'+cat_id).attr('checked','checked');
                                             //move to edit area
                                             window.location.hash="cat_edit";
+                                            //notification for add
+                                            //auto focus
+                                            $("#cat_edit_name").focus();
+                                            qd_blink("#qd_update");
                                         }
+                                        //notification for add
+                                        $( document ).ready(function() {
+                                            //auto focus
+                                            $("#cat_add_name").focus();
+                                            qd_blink("#qd_add");
+                                        });
                                     </script>
                                 </ul>
                             </fieldset>
                             
-                            <fieldset>
+                            <fieldset id="qd_add">
                                 Category name:
-                                <input name="cat_name" type="text" class="input-short" style="width: 200px;"/>
+                                <input id="cat_add_name" name="cat_name" type="text" class="input-short" style="width: 200px;"/>
                                 &nbsp;
                                 <input class="submit-green" type="submit" value="Add category" />
                                 <a name="cat_add"></a>
@@ -109,12 +120,11 @@ $this->load->view('admin/header');
             </div> <!-- End .grid_6 -->
             
             <!-- Category edit panel -->
-            <div class="grid_6">
+            <div class="grid_6" id="qd_update">
                 <!-- Notification boxes -->
                 
                 <div class="module">
                      <h2><span>Category function</span></h2>
-
                      <div class="module-body">
                         <span class="notification n-success" <?php if(!in_array('edit_ok',$state)) echo 'style="display:none;"'; ?>>Updated successfully!</span>
                         <p>Edit category</p>  

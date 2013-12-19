@@ -208,60 +208,6 @@ function show_notification($state=array(),$unlink_count=0)
                 </div> <!-- End .grid_6 -->
                 
                 
-                <!-- Menu Setting -->
-                <div class="grid_6">
-                    <div class="module">
-                         <h2><span>Menu and pages</span></h2>
-    
-                         <div class="module-body">
-                            <?=show_notification($state,$unlink_count)?>  
-                            
-                            <p>
-                                <label>Choose category for "Latest posts" menu on home page</label>
-                                <select class="input-long" name="menu_latest_category">
-                                    <option value="-1" <?php if($menu_latest_category==-1) echo 'selected="selected"'; ?>>(Tất cả)</option>
-                                    <?php
-                                        foreach($cat_list_normal as $cat_obj):
-                                    ?>
-                                    <option value="<?=$cat_obj->id?>" <?php if($menu_latest_category==$cat_obj->id) echo 'selected="selected"'; ?>><?php for($i=1;$i<=$cat_obj->level;$i++) { echo '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'; } echo $cat_obj->name; ?></option>
-                                    <?php
-                                        endforeach;
-                                    ?>
-                                </select>
-                            </p>
-                            <p>
-                                <label>Choose category for "Categories" menu on home page</label>
-                                <select class="input-long" name="menu_categories_category">
-                                    <option value="-1" <?php if($menu_categories_category==-1) echo 'selected="selected"'; ?>>(Tất cả)</option>
-                                    <?php
-                                        foreach($cat_list_normal as $cat_obj):
-                                    ?>
-                                    <option value="<?=$cat_obj->id?>" <?php if($menu_categories_category==$cat_obj->id) echo 'selected="selected"'; ?>><?php for($i=1;$i<=$cat_obj->level;$i++) { echo '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'; } echo $cat_obj->name; ?></option>
-                                    <?php
-                                        endforeach;
-                                    ?>
-                                </select>
-                            </p>
-                            <p>
-                                <label>Choose category for "About" menu on home page</label>
-                                <select class="input-long" name="menu_about_category">
-                                    <option value="-1" <?php if($menu_about_category==-1) echo 'selected="selected"'; ?>>(Tất cả)</option>
-                                    <?php
-                                        foreach($cat_list_special as $cat_obj):
-                                    ?>
-                                    <option value="<?=$cat_obj->id?>" <?php if($menu_about_category==$cat_obj->id) echo 'selected="selected"'; ?>><?php for($i=1;$i<=$cat_obj->level;$i++) { echo '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp'; } echo $cat_obj->name; ?></option>
-                                    <?php
-                                        endforeach;
-                                    ?>
-                                </select>
-                            </p>
-                            <input class="submit-green" type="submit" value="Save"  />
-                         </div> <!-- End .module-body -->
-                    </div> <!-- End .module -->
-                    <div style="clear:both;"></div>
-                </div> <!-- End .grid_6 -->
-                <div style="clear:both;"></div>
-                
                 <!-- Widget -->
                 <div class="grid_6">
                     <div class="module">
@@ -270,10 +216,6 @@ function show_notification($state=array(),$unlink_count=0)
                          <div class="module-body">
                             <?=show_notification($state,$unlink_count)?> 
                             
-                            <p>
-                                <label>Choose posts per page</label>
-                                <input name="maximum_item_per_page" value="<?=$maximum_item_per_page?>" class="input-medium" style="width: 100px;"/>
-                            </p>
                             <p>
                                 <label>Choose maximum characters for post's title preview</label>
                                 <input name="maximum_preview_post_title" value="<?=$maximum_preview_post_title?>" class="input-medium" style="width: 100px;"/>

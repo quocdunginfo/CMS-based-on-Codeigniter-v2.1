@@ -119,7 +119,7 @@ $this->load->view('admin/header');
                             
                             <?php if($user0->is_manager()) { ?>
                             <fieldset>
-                                User group:
+                                <label>User group:</label>
                                 <select name="user_groupid">
                                 <?php foreach($group_list as $item): ?>
                                 <option value="<?=$item->id?>"
