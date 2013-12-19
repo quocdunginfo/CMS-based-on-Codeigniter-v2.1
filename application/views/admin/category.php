@@ -34,6 +34,7 @@ $this->load->view('admin/header');
                         
                         </script>
                         <span class="notification n-success" <?php if(!in_array('add_ok',$state)) echo 'style="display:none;"'; ?>>Added successfully!</span>
+                        <span class="notification n-success" <?php if(!in_array('delete_ok',$state)) echo 'style="display:none;"'; ?>>Deleted successfully!</span>
                         <?php if($view_mode=='selector') { ?>
                         <input class="submit-green" type="button" value="Choose" onclick="return qd_choose()" />
                         
@@ -63,9 +64,10 @@ $this->load->view('admin/header');
                                             <input id="cat_id_<?=$cat_obj->id?>" style="margin-left:<?php echo ($cat_obj->level+1)*20; ?>px;" type="radio" name="cat_radio_list[]" value="<?php echo $cat_obj->id; ?>"/>
                                             &nbsp;
                                             <span id="cat_name_<?=$cat_obj->id?>"><?php echo $cat_obj->name; ?></span>
-                                            <a onclick="return confirm_click();" href="<?php echo site_url('admin_category/delete/'.$cat_obj->id.'/'.$special); ?>" style="float: right;">Delete</a>
+                                            <a onclick="return confirm_click();" href="<?php echo site_url('admin_category/delete/cat_id/'.$cat_obj->id.'/special/'.$special.'/view_mode/'.$view_mode); ?>" style="float: right;">Delete</a>
                                             
                                             <a href="javascript:transfer_cat_edit(<?=$cat_obj->id?>);" style="float: right; margin-right: 20px;" >Edit</a>
+                                            <a href="<?=site_url('admin_category/move_up/cat_id/'.$cat_obj->id.'/special/'.$special.'/view_mode/'.$view_mode) ?>" style="float: right; margin-right: 20px;" >Up</a>
                                             
                                         </label>
                                     </li>

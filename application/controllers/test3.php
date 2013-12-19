@@ -23,26 +23,7 @@ class Test3 extends CI_Controller {
     }
     public function index($page=1)
     {
-        $config = array(
-            'protocol' => 'smtp',
-            'smtp_host' => 'ssl://smtp.gmail.com',
-            'smtp_port' => 465,
-            'smtp_user' => 'quocdunginfo@gmail.com',
-            'smtp_pass' => 'doyohaanthtode77859',
-            'mailtype' => 'text',
-            'newline' =>'\r\n',
-            'starttls'  => true,
-            'charset'   => 'iso-8859-1'
-        );
-        $this->email->initialize($config);
         
-        $this->email->from('quocdunginfo@gmail.com', 'Nguyen Dung');
-        $this->email->to('quocdunginfo@gmail.com'); 
-        
-        $this->email->subject('quocdunginfo@gmail.com');
-        $this->email->message('quocdunginfo@gmail.com');	
-        
-        $this->email->send();
         
     }
     

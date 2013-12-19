@@ -15,6 +15,7 @@ class Admin_menu extends Admin {
             return;
         }
         
+        
         $menu_list = $this->Menu_model->get_cat_tree(-1,0);
         $this->_data['menu_list'] = $menu_list;
         $this->_data['menu0'] = new Menu_model;
@@ -116,5 +117,25 @@ class Admin_menu extends Admin {
         $obj->id= $id;
         $obj->delete_resursive(true,$obj->special);
         redirect('admin_menu');
+    }
+    public function move_up()
+    {
+        if(!in_array('menu_edit',$this->_permission))
+        {
+            $this->_fail_permission('menu_edit');
+            return;
+        }
+        //get param
+        $get = $this->uri->uri_to_assoc(3,array('cat_id'));
+        $get['cat_id'] = $get['cat_id']===false?0:$get['cat_id'];
+        
+        //get obj
+        $obj = new Menu_model;
+        $obj->id = $get['cat_id'];
+        $obj->load();
+        //call
+        $obj->rank_up();
+        $this->session->set_flashdata('state', array('edit_ok'));
+        redirect('admin_menu/index/');
     }
 }

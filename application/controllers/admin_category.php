@@ -23,6 +23,7 @@ class Admin_category extends Admin {
         $this->_data['cat_list'] = $cat_list;
         $this->_data['special'] = $get['special'];
         $this->_data['view_mode'] = $get['view_mode'];
+        $this->_data['state'] = (array)$this->session->flashdata('state');
         $this->load->view('admin/category',$this->_data);
     }
     public function add()//special
@@ -33,8 +34,9 @@ class Admin_category extends Admin {
             return;
         }
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('special'));
+        $get = $this->uri->uri_to_assoc(3,array('special','view_mode'));
         $get['special'] = $get['special']===false?0:$get['special'];
+        $get['view_mode'] = $get['view_mode']===false?'normal':$get['view_mode'];
         //post param
         $input = $this->input->post(null,true);
         //get parent cat
@@ -48,16 +50,21 @@ class Admin_category extends Admin {
             $cat->set_parent_cat_obj($p);
             $cat->add();
         //
-        $this->_data['state'] = array('add_ok');
-        self::index($get['special']);
+        $this->session->set_flashdata('state', array('add_ok'));
+        redirect('admin_category/index/special/'.$get['special'].'/view_mode/'.$get['view_mode']);
     }
-    public function edit($special=0)
+    public function edit()
     {
         if(!in_array('category_add',$this->_permission))
         {
             $this->_fail_permission('category_add');
             return;
         }
+        //get param
+        $get = $this->uri->uri_to_assoc(3,array('special','view_mode'));
+        $get['special'] = $get['special']===false?0:$get['special'];
+        $get['view_mode'] = $get['view_mode']===false?'normal':$get['view_mode'];
+        //post
         $input = $this->input->post(null,true);
         //load cat
             $cat = new Cat_model;
@@ -66,33 +73,72 @@ class Admin_category extends Admin {
         //set value
             $cat->name = $input['cat_name'];
         $cat->update();
-        $this->_data['state'] = array('edit_ok');
-        self::index($special);
+        $this->session->set_flashdata('state', array('edit_ok'));
+        redirect('admin_category/index/special/'.$get['special'].'/view_mode/'.$get['view_mode']);
     }
-    public function delete($cat_id,$special)
+    public function move_up()
     {
+        if(!in_array('category_edit',$this->_permission))
+        {
+            $this->_fail_permission('category_edit');
+            return;
+        }
+        //get param
+        $get = $this->uri->uri_to_assoc(3,array('cat_id','special','view_mode'));
+        $get['cat_id'] = $get['cat_id']===false?0:$get['cat_id'];
+        $get['special'] = $get['special']===false?0:$get['special'];
+        $get['view_mode'] = $get['view_mode']===false?'normal':$get['view_mode'];
+        
+        //get obj
+        $obj = new Cat_model;
+        $obj->special = $get['special'];
+        $obj->id = $get['cat_id'];
+        $obj->load();
+        //call
+        $obj->rank_up();
+        $this->session->set_flashdata('state', array('edit_ok'));
+        redirect('admin_category/index/special/'.$get['special'].'/view_mode/'.$get['view_mode']);
+    }
+    public function delete()
+    {
+        
         if(!in_array('category_delete',$this->_permission))
         {
             $this->_fail_permission('category_delete');
             return;
         }
+        //get param
+        $get = $this->uri->uri_to_assoc(3,array('cat_id','special','view_mode'));
+        $get['cat_id'] = $get['cat_id']===false?0:$get['cat_id'];
+        $get['special'] = $get['special']===false?0:$get['special'];
+        $get['view_mode'] = $get['view_mode']===false?'normal':$get['view_mode'];
+        
         //show confirm delete
-        $this->_data['cat_id'] = $cat_id;
-        $this->_data['special'] = $special;
+        $this->_data['cat_id'] = $get['cat_id'];
+        $this->_data['special'] = $get['special'];
+        $this->_data['view_mode'] = $get['view_mode'];
         $this->load->view('admin/category_delete',$this->_data);
     }
-    public function confirm_delete($cat_id=-1,$delete_post=0,$special=-1)
+    public function confirm_delete()
     {
         if(!in_array('category_add',$this->_permission))
         {
             $this->_fail_permission('category_add');
             return;
         }
+        //get param
+        $get = $this->uri->uri_to_assoc(3,array('cat_id','special','view_mode', 'delete_post'));
+        $get['cat_id'] = $get['cat_id']===false?0:$get['cat_id'];
+        $get['special'] = $get['special']===false?0:$get['special'];
+        $get['view_mode'] = $get['view_mode']===false?'normal':$get['view_mode'];
+        $get['delete_post'] = $get['delete_post']===false?0:$get['delete_post'];
+        
         $cat = new Cat_model;
-        $cat->id=$cat_id;
-        $cat->delete_resursive($delete_post==0?false:true,$special);
-        $this->_data['state'] = array('delete_ok');
-        redirect('admin_category/index/special/'.$special);
+        $cat->id=$get['cat_id'];
+        $cat->delete_resursive($get['delete_post']==0?false:true,$get['special']);
+        $this->session->set_flashdata('state', array('delete_ok'));
+        
+        redirect('admin_category/index/special/'.$get['special'].'/view_mode/'.$get['view_mode']);
     }
     
 }

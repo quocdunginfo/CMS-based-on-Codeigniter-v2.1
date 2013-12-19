@@ -127,7 +127,7 @@ $page_total = $pagination->total_page;
                                         &nbsp;&nbsp;
                                         <a href="<?= site_url('admin_posts/edit/post_id/'.$post->id.'/special/'.$post->special.'/cat_id/'.$cat_id); ?>"><img src="src/pencil.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/pencil.gif" width="16" height="16" alt="edit" /></a>
                                         &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a onclick="return confirm_click('<?=site_url('admin_posts/delete/post_id/'.$post->id.'/cat_id/'.$cat_id.'/page/'.$page_current.'/special/'.$special); ?>');" href="javascript:void(0)"><img src="src/bin.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/bin.gif" width="16" height="16" alt="delete"/></a>
+                                        <a onclick="return confirm_click('<?=site_url('admin_posts/delete/post_id/'.$post->id.'/cat_id/'.$cat_id.'/page/'.$page_current.'/special/'.$special.'/view_mode/'.$view_mode); ?>');" href="javascript:void(0)"><img src="src/bin.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/bin.gif" width="16" height="16" alt="delete"/></a>
                                         
                                     </td>
                                 </tr>

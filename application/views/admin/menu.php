@@ -63,6 +63,7 @@ $this->load->view('admin/header');
                                             <a onclick="return confirm_click();" href="<?php echo site_url('admin_menu/delete/'.$item->id); ?>" style="float: right;">Delete</a>
                                             
                                             <a href="<?php echo site_url('admin_menu/edit/'.$item->id); ?>" style="float: right; margin-right: 20px;" >Edit</a>
+                                            <a href="<?php echo site_url('admin_menu/move_up/cat_id/'.$item->id.'/view_mode/'.$view_mode); ?>" style="float: right; margin-right: 20px;" >Up</a>
                                             
                                         </label>
                                     </li>

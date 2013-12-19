@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 18, 2013 at 06:19 PM
+-- Generation Time: Dec 19, 2013 at 09:42 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.16
 
@@ -36,7 +36,8 @@ CREATE TABLE IF NOT EXISTS `category` (
   `date_create` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modify` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `active` int(11) NOT NULL DEFAULT '1',
-  `special` int(11) NOT NULL DEFAULT '0' COMMENT '0: normal cat, 1: system cat, 2: thể loại tranh, 3: chất liệu tranh, 4: menu, 5: product order',
+  `rank` int(11) NOT NULL DEFAULT '0',
+  `special` int(11) NOT NULL DEFAULT '0' COMMENT '0: normal cat, 1: system cat, 2: thể loại tranh, 3: chất liệu tranh, 4: menu, 5: product order, 6:static page',
   `order_total` int(11) NOT NULL DEFAULT '0',
   `order_status` text NOT NULL,
   `order_online_payment` int(11) NOT NULL DEFAULT '1',
@@ -49,53 +50,52 @@ CREATE TABLE IF NOT EXISTS `category` (
   `menu_provider_id` int(11) NOT NULL DEFAULT '0',
   `menu_param` text NOT NULL COMMENT 'kết hợp với controller và action trong menu_provider để ra URL',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=96 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=104 ;
 
 --
 -- Dumping data for table `category`
 --
 
-INSERT INTO `category` (`id`, `name`, `description`, `parent_id`, `date_create`, `date_modify`, `active`, `special`, `order_total`, `order_status`, `order_online_payment`, `order_user_id`, `order_customer_user_id`, `order_rc_address`, `order_rc_phone`, `order_rc_fullname`, `order_shippingfee_id`, `menu_provider_id`, `menu_param`) VALUES
-(1, 'Nokia', '', 3, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(4, 'Samsung', '', 3, '2013-08-28 00:00:00', '2013-08-15 00:00:00', 1, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(5, 'Laptop', '', -1, '2013-08-22 00:00:00', '2013-08-17 00:00:00', 1, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(24, 'Dell', '', 5, '0000-00-00 00:00:00', '2013-12-01 15:46:27', 1, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(25, 'Vaio', '', 5, '0000-00-00 00:00:00', '2013-11-28 09:10:37', 1, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(26, 'Macbook', '', 5, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(27, 'Lenovo', '', 5, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(28, 'HTC', '', 3, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(29, 'Mobell', '', 3, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(30, 'Samsung', '', 5, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(39, 'feedback', '', -1, '0000-00-00 00:00:00', '2013-12-18 15:03:04', 1, 1, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(40, 'Slider for home page2', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(47, 'Trừu tượng2', '', -1, '0000-00-00 00:00:00', '2013-12-02 06:54:21', 1, 2, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(48, 'Khỏa thân', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 2, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(49, 'vai2', '', -1, '0000-00-00 00:00:00', '2013-12-07 11:47:28', 1, 3, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(50, 'giay', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 3, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(51, 'About page', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(52, 'Homepage''s 6 widgets', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(53, 'Homepage''s footer widget', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(61, 'cuoc song 22', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(63, 'gach', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 3, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(73, '', '', 0, '2013-12-07 15:14:39', '2013-12-08 19:30:12', 1, 5, 509000, 'dabihuy', 1, 9, 11, '', '', '', 0, 0, ''),
-(74, '', '', 0, '2013-12-08 14:06:11', '2013-12-08 16:42:01', 1, 5, 509000, 'dabihuy', 1, 9, 11, '', '', '', 0, 0, ''),
-(75, 'Khỏa hình', '', 48, '2013-12-09 08:55:54', '2013-12-09 08:55:54', 1, 2, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(76, '', '', 0, '2013-12-13 16:23:29', '2013-12-13 16:23:29', 1, 5, 12000, 'chualienlac', 0, 0, 0, 'Tran Hung Dao', '1212121212', 'Quarn trij2222', 0, 0, ''),
-(77, '', '', 0, '2013-12-13 16:26:31', '2013-12-13 16:26:31', 1, 5, 12000, 'chualienlac', 0, 0, 9, 'Tran Hung Dao', '1212121212', 'Quarn trij2222', 0, 0, ''),
-(78, '', '', 0, '2013-12-13 16:31:03', '2013-12-13 16:31:03', 1, 5, 12000, 'chualienlac', 0, 0, 9, 'Tran Hung Dao', '1212121212', 'Quarn trij2222', 0, 0, ''),
-(79, '', '', 0, '2013-12-13 16:32:22', '2013-12-13 16:33:15', 1, 5, 12000, 'chuagiao', 0, 0, 9, 'Tran Hung Dao', '1212121212', 'Quarn trij2222', 1, 0, ''),
-(80, '', '', 0, '2013-12-15 14:16:40', '2013-12-15 14:16:40', 1, 5, 1234, 'chualienlac', 1, 0, 9, 'Tran Hung Dao', '0979996234', 'Quarn trij2222', 18, 0, ''),
-(81, '', '', 0, '2013-12-15 14:19:43', '2013-12-15 14:19:43', 1, 5, 1234, 'chualienlac', 0, 0, 9, 'Tran Hung Dao', '0979996234', 'Quarn trij2222', 1, 0, ''),
-(82, 'Main menu 1', '', -1, '2013-12-16 09:02:48', '2013-12-17 16:17:42', 1, 4, 0, '', 1, 0, 0, '', '', '', 0, 1, ''),
-(84, 'Trang chủ', '', 82, '2013-12-16 09:03:06', '2013-12-17 16:51:58', 1, 4, 0, '', 1, 0, 0, '', '', '', 0, 5, ''),
-(88, 'Liên hệ', '', 82, '2013-12-17 16:21:37', '2013-12-17 16:21:37', 1, 4, 0, '', 1, 0, 0, '', '', '', 0, 1, ''),
-(89, 'Login', '', 91, '2013-12-17 17:11:30', '2013-12-17 17:18:41', 1, 4, 0, '', 1, 0, 0, '', '', '', 0, 6, ''),
-(90, 'Register', '', 91, '2013-12-17 17:13:35', '2013-12-17 17:18:31', 1, 4, 0, '', 1, 0, 0, '', '', '', 0, 7, ''),
-(91, 'Account', '', 82, '2013-12-17 17:16:11', '2013-12-17 17:16:11', 1, 4, 0, '', 1, 0, 0, '', '', '', 0, 8, ''),
-(92, 'Logout', '', 91, '2013-12-17 17:17:22', '2013-12-17 17:18:26', 1, 4, 0, '', 1, 0, 0, '', '', '', 0, 9, ''),
-(93, 'Tất cả sản phẩm', '', 82, '2013-12-17 17:25:42', '2013-12-17 17:25:42', 1, 4, 0, '', 1, 0, 0, '', '', '', 0, 4, ''),
-(94, 'Tìm kiếm ', '', 82, '2013-12-18 10:03:54', '2013-12-18 10:03:54', 1, 4, 0, '', 1, 0, 0, '', '', '', 0, 10, ''),
-(95, 'Khỏa thân', '', 82, '2013-12-18 15:01:35', '2013-12-18 16:47:41', 1, 4, 0, '', 1, 0, 0, '', '', '', 0, 12, '47');
+INSERT INTO `category` (`id`, `name`, `description`, `parent_id`, `date_create`, `date_modify`, `active`, `rank`, `special`, `order_total`, `order_status`, `order_online_payment`, `order_user_id`, `order_customer_user_id`, `order_rc_address`, `order_rc_phone`, `order_rc_fullname`, `order_shippingfee_id`, `menu_provider_id`, `menu_param`) VALUES
+(1, 'Nokia', '', 5, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(4, 'Samsung', '', 5, '2013-08-28 00:00:00', '2013-08-15 00:00:00', 1, 4, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(5, 'Laptop', '', -1, '2013-08-22 00:00:00', '2013-12-19 21:03:46', 1, 5, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(24, 'Dell', '', 5, '0000-00-00 00:00:00', '2013-12-19 20:35:36', 1, 26, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(25, 'Vaio', '', 5, '0000-00-00 00:00:00', '2013-11-28 09:10:37', 1, 27, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(26, 'Macbook', '', 5, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 24, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(27, 'Lenovo', '', 5, '0000-00-00 00:00:00', '2013-12-19 21:30:47', 1, 30, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(28, 'HTC', '', 5, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 29, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(29, 'Mobell', '', 5, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 28, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(39, 'feedback', '', -1, '0000-00-00 00:00:00', '2013-12-18 15:03:04', 1, 51, 1, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(40, 'Slider for home page2', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 39, 1, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(47, 'Trừu tượng2', '', -1, '0000-00-00 00:00:00', '2013-12-02 06:54:21', 1, 47, 2, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(48, 'Khỏa thân', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 48, 2, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(49, 'vai2', '', -1, '0000-00-00 00:00:00', '2013-12-07 11:47:28', 1, 49, 3, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(50, 'giay', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 50, 3, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(51, 'About page', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 40, 1, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(52, 'Homepage''s 6 widgets', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 53, 1, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(53, 'Homepage''s footer widget', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 52, 1, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(61, 'cuoc song 22', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 61, 0, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(63, 'gach', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 63, 3, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(73, '', '', 0, '2013-12-07 15:14:39', '2013-12-08 19:30:12', 1, 73, 5, 509000, 'dabihuy', 1, 9, 11, '', '', '', 0, 0, ''),
+(74, '', '', 0, '2013-12-08 14:06:11', '2013-12-08 16:42:01', 1, 74, 5, 509000, 'dabihuy', 1, 9, 11, '', '', '', 0, 0, ''),
+(75, 'Khỏa hình', '', 48, '2013-12-09 08:55:54', '2013-12-09 08:55:54', 1, 75, 2, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(76, '', '', 0, '2013-12-13 16:23:29', '2013-12-13 16:23:29', 1, 76, 5, 12000, 'chualienlac', 0, 0, 0, 'Tran Hung Dao', '1212121212', 'Quarn trij2222', 0, 0, ''),
+(77, '', '', 0, '2013-12-13 16:26:31', '2013-12-13 16:26:31', 1, 77, 5, 12000, 'chualienlac', 0, 0, 9, 'Tran Hung Dao', '1212121212', 'Quarn trij2222', 0, 0, ''),
+(78, '', '', 0, '2013-12-13 16:31:03', '2013-12-13 16:31:03', 1, 78, 5, 12000, 'chualienlac', 0, 0, 9, 'Tran Hung Dao', '1212121212', 'Quarn trij2222', 0, 0, ''),
+(79, '', '', 0, '2013-12-13 16:32:22', '2013-12-13 16:33:15', 1, 79, 5, 12000, 'chuagiao', 0, 0, 9, 'Tran Hung Dao', '1212121212', 'Quarn trij2222', 1, 0, ''),
+(80, '', '', 0, '2013-12-15 14:16:40', '2013-12-15 14:16:40', 1, 80, 5, 1234, 'chualienlac', 1, 0, 9, 'Tran Hung Dao', '0979996234', 'Quarn trij2222', 18, 0, ''),
+(81, '', '', 0, '2013-12-15 14:19:43', '2013-12-15 14:19:43', 1, 81, 5, 1234, 'chualienlac', 0, 0, 9, 'Tran Hung Dao', '0979996234', 'Quarn trij2222', 1, 0, ''),
+(82, 'Main menu 1', '', -1, '2013-12-16 09:02:48', '2013-12-17 16:17:42', 1, 82, 4, 0, '', 1, 0, 0, '', '', '', 0, 1, ''),
+(84, 'Trang chủ', '', 82, '2013-12-16 09:03:06', '2013-12-19 21:39:14', 1, 88, 4, 0, '', 1, 0, 0, '', '', '', 0, 5, ''),
+(88, 'Liên hệ', '', 82, '2013-12-17 16:21:37', '2013-12-19 18:35:07', 1, 84, 4, 0, '', 1, 0, 0, '', '', '', 0, 1, ''),
+(89, 'Login', '', 91, '2013-12-17 17:11:30', '2013-12-17 17:18:41', 1, 89, 4, 0, '', 1, 0, 0, '', '', '', 0, 6, ''),
+(90, 'Register', '', 91, '2013-12-17 17:13:35', '2013-12-17 17:18:31', 1, 90, 4, 0, '', 1, 0, 0, '', '', '', 0, 7, ''),
+(91, 'Account', '', 82, '2013-12-17 17:16:11', '2013-12-17 17:16:11', 1, 93, 4, 0, '', 1, 0, 0, '', '', '', 0, 8, ''),
+(92, 'Logout', '', 91, '2013-12-17 17:17:22', '2013-12-17 17:18:26', 1, 92, 4, 0, '', 1, 0, 0, '', '', '', 0, 9, ''),
+(93, 'Tất cả sản phẩm', '', 82, '2013-12-17 17:25:42', '2013-12-17 17:25:42', 1, 91, 4, 0, '', 1, 0, 0, '', '', '', 0, 4, ''),
+(94, 'Tìm kiếm ', '', 82, '2013-12-18 10:03:54', '2013-12-19 18:14:03', 1, 94, 4, 0, '', 1, 0, 0, '', '', '', 0, 13, '132'),
+(95, 'Page Group 1', '', -1, '2013-12-19 17:39:00', '2013-12-19 17:39:00', 1, 95, 6, 0, '', 1, 0, 0, '', '', '', 0, 0, '');
 
 -- --------------------------------------------------------
 
@@ -175,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `menu_provider` (
   `action` text NOT NULL,
   `active` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `menu_provider`
@@ -183,8 +183,8 @@ CREATE TABLE IF NOT EXISTS `menu_provider` (
 
 INSERT INTO `menu_provider` (`id`, `name`, `controller`, `selector_uri`, `action`, `active`) VALUES
 (1, 'Template Contact Page', 'front/contact/', '', 'index/', 1),
-(2, 'Template Painting detail >', 'front/product/', 'admin_posts/index/special/2/view_mode/selector', 'index/', 1),
-(3, 'Full URL >', 'redirect/', 'admin_url/index/view_mode/selector', 'index?url=', 1),
+(2, 'Template Painting detail >>', 'front/product/', 'admin_posts/index/special/2/view_mode/selector', 'index/', 1),
+(3, 'Full URL >>', 'redirect/', 'admin_url/index/view_mode/selector', 'index?url=', 1),
 (4, 'Template All Products', 'front/products/', '', 'painting_cat/', 1),
 (5, 'Template Homepage', 'front/home/', '', 'index/', 1),
 (6, 'Template Login page', 'front/login/', '', 'index/', 1),
@@ -193,7 +193,8 @@ INSERT INTO `menu_provider` (`id`, `name`, `controller`, `selector_uri`, `action
 (9, 'Template Logout page', 'front/logout/', '', 'index/', 1),
 (10, 'Template Search page', 'front/search/', '', 'index/', 1),
 (11, 'Template Cart page', 'front/cart/', '', 'index/', 1),
-(12, 'Template Painting Category >', 'front/products/', 'admin_category/index/special/2/view_mode/selector', 'painting_cat/id/', 1);
+(12, 'Template Painting Category >>', 'front/products/', 'admin_category/index/special/2/view_mode/selector', 'painting_cat/id/', 1),
+(13, 'Template Static Page >>', 'front/static_page/', 'admin_posts/index/special/6/view_mode/selector', 'index/', 1);
 
 -- --------------------------------------------------------
 
@@ -206,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `option` (
   `key` text NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=32 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=86 ;
 
 --
 -- Dumping data for table `option`
@@ -215,14 +216,9 @@ CREATE TABLE IF NOT EXISTS `option` (
 INSERT INTO `option` (`id`, `key`, `value`) VALUES
 (2, 'cache_time', '0'),
 (3, 'slider_category', '40'),
-(4, 'feature_category', '15'),
 (5, 'feedback_category', '39'),
 (6, 'slider_auto_scroll_time', '5'),
-(7, 'menu_categories_category', '-1'),
-(8, 'menu_latest_category', '-1'),
-(9, 'allow_guest_post_feedback', '0'),
 (10, 'maintain_mode', '0'),
-(11, 'menu_about_category', '51'),
 (12, 'homepage_widget_category', '52'),
 (13, 'homepage_footer_widget_category', '53'),
 (14, 'html_footer_left', 'dung khung'),
@@ -232,14 +228,13 @@ INSERT INTO `option` (`id`, `key`, `value`) VALUES
 (18, 'html_seo_author', ''),
 (19, 'html_seo_description', 'sdfsdf'),
 (20, 'feedback_max_content', '500'),
-(21, 'maximum_item_per_page', '10'),
 (22, 'maximum_preview_post_content', '500'),
 (23, 'maximum_preview_post_title', '100'),
 (24, 'feedback_captcha', '0'),
 (26, 'template_id', '110'),
 (29, 'max_count_order_per_product', '3'),
 (30, 'main_menu_category', '82'),
-(31, '', '');
+(85, 'allow_guest_post_feedback', '0');
 
 -- --------------------------------------------------------
 
@@ -353,7 +348,16 @@ INSERT INTO `permission_group` (`permission_id`, `group_id`) VALUES
 (18, 1),
 (17, 1),
 (16, 1),
-(15, 1);
+(15, 1),
+(5, 2),
+(38, 2),
+(1, 2),
+(23, 2),
+(31, 2),
+(27, 2),
+(11, 2),
+(19, 2),
+(15, 2);
 
 -- --------------------------------------------------------
 
@@ -371,7 +375,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   `content_lite` text NOT NULL,
   `active` int(11) NOT NULL DEFAULT '1',
   `avatar` text NOT NULL,
-  `special` int(11) NOT NULL DEFAULT '0' COMMENT '0: normal post, 1: special post, 2: painting post,3: [not yet], 4: order_detail, 5: template',
+  `special` int(11) NOT NULL DEFAULT '0' COMMENT '0: normal post, 1: special post, 2: painting post,3: [not yet], 4: order_detail, 5: template, 6: static page',
   `optional1` text NOT NULL,
   `optional2` text NOT NULL,
   `art_id` text NOT NULL,
@@ -385,7 +389,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   `order_count` int(11) NOT NULL DEFAULT '0',
   `order_unitprice` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=130 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=136 ;
 
 --
 -- Dumping data for table `post`
@@ -393,17 +397,17 @@ CREATE TABLE IF NOT EXISTS `post` (
 
 INSERT INTO `post` (`id`, `title`, `content`, `date_create`, `date_modify`, `user_id`, `content_lite`, `active`, `avatar`, `special`, `optional1`, `optional2`, `art_id`, `art_count`, `art_width`, `art_height`, `art_sizeunit`, `art_price`, `art_sold`, `order_product_id`, `order_count`, `order_unitprice`) VALUES
 (1, 'Slider11456', '<p>alo1235</p>', '2013-09-05 14:52:19', '2013-09-15 19:19:16', 8, 'alo1234', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]windows_8_wallpaper_download_metro20.jpg', 1, '', '', '', 0, 300, 0, 'cm', 0, 0, 0, 0, 0),
-(3, 'slider2', '<p>wtf</p>', '2013-09-05 15:21:07', '2013-09-15 19:19:39', 8, 'Cuoojc doi quanh hieu', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file30.jpg', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(3, 'slider22', '0', '2013-09-05 15:21:07', '2013-12-19 18:02:24', 8, '0', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file30.jpg', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (4, 'feedback', '', '2013-09-05 15:36:33', '2013-09-08 19:25:19', 8, '', 1, '', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (7, 'what', '', '2013-09-06 12:47:32', '2013-09-16 15:58:05', 8, '', 1, '', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (8, 'day ne', '', '2013-09-06 12:47:47', '2013-09-16 15:56:45', 8, '', 1, '', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (9, 'hajshjdhahsudasdsad', '', '2013-09-06 12:48:24', '2013-09-06 14:40:03', 8, '', 1, '', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
-(38, 'About me', '<p>Giới thiệu về bản th&acirc;n ở đ&acirc;y</p>', '2013-09-14 12:46:19', '2013-09-14 12:46:19', 8, 'Chưa có', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file51.jpg', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(38, 'About me', '0', '2013-09-14 12:46:19', '2013-12-19 17:56:55', 8, '0', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file51.jpg', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (40, 'sdfsdfsdf', '', '2013-09-14 14:00:25', '2013-09-14 14:00:25', 8, 'sdfsdfsdfsdf', 1, '', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (41, 'ertret', '<p>ertertrt</p>', '2013-09-14 14:00:35', '2013-09-14 14:00:35', 8, 'ertertert', 1, '', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (42, 'rtyr', '', '2013-09-14 14:10:28', '2013-09-15 15:44:24', 8, 'ytryrtytr', 1, '', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (43, 'Tranh vẽ trên lá chuối', '<p class="Normal" style="font-size: 16px;">Trưa 15/9, gần 12 tiếng sau khi ngọn lửa b&ugrave;ng ph&aacute;t, lực lượng chữa ch&aacute;y đ&atilde; cơ bản khống chế được hỏa hoạn<span style="font-size: 11.8pt;"> tại </span>Trung t&acirc;m Thương mại TP Hải Dương.<span style="font-size: 11.8pt;"> Tuy nhi&ecirc;n kh&oacute;i vẫn bốc m&ugrave; mịt, hơi n&oacute;ng ng&ugrave;n ngụt c&ugrave;ng c&aacute;c mảnh vỡ từ trần trong c&aacute;c kiot tiếp tục rơi.<br /></span></p>', '2013-09-15 15:20:38', '2013-09-15 15:39:20', 8, 'Mo ta tai day', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]xuan_044.jpg', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
-(44, 'Day nua ne', '<p>day nua ne ba con</p>', '2013-09-15 15:25:36', '2013-09-15 15:44:52', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file30.jpg', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(44, 'Day nua ne', '<p>day nua ne ba con</p>', '2013-09-15 15:25:36', '2013-12-19 18:05:52', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file30.jpg', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (47, 'sdadsad', '', '2013-09-15 15:58:00', '2013-09-15 17:26:16', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]windows_8_wallpaper_download_metro20.jpg', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (50, 'Địa chỉ phòng tranh', '<p>- <strong>Showroom 1:</strong> Số 50, đường Thi&ecirc;n Sơn Tự, TP Tr&agrave; Vinh, tỉnh Tr&agrave; Vinh.</p>\r\n<p>- <strong>Showroom 2:</strong> Số 37, đường C&aacute;ch mạng th&aacute;ng 8, quận 1, TP HCM.</p>', '2013-09-15 17:16:40', '2013-09-15 18:43:12', 8, '', 1, '', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (53, 'day nua ne 232323 34234', '<p>hjhjj</p>', '2013-09-15 19:13:13', '2013-12-06 20:30:27', 8, 'hjhjhjhj', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]xuan_035.jpg', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
@@ -431,12 +435,13 @@ INSERT INTO `post` (`id`, `title`, `content`, `date_create`, `date_modify`, `use
 (117, 'alo', '<p>dfgfgfg</p>', '2013-12-13 16:43:09', '2013-12-13 16:43:09', 0, 'srgdfg', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]xuan_035.jpg', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (118, 'sua', '<p>hjshjdsfd</p>', '2013-12-13 16:47:10', '2013-12-13 16:47:10', 0, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file30.jpg', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (120, 'kakaka', '', '2013-12-13 16:47:37', '2013-12-13 16:47:37', 9, 'aloha', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]alo/avarta.jpg', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
-(122, 'wtf', '<p>sdgdsfgfg</p>', '2013-12-13 16:53:49', '2013-12-15 18:47:48', 9, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file51.jpg', 2, '', '', '34', 4, 13, 23, 'inch', 1234, 0, 0, 0, 0),
-(123, 'bai 3', '', '2013-12-13 16:54:09', '2013-12-16 04:20:34', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]bb_picture.jpg', 2, '', '', 'RAW62', 0, 0, 0, 'cm', 12000, 0, 0, 0, 0),
+(123, 'bai 33', '', '2013-12-13 16:54:09', '2013-12-19 06:14:26', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]bb_picture.jpg', 2, '', '', 'RAW62', 0, 0, 0, 'cm', 12000, 0, 0, 0, 0),
 (124, '', '', '2013-12-15 14:16:40', '2013-12-15 14:16:40', 0, '', 1, '', 4, '', '', '', 0, 0, 0, 'cm', 0, 0, 122, 1, 1234),
 (125, '', '', '2013-12-15 14:19:43', '2013-12-15 14:19:43', 0, '', 1, '', 4, '', '', '', 0, 0, 0, 'cm', 0, 0, 122, 1, 1234),
 (127, 'alo', 'hahaa', '2013-12-15 18:20:33', '2013-12-15 18:20:33', 9, '', 1, '', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
-(128, 'sdfsdfdfd', 'fkhung', '2013-12-18 04:38:56', '2013-12-18 04:38:56', 0, 'khách ngoài', 1, '', 1, 'h@gmail.com', '0979996345', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0);
+(128, 'sdfsdfdfd', 'fkhung', '2013-12-18 04:38:56', '2013-12-18 04:38:56', 0, 'khách ngoài', 1, '', 1, 'h@gmail.com', '0979996345', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+(131, 'wtf', '<p>sdgdsfgfg</p>', '2013-12-19 18:09:11', '2013-12-19 18:09:11', 9, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file51.jpg', 2, '', '', '34', 4, 13, 23, 'inch', 1234, 0, 0, 0, 0),
+(132, 'Trang 1', '<h2>Welcome to CodeIgniter</h2>\r\n<p>CodeIgniter is an Application Development Framework - a toolkit - for people who build web sites using PHP. Its goal is to enable you to develop projects much faster than you could if you were writing code from scratch, by providing a rich set of libraries for commonly needed tasks, as well as a simple interface and logical structure to access these libraries. CodeIgniter lets you creatively focus on your project by minimizing the amount of code needed for a given task.</p>\r\n<h2>Who is CodeIgniter For?</h2>\r\n<p>CodeIgniter is right for you if:</p>\r\n<ul>\r\n<li>You want a framework with a small footprint.</li>\r\n<li>You need exceptional performance.</li>\r\n<li>You need broad compatibility with standard hosting accounts that run a variety of PHP versions and configurations.</li>\r\n<li>You want a framework that requires nearly zero configuration.</li>\r\n<li>You want a framework that does not require you to use the command line.</li>\r\n<li>You want a framework that does not require you to adhere to restrictive coding rules.</li>\r\n<li>You do not want to be forced to learn a templating language (although a template parser is optionally available if you desire one).</li>\r\n<li>You eschew complexity, favoring simple solutions.</li>\r\n<li>You need clear, thorough documentation.</li>\r\n</ul>', '2013-12-19 18:10:17', '2013-12-19 18:21:37', 9, '', 1, '', 6, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -506,16 +511,16 @@ INSERT INTO `post_category` (`post_id`, `cat_id`) VALUES
 (118, 26),
 (120, 24),
 (120, 25),
-(122, 47),
-(122, 63),
-(123, 48),
 (123, 49),
 (123, 75),
 (124, 80),
 (125, 81),
 (126, 39),
 (127, 39),
-(128, 39);
+(128, 39),
+(131, 47),
+(131, 63),
+(132, 95);
 
 -- --------------------------------------------------------
 
@@ -628,7 +633,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `fullname`, `birth`, `sex`, `password`, `group_id`, `date_create`, `date_modify`, `email`, `address`, `phone`, `active`, `special`) VALUES
-(8, 'khung', 'Khung', '0000-00-00 00:00:00', 1, '356a192b7913b04c54574d18c28d46e6395428ab', 2, '0000-00-00 00:00:00', '2013-12-18 15:50:12', 'h@h.com', '', '', 1, 0),
+(8, 'khung', 'Khung', '0000-00-00 00:00:00', 1, '356a192b7913b04c54574d18c28d46e6395428ab', 2, '0000-00-00 00:00:00', '2013-12-19 19:29:49', 'h@h.com', '', '', 1, 0),
 (9, 'admin', 'dung2', '0000-00-00 00:00:00', 1, 'd033e22ae348aeb5660fc2140aec35850c4da997', 1, '0000-00-00 00:00:00', '2013-12-18 15:53:56', 'quocdunginfo@gmail.com', '', '234234', 1, 0),
 (11, 'mi', 'Trần Thị Khách Hàng', '0000-00-00 00:00:00', 1, '9c51ad8660eaae45f7965cd83d1f447cf6378547', 2, '2013-12-01 19:01:27', '2013-12-14 18:43:00', 'hellogirl@yahoo.com', 'Trần Phú', '01699969145', 1, 0),
 (12, 'hoang', 'Hoàng', '0000-00-00 00:00:00', 1, '356a192b7913b04c54574d18c28d46e6395428ab', 0, '2013-12-14 18:36:09', '2013-12-18 16:20:53', 'h@hjhj.com', 'ádsdsd', '3456789', 1, 1),

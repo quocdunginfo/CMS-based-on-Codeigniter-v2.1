@@ -67,20 +67,21 @@ class Admin_posts extends Admin {
     public function delete()
     {
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('post_id', 'special', 'page', 'cat_id'));
+        $get = $this->uri->uri_to_assoc(3,array('post_id', 'special', 'page', 'cat_id', 'view_mode'));
         $get['post_id'] = $get['post_id']===false?0:$get['post_id'];
         $get['cat_id'] = $get['cat_id']===false?-1:$get['cat_id'];
         $get['special'] = $get['special']===false?0:$get['special'];
         $get['page'] = $get['page']===false?1:$get['page'];
+        $get['view_mode'] = $get['view_mode']===false?'normal':$get['view_mode'];
         //validate
         if(!$this->Post_model->is_exist($get['post_id']))
         {
             $this->_show_notification('post_id_is_invalid');
             return;    
         }
-        
+        $obj = $this->Post_model->get_by_id($get['post_id']);
         //owner permission override
-        if($this->_user->id==$this->Post_model->get_by_id($get['post_id'])->user_id)
+        if($obj->get_user_obj()!=null && $this->_user->id==$obj->get_user_obj()->id)
         {
             //override
         }
@@ -92,9 +93,9 @@ class Admin_posts extends Admin {
             return;
         }
 
-        $this->Post_model->delete($get['post_id']);
+        $obj->delete();
         
-        redirect('admin_posts/index/cat_id/'.$get['cat_id'].'/special/'.$get['special'].'/page/'.$get['page']);
+        redirect('admin_posts/index/cat_id/'.$get['cat_id'].'/special/'.$get['special'].'/page/'.$get['page'].'/view_mode/'.$get['view_mode']);//OK
     }
     public function add()//special
     {

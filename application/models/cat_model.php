@@ -1,15 +1,16 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Cat_model extends CI_Model {
 
-    var $id = 0;
-    var $name = '';
-    var $date_create = '';
-    var $date_modify = '';
-    var $active=1;
-    var $special=0;
-    var $description = '';
+    public $id = 0;
+    public $name = '';
+    public $date_create = '';
+    public $date_modify = '';
+    public $active=1;
+    public $rank=0;
+    public $special=0;
+    public $description = '';
     //not-in-table
-    var $level=0;
+    public $level=0;
     protected $_tbn="category";
     protected $_tbn2="post_category";
     //external
@@ -49,6 +50,7 @@ class Cat_model extends CI_Model {
         foreach($query->result() as $row)
         {
             $this->id=$row->id;
+            $this->rank=$row->rank;
             $this->active=$row->active;
             $this->name=$row->name;
             $this->description = $row->description;
@@ -162,6 +164,7 @@ class Cat_model extends CI_Model {
             $this->db->select("id");
             $this->db->from($this->_tbn);
             $this->db->where("parent_id",$this->id);
+            $this->db->order_by('rank asc, id asc');
             //filter by special
             if($special!=-1)
             {
@@ -226,6 +229,7 @@ class Cat_model extends CI_Model {
     {
         $array = array(
             'name' => $this->name,
+            'rank' => $this->rank,
             'special' => $this->special,
             'active' => $this->active,
             'description' => $this->description,
@@ -274,6 +278,8 @@ class Cat_model extends CI_Model {
         $this->id = self::get_max_id();
         //set date
         $this->date_create = date('Y-m-d H:i:s');
+        //auto set rank=id when add
+        $this->rank=$this->id;
         //call update
         $this->update();
         //finish
@@ -557,6 +563,41 @@ class Cat_model extends CI_Model {
         $this->db->where('post_id',$post_id);
         $this->db->where('cat_id',$this->id);
         return $this->db->count_all_results($this->_tbn2)>0?true:false;      
+    }
+    public function rank_up()
+    {
+        //lấy cat id của cha
+        $parent_obj = self::get_parent_cat_obj();
+        $parent_id = $parent_obj==null || $parent_obj->id==-1?-1:$parent_obj->id;
+        //chọn category có cùng nhóm cha nhưng có rank nhỏ hơn và gần nhất
+        $this->db->select('id');
+        $this->db->select('rank');
+        $this->db->from($this->_tbn);
+        $this->db->where('parent_id',$parent_id);
+        $this->db->where('special',$this->special);
+        $this->db->where('rank <',$this->rank);
+        $this->db->order_by('rank desc, id desc');
+        $this->db->limit(1,0);
+        $q = $this->db->get();
+        foreach($q->result() as $row)
+        {
+            $tmp_id = $row->id;
+            $tmp_rank = $row->rank;
+            //hoán đổi rank cho nhau
+                $data = array(
+                'rank' => $this->rank
+                );
+                $this->db->where('id', $tmp_id);
+                $this->db->update($this->_tbn,$data);
+                //
+                $data = array(
+                'rank' => $tmp_rank
+                );
+                $this->db->where('id', $this->id);
+                $this->db->update($this->_tbn,$data);
+            return true;
+        }
+        return false;
     }
 }
 ?>
