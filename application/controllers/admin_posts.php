@@ -5,7 +5,7 @@ class Admin_posts extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'] .= ' - Posts';
-        array_push($this->_data['active_menu'],'admin_posts');
+        parent::_add_active_menu(site_url('admin_posts/index/alias'));
     }
     
     public function index()//cat_id, special, page URI
@@ -61,6 +61,8 @@ class Admin_posts extends Admin {
         $this->_data['special'] = $get['special'];
         $this->_data['pagination'] = $pagination;
         $this->_data['cat_list'] = $this->Cat_model->get_cat_tree(-1,0,$get['special']);
+        
+        parent::_add_active_menu(site_url('admin_posts/index/special/'.$get['special']));
         //load view
         $this->load->view('admin/posts',$this->_data);
     }

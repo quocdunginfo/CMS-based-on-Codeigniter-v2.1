@@ -6,12 +6,16 @@ $this->load->view('admin/header');
 
             <!-- module goes here -->
 			<!-- Category -->
-            <div class="grid_6">
+            <div class="grid_8">
                 <!-- Notification boxes -->
                 
                 <div class="module">
-                     <h2><span>Category function</span></h2>
-
+                     <h2><span>Category Add</span></h2>
+                        <style type="text/css">
+                        .module-body #qd_add label{
+                            float: left; width: 120px;
+                        }
+                        </style>
                      <div class="module-body">
                         <a name="cat_add"></a>
                         <script>
@@ -64,7 +68,7 @@ $this->load->view('admin/header');
                                             <input id="cat_id_<?=$cat_obj->id?>" style="margin-left:<?php echo ($cat_obj->level+1)*20; ?>px;" type="radio" name="cat_radio_list[]" value="<?php echo $cat_obj->id; ?>"/>
                                             &nbsp;
                                             <span id="cat_name_<?=$cat_obj->id?>"><?php echo $cat_obj->name; ?></span>
-                                            <a onclick="return confirm_click();" href="<?php echo site_url('admin_category/delete/cat_id/'.$cat_obj->id.'/special/'.$special.'/view_mode/'.$view_mode); ?>" style="float: right;">Delete</a>
+                                            <a onclick="return confirm_click();" href="<?php echo site_url('admin_category/delete/cat_id/'.$cat_obj->id.'/special/'.$special.'/view_mode/'.$view_mode); ?>" style="float: right;">X</a>
                                             
                                             <a href="javascript:transfer_cat_edit(<?=$cat_obj->id?>);" style="float: right; margin-right: 20px;" >Edit</a>
                                             <a href="<?=site_url('admin_category/move_up/cat_id/'.$cat_obj->id.'/special/'.$special.'/view_mode/'.$view_mode) ?>" style="float: right; margin-right: 20px;" >Up</a>
@@ -107,7 +111,7 @@ $this->load->view('admin/header');
                             </fieldset>
                             
                             <fieldset id="qd_add">
-                                Category name:
+                                <label>Category name:</label>
                                 <input id="cat_add_name" name="cat_name" type="text" class="input-short" style="width: 200px;"/>
                                 &nbsp;
                                 <input class="submit-green" type="submit" value="Add category" />
@@ -122,20 +126,20 @@ $this->load->view('admin/header');
             </div> <!-- End .grid_6 -->
             
             <!-- Category edit panel -->
-            <div class="grid_6" id="qd_update">
+            <div class="grid_4" id="qd_update">
                 <!-- Notification boxes -->
                 
                 <div class="module">
-                     <h2><span>Category function</span></h2>
+                     <h2><span>Category Edit</span></h2>
                      <div class="module-body">
-                        <span class="notification n-success" <?php if(!in_array('edit_ok',$state)) echo 'style="display:none;"'; ?>>Updated successfully!</span>
-                        <p>Edit category</p>  
+                        <span class="notification n-success" <?php if(!in_array('edit_ok',$state)) echo 'style="display:none;"'; ?>>Updated successfully!</span>  
                         <form action="<?php echo site_url('admin_category/edit/special/'.$special.'/view_mode/'.$view_mode); ?>" method="post">
                             <fieldset>
-                                Category name:
+                                <label>Category name:</label>
                                 <input id="cat_edit_id" name="cat_id" type="hidden" value=""/>
                                 <input id="cat_edit_name" value="" name="cat_name" type="text" class="input-short" style="width: 200px;"/>
-                                &nbsp;
+                                
+                                <div style="clear: both; height: 10px;"></div>
                                 <input class="submit-green" type="submit" value="Submit" />
                                 <a name="cat_edit"></a>
                             </fieldset>

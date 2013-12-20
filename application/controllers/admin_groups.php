@@ -5,7 +5,7 @@ class Admin_groups extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Groups';
-        array_push($this->_data['active_menu'],'admin_groups');
+        parent::_add_active_menu(site_url('admin_groups/index'));
     }
     public function index()//page=1
     {

@@ -5,7 +5,7 @@ class Admin_slide_post extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Slide post';
-        array_push($this->_data['active_menu'],'admin_posts');
+        parent::_add_active_menu(site_url('admin_posts/index/alias'));
     }
     public function index()//$post_id, $special(for add only)
     {
@@ -67,6 +67,8 @@ class Admin_slide_post extends Admin {
         $tmp = new Cat_model;
         $setting = new Setting_model;
         
+        
+        parent::_add_active_menu(site_url('admin_posts/index/special/'.qd_special_post_to_cat($get['special'])));
         $this->load->view('admin/slide_post',$this->_data);
     }
     

@@ -229,7 +229,47 @@ function show_notification($state=array(),$unlink_count=0)
                     </div> <!-- End .module -->
                     <div style="clear:both;"></div>
                 </div> <!-- End .grid_6 -->
+                <div style="clear:both;"></div>
                 
+                <div class="grid_6">
+                    <!-- Notification boxes -->
+                    
+                    <div class="module">
+                         <h2><span>Menu options</span></h2>
+    
+                         <div class="module-body">
+                            <?=show_notification($state,$unlink_count)?>  
+                            <p>
+                                <label>Choose Front's menu:</label>
+                                <select class="input-long" name="main_menu_category">
+                                    <?php
+                                        foreach($menu_list as $item):
+                                    ?>
+                                    <option value="<?=$item->id?>" <?php if($main_menu_category==$item->id) echo 'selected="selected"'; ?>><?=$item->get_prefix_name('&nbsp&nbsp&nbsp&nbsp')?></option>
+                                    <?php
+                                        endforeach;
+                                    ?>
+                                </select>
+                            </p>
+                            
+                            <p>
+                                <label>Choose Admin's menu:</label>
+                                <select class="input-long" name="admin_menu_category">
+                                    <?php
+                                        foreach($menu_list as $item):
+                                    ?>
+                                    <option value="<?=$item->id?>" <?php if($admin_menu_category==$item->id) echo 'selected="selected"'; ?>><?=$item->get_prefix_name('&nbsp&nbsp&nbsp&nbsp')?></option>
+                                    <?php
+                                        endforeach;
+                                    ?>
+                                </select>
+                            </p>
+                            
+                            <input class="submit-green" type="submit" value="Save"  />
+                         </div> <!-- End .module-body -->
+                    </div> <!-- End .module -->
+                    <div style="clear:both;"></div>
+                </div>
                 
             </form>           
 <?php

@@ -5,7 +5,7 @@ class Admin_painting_post extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Painting post';
-        array_push($this->_data['active_menu'],'admin_posts');
+        parent::_add_active_menu(site_url('admin_posts/index/alias'));
     }
     public function index()
     {
@@ -64,7 +64,9 @@ class Admin_painting_post extends Admin {
         $this->_data['cat_list_material'] = $this->Cat_model->get_cat_tree(-1,0,3);
         
         $this->_data['html_title'].=' - '.$post_obj->title;
-
+        
+        
+        parent::_add_active_menu(site_url('admin_posts/index/special/'.qd_special_post_to_cat($get['special'])));
         $this->load->view('admin/painting_post',$this->_data);
     }
     public function edit($special=0)

@@ -5,7 +5,7 @@ class Admin_user extends Admin {
     {
         parent::__construct();        
         $this->_data['html_title'].=' - User';
-        array_push($this->_data['active_menu'],'admin_users');
+        parent::_add_active_menu(site_url('admin_users/index/alias'));
     }
     public function index()
     {
@@ -43,6 +43,8 @@ class Admin_user extends Admin {
         $this->_data['user0'] = $this->User_model->get_by_id($get['id']);
         $this->_data['special'] = $get['special'];
         $this->_data['group_list'] = $this->Group_model->search();
+        
+        parent::_add_active_menu(site_url('admin_users/index/special/'.$get['special']));
         $this->load->view('admin/user',$this->_data);
     }
     public function delete()

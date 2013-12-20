@@ -5,7 +5,7 @@ class Admin_template extends Admin {
     {
         parent::__construct();        
         $this->_data['html_title'].=' - Template and Style';
-        array_push($this->_data['active_menu'],'admin_template', 'admin_setting');
+        parent::_add_active_menu(site_url('admin_template/index'));
     }
     public function index()
     {

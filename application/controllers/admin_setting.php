@@ -5,7 +5,7 @@ class Admin_setting extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Setting';
-        array_push($this->_data['active_menu'],'admin_setting');
+        parent::_add_active_menu(site_url('admin_setting/index/alias'));
     }
     public function index()//$state,$unlink_count
     {
@@ -29,7 +29,10 @@ class Admin_setting extends Admin {
         
         $this->_data['homepage_widget_category']=$setting_obj->get('homepage_widget_category');
         $this->_data['homepage_footer_widget_category']=$setting_obj->get('homepage_footer_widget_category');
-       
+        
+        $this->_data['main_menu_category']=$setting_obj->get('main_menu_category');
+        $this->_data['admin_menu_category']=$setting_obj->get('admin_menu_category');
+        
        
        
         $this->_data['maximum_preview_post_content']=$setting_obj->get('maximum_preview_post_content');
@@ -46,7 +49,10 @@ class Admin_setting extends Admin {
         $this->_data['slider_auto_scroll_time']=$setting_obj->get('slider_auto_scroll_time');
         $this->_data['cat_list_special'] = $this->Cat_model->get_cat_tree(-1,0,1);
         $this->_data['cat_list_normal'] = $this->Cat_model->get_cat_tree(-1,0,0);
+        $this->_data['menu_list'] = $this->Menu_model->get_cat_tree(-1,0);
         $this->_data['cat_list_all'] = $this->Cat_model->get_cat_tree(-1,0,-1);
+        
+        parent::_add_active_menu(site_url('admin_setting/index'));
         //load view
         $this->load->view('admin/setting', $this->_data);
     }
@@ -97,6 +103,10 @@ class Admin_setting extends Admin {
         $html_seo_author = $this->input->post('html_seo_author');//
         $html_seo_keyword = $this->input->post('html_seo_keyword');//
         $html_seo_description = $this->input->post('html_seo_description');//
+        
+        $main_menu_category = $this->input->post('main_menu_category');
+        $admin_menu_category = $this->input->post('admin_menu_category');
+        
         //update to database
         $var = new Setting_model;
         $var->update_or_add('cache_time',$cache_time);
@@ -121,6 +131,9 @@ class Admin_setting extends Admin {
         $var->update_or_add('html_seo_author',$html_seo_author);
         $var->update_or_add('html_seo_keyword',$html_seo_keyword);
         $var->update_or_add('html_seo_description',$html_seo_description);
+        //menu
+        $var->update_or_add('admin_menu_category',$admin_menu_category);
+        $var->update_or_add('main_menu_category',$main_menu_category);
         //set temp
         $this->session->set_flashdata('state', array('edit_ok'));
         redirect('admin_setting');

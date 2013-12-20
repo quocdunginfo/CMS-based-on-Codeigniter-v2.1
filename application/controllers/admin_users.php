@@ -5,7 +5,7 @@ class Admin_users extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Users';
-        array_push($this->_data['active_menu'],'admin_users');
+        parent::_add_active_menu(site_url('admin_users/index/alias'));
     }
     public function index()//page
     {
@@ -42,6 +42,8 @@ class Admin_users extends Admin {
         $this->_data['state']= (array)$this->session->flashdata('state');//noi khác set tru?c
         $this->_data['pagination']=$pagination;
         $this->_data['special'] = $get['special'];
+        
+        parent::_add_active_menu(site_url('admin_users/index/special/'.$get['special']));
         $this->load->view('admin/users',$this->_data);
     }
     public function edit()

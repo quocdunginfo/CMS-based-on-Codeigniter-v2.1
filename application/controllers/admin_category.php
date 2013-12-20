@@ -5,7 +5,7 @@ class Admin_category extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Categories';
-        array_push($this->_data['active_menu'],'admin_category');
+        parent::_add_active_menu(site_url('admin_category/index/alias'));//to separate parent menu and child
     }
     public function index()//special
     {
@@ -24,6 +24,8 @@ class Admin_category extends Admin {
         $this->_data['special'] = $get['special'];
         $this->_data['view_mode'] = $get['view_mode'];
         $this->_data['state'] = (array)$this->session->flashdata('state');
+        
+        parent::_add_active_menu(site_url('admin_category/index/special/'.$get['special']));
         $this->load->view('admin/category',$this->_data);
     }
     public function add()//special

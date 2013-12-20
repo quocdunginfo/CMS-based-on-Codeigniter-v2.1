@@ -4,6 +4,7 @@ class Admin extends CI_Controller {
     protected $_user = null;
     protected $_permission=array();
     protected $_temp = array();
+    protected $_menu = null;
     //n?u chuy?n active n?i class b?ng self::... thì dùng $this->_temp;
     //n?u chuy?n action = redirect(uri) thì dùng $this->session->set_flash('key',value);
     public function __construct()
@@ -24,6 +25,7 @@ class Admin extends CI_Controller {
         $this->load->model('Feedback_model');
         $this->load->model('menu/Menu_model','Menu_model');
         $this->load->model('menu/Menu_provider_model','Menu_provider_model');
+        $this->load->model('menu/Template_menu_model','Template_menu_model');
         //helper
         $this->load->helper('url');
         $this->load->helper('file');
@@ -41,6 +43,11 @@ class Admin extends CI_Controller {
         $this->load->database();
         //prepare common data
         self::_build_common_data();
+    }
+    protected function _add_active_menu($full_url='')
+    {
+        $this->_menu->add_active_menu($full_url);
+        $this->_data['menu'] = $this->_menu;
     }
     public function index()
     {
@@ -63,12 +70,15 @@ class Admin extends CI_Controller {
         }
         
         array_push($this->_data['active_menu'],'admin');
+        
+        self::_add_active_menu(site_url('admin/index'));
         //view dashboard
         $this->load->view('admin/index',$this->_data);
         return;
     }
     protected function _build_common_data()
     {
+        $setting =new Setting_model;
         //get user from cookie
             $user=new User_model;
             $user->id = $this->session->userdata('user_id');
@@ -103,6 +113,16 @@ class Admin extends CI_Controller {
         $this->_data['active_menu'] = array();
         $this->_data['current_user'] =  $this->_user;
         $this->_data['html_title'] =  'Dashboard';
+        
+        
+        //Menu
+        $this->_menu = new Template_menu_model;
+        $this->_menu->set_root(
+            $this->Menu_model->get_by_id(
+                $setting->get_by_key('admin_menu_category')
+            )
+        );
+        $this->_data['menu'] =  $this->_menu;
     }
     private function _reset_permission($user_obj=null)
     {

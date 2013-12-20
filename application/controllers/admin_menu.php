@@ -5,7 +5,7 @@ class Admin_menu extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Menus';
-        array_push($this->_data['active_menu'],'admin_menu');
+        parent::_add_active_menu(site_url('admin_menu/index'));
     }
     public function index()//special
     {

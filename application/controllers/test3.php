@@ -23,7 +23,14 @@ class Test3 extends CI_Controller {
     }
     public function index($page=1)
     {
+        $obj = new Menu_model;
+        $obj->id=82;
+        $obj->load();
         
+        $g=new Template_menu_model;
+        $g->set_root($obj);
+        $g->set_active_menu(array(site_url('front/account'),site_url('front/login') ));
+        echo $g->generate_sub_admin();
         
     }
     

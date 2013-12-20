@@ -5,7 +5,7 @@ class Admin_feedback extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Feedback';
-        array_push($this->_data['active_menu'],'admin_posts','admin_feedbacks');
+        parent::_add_active_menu(site_url('admin_posts/index/alias'));
     }
     public function index()
     {
@@ -42,6 +42,8 @@ class Admin_feedback extends Admin {
         $this->_data['special'] = $get['special'];
         $this->_data['cat_id'] = $get['cat_id'];
         $this->_data['state'] = (array)$this->session->flashdata('state');
+        
+        parent::_add_active_menu(site_url('admin_posts/index/special/'.qd_special_post_to_cat($get['special'])));
         $this->load->view('admin/feedback',$this->_data);
     }
     public function send()

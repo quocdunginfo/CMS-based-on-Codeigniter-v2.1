@@ -5,7 +5,7 @@ class Admin_post extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Post';
-        array_push($this->_data['active_menu'],'admin_posts');
+        parent::_add_active_menu(site_url('admin_posts/index/alias'));//to separate parent menu and child
     }
     public function index()//$post_id, $special(for add only)
     {
@@ -98,6 +98,8 @@ class Admin_post extends Admin {
             case 6:
                 break;
         }
+        
+        parent::_add_active_menu(site_url('admin_posts/index/special/'.qd_special_post_to_cat($get['special'])));
         $this->load->view('admin/post',$this->_data);
     }
     

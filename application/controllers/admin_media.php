@@ -5,6 +5,7 @@ class Admin_media extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Media';
+        parent::_add_active_menu(site_url('admin_media/index'));
     }
     public function index($state='null',$unlink_count=0)
     {

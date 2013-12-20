@@ -33,7 +33,7 @@ $this->load->view('admin/header');
                           
                         <form action="<?php echo site_url('admin_menu/add'); ?>" method="post">
                             <fieldset>
-                                <ul class="qdClass" style="border:2px solid #ccc; width:80%px; height: 350px; overflow-y: scroll; padding:10px 10px 10px 10px;">
+                                <ul class="qdClass" style="border:2px solid #ccc; width:80%px; height: 450px; overflow-y: scroll; padding:10px 10px 10px 10px;">
                                     <li>
                                         <label>
                                             <input checked="checked" type="radio" name="cat_radio_list[]" value="-1"/>
@@ -60,7 +60,7 @@ $this->load->view('admin/header');
                                             <?php } ?>
                                             &nbsp;
                                             <span id="cat_name_<?=$item->id?>"><?php echo $item->name; ?></span>
-                                            <a onclick="return confirm_click();" href="<?php echo site_url('admin_menu/delete/'.$item->id); ?>" style="float: right;">Delete</a>
+                                            <a onclick="return confirm_click();" href="<?php echo site_url('admin_menu/delete/'.$item->id); ?>" style="float: right;">X</a>
                                             
                                             <a href="<?php echo site_url('admin_menu/edit/'.$item->id); ?>" style="float: right; margin-right: 20px;" >Edit</a>
                                             <a href="<?php echo site_url('admin_menu/move_up/cat_id/'.$item->id.'/view_mode/'.$view_mode); ?>" style="float: right; margin-right: 20px;" >Up</a>
@@ -129,7 +129,7 @@ $this->load->view('admin/header');
                                     //get alt of selected option
                                     $selector = $("#menu_provider_id option:selected").attr("alt");
                                     window.open($selector,'popuppage',
-      'width=800,toolbar=1,resizable=1,scrollbars=yes,height=600,top=100,left=100');
+      'width=850,toolbar=1,resizable=1,scrollbars=yes,height=600,top=100,left=100');
                                 }
                                 function qd_menu_param(value)
                                 {
@@ -153,14 +153,16 @@ $this->load->view('admin/header');
                                 <br />
                                 <br />
                                 <label>Menu provider:</label>
-                                <select style="width: 207px;" class="input-medium" id="menu_provider_id" name="menu_provider_id" onchange="qd_clear_param() ; return qd_validate()">
+                                <select style="width: 400px;" class="input-medium" id="menu_provider_id" name="menu_provider_id" onchange="qd_clear_param() ; return qd_validate()">
                                     <?php foreach($menu_provider_list as $item) { ?>
                                     <option value="<?=$item->id?>" alt="<?=site_url($item->selector_uri) ?>" <?php if($item->selector_uri!='') echo 'chooseable="1"'; else echo 'chooseable="0"'; ?> <?php if($menu0->get_menu_provider_obj()!=null && $menu0->get_menu_provider_obj()->id==$item->id) echo 'selected="selected"'; ?>>
                                     <?=$item->name?>
                                     </option>
                                     <?php } ?>
                                 </select>
+                                <div style="clear: both; height: 10px;"></div>
                                 
+                                <label>&nbsp;</label>
                                 <input id="qd_choose_" class="submit-green" value="Choose item" type="button" onclick="qd_choose()" />
                                 <br />
                                 <br />
@@ -170,6 +172,7 @@ $this->load->view('admin/header');
                                 
                                 
                                 <div style="clear: both; height: 10px;"></div>
+                                <label>&nbsp;</label>
                                 <input class="submit-green" type="submit" value="Done" />
                                 <a name="cat_edit"></a>
                             </fieldset>

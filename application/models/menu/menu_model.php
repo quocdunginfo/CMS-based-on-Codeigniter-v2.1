@@ -108,6 +108,8 @@ class Menu_model extends Cat_model {
         $this->db->insert($this->_tbn);
         //second: get latest id from table
         $this->id=$this->get_max_id();
+        //auto set rank
+        $this->rank=$this->id;
         //new one set date create
         $this->date_create = date('Y-m-d H:i:s');
         //then: call update function
