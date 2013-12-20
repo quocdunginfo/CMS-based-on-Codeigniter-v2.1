@@ -152,6 +152,9 @@ class Home extends CI_Controller {
             )
         );
         $this->_data['menu'] =  $this->_menu;
+        
+        //Cache, some function may not work
+        $this->output->cache($setting->get_by_key('cache_time'));
     }
     protected function _add_active_menu($full_url='')
     {

@@ -61,6 +61,7 @@ $this->load->view('front/header');
                         ?>
                     </span>
                     <div class="cleaner h10"></div>
+                    <?php if($require_captcha) { ?>
                     <label for="khachhang_captcha">
                     Mã bảo vệ:
                     <strong style="font-size: 16px; "><?=$captcha_value?></strong>
@@ -72,6 +73,7 @@ $this->load->view('front/header');
                     <span style="color: red; float: left">
                     </span>
                     <div class="cleaner h10"></div>
+                    <?php } ?>
 
                     <input type="submit" class="submit_btn" name="submit" id="submit" value="Gửi phản hồi">
 

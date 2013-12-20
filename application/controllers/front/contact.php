@@ -1,17 +1,25 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 require_once(APPPATH.'/controllers/front/home.php');
 class Contact extends Home {
+    protected $require_captcha = false;
     public function __construct()
     {
         parent::__construct();
         $this->_data['html_title'].=' - Contact';
         parent::_add_active_menu(site_url('front/contact/index'));
+        
+        //neu có captcha thì k dc cache
+        if($this->Setting_model->get_by_key('feedback_captcha')==1)
+        {
+            $this->require_captcha=true;
+        }
     }
     public function index()
     {
         $captcha = parent::_new_captcha();
         $this->_data['captcha_value'] = $captcha['value'];
         $this->_data['captcha_name'] = $captcha['name'];
+        $this->_data['require_captcha'] = $this->require_captcha;
         
         $this->_data['feedback0'] = new Feedback_model;
         parent::_view('contact', $this->_data);
@@ -42,7 +50,7 @@ class Contact extends Home {
         //validate
         $validate = $obj->validate();
         //check captcha
-        if($input[$this->session->userdata('captcha_name')]!=$this->session->userdata('captcha_value'))
+        if($input[$this->session->userdata('captcha_name')]!=$this->session->userdata('captcha_value') && $this->require_captcha==true)
         {
             array_push($validate,'captcha_fail');
         }
@@ -70,6 +78,8 @@ class Contact extends Home {
         
         $this->_data['feedback0'] = $obj;
         $this->_data['state'] = $validate;
+        
+        $this->_data['require_captcha'] = $this->require_captcha;
         parent::_view('contact', $this->_data);
     }
 }

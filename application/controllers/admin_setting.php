@@ -24,7 +24,7 @@ class Admin_setting extends Admin {
         $setting_obj = new Setting_model;
         //set view data from sb
         $this->_data['state']=(array)$this->session->flashdata('state');
-        $this->_data['unlink_count'] = isset($this->_temp['unlink_count'])?(int)$this->_temp['unlink_count']:0;
+        $this->_data['unlink_count'] = (int)$this->session->flashdata('unlink_count');
         
         $this->_data['cache_time']=$setting_obj->get('cache_time');
         $this->_data['maintain_mode']=$setting_obj->get('maintain_mode');
@@ -73,8 +73,9 @@ class Admin_setting extends Admin {
         $path='application/cache/';
         $count = qd_delete_files($path);
         //set temp
-        $this->_temp['unlink_count'] = $count;
+        
         $this->session->set_flashdata('state', array('delete_cache_ok'));
+        $this->session->set_flashdata('unlink_count', $count);
         redirect('admin_setting');
     }
     public function edit()
