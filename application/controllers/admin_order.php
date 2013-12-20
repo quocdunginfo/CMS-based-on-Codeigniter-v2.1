@@ -5,7 +5,6 @@ class Admin_order extends Admin {
     {
         parent::__construct();        
         $this->_data['html_title'].=' - Order';
-        parent::_add_active_menu(site_url('admin_orders/index'));
     }
     public function index()//order_id
     {

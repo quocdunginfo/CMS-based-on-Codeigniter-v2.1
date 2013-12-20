@@ -5,7 +5,11 @@ class Admin_media extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Media';
-        parent::_add_active_menu(site_url('admin_media/index'));
+    }
+    public function index_()
+    {
+        parent::_add_active_menu(site_url('admin_media/index_'));
+        self::index();
     }
     public function index($state='null',$unlink_count=0)
     {
@@ -18,6 +22,8 @@ class Admin_media extends Admin {
         
         $this->_data['state']=isset($this->_temp['state'])?(array)$this->_temp['state']:array();
         $this->_data['unlink_count'] = isset($this->_temp['unlink_count'])?(int)$this->_temp['unlink_count']:0;
+        
+        parent::_add_active_menu(site_url('admin_media/index'));
         $this->load->view('admin/media',$this->_data);
     }
     public function validate()

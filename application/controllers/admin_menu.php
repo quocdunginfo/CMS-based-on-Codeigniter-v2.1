@@ -5,7 +5,11 @@ class Admin_menu extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Menus';
-        parent::_add_active_menu(site_url('admin_menu/index'));
+    }
+    public function index_()
+    {
+        parent::_add_active_menu(site_url('admin_menus/index_'));
+        self::index();
     }
     public function index()//special
     {
@@ -20,6 +24,8 @@ class Admin_menu extends Admin {
         $this->_data['menu_list'] = $menu_list;
         $this->_data['menu0'] = new Menu_model;
         $this->_data['menu_provider_list'] = $this->Menu_provider_model->get_all();
+        
+        parent::_add_active_menu(site_url('admin_menu/index'));
         $this->load->view('admin/menu',$this->_data);
     }
     public function submit()
@@ -104,6 +110,8 @@ class Admin_menu extends Admin {
         
         $this->_data['menu0'] = $obj;
         $this->_data['menu_provider_list'] = $this->Menu_provider_model->get_all();
+        
+        parent::_add_active_menu(site_url('admin_menu/index'));
         $this->load->view('admin/menu',$this->_data);
     }
     public function delete($id=0)

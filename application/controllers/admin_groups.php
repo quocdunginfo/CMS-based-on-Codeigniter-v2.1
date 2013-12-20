@@ -5,7 +5,12 @@ class Admin_groups extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Groups';
-        parent::_add_active_menu(site_url('admin_groups/index'));
+        
+    }
+    public function index_()
+    {
+        parent::_add_active_menu(site_url('admin_groups/index_'));
+        self::index();
     }
     public function index()//page=1
     {
@@ -41,6 +46,7 @@ class Admin_groups extends Admin {
         $this->_data['state']= (array)$this->session->flashdata('state');//noi khác set trước
         $this->_data['pagination']=$pagination;
         
+        parent::_add_active_menu(site_url('admin_groups/index'));
         $this->load->view('admin/groups',$this->_data);
     }
     public function edit($id=0)

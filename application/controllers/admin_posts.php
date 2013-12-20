@@ -5,9 +5,13 @@ class Admin_posts extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'] .= ' - Posts';
-        parent::_add_active_menu(site_url('admin_posts/index/alias'));
+        
     }
-    
+    public function index_()
+    {
+        parent::_add_active_menu(site_url('admin_posts/index_'));
+        self::index();
+    }
     public function index()//cat_id, special, page URI
     {
         //check permision

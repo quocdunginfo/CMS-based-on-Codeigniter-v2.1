@@ -5,7 +5,12 @@ class Admin_setting extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Setting';
-        parent::_add_active_menu(site_url('admin_setting/index/alias'));
+        
+    }
+    public function index_()
+    {
+        parent::_add_active_menu(site_url('admin_setting/index_'));
+        self::index();
     }
     public function index()//$state,$unlink_count
     {

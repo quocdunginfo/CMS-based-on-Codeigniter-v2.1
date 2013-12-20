@@ -5,7 +5,11 @@ class Admin_orders extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Orders';
-        parent::_add_active_menu(site_url('admin_orders/index'));
+    }
+    public function index_()
+    {
+        parent::_add_active_menu(site_url('admin_orders/index_'));
+        self::index();
     }
     public function index()//page=1
     {
@@ -42,6 +46,7 @@ class Admin_orders extends Admin {
         $this->_data['state']= (array)$this->session->flashdata('state');//noi khác set trước
         $this->_data['pagination']=$pagination;
         
+        parent::_add_active_menu(site_url('admin_orders/index'));
         $this->load->view('admin/orders',$this->_data);
     }
     public function edit($id=0)

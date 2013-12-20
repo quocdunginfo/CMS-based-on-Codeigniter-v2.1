@@ -5,7 +5,6 @@ class Admin_slide_post extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Slide post';
-        parent::_add_active_menu(site_url('admin_posts/index/alias'));
     }
     public function index()//$post_id, $special(for add only)
     {

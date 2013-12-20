@@ -47,7 +47,14 @@ class Admin extends CI_Controller {
     protected function _add_active_menu($full_url='')
     {
         $this->_menu->add_active_menu($full_url);
-        $this->_data['menu'] = $this->_menu;
+        $this->_menu->generate_sub_admin();//must done first
+        $this->_menu->generate_main_admin();//must done after
+        $this->_data['menu'] =  $this->_menu;
+    }
+    public function index_()
+    {
+        self::_add_active_menu(site_url('admin/index_'));
+        self::index();
     }
     public function index()
     {

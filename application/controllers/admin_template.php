@@ -5,7 +5,11 @@ class Admin_template extends Admin {
     {
         parent::__construct();        
         $this->_data['html_title'].=' - Template and Style';
-        parent::_add_active_menu(site_url('admin_template/index'));
+    }
+    public function index_()
+    {
+        parent::_add_active_menu(site_url('admin_template/index_'));
+        self::index();
     }
     public function index()
     {
@@ -17,6 +21,8 @@ class Admin_template extends Admin {
         $this->_data['template_list'] = $model->get_all();
         $this->_data['template_id'] = $setting->get_by_key('template_id');
         $this->_data['state'] = (array)$this->session->flashdata('state');
+        
+        parent::_add_active_menu(site_url('admin_template/index'));
         $this->load->view('admin/template', $this->_data);
     }
     public function choose()

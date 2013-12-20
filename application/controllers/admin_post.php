@@ -5,7 +5,7 @@ class Admin_post extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Post';
-        parent::_add_active_menu(site_url('admin_posts/index/alias'));//to separate parent menu and child
+        
     }
     public function index()//$post_id, $special(for add only)
     {

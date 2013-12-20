@@ -87,12 +87,17 @@ class Template_menu_model extends CI_Model {
             {
                 if(self::_is_in_active_menu($tmp->get_url()))
                 {
+                                        
                     self::add_active_menu($item->get_url());
+                    //var_dump($this->active_menu);//debug here
+                    break;
+                    
                 }
             }
             
             if(sizeof($item->get_child_cat_list())>0)
             {
+                
                 if(self::_is_in_active_menu($item->get_url()))
                 {
                     

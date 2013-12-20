@@ -5,7 +5,11 @@ class Admin_category extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Categories';
-        parent::_add_active_menu(site_url('admin_category/index/alias'));//to separate parent menu and child
+    }
+    public function index_()
+    {
+        parent::_add_active_menu(site_url('admin_category/index_'));
+        self::index();
     }
     public function index()//special
     {

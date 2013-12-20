@@ -5,7 +5,11 @@ class Admin_users extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Users';
-        parent::_add_active_menu(site_url('admin_users/index/alias'));
+    }
+    public function index_()
+    {
+        parent::_add_active_menu(site_url('admin_users/index_'));
+        self::index();
     }
     public function index()//page
     {

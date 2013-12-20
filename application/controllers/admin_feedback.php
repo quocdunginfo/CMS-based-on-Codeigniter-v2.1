@@ -5,7 +5,6 @@ class Admin_feedback extends Admin {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Feedback';
-        parent::_add_active_menu(site_url('admin_posts/index/alias'));
     }
     public function index()
     {
