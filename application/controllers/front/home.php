@@ -136,7 +136,11 @@ class Home extends CI_Controller {
         $this->_data['painting_list_mat']=$model_mat->search('',1,$model_mat->special,'id','asc',0,-1);
         $this->_data['giohang'] = $this->_giohang;
         $this->_data['current_user'] =  $this->_user;
-        $this->_data['html_title'] =  'Site';
+        $this->_data['html_title'] =  $setting->get_by_key('html_title');
+        $this->_data['html_footer_left'] =  $setting->get_by_key('html_footer_left');
+        $this->_data['html_footer_right'] =  $setting->get_by_key('html_footer_right');
+        $this->_data['html_seo_keyword'] =  $setting->get_by_key('html_seo_keyword');
+        
         $this->_data['state']= array();
         $this->_data['active_menu'] = array();
         $this->_data['timkiem_sanpham'] = $this->_timkiem_sanpham;
@@ -155,6 +159,12 @@ class Home extends CI_Controller {
         
         //Cache, some function may not work
         $this->output->cache($setting->get_by_key('cache_time'));
+        //Maintain mode
+        if($setting->get_by_key('maintain_mode')==1)
+        {
+            redirect('fatal_error');
+            return;
+        }
     }
     protected function _add_active_menu($full_url='')
     {

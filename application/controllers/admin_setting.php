@@ -42,7 +42,6 @@ class Admin_setting extends Admin {
        
         $this->_data['maximum_preview_post_content']=$setting_obj->get('maximum_preview_post_content');
         $this->_data['maximum_preview_post_title']=$setting_obj->get('maximum_preview_post_title');
-        $this->_data['allow_guest_post_feedback']=$setting_obj->get('allow_guest_post_feedback');
         
         $this->_data['html']['title']=$setting_obj->get('html_title');
         $this->_data['html']['footer_left']=$setting_obj->get('html_footer_left');
@@ -101,7 +100,7 @@ class Admin_setting extends Admin {
         
         $maximum_preview_post_title = $this->input->post('maximum_preview_post_title');//
         $maximum_preview_post_content = $this->input->post('maximum_preview_post_content');//
-        $allow_guest_post_feedback = $this->input->post('allow_guest_post_feedback');//
+        
         
         $html_title = $this->input->post('html_title');//
         $html_footer_left = $this->input->post('html_footer_left');//
@@ -129,7 +128,6 @@ class Admin_setting extends Admin {
         
         $var->update_or_add('maximum_preview_post_title',$maximum_preview_post_title);
         $var->update_or_add('maximum_preview_post_content',$maximum_preview_post_content);
-        $var->update_or_add('allow_guest_post_feedback',$allow_guest_post_feedback);
         
         $var->update_or_add('html_title',$html_title);
         $var->update_or_add('html_footer_left',$html_footer_left);

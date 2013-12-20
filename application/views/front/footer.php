@@ -7,10 +7,10 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 		</div>
 		<!-- END of templatemo_main -->
 		<div id="templatemo_footer">
-			<p>
+			<p style="display: none;">
 				<a href="/">Trang chủ</a> | <a href="/FrontSanPham?id_loaisp=0&amp;level_loaisp=0">Sản phẩm</a> | <a href="/FrontTimKiem">Tìm kiếm nâng cao</a> | <a href="/FrontContact">Liên hệ</a> | <a href="#">Giới thiệu</a>
 			</p>
-			 Copyright © 2013 <a href="#">quocdunginfo ft kienkimkhung Corp.</a> | <a href="http://www.templatemo.com/preview/templatemo_367_shoes">Special thanks</a> to <a href="http://www.templatemo.com" target="_parent" title="free css templates">templatemo</a>
+			 <?=$html_footer_left?> | <?=$html_footer_right?>
 		</div>
 		<!-- END of templatemo_footer -->
 	</div>

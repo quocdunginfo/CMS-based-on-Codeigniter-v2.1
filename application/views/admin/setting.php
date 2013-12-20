@@ -76,14 +76,7 @@ function show_notification($state=array(),$unlink_count=0)
                                     ?>
                                 </select>
                             </p>
-                            <p>
-                                <label>Allow guest to send feedback via "Contact" page on menu</label>
-                                <select name="allow_guest_post_feedback" class="input-short" style="width: 70px;">
-                                    <option value="0" <?php if($allow_guest_post_feedback==0) echo 'selected="selected"'?>>OFF</option>
-                                    <option value="1" <?php if($allow_guest_post_feedback==1) echo 'selected="selected"'?>>ON</option>
-                                </select>
-                                    
-                            </p>
+                            
                             <p>
                                 <label>Require guest to type CAPTCHA code when sending feedback (avoid SPAM)</label>
                                 <select name="feedback_captcha" class="input-short" style="width: 70px;">
@@ -152,7 +145,7 @@ function show_notification($state=array(),$unlink_count=0)
                             </p>
                             <p>
                                 <label>- Website left footer</label>
-                                Copyright &COPY; [year] <input class="input-medium" type="text" name="html_footer_left" value="<?=$html['footer_left']?>"/> 
+                                <input style="width: 100%;" class="input-medium" type="text" name="html_footer_left" value="<?=$html['footer_left']?>"/> 
                             </p>
                             <p>
                                 <label>- Website right footer</label>

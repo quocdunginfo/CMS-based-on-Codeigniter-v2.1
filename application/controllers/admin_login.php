@@ -2,7 +2,7 @@
 class Admin_login extends CI_Controller {
     protected $_user = null;
     protected $_data = array();
-    public function __construct()
+    function __construct()
     {
         parent::__construct();
         //may class

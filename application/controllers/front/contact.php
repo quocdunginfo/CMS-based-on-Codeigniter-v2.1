@@ -50,9 +50,12 @@ class Contact extends Home {
         //validate
         $validate = $obj->validate();
         //check captcha
-        if($input[$this->session->userdata('captcha_name')]!=$this->session->userdata('captcha_value') && $this->require_captcha==true)
+        if($this->require_captcha==true)
         {
-            array_push($validate,'captcha_fail');
+            if($input[$this->session->userdata('captcha_name')]!=$this->session->userdata('captcha_value'))
+            {
+                array_push($validate,'captcha_fail');
+            }
         }
         
         if(sizeof($validate)<=0)

@@ -38,7 +38,7 @@
 |
 */
 $route['default_controller'] = "webpage";
-$route['404_override'] = '';
+$route['404_override'] = 'error/_404';
 //quocdunginfo
 
 $route['front'] = "front/home";
