@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 19, 2013 at 09:42 PM
+-- Generation Time: Dec 20, 2013 at 12:37 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.16
 
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   `menu_provider_id` int(11) NOT NULL DEFAULT '0',
   `menu_param` text NOT NULL COMMENT 'kết hợp với controller và action trong menu_provider để ra URL',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=104 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=124 ;
 
 --
 -- Dumping data for table `category`
@@ -71,7 +71,7 @@ INSERT INTO `category` (`id`, `name`, `description`, `parent_id`, `date_create`,
 (47, 'Trừu tượng2', '', -1, '0000-00-00 00:00:00', '2013-12-02 06:54:21', 1, 47, 2, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
 (48, 'Khỏa thân', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 48, 2, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
 (49, 'vai2', '', -1, '0000-00-00 00:00:00', '2013-12-07 11:47:28', 1, 49, 3, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
-(50, 'giay', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 50, 3, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(50, 'giay', '', -1, '0000-00-00 00:00:00', '2013-12-20 12:25:25', 1, 50, 3, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
 (51, 'About page', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 40, 1, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
 (52, 'Homepage''s 6 widgets', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 53, 1, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
 (53, 'Homepage''s footer widget', '', -1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 52, 1, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
@@ -86,16 +86,37 @@ INSERT INTO `category` (`id`, `name`, `description`, `parent_id`, `date_create`,
 (79, '', '', 0, '2013-12-13 16:32:22', '2013-12-13 16:33:15', 1, 79, 5, 12000, 'chuagiao', 0, 0, 9, 'Tran Hung Dao', '1212121212', 'Quarn trij2222', 1, 0, ''),
 (80, '', '', 0, '2013-12-15 14:16:40', '2013-12-15 14:16:40', 1, 80, 5, 1234, 'chualienlac', 1, 0, 9, 'Tran Hung Dao', '0979996234', 'Quarn trij2222', 18, 0, ''),
 (81, '', '', 0, '2013-12-15 14:19:43', '2013-12-15 14:19:43', 1, 81, 5, 1234, 'chualienlac', 0, 0, 9, 'Tran Hung Dao', '0979996234', 'Quarn trij2222', 1, 0, ''),
-(82, 'Main menu 1', '', -1, '2013-12-16 09:02:48', '2013-12-17 16:17:42', 1, 82, 4, 0, '', 1, 0, 0, '', '', '', 0, 1, ''),
-(84, 'Trang chủ', '', 82, '2013-12-16 09:03:06', '2013-12-19 21:39:14', 1, 88, 4, 0, '', 1, 0, 0, '', '', '', 0, 5, ''),
-(88, 'Liên hệ', '', 82, '2013-12-17 16:21:37', '2013-12-19 18:35:07', 1, 84, 4, 0, '', 1, 0, 0, '', '', '', 0, 1, ''),
-(89, 'Login', '', 91, '2013-12-17 17:11:30', '2013-12-17 17:18:41', 1, 89, 4, 0, '', 1, 0, 0, '', '', '', 0, 6, ''),
-(90, 'Register', '', 91, '2013-12-17 17:13:35', '2013-12-17 17:18:31', 1, 90, 4, 0, '', 1, 0, 0, '', '', '', 0, 7, ''),
-(91, 'Account', '', 82, '2013-12-17 17:16:11', '2013-12-17 17:16:11', 1, 93, 4, 0, '', 1, 0, 0, '', '', '', 0, 8, ''),
-(92, 'Logout', '', 91, '2013-12-17 17:17:22', '2013-12-17 17:18:26', 1, 92, 4, 0, '', 1, 0, 0, '', '', '', 0, 9, ''),
-(93, 'Tất cả sản phẩm', '', 82, '2013-12-17 17:25:42', '2013-12-17 17:25:42', 1, 91, 4, 0, '', 1, 0, 0, '', '', '', 0, 4, ''),
-(94, 'Tìm kiếm ', '', 82, '2013-12-18 10:03:54', '2013-12-19 18:14:03', 1, 94, 4, 0, '', 1, 0, 0, '', '', '', 0, 13, '132'),
-(95, 'Page Group 1', '', -1, '2013-12-19 17:39:00', '2013-12-19 17:39:00', 1, 95, 6, 0, '', 1, 0, 0, '', '', '', 0, 0, '');
+(82, 'Main menu 1', '', -1, '2013-12-16 09:02:48', '2013-12-20 12:35:10', 1, 96, 4, 0, '', 1, 0, 0, '', '', '', 0, 3, ''),
+(84, 'Trang chủ', '', 82, '2013-12-16 09:03:06', '2013-12-20 12:36:16', 1, 84, 4, 0, '', 1, 0, 0, '', '', '', 0, 5, ''),
+(88, 'Liên hệ', '', 82, '2013-12-17 16:21:37', '2013-12-19 18:35:07', 1, 122, 4, 0, '', 1, 0, 0, '', '', '', 0, 1, ''),
+(93, 'Tất cả sản phẩm', '', 82, '2013-12-17 17:25:42', '2013-12-17 17:25:42', 1, 88, 4, 0, '', 1, 0, 0, '', '', '', 0, 4, ''),
+(94, 'Tìm kiếm nâng cao', '', 82, '2013-12-18 10:03:54', '2013-12-20 12:32:39', 1, 91, 4, 0, '', 1, 0, 0, '', '', '', 0, 10, ''),
+(95, 'Page Group 1', '', -1, '2013-12-19 17:39:00', '2013-12-19 17:39:00', 1, 95, 6, 0, '', 1, 0, 0, '', '', '', 0, 0, ''),
+(96, 'Admin Menu 1', '', -1, '2013-12-20 10:22:55', '2013-12-20 10:22:55', 1, 82, 4, 0, '', 1, 0, 0, '', '', '', 0, 3, ''),
+(97, 'Dashboard', '', 96, '2013-12-20 10:26:23', '2013-12-20 10:26:23', 1, 97, 4, 0, '', 1, 0, 0, '', '', '', 0, 14, ''),
+(98, 'Menu & Modules', '', 96, '2013-12-20 10:26:39', '2013-12-20 12:00:11', 1, 98, 4, 0, '', 1, 0, 0, '', '', '', 0, 15, ''),
+(99, 'Categories', '', 96, '2013-12-20 10:27:02', '2013-12-20 11:04:28', 1, 99, 4, 0, '', 1, 0, 0, '', '', '', 0, 34, ''),
+(100, '[Normal]', '', 99, '2013-12-20 10:27:26', '2013-12-20 10:27:26', 1, 100, 4, 0, '', 1, 0, 0, '', '', '', 0, 16, ''),
+(101, '[System]', '', 99, '2013-12-20 10:27:39', '2013-12-20 11:34:20', 1, 101, 4, 0, '', 1, 0, 0, '', '', '', 0, 17, ''),
+(102, '[Painting]', '', 99, '2013-12-20 10:28:01', '2013-12-20 10:28:01', 1, 102, 4, 0, '', 1, 0, 0, '', '', '', 0, 18, ''),
+(103, '[Material]', '', 99, '2013-12-20 10:28:21', '2013-12-20 10:28:21', 1, 103, 4, 0, '', 1, 0, 0, '', '', '', 0, 19, ''),
+(104, '[Static page]', '', 99, '2013-12-20 10:28:40', '2013-12-20 10:28:40', 1, 104, 4, 0, '', 1, 0, 0, '', '', '', 0, 20, ''),
+(105, 'Posts', '', 96, '2013-12-20 10:29:00', '2013-12-20 11:57:47', 1, 105, 4, 0, '', 1, 0, 0, '', '', '', 0, 35, ''),
+(106, '[Normal]', '', 105, '2013-12-20 10:29:22', '2013-12-20 10:29:22', 1, 106, 4, 0, '', 1, 0, 0, '', '', '', 0, 21, ''),
+(107, '[System]', '', 105, '2013-12-20 10:29:44', '2013-12-20 10:29:44', 1, 107, 4, 0, '', 1, 0, 0, '', '', '', 0, 22, ''),
+(108, '[Painting]', '', 105, '2013-12-20 10:30:02', '2013-12-20 10:30:02', 1, 108, 4, 0, '', 1, 0, 0, '', '', '', 0, 23, ''),
+(109, 'Orders', '', 96, '2013-12-20 10:30:24', '2013-12-20 10:30:41', 1, 109, 4, 0, '', 1, 0, 0, '', '', '', 0, 25, ''),
+(113, 'Groups', '', 96, '2013-12-20 10:31:52', '2013-12-20 10:31:52', 1, 114, 4, 0, '', 1, 0, 0, '', '', '', 0, 28, ''),
+(114, 'Setting', '', 96, '2013-12-20 10:32:24', '2013-12-20 11:48:24', 1, 118, 4, 0, '', 1, 0, 0, '', '', '', 0, 37, ''),
+(115, '[Common setting]', '', 114, '2013-12-20 10:32:40', '2013-12-20 10:32:40', 1, 115, 4, 0, '', 1, 0, 0, '', '', '', 0, 29, ''),
+(116, '[Templatte & Style]', '', 114, '2013-12-20 10:33:01', '2013-12-20 10:33:01', 1, 116, 4, 0, '', 1, 0, 0, '', '', '', 0, 30, ''),
+(117, '[Antivirus]', '', 114, '2013-12-20 10:33:24', '2013-12-20 10:33:24', 1, 117, 4, 0, '', 1, 0, 0, '', '', '', 0, 31, ''),
+(118, 'Media', '', 96, '2013-12-20 10:34:01', '2013-12-20 10:34:01', 1, 119, 4, 0, '', 1, 0, 0, '', '', '', 0, 32, ''),
+(119, 'Users', '', 96, '2013-12-20 12:01:02', '2013-12-20 12:01:32', 1, 113, 4, 0, '', 1, 0, 0, '', '', '', 0, 36, ''),
+(120, '[Manager]', '', 119, '2013-12-20 12:02:19', '2013-12-20 12:02:19', 1, 120, 4, 0, '', 1, 0, 0, '', '', '', 0, 26, ''),
+(121, '[Customer]', '', 119, '2013-12-20 12:02:45', '2013-12-20 12:02:45', 1, 121, 4, 0, '', 1, 0, 0, '', '', '', 0, 27, ''),
+(122, 'Giới thiệu', '', 82, '2013-12-20 12:28:21', '2013-12-20 12:32:09', 1, 94, 4, 0, '', 1, 0, 0, '', '', '', 0, 13, '132'),
+(123, '[Static page]', '', 105, '2013-12-20 12:28:55', '2013-12-20 12:28:55', 1, 123, 4, 0, '', 1, 0, 0, '', '', '', 0, 24, '');
 
 -- --------------------------------------------------------
 
@@ -175,7 +196,7 @@ CREATE TABLE IF NOT EXISTS `menu_provider` (
   `action` text NOT NULL,
   `active` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
 
 --
 -- Dumping data for table `menu_provider`
@@ -194,7 +215,31 @@ INSERT INTO `menu_provider` (`id`, `name`, `controller`, `selector_uri`, `action
 (10, 'Template Search page', 'front/search/', '', 'index/', 1),
 (11, 'Template Cart page', 'front/cart/', '', 'index/', 1),
 (12, 'Template Painting Category >>', 'front/products/', 'admin_category/index/special/2/view_mode/selector', 'painting_cat/id/', 1),
-(13, 'Template Static Page >>', 'front/static_page/', 'admin_posts/index/special/6/view_mode/selector', 'index/', 1);
+(13, 'Template Static Page >>', 'front/static_page/', 'admin_posts/index/special/6/view_mode/selector', 'index/', 1),
+(14, 'Admin Home Module', 'admin/', '', 'index/', 1),
+(15, 'Admin Menu module', 'admin_menu/', '', 'index/', 1),
+(16, 'Admin Normal Cat Module', 'admin_category/', '', 'index/special/0', 1),
+(17, 'Admin System Cat Module', 'admin_category/', '', 'index/special/1', 1),
+(18, 'Admin Painting Cat Module', 'admin_category/', '', 'index/special/2', 1),
+(19, 'Admin Material Cat Module', 'admin_category/', '', 'index/special/3', 1),
+(20, 'Admin Static Page Cat Module', 'admin_category/', '', 'index/special/6', 1),
+(21, 'Admin Normal Post Module', 'admin_posts/', '', 'index/special/0', 1),
+(22, 'Admin System Post Module', 'admin_posts/', '', 'index/special/1', 1),
+(23, 'Admin Painting Post Module', 'admin_posts/', '', 'index/special/2', 1),
+(24, 'Admin Static Page Post Module', 'admin_posts/', '', 'index/special/6', 1),
+(25, 'Admin Order Module', 'admin_orders/', '', 'index/', 1),
+(26, 'Admin User Module', 'admin_users/', '', 'index/special/0', 1),
+(27, 'Admin Customer Module', 'admin_users/', '', 'index/special/1', 1),
+(28, 'Admin Group Module', 'admin_groups/', '', 'index/', 1),
+(29, 'Admin Common Setting Module', 'admin_setting/', '', 'index/', 1),
+(30, 'Admin Template & Style Module', 'admin_template/', '', 'index/', 1),
+(31, 'Admin Antivirus Module', 'admin_antivirus/', '', 'index/', 1),
+(32, 'Admin Media Module', 'admin_media/', '', 'index/', 1),
+(33, 'Admin Help Module', 'admin_help/', '', 'index/', 1),
+(34, '_Admin Normal Cat Module', 'admin_category/', '', 'index/alias/_/special/0', 1),
+(35, '_Admin Normal Post Module', 'admin_posts/', '', 'index/alias/_/special/0', 1),
+(36, '_Admin User Module', 'admin_users/', '', 'index/alias/_/special/0', 1),
+(37, '_Admin Common Setting Module', 'admin_setting/', '', 'index/alias/', 1);
 
 -- --------------------------------------------------------
 
@@ -207,7 +252,7 @@ CREATE TABLE IF NOT EXISTS `option` (
   `key` text NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=86 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=87 ;
 
 --
 -- Dumping data for table `option`
@@ -234,7 +279,8 @@ INSERT INTO `option` (`id`, `key`, `value`) VALUES
 (26, 'template_id', '110'),
 (29, 'max_count_order_per_product', '3'),
 (30, 'main_menu_category', '82'),
-(85, 'allow_guest_post_feedback', '0');
+(85, 'allow_guest_post_feedback', '0'),
+(86, 'admin_menu_category', '96');
 
 -- --------------------------------------------------------
 
@@ -389,7 +435,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   `order_count` int(11) NOT NULL DEFAULT '0',
   `order_unitprice` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=136 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=133 ;
 
 --
 -- Dumping data for table `post`
@@ -435,13 +481,13 @@ INSERT INTO `post` (`id`, `title`, `content`, `date_create`, `date_modify`, `use
 (117, 'alo', '<p>dfgfgfg</p>', '2013-12-13 16:43:09', '2013-12-13 16:43:09', 0, 'srgdfg', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]xuan_035.jpg', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (118, 'sua', '<p>hjshjdsfd</p>', '2013-12-13 16:47:10', '2013-12-13 16:47:10', 0, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file30.jpg', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (120, 'kakaka', '', '2013-12-13 16:47:37', '2013-12-13 16:47:37', 9, 'aloha', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]alo/avarta.jpg', 0, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
-(123, 'bai 33', '', '2013-12-13 16:54:09', '2013-12-19 06:14:26', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]bb_picture.jpg', 2, '', '', 'RAW62', 0, 0, 0, 'cm', 12000, 0, 0, 0, 0),
+(123, 'bai 33', '', '2013-12-13 16:54:09', '2013-12-20 12:34:25', 8, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]bb_picture.jpg', 2, '', '', 'RAW62', 0, 0, 0, 'cm', 12000, 0, 0, 0, 0),
 (124, '', '', '2013-12-15 14:16:40', '2013-12-15 14:16:40', 0, '', 1, '', 4, '', '', '', 0, 0, 0, 'cm', 0, 0, 122, 1, 1234),
 (125, '', '', '2013-12-15 14:19:43', '2013-12-15 14:19:43', 0, '', 1, '', 4, '', '', '', 0, 0, 0, 'cm', 0, 0, 122, 1, 1234),
 (127, 'alo', 'hahaa', '2013-12-15 18:20:33', '2013-12-15 18:20:33', 9, '', 1, '', 1, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (128, 'sdfsdfdfd', 'fkhung', '2013-12-18 04:38:56', '2013-12-18 04:38:56', 0, 'khách ngoài', 1, '', 1, 'h@gmail.com', '0979996345', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
 (131, 'wtf', '<p>sdgdsfgfg</p>', '2013-12-19 18:09:11', '2013-12-19 18:09:11', 9, '', 1, '[quocdunginfo-tinymce-upload-prefix-es654298hcngdhte5lmvnhfuyt]file51.jpg', 2, '', '', '34', 4, 13, 23, 'inch', 1234, 0, 0, 0, 0),
-(132, 'Trang 1', '<h2>Welcome to CodeIgniter</h2>\r\n<p>CodeIgniter is an Application Development Framework - a toolkit - for people who build web sites using PHP. Its goal is to enable you to develop projects much faster than you could if you were writing code from scratch, by providing a rich set of libraries for commonly needed tasks, as well as a simple interface and logical structure to access these libraries. CodeIgniter lets you creatively focus on your project by minimizing the amount of code needed for a given task.</p>\r\n<h2>Who is CodeIgniter For?</h2>\r\n<p>CodeIgniter is right for you if:</p>\r\n<ul>\r\n<li>You want a framework with a small footprint.</li>\r\n<li>You need exceptional performance.</li>\r\n<li>You need broad compatibility with standard hosting accounts that run a variety of PHP versions and configurations.</li>\r\n<li>You want a framework that requires nearly zero configuration.</li>\r\n<li>You want a framework that does not require you to use the command line.</li>\r\n<li>You want a framework that does not require you to adhere to restrictive coding rules.</li>\r\n<li>You do not want to be forced to learn a templating language (although a template parser is optionally available if you desire one).</li>\r\n<li>You eschew complexity, favoring simple solutions.</li>\r\n<li>You need clear, thorough documentation.</li>\r\n</ul>', '2013-12-19 18:10:17', '2013-12-19 18:21:37', 9, '', 1, '', 6, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0);
+(132, 'Thông tin cửa hàng', '<p>-V&ocirc; Admin &gt; Posts &gt; Static page &gt; Add hoặc Update post hiện c&oacute;</p>\r\n<p>-Quay ra Admin &gt; Menu &amp; Style &gt; Add hoặc Update Menu item (Chọn Menu Provider = Template Static Page), chọn tiếp post cần hiển thị</p>\r\n<p>-Lưu &gt; Ho&agrave;n Ttất</p>', '2013-12-19 18:10:17', '2013-12-20 12:31:54', 9, '', 1, '', 6, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
