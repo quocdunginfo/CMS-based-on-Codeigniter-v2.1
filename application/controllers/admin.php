@@ -37,7 +37,7 @@ class Admin extends CI_Controller {
         $this->load->library('uri');
         $this->load->library('encrypt');
         $this->load->library('Image_resize');
-        $this->load->library('email');
+        $this->load->library('Qd_email');
         $this->load->library('Form_validate');
         //db
         $this->load->database();
@@ -66,18 +66,9 @@ class Admin extends CI_Controller {
         }
         //get post that hold comment
         $feature_cat = $this->Setting_model->get_by_key('feedback_category');
-        $list_post = $this->Post_model->search('','','',-1,-1,array($feature_cat));
-        if(sizeof($list_post)>0)
-        {
-            $this->_data['post_cmt'] = $list_post[0];
-        }
-        else
-        {
-            $this->_data['post_cmt'] = null;
-        }
         
-        array_push($this->_data['active_menu'],'admin');
         
+        $this->_data['feedback_category'] = $feature_cat;
         self::_add_active_menu(site_url('admin/index'));
         //view dashboard
         $this->load->view('admin/index',$this->_data);

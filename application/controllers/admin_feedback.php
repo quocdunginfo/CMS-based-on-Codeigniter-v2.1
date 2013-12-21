@@ -56,33 +56,19 @@ class Admin_feedback extends Admin {
         
         //get post value
         $input = $this->input->post(null,true);
+        $email = new Qd_email;
+        $email->set_to($input['email']);
+        $email->set_subject($input['subject']);
+        $email->set_content($input['content']);
+        	
         
-        $config = array(
-            'protocol' => 'smtp',
-            'smtp_host' => 'ssl://smtp.googlemail.com',
-            'smtp_port' => 465,
-            'smtp_user' => 'quocdunginfo@gmail.com',
-            'smtp_pass' => '*********',
-            'mailtype' => 'html',
-            'newline' =>'\r\n',
-            'starttls'  => true
-        );
-        $this->email->initialize($config);
-        
-        $this->email->from('quocdunginfo@gmail.com', 'Nguyen Dung');
-        $this->email->to($input['email']); 
-        
-        $this->email->subject($input['subject']);
-        $this->email->message($input['content']);	
-        
-        if($this->email->send()){
+        if($email->send()){
             $this->session->set_flashdata('state','send_ok');
         }
         else
         {
             $this->session->set_flashdata('state','send_fail');
         }
-        
         redirect('admin_feedback/index/post_id/'.$get['post_id'].'/special/'.$get['special'].'/cat_id/'.$get['cat_id']);
     }
 }

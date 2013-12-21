@@ -327,6 +327,11 @@ class Painting_post_model extends Post_model {
                         continue;//bo qua
                     }
                 }
+                //product phai ton tai trong he thong, for sure
+                if(!$product->is_exist())
+                {
+                    continue;//bo qua
+                }
                 $product->art_count = $detail->order_count;//xem nhu sl ban
                 //neu co trong re thi + don sl ban vao
                 $found = false;
@@ -349,12 +354,7 @@ class Painting_post_model extends Post_model {
         //sap xep lai re theo art_count cua item
         $new_ = array();
         
-        foreach($re as $item) 
-        {
-            echo $item->id.' - '.$item->title.' - '.$item->art_count.'<br>';
-        }
-        return;
-        for($i=0;$i<sizeof($re);$i++)
+        for($i=1;$i<=sizeof($re);$i++)
         {
             //tim max
             $max_item = null;
@@ -368,8 +368,10 @@ class Painting_post_model extends Post_model {
                 }
             }
             //add vo array moi
-            array_push($new_, $max_item->id);
-            echo $i;
+            if($max_item!=null)
+            {
+                array_push($new_, $max_item->id);
+            }
         }
         //finish
         return $new_;

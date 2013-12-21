@@ -69,7 +69,7 @@ $this->load->view('front/header');
                 <div class="cleaner h10"></div>
                 
                 <input type="submit" class="submit_btn" name="submit" id="submit" value="Tiếp tục" style="width: 80px;float: right;margin-right: 12px;">
-                <input type="button" class="submit_btn" value="Trở về" onclick="window.location.href='/tmdtud/FrontCart'" style="width:80px;">
+                <input type="button" class="submit_btn" value="Trở về" onclick="window.location.href='<?=site_url('front/cart')?>'" style="width:80px;">
                  <div class="cleaner h10"></div>
             </form>
         </div>

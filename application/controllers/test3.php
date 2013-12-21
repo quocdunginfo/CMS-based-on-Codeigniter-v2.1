@@ -20,12 +20,11 @@ class Test3 extends CI_Controller {
         $this->load->model('menu/Template_menu_model','Template_menu_model');
         $this->load->library('cart');
         $this->load->library('email');
+        $this->load->library('Qd_email');
     }
     public function index($page=1)
     {
-        $obj = new Painting_post_model;
-        $re = $obj->filter_best_seller(null);
-        var_dump($re);
+        
     }
     
 }

@@ -10,11 +10,6 @@ $this->load->view('admin/header');
                         
                         <div class="module-body">
                         
-                        	<p>
-                                <strong>User: </strong>User X<br />
-                                <strong>Your last visit was on: </strong>20 January 2010,<br />
-                                <strong>From IP: </strong>000.000.00.00
-                            </p>
                         
                              <div>
                                  <div class="indicator">
@@ -29,11 +24,6 @@ $this->load->view('admin/header');
                                  </div>
                                  <p>Your bandwidth (January): 1 GB out of 1 GB</p>
                              </div>
-                             
-                        	<p>
-                                Need to switch to a bigger plan?<br />
-                                <a href="">click here</a><br />
-                            </p>
                         </div>
                 </div>
                 <div style="clear:both;"></div>
@@ -43,15 +33,15 @@ $this->load->view('admin/header');
             <!-- 10 User feedback -->
             <div class="grid_5">
                 <div class="module">
-                        <h2><span>User's feedbacks</span></h2>
+                        <h2><span>Quick function</span></h2>
                         
                         <div class="module-body">
                         
                             <p>
                                 <?php
-                                if($post_cmt!=null):
+                                if($feedback_category>0):
                                 ?>
-                                <a class="button" href="<?=site_url('admin_comments/index/'.$post_cmt->id)?>">
+                                <a class="button" href="<?=site_url('admin_posts/index/special/1/cat_id/'.$feedback_category)?>">
                                     <span>
                                         View feedbacks
                                     </span>
@@ -59,7 +49,7 @@ $this->load->view('admin/header');
                                 <?php endif; ?>
                                 
                                 <?php
-                                if($post_cmt==null):
+                                if($feedback_category<=0):
                                 ?>
                                 <label>There are no feedbacks right now</label>
                                 <?php endif; ?>

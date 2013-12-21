@@ -1,5 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
-class qd_slider {
+class Qd_slider {
     public static function get_slider_list($slider_setting_key='slider_category')
     {
         $CI =& get_instance();

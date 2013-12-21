@@ -131,12 +131,18 @@ class Home extends CI_Controller {
         //get model
         $model_cat = new Painting_cat_model;
         $model_mat= new Material_cat_model;
+        $model_post= new Painting_post_model;
         //common view data
         $this->_data['painting_list_cat'] = $model_cat->get_cat_tree(-1,0,$model_cat->special);
+        
+        
+        $this->_data['painting_best_seller'] = $model_post->to_obj_list(array_slice($model_post->filter_best_seller(null),0,6));
+        
         $this->_data['painting_list_mat']=$model_mat->search('',1,$model_mat->special,'id','asc',0,-1);
         $this->_data['giohang'] = $this->_giohang;
         $this->_data['current_user'] =  $this->_user;
         $this->_data['html_title'] =  $setting->get_by_key('html_title');
+        $this->_data['html_logo_name'] =  $setting->get_by_key('html_logo_name');
         $this->_data['html_footer_left'] =  $setting->get_by_key('html_footer_left');
         $this->_data['html_footer_right'] =  $setting->get_by_key('html_footer_right');
         $this->_data['html_seo_keyword'] =  $setting->get_by_key('html_seo_keyword');

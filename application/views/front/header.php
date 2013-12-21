@@ -143,7 +143,7 @@ width: 80px;
 	<div id="templatemo_wrapper">
 		<div id="templatemo_header">
 			<div id="site_title">
-				<h1><a href="<?=site_url('front')?>">Cửa hàng điện thoại di động</a></h1>
+				<h1><a href="<?=site_url('front')?>"><?=$html_logo_name?></a></h1>
 			</div>
 			<div id="header_right">
 				<?php if($current_user==null) { ?>
@@ -244,45 +244,21 @@ width: 80px;
 					<h3><a class="sidebar_box_icon" href="http://fr.onlyimage.com" title="Cliquez ici">
 					<img src="images/templatemo_sidebar_header.png" alt="Cliquez ici from fr.onlyimage.com" title="Cliquez ici"></a>Sản phẩm bán chạy </h3>
 					<div class="content">
+                        <?php foreach($painting_best_seller as $item) { ?>
 						<div class="bs_box">
 							<div class="icon-hot">
 								<img src="images/hot.gif">
 							</div>
-							<a href="/FrontSanPhamDetail/Index/32">
-							<img src="/_Upload/HinhAnh/_thumb_582BF139782F_standard.jpg" alt="image" style="max-width:60px; max-height:60px"></a>
-							<h4><a href="/FrontSanPhamDetail/Index/32">Giày bata nữ cổ cao</a></h4>
+							<a href="<?=site_url('front/product/index/'.$item->id)?>">
+							<img src="<?=$item->get_avatar_thumb()?>" alt="image" style="max-width:60px; max-height:60px"></a>
+							<h4><a href="<?=site_url('front/product/index/'.$item->id)?>"><?=$item->title?></a></h4>
 							<p class="price">
-								1300000 đ
+								<?=$item->get_art_price()?> đ
 							</p>
 							<div class="cleaner">
 							</div>
 						</div>
-						<div class="bs_box">
-							<div class="icon-hot">
-								<img src="images/hot.gif">
-							</div>
-							<a href="/FrontSanPhamDetail/Index/6">
-							<img src="/_Upload/HinhAnh/_thumb_324F6_DSC2178_01.jpg" alt="image" style="max-width:60px; max-height:60px"></a>
-							<h4><a href="/FrontSanPhamDetail/Index/6">Giày bít gót cao</a></h4>
-							<p class="price">
-								270000 đ
-							</p>
-							<div class="cleaner">
-							</div>
-						</div>
-						<div class="bs_box">
-							<div class="icon-hot">
-								<img src="images/hot.gif">
-							</div>
-							<a href="/FrontSanPhamDetail/Index/17">
-							<img src="/_Upload/HinhAnh/_thumb_DB3ADgiay-bit-got-trung-binh-504.jpg" alt="image" style="max-width:60px; max-height:60px"></a>
-							<h4><a href="/FrontSanPhamDetail/Index/17">Giày bít gót trung thấp</a></h4>
-							<p class="price">
-								235000 đ
-							</p>
-							<div class="cleaner">
-							</div>
-						</div>
+                        <?php } ?>
 					</div>
 				</div>
 			</div>
