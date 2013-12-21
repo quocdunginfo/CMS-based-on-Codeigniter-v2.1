@@ -223,6 +223,22 @@ class Painting_post_model extends Post_model {
         )
         );
     }
+    public function delete($post_id=-1)
+    {
+        //xem co bi dinh khoa ngoai trong order hay khong
+        $this->db->select('id');
+        $this->db->from($this->_tbn);
+        $this->db->where('order_product_id',$post_id==-1?$this->id:$post_id);
+        $q = $this->db->get();
+        foreach($q->result() as $row)
+        {
+            $obj = new Order_detail_model;
+            $obj->id = $row->id;
+            return $obj->get_order_obj()->id;
+        }
+        parent::delete($post_id==-1?$this->id:$post_id);
+        return 0;
+    }
     protected function search_return_id($title='', $description='', $art_id='', $material_name='', $cat_list_id=null,$cat_recursive=true,$cat_material_id=-1 ,$category_name='', $art_price_from=0, $art_price_to=0, $art_sold=-1, $active=1, $start_point=0, $count=-1, $order_by='id', $order_rule='desc')
     {
         $id_array=parent::filter_cat_list_id(null,$cat_list_id,$cat_recursive);
@@ -290,6 +306,73 @@ class Painting_post_model extends Post_model {
     public function filter_by_material_id($id_array=null, $cat_id=0)
     {
         return parent::filter_by_cat_id($id_array,$cat_id);
+    }
+    public function filter_best_seller($id_array=null)
+    {
+        $re=array();
+        //lay ds tat ca order
+        $orders = $this->Order_model->search();
+        //
+        foreach($orders as $order)
+        {
+            //
+            foreach($order->get_order_detail_list() as $detail)
+            {
+                $product = $detail->get_product_obj();
+                //neu id_array khac null thi phai nam trong id_array
+                if($id_array!=null && is_array($id_array))
+                {
+                    if(!in_array($product->id,$id_array))
+                    {
+                        continue;//bo qua
+                    }
+                }
+                $product->art_count = $detail->order_count;//xem nhu sl ban
+                //neu co trong re thi + don sl ban vao
+                $found = false;
+                foreach($re as $tmp)
+                {
+                    if($tmp->id==$product->id)
+                    {
+                        $tmp->art_count +=$product->art_count;
+                        $found=true;
+                        break;//xu ly xong sp hien tai
+                    }
+                }
+                //chua co trong re thi add vao
+                if(!$found)
+                {
+                    array_push($re,$product);
+                }
+            }
+        }
+        //sap xep lai re theo art_count cua item
+        $new_ = array();
+        
+        foreach($re as $item) 
+        {
+            echo $item->id.' - '.$item->title.' - '.$item->art_count.'<br>';
+        }
+        return;
+        for($i=0;$i<sizeof($re);$i++)
+        {
+            //tim max
+            $max_item = null;
+            $max_value=-1;
+            foreach($re as $item)
+            {
+                if($item->art_count>$max_value && !in_array($item->id, $new_))
+                {
+                    $max_value = $item->art_count;
+                    $max_item = $item;
+                }
+            }
+            //add vo array moi
+            array_push($new_, $max_item->id);
+            echo $i;
+        }
+        //finish
+        return $new_;
     }
 }
 ?>

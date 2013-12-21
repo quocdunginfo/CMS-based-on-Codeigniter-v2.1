@@ -14,6 +14,7 @@ class Post_model extends CI_Model {
     protected $avatar_thumb='';//get only, lúc nào cũng ở dạng CSDL
     //non-table
     protected $_tbn = "post";
+    protected $_tbn2 = "post_category";
     //external
     protected $user_obj=null;
         protected $user_obj_ready = false;
@@ -312,12 +313,14 @@ class Post_model extends CI_Model {
         return 0;
     }
     public function delete($post_id=-1)
-    {
+    { 
         $this->db->where('id',$post_id==-1?$this->id:$post_id);
         $this->db->delete($this->_tbn);
         //delete in post_category
         $this->db->where('post_id',$post_id==-1?$this->id:$post_id);
         $this->db->delete('post_category');
+        
+        return true;
     }
     public function search_count($title='', $content='', $content_lite="", $active=-1,
      $special=-1, $cat_list_id = null, $cat_recursive=false, $user_id=-1,

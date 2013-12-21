@@ -12,7 +12,9 @@ $page_total = $pagination->total_page;
                 
                 <span class="notification n-attention" style="display:none;">Attention notification.</span>
                 
-                <span class="notification n-error" style="display:none;">Error notification.</span>
+                <?php if(in_array('fk_delete_fail',$state)) { ?>
+                <span class="notification n-error" style="display:block;">Foreign key constraint! Delete fail, existed in <a href="<?=site_url('admin_orders/edit/'.$fk_delete_fail_id) ?>">Order ID = <?=$fk_delete_fail_id?></a></span>
+                <?php } ?>
                 
                 
                 <div class="bottom-spacing">

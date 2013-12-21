@@ -60,6 +60,9 @@ $page_total = $pagination->total_page;
                                         <!-- <a href=""><img src="src/tick-circle.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/tick-circle.gif" width="16" height="16" alt="published" /></a> -->
                                         <a href="<?php echo site_url('admin_orders/edit/'.$obj->id); ?>"><img src="src/pencil.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/pencil.gif" width="16" height="16" alt="edit" /></a>
                                         <!-- <a href="<?php echo site_url('admin_orders/edit/'.$obj->id); ?>"><img src="src/balloon.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/balloon.gif" width="16" height="16" alt="comments" /></a> -->
+                                        
+                                        &nbsp;&nbsp;
+                        <a onclick="return confirm_click('<?=site_url('admin_orders/delete/'.$obj->id)?>');" href="javascript:void(0)"><img src="src/bin.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/bin.gif" width="16" height="16" alt="delete"/></a>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>

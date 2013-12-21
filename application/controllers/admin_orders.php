@@ -58,4 +58,18 @@ class Admin_orders extends Admin {
         }
         redirect('admin_order/index/order_id/'.$id);
     }
+    public function delete($id=0)
+    {
+        if(!in_array('order_delete',$this->_permission))
+        {
+            $this->_fail_permission('order_delete');
+            return;
+        }
+        
+        $obj = new Order_model;
+        $obj->id = $id;
+        $obj->delete();
+        
+        redirect('admin_orders');
+    }
 }

@@ -64,6 +64,8 @@ class Admin_posts extends Admin {
         $this->_data['cat_id'] = $get['cat_id'];
         $this->_data['special'] = $get['special'];
         $this->_data['pagination'] = $pagination;
+        $this->_data['state'] = (array)$this->session->flashdata('state');
+        $this->_data['fk_delete_fail_id'] = (int)$this->session->flashdata('fk_delete_fail_id');
         $this->_data['cat_list'] = $this->Cat_model->get_cat_tree(-1,0,$get['special']);
         
         parent::_add_active_menu(site_url('admin_posts/index/special/'.$get['special']));
@@ -98,8 +100,23 @@ class Admin_posts extends Admin {
             self::_fail_permission('post_delete');
             return;
         }
-
-        $obj->delete();
+        //quan trong, dang tim cach hay hon de khac phuc
+        if($obj->special==2)//painting
+        {
+            $tmp = 0;
+            if(($tmp = $this->Painting_post_model->delete($obj->id)) >0)
+            {
+                $this->session->set_flashdata('fk_delete_fail_id', $tmp);
+                $this->session->set_flashdata('state', array('fk_delete_fail'));
+            }
+        }
+        else
+        {
+            if(!$obj->delete())
+            {
+                $this->session->set_flashdata('state', array('fk_delete_fail'));
+            }
+        }   
         
         redirect('admin_posts/index/cat_id/'.$get['cat_id'].'/special/'.$get['special'].'/page/'.$get['page'].'/view_mode/'.$get['view_mode']);//OK
     }

@@ -11,6 +11,16 @@ class Order_detail_model extends Post_model {
         parent::__construct();
         $this->special = 4;
     }
+    public function get_order_obj()
+    {
+        foreach(self::get_cat_obj_list() as $item)
+        {
+            $obj = new Order_model;
+            $obj->id = $item->id;
+            $obj->load();
+            return $obj;
+        }
+    }
     public function load()
     {
         //call parent load
