@@ -238,6 +238,7 @@ function show_notification($state=array(),$unlink_count=0)
     
                          <div class="module-body">
                             <?=show_notification($state,$unlink_count)?>  
+                            
                             <p>
                                 <label>Choose Front's menu:</label>
                                 <select class="input-long" name="main_menu_category">
@@ -250,7 +251,18 @@ function show_notification($state=array(),$unlink_count=0)
                                     ?>
                                 </select>
                             </p>
-                            
+                            <p>
+                                <label>Choose Blog's menu:</label>
+                                <select class="input-long" name="blog_menu_category">
+                                    <?php
+                                        foreach($menu_list as $item):
+                                    ?>
+                                    <option value="<?=$item->id?>" <?php if($s_blog_menu_category==$item->id) echo 'selected="selected"'; ?>><?=$item->get_prefix_name('&nbsp&nbsp&nbsp&nbsp')?></option>
+                                    <?php
+                                        endforeach;
+                                    ?>
+                                </select>
+                            </p>
                             <p>
                                 <label>Choose Admin's menu:</label>
                                 <select class="input-long" name="admin_menu_category">

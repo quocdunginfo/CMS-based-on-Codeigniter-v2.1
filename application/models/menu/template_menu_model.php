@@ -40,6 +40,27 @@ class Template_menu_model extends CI_Model {
         }
         return self::_generate($this->root, false);
     }
+    public function generate_blog()
+    {
+        if($this->root==null)
+        {
+            return '';
+        }
+        //set private first
+        $this->parent_beginer = '<ul %s>';
+        $this->parent_closer = '</ul>';
+        $this->parent_style = 'id="nav"';
+        
+        $this->child_beginer = '<li %s>';
+        $this->child_closer = '</li>';
+        $this->child_style = 'class="active"';
+        
+        $this->item_prefix = '<a href=" %s " class=" %s "> %s </a>';
+        
+        
+        return self::_generate_main_admin($this->root, false);
+    }
+    
     public function generate_main_admin()
     {
         if($this->root==null)

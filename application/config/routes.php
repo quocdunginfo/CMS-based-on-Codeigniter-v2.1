@@ -42,6 +42,7 @@ $route['404_override'] = 'error/_404';
 //quocdunginfo
 
 $route['front'] = "front/home";
+$route['blog'] = "blog/home";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

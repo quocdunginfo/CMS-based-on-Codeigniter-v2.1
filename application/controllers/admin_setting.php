@@ -34,6 +34,7 @@ class Admin_setting extends Admin {
             //menu
             'main_menu_category',
             'admin_menu_category',
+            'blog_menu_category',
             //email
             'email_protocol',
             'email_smtp_host',

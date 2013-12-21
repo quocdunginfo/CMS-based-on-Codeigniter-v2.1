@@ -639,6 +639,10 @@ class Post_model extends CI_Model {
     {
         $obj=new Post_model;
         $obj->id = $post_id;
+        if(!$obj->is_exist())
+        {
+            return null;
+        }
         $obj->load();
         return $obj;
     }
