@@ -6,96 +6,189 @@ class Image_resize {
  
    function load($filename) {
  
-      if(file_exists($filename)==false)
+      try
       {
+          if(file_exists($filename)==false)
+          {
+                return false;
+          }
+          $image_info = getimagesize($filename);
+          $this->image_type = $image_info[2];
+          if( $this->image_type == IMAGETYPE_JPEG ) {
+     
+             $this->image = imagecreatefromjpeg($filename);
+          } elseif( $this->image_type == IMAGETYPE_GIF ) {
+     
+             $this->image = imagecreatefromgif($filename);
+          } elseif( $this->image_type == IMAGETYPE_PNG ) {
+     
+             $this->image = imagecreatefrompng($filename);
+          }
+      }
+      catch(Exception $ex)
+        {
             return false;
-      }
-      $image_info = getimagesize($filename);
-      $this->image_type = $image_info[2];
-      if( $this->image_type == IMAGETYPE_JPEG ) {
- 
-         $this->image = imagecreatefromjpeg($filename);
-      } elseif( $this->image_type == IMAGETYPE_GIF ) {
- 
-         $this->image = imagecreatefromgif($filename);
-      } elseif( $this->image_type == IMAGETYPE_PNG ) {
- 
-         $this->image = imagecreatefrompng($filename);
-      }
+        }
    }
    function save($filename, $image_type=IMAGETYPE_JPEG, $compression=75, $permissions=null) {
  
-      if( $image_type == IMAGETYPE_JPEG ) {
-         imagejpeg($this->image,$filename,$compression);
-      } elseif( $image_type == IMAGETYPE_GIF ) {
- 
-         imagegif($this->image,$filename);
-      } elseif( $image_type == IMAGETYPE_PNG ) {
- 
-         imagepng($this->image,$filename);
+      try
+      {
+          if($this->image==null)
+        {
+            return false;
+        }
+          if( $image_type == IMAGETYPE_JPEG ) {
+             imagejpeg($this->image,$filename,$compression);
+          } elseif( $image_type == IMAGETYPE_GIF ) {
+     
+             imagegif($this->image,$filename);
+          } elseif( $image_type == IMAGETYPE_PNG ) {
+     
+             imagepng($this->image,$filename);
+          }
+          if( $permissions != null) {
+     
+             chmod($filename,$permissions);
+          }
       }
-      if( $permissions != null) {
- 
-         chmod($filename,$permissions);
-      }
+      catch(Exception $ex)
+        {
+            return false;
+        }
    }
    function output($image_type=IMAGETYPE_JPEG) {
  
-      if( $image_type == IMAGETYPE_JPEG ) {
-         imagejpeg($this->image);
-      } elseif( $image_type == IMAGETYPE_GIF ) {
- 
-         imagegif($this->image);
-      } elseif( $image_type == IMAGETYPE_PNG ) {
- 
-         imagepng($this->image);
+      try
+      {
+          if($this->image==null)
+        {
+            return false;
+        }
+        
+          if( $image_type == IMAGETYPE_JPEG ) {
+             imagejpeg($this->image);
+          } elseif( $image_type == IMAGETYPE_GIF ) {
+     
+             imagegif($this->image);
+          } elseif( $image_type == IMAGETYPE_PNG ) {
+     
+             imagepng($this->image);
+          }
       }
+      catch(Exception $ex)
+        {
+            return false;
+        }
    }
    function getWidth() {
  
-      return imagesx($this->image);
+      try
+      {
+        if($this->image==null)
+        {
+            return 1;
+        }
+        
+        return imagesx($this->image);
+      }
+      catch(Exception $ex)
+        {
+            return 1;
+        }
    }
    function getHeight() {
  
-      return imagesy($this->image);
+      try
+      {
+        if($this->image==null)
+        {
+            return 1;
+        }
+        
+        return imagesy($this->image);
+      }catch(Exception $ex)
+        {
+            return 1;
+        }
    }
    function resizeToHeight($height) {
  
-      $ratio = $height / $this->getHeight();
-      $width = $this->getWidth() * $ratio;
-      $this->resize($width,$height);
+      try
+      {
+          $ratio = $height / $this->getHeight();
+          $width = $this->getWidth() * $ratio;
+          $this->resize($width,$height);
+      }
+      catch(Exception $ex)
+        {
+            return false;
+        }
    }
  
    function resizeToWidth($width) {
+      try
+      {
       $ratio = $width / $this->getWidth();
       $height = $this->getheight() * $ratio;
       $this->resize($width,$height);
+      }
+      catch(Exception $ex)
+        {
+            return false;
+        }
    }
  
    function scale($scale) {
-      $width = $this->getWidth() * $scale/100;
-      $height = $this->getheight() * $scale/100;
-      $this->resize($width,$height);
+      try
+      {
+          $width = $this->getWidth() * $scale/100;
+          $height = $this->getheight() * $scale/100;
+          $this->resize($width,$height);
+      }
+      catch(Exception $ex)
+        {
+            return false;
+        }
    }
  
    function resize($width,$height) {
-      $new_image = imagecreatetruecolor($width, $height);
-      imagecopyresampled($new_image, $this->image, 0, 0, 0, 0, $width, $height, $this->getWidth(), $this->getHeight());
-      $this->image = $new_image;
+      try
+      {
+          if($this->image==null)
+            {
+                return false;
+            }
+          
+          $new_image = imagecreatetruecolor($width, $height);
+          imagecopyresampled($new_image, $this->image, 0, 0, 0, 0, $width, $height, $this->getWidth(), $this->getHeight());
+          $this->image = $new_image;
+      }
+      catch(Exception $ex)
+        {
+            return false;
+        }
    }
    function autofit($maxwidth,$maxheight) {
-      if(($this->getWidth()+1)/($this->getHeight()+1)>=1)
+      try
       {
-        $this->resizeToWidth($maxwidth);
+          if(($this->getWidth()+1)/($this->getHeight()+1)>=1)
+          {
+            $this->resizeToWidth($maxwidth);
+          }
+          else
+          {
+            $this->resizeToHeight($maxheight);
+          }
       }
-      else
-      {
-        $this->resizeToHeight($maxheight);
-      }
+      catch(Exception $ex)
+        {
+            return false;
+        }
    }   
     /*
-    C·ch d˘ng Class trÍn:
-    - VÌ d? du?i d‚y ch˙ng ta s? resize ?nh picture.jpg th‡nh kÌch thu?c 250x400 sau dÛ luu th‡nh file picture2.jpg
+    C√°ch d√πng Class tr√™n:
+    - V√≠ d? du?i d√¢y ch√∫ng ta s? resize ?nh picture.jpg th√†nh k√≠ch thu?c 250x400 sau d√≥ luu th√†nh file picture2.jpg
     PHP Code:
     <?php
        include('SimpleImage.php');
@@ -105,8 +198,8 @@ class Image_resize {
        $image->save('picture2.jpg');
     ?>
     
-    N?u b?n mu?n resize theo chi?u r?ng v‡ v?n gi? dc t? l? gi?a chi?u r?ng v‡ chiÍu cao thÏ tham kh?o vÌ d? du?i.
-    VÌ d? n‡y s? resize chi?u r?ng file ?nh picture.jpg th‡nh 250 v‡ luu ra file picture2.jpg 
+    N?u b?n mu?n resize theo chi?u r?ng v√† v?n gi? dc t? l? gi?a chi?u r?ng v√† chi√™u cao th√¨ tham kh?o v√≠ d? du?i.
+    V√≠ d? n√†y s? resize chi?u r?ng file ?nh picture.jpg th√†nh 250 v√† luu ra file picture2.jpg 
     PHP Code:
     <?php
        include('SimpleImage.php');
@@ -115,8 +208,8 @@ class Image_resize {
        $image->resizeToWidth(250);
        $image->save('picture2.jpg');
     ?>
-    Ngo‡i ra, b?n cÛ th? resize theo t? l?. 
-    Vd sau s? resize file ?nh gi?m xu?ng cÚn 1 n?a (50%)
+    Ngo√†i ra, b?n c√≥ th? resize theo t? l?. 
+    Vd sau s? resize file ?nh gi?m xu?ng c√≤n 1 n?a (50%)
     PHP Code:
     <?php
        include('SimpleImage.php');
@@ -125,7 +218,7 @@ class Image_resize {
        $image->scale(50);
        $image->save('picture2.jpg');
     ?>
-    B?n cÛ th? resize t? 1 file sau dÛ xu?t ra nhi?u file kh·c nhau. vÌ d? sau s? resize file picture.jpg cÛ nhi?u cao 500px luu th‡nh file picture2.jpg v‡ chi?u cao 200px luu th‡nh file picture3.jpg
+    B?n c√≥ th? resize t? 1 file sau d√≥ xu?t ra nhi?u file kh√°c nhau. v√≠ d? sau s? resize file picture.jpg c√≥ nhi?u cao 500px luu th√†nh file picture2.jpg v√† chi?u cao 200px luu th√†nh file picture3.jpg
     
     PHP Code:
     <?php
@@ -138,7 +231,7 @@ class Image_resize {
        $image->save('picture3.jpg');
     ?>
     
-    VÌ d? sau s? xu?t th?ng xu?ng trÏnh duy?t v‡ cho trÏnh duy?t nh?n bi?t d‚y l‡ ?nh qua header v‡ khÙng c?n luu th‡nh file.
+    V√≠ d? sau s? xu?t th?ng xu?ng tr√¨nh duy?t v√† cho tr√¨nh duy?t nh?n bi?t d√¢y l√† ?nh qua header v√† kh√¥ng c?n luu th√†nh file.
     PHP Code:
     <?php
        header('Content-Type: image/jpeg');
@@ -148,7 +241,7 @@ class Image_resize {
        $image->resizeToWidth(150);
        $image->output();
     ?>
-    Du?i d‚y l‡ 1 vÌ d? cho phÈp upload 1 ?nh thÙng qua form r?i resize ?nh th‡nh cÛ chi?u r?ng 250px r?i xu?t ra trÏnh duy?t.(Luu ˝ kho?ng tr?ng tru?c <?php v‡ sau ?>)
+    Du?i d√¢y l√† 1 v√≠ d? cho ph√©p upload 1 ?nh th√¥ng qua form r?i resize ?nh th√†nh c√≥ chi?u r?ng 250px r?i xu?t ra tr√¨nh duy?t.(Luu √Ω kho?ng tr?ng tru?c <?php v√† sau ?>)
     PHP Code:
     <?php
        if( isset($_POST['submit']) ) {

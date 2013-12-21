@@ -433,8 +433,16 @@ class Order_model extends Cat_model {
             self::get_order_detail_list();
             foreach($this->order_detail_list as $item)
             {
-                $item->get_product_obj();//must get first to ensure product_id is load correct
+                $product = $item->get_product_obj();//must get first to ensure product_id is load correct
                 $item->id = 0;
+                
+                //tru sl ton kho khi ADD
+                    $product->art_count -=$item->order_count;
+                    if($product->art_count<0)
+                    {
+                        $product->art_count=0;
+                    }
+                    $product->update();
             }
             
         //first: add new blank record
@@ -467,7 +475,7 @@ class Order_model extends Cat_model {
                 }
                 $this->order_total = $sum;
             }
-        //cộng ngược sl sản phẩm nếu cần thiết
+        //cộng ngược sl sản phẩm nếu cần thiết do hủy đơn hàng
         if($this->need_update_product_count==true)
         {
             foreach($this->get_order_detail_list() as $item)
