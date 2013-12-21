@@ -23,7 +23,7 @@ $base_url="http://localhost";  // base url (only domain) of site (without final 
 $upload_dir = '/cms/application/_static/upload/'; // path from base_url to base of upload folder (with start and final /)
 $current_path = '../upload/'; // relative path from filemanager folder to upload folder (with final /)
 //thumbs folder can't put inside upload folder
-$thumbs_base_path = '../upload_thumb/'; // relative path from filemanager folder to thumbs folder (with final /)
+$thumbs_base_path = '../upload_thumb_3rd/'; // relative path from filemanager folder to thumbs folder (with final /)
 
 //--------------------------------------------------------------------------------------------------------
 // YOU CAN COPY AND CHANGE THESE VARIABLES INTO FOLDERS config.php FILES TO CUSTOMIZE EACH FOLDER OPTIONS

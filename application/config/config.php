@@ -367,9 +367,9 @@ $config['qd_upload_path']='application/_static/upload/';
 //thumb image khi su dung resize
 $config['qd_upload_path_thumb']='application/_static/upload_thumb/';
 //maxwidth for thumb image
-$config['qd_upload_maxwidth_thumb']=900;//pixel
+$config['qd_upload_maxwidth_thumb']=300;//pixel
 //maxwidth for thumb image
-$config['qd_upload_maxheight_thumb']=900;//pixel
+$config['qd_upload_maxheight_thumb']=300;//pixel
 //domain su dung trong truong hop IMG path dang full URL. KHONG co / cuoi
 $config['qd_tinymce_upload_domain']='http://localhost';
 //duong dan ma tinymce su dung (ROOT path) tinh tu domain tren
