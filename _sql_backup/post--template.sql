@@ -56,11 +56,11 @@ CREATE TABLE IF NOT EXISTS `post` (
 -- Dumping data for table `post`
 --
 
-INSERT INTO `post` (`id`, `title`, `content`, `date_create`, `date_modify`, `user_id`, `content_lite`, `active`, `avatar`, `special`, `optional1`, `optional2`, `art_id`, `art_count`, `art_width`, `art_height`, `art_sizeunit`, `art_price`, `art_sold`, `order_product_id`, `order_count`, `order_unitprice`) VALUES
-(110, 'Front Component > Default Template', 'front', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'front', 1, '', 5, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
-(111, 'Front Component > Default Template > Pink Style', 'front', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'front_style_2', 1, '', 5, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
-(155, 'Blog Component > Default Template', 'blog', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'blog', 1, '', 5, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
-(156, 'Admin Component > Default Template', 'admin', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'admin', 1, '', 5, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0);
+INSERT INTO `post` ( `title`, `content`, `date_create`, `date_modify`, `user_id`, `content_lite`, `active`, `avatar`, `special`, `optional1`, `optional2`, `art_id`, `art_count`, `art_width`, `art_height`, `art_sizeunit`, `art_price`, `art_sold`, `order_product_id`, `order_count`, `order_unitprice`) VALUES
+('Front Component > Default Template', 'front', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'front', 1, '', 5, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+('Front Component > Default Template > Pink Style', 'front', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'front_style_2', 1, '', 5, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+('Blog Component > Default Template', 'blog', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'blog', 1, '', 5, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0),
+('Admin Component > Default Template', 'admin', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'admin', 1, '', 5, '', '', '', 0, 0, 0, 'cm', 0, 0, 0, 0, 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
