@@ -10,7 +10,10 @@ class Login extends CI_Controller {
         //may class
         $this->load->model('User_model');
         $this->load->model('Group_model');
+        $this->load->model('Setting_model');
         $this->load->model('Permission_model');
+        $this->load->model("template/Template_model",'Template_model');
+        
         //helper
         $this->load->helper('url');
         //library
@@ -40,6 +43,14 @@ class Login extends CI_Controller {
     }
     protected function _build_common_data()
     {
+        $setting =new Setting_model;
+        //get template path from setting
+        
+        $template = new Template_model;
+        $template->id = $setting->get_by_key('admin_template_id');
+        $template->load();
+        
+        
         $this->_data['state']= array();
         //get user from session
             $user=new User_model;
@@ -57,6 +68,8 @@ class Login extends CI_Controller {
                     $this->_user = $user;
                 }
             }
+        $this->_data['_tpl'] = $this->_tpl;
+        $this->_data['_com'] = $this->_com;
         $this->_data['html_title'] =  'Login';
     }
     public function test_login()
