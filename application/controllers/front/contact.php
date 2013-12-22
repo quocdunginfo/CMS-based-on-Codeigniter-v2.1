@@ -71,7 +71,7 @@ class Contact extends Home {
             $obj->set_cat_obj_list(array($cat_obj));
             $obj->add();
             
-            redirect('front/contact/finish');
+            parent::_redirect('contact/finish');
             return;
         }
         //show error

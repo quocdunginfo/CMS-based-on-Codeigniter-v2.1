@@ -36,7 +36,7 @@ class Cart extends Home {
             parent::_luu_giohang();
         }
         //redirect to cart view
-        redirect('front/cart');
+        parent::_redirect('cart');
     }
     public function add_or_update_from_cart()
     {
@@ -64,7 +64,7 @@ class Cart extends Home {
             parent::_luu_giohang();
         }
         //redirect to cart view
-        redirect('front/cart');
+        parent::_redirect('cart');
     }
     public function remove()
     {
@@ -77,27 +77,29 @@ class Cart extends Home {
         //save cart
         parent::_luu_giohang();
         //redirect
-        redirect('front/cart');
+        parent::_redirect('cart');
     }
     public function checkout()
     {
+        //get setting
+        $max_item_can_order = $this->Setting_model->get_by_key('max_count_order_per_product');
+        //nếu đơn hàng còn lỗi
+        if(sizeof($this->_giohang->validate($max_item_can_order))>0)
+        {
+            parent::_redirect('cart');
+            return;
+        }
+        
         //nếu chưa đăng nhập thì chuyển tới trang login hoặc register
         if($this->_user==null)
         {
             //set return url
             $this->session->set_userdata(array('login_next_url' => 'front/cart/checkout'));
             
-            redirect('front/login_or_register');
+            parent::_redirect('login_or_register');
             return;
         }
-        //get setting
-        $max_item_can_order = $this->Setting_model->get_by_key('max_count_order_per_product');
-        //nếu đơn hàng còn lỗi
-        if(sizeof($this->_giohang->validate($max_item_can_order))>0)
-        {
-            redirect('front/cart');
-            return;
-        }
+        
         //set default value
         $this->_giohang->order_rc_address = $this->_user->address;
         $this->_giohang->order_rc_phone = $this->_user->phone;
@@ -125,13 +127,13 @@ class Cart extends Home {
             
             if(sizeof($validate)>0)
             {
-                redirect('front/cart');
+                parent::_redirect('cart');
                 return;
             }
             $validate = $this->_giohang->validate_rc();
             if(sizeof($validate)>0)
             {
-                redirect('front/cart/checkout');
+                parent::_redirect('cart/checkout');
                 return;
             }
             //ready to view
@@ -151,12 +153,12 @@ class Cart extends Home {
         $max_item_can_order = $this->Setting_model->get_by_key('max_count_order_per_product');
         if(sizeof($this->_giohang->validate($max_item_can_order))>0)
         {
-            redirect('front/cart');
+            parent::_redirect('cart');
             return;
         }
         if(sizeof($this->_giohang->validate_rc())>0)
         {
-            redirect('front/cart/checkout');
+            parent::_redirect('cart/checkout');
             return;
         }
         //set customer
@@ -187,12 +189,12 @@ class Cart extends Home {
         $max_item_can_order = $this->Setting_model->get_by_key('max_count_order_per_product');
         if(sizeof($this->_giohang->validate($max_item_can_order))>0)
         {
-            redirect('front/cart');
+            parent::_redirect('cart');
             return;
         }
         if(sizeof($this->_giohang->validate_rc())>0)
         {
-            redirect('front/cart/checkout');
+            parent::_redirect('cart/checkout');
             return;
         }
         if($this->_giohang->order_online_payment==1)
@@ -203,7 +205,7 @@ class Cart extends Home {
             return;
         }
         //continue to finish
-        redirect('front/cart/finish');
+        parent::_redirect('cart/finish');
     }
     public function checkout_submit()
     {
@@ -228,7 +230,7 @@ class Cart extends Home {
         $validate = $this->_giohang->validate_rc();
         if(sizeof($validate)==0)
         {
-            redirect('front/cart/confirm');
+            parent::_redirect('cart/confirm');
             return;
         }
         //show error

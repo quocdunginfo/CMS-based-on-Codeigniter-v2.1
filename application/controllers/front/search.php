@@ -9,7 +9,7 @@ class Search extends Home {
     }
     public function index()
     {
-        redirect('front/search/painting_cat'.'#qd_sapxep');
+        parent::_redirect('search/painting_cat'.'#qd_sapxep');
     }
     public function painting_cat()//id,page
     {
@@ -67,7 +67,7 @@ class Search extends Home {
         //save to session
         parent::_luu_timkiem_nangcao();
         //redirect
-        redirect('front/search/painting_cat/page/1#qd_sapxep');
+        parent::_redirect('search/painting_cat/page/1#qd_sapxep');
     }
     public function submit()
     {
@@ -93,6 +93,6 @@ class Search extends Home {
         //save to session
         parent::_luu_timkiem_nangcao();
         //redirect
-        redirect('front/search/painting_cat/page/1#qd_sapxep');
+        parent::_redirect('search/painting_cat/page/1#qd_sapxep');
     }
 }

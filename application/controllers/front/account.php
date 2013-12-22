@@ -11,7 +11,7 @@ class Account extends Home {
     {
         if($this->_user==null)
         {
-            redirect('front/login_or_register');
+            parent::_redirect('login_or_register');
             return;
         }
         $this->_data['password'] = $this->_user->get_password();
@@ -41,7 +41,7 @@ class Account extends Home {
             //set flash
             $this->session->set_flashdata('state','edit_ok');
             //redirect
-            redirect('front/account');
+            parent::_redirect('account');
             return;
         }
         //show error

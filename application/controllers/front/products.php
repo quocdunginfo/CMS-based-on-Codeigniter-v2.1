@@ -9,7 +9,7 @@ class Products extends Home {
     }
     public function index()
     {
-        redirect('front/products/painting_cat'.'#qd_sapxep');
+        parent::_redirect('products/painting_cat'.'#qd_sapxep');
     }
     public function painting_cat()//id,page
     {
@@ -75,6 +75,6 @@ class Products extends Home {
         //save to session
         parent::_luu_timkiem_sanpham();
         //redirect
-        redirect('front/products/painting_cat/id/'.$input['painting_cat_id'].'/page/1'.'#qd_sapxep');
+        parent::_redirect('products/painting_cat/id/'.$input['painting_cat_id'].'/page/1'.'#qd_sapxep');
     }
 }

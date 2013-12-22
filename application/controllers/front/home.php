@@ -273,4 +273,8 @@ class Home extends CI_Controller {
         //return array
         return $re;
     }
+    protected function _redirect($uri='')
+    {
+        redirect($this->_com.$uri);
+    }
 }

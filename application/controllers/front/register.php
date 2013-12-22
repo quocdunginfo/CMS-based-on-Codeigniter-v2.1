@@ -17,7 +17,7 @@ class Register extends Home {
                 redirect($next);
                 return;
             }
-            redirect('front/account');
+            parent::_redirect('account');
         }
         $captcha = parent::_new_captcha();
         $obj = new User_model;        
@@ -60,7 +60,7 @@ class Register extends Home {
             $this->_user = $obj;
             parent::_save_user_to_session();
             
-            redirect('front/register');
+            parent::_redirect('register');
             return;
         }
         
