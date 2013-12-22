@@ -1,14 +1,14 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$this->load->view('front/header');
+$this->load->view($_tpl.'header');
 ?>
 <div id="content" class="float_r">
     <h2>Đăng ký tài khoản khách hàng</h2>
     <div class="content_half float_l" style="width:auto">
         <p></p>
         <div id="contact_form" style="width:auto">
-            <form method="post" name="contact" action="<?=site_url('front/register/submit')?>">
+            <form method="post" name="contact" action="<?=site_url($_com.'register/submit')?>">
 
                 <label for="username">Tên đăng nhập:</label>
                 <input type="text" name="username" class="required input_field" value="<?=$user0->username?>" style="float:left">
@@ -123,4 +123,4 @@ $this->load->view('front/header');
 
 </div>
 <?php
-$this->load->view('front/footer');
+$this->load->view($_tpl.'footer');

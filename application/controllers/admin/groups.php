@@ -1,31 +1,32 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once(APPPATH.'/controllers/admin.php');
-class Admin_orders extends Admin {
+require_once(APPPATH.'/controllers/admin/home.php');
+class Groups extends Home {
     public function __construct()
     {
         parent::__construct();
-        $this->_data['html_title'].=' - Orders';
+        $this->_data['html_title'].=' - Groups';
+        
     }
     public function index_()
     {
-        parent::_add_active_menu(site_url('admin_orders/index_'));
+        parent::_add_active_menu(site_url($this->_com.'groups/index_'));
         self::index();
     }
     public function index()//page=1
     {
         //check permission
-        if(!in_array('order_view',$this->_permission))
+        if(!in_array('group_view',$this->_permission))
         {
-            $this->_fail_permission('order_view');
+            $this->_fail_permission('group_view');
             return;
         }
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('page',));
+        $get = $this->uri->uri_to_assoc(4,array('page',));
         $get['page'] = $get['page']===false?1:$get['page'];
-        $base_url = site_url('admin_orders/index/page/');
+        $base_url = site_url($this->_com.'groups/index/page/');
         //varible
         $max_item_per_page=40;
-        $model = new Order_model;//model access
+        $model = new Group_model;//model access
         //pagination
         $pagination = new Qd_pagination;
         $pagination->set_current_page($get['page']);
@@ -35,41 +36,35 @@ class Admin_orders extends Admin {
         );
         $pagination->set_base_url(
             $base_url,
-            4
+            5
         );
         $pagination->update();
         //view data
-        $this->_data['order_list']= $model->search(
-        '','','','','',0,0,'id','desc',
+        $this->_data['group_list']= $model->search(-1,'','',-1,
         $pagination->start_point,$pagination->max_item_per_page
         );
         $this->_data['state']= (array)$this->session->flashdata('state');//noi khác set trước
         $this->_data['pagination']=$pagination;
         
-        parent::_add_active_menu(site_url('admin_orders/index'));
-        $this->load->view('admin/orders',$this->_data);
+        parent::_add_active_menu(site_url($this->_com.'groups/index'));
+        parent::_view('groups',$this->_data);
     }
     public function edit($id=0)
     {
-        if(!in_array('order_edit',$this->_permission))
+        if(!in_array('group_edit',$this->_permission))
         {
-            $this->_fail_permission('order_edit');
+            $this->_fail_permission('group_edit');
             return;
         }
-        redirect('admin_order/index/order_id/'.$id);
+        parent::_redirect('group/index/'.$id);
     }
-    public function delete($id=0)
+    public function add()
     {
-        if(!in_array('order_delete',$this->_permission))
+        if(!in_array('group_add',$this->_permission))
         {
-            $this->_fail_permission('order_delete');
+            $this->_fail_permission('group_add');
             return;
         }
-        
-        $obj = new Order_model;
-        $obj->id = $id;
-        $obj->delete();
-        
-        redirect('admin_orders');
+        parent::_redirect('group/index/0');
     }
 }

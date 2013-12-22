@@ -1,7 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$this->load->view('front/header');
+$this->load->view($_tpl.'header');
 ?>
 <div id="content" class="float_r">
     <h2>Liên hệ</h2>
@@ -9,7 +9,7 @@ $this->load->view('front/header');
             <p>Chúng tôi luôn quan tâm đến những góp ý, phản hồi từ Quý khách hàng để đem đến cho Quý khách hàng những sản phẩm và dịch vụ tốt nhất.</p>
             <p>Xin quý khách vui lòng nhập thông tin vào các ô bên dưới và nhấn nút gửi. Chúng tôi sẽ trả lời trong thời gian sớm nhất!</p>
             <div id="contact_form">
-                <form method="post" name="contact" action="<?=site_url('front/contact/submit') ?>">
+                <form method="post" name="contact" action="<?=site_url($_com.'contact/submit') ?>">
                         <?php if($current_user==null) { ?>
                         <label for="author">Họ tên:</label>
                         <input type="text" id="author" name="name" class="required input_field" value="<?=$feedback0->get_guest_name() ?>">
@@ -96,4 +96,4 @@ $this->load->view('front/header');
 
 </div>
 <?php
-$this->load->view('front/footer');
+$this->load->view($_tpl.'footer');

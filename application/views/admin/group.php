@@ -15,7 +15,7 @@ $this->load->view('admin/header');
                      <h2><span>Form</span></h2>
                         
                      <div class="module-body">
-                        <form action="<?php echo site_url('admin_group/edit')?>" method="post">
+                        <form action="<?php echo site_url($_com.'group/edit')?>" method="post">
                             <input type="hidden" name="id" value="<?php echo $group0->id; ?>"/>
                             <div>
                                 <span class="notification n-success" <?php if(!in_array('edit_ok',$state)) echo 'style="display:none;"'; ?>>Updated successfully!</span>
@@ -68,8 +68,8 @@ $this->load->view('admin/header');
                             <div style="clear: both;"></div>
                             <br />
                             <fieldset>
-                                <a href="<?=site_url('admin_groups/index/')?>" class="button" style="margin-right: 10px;"><span>Back</span></a>
-                                <a href="<?=site_url('admin_groups/edit/'.$group0->id)?>" class="button" style="margin-right: 50px;"><span>Reload</span></a>
+                                <a href="<?=site_url($_com.'groups/index/')?>" class="button" style="margin-right: 10px;"><span>Back</span></a>
+                                <a href="<?=site_url($_com.'groups/edit/'.$group0->id)?>" class="button" style="margin-right: 50px;"><span>Reload</span></a>
                                 <input class="submit-green" type="submit" value="Submit" /> 
                             </fieldset>
                         </form>

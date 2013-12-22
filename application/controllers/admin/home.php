@@ -1,10 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Admin extends CI_Controller {
+class Home extends CI_Controller {
     protected $_data = array();
     protected $_user = null;
     protected $_permission=array();
     protected $_temp = array();
     protected $_menu = null;
+    
+	protected $_com = 'admin/';
+	protected $_tpl = 'admin/';
     //n?u chuy?n active n?i class b?ng self::... thì dùng $this->_temp;
     //n?u chuy?n action = redirect(uri) thì dùng $this->session->set_flash('key',value);
     public function __construct()
@@ -51,6 +54,10 @@ class Admin extends CI_Controller {
         $this->_menu->generate_main_admin();//must done after
         $this->_data['menu'] =  $this->_menu;
     }
+    protected function _redirect($uri='')
+    {
+        redirect($this->_com.$uri);
+    }
     public function index_()
     {
         self::_add_active_menu(site_url('admin/index_'));
@@ -69,14 +76,23 @@ class Admin extends CI_Controller {
         
         
         $this->_data['feedback_category'] = $feature_cat;
-        self::_add_active_menu(site_url('admin/index'));
+        self::_add_active_menu(site_url('admin/home'));
         //view dashboard
-        $this->load->view('admin/index',$this->_data);
+        self::_view('index', $this->_data);
         return;
     }
     protected function _build_common_data()
     {
+        
         $setting =new Setting_model;
+        //get template path from setting
+        
+        $template = new Template_model;
+        $template->id = $setting->get_by_key('admin_template_id');
+        $template->load();
+        //set $_tpl first
+        //$this->_tpl = ($template->get_path()==''?$this->_tpl:$template->get_path()).'/';//becarefull when use
+        
         //get user from cookie
             $user=new User_model;
             $user->id = $this->session->userdata('user_id');
@@ -102,7 +118,7 @@ class Admin extends CI_Controller {
         {
             $this->_permission = array();
             //redirect to login page
-            redirect('admin_login');
+            self::_redirect('login');
             return;
         }
         //common view data
@@ -121,6 +137,15 @@ class Admin extends CI_Controller {
             )
         );
         $this->_data['menu'] =  $this->_menu;
+        
+        //Component and template path
+        $this->_data['_com'] = $this->_com;
+        $this->_data['_tpl'] = $this->_tpl;
+        
+    }
+    protected function _view($view_name='index', $data = array())
+    {
+        $this->load->view($this->_tpl.$view_name, $data);
     }
     private function _reset_permission($user_obj=null)
     {
@@ -140,11 +165,11 @@ class Admin extends CI_Controller {
     protected function _fail_permission($permission_name='unknown')
     {
         $this->_data['state'] = array('message'=>'You do not have permission on "'.$permission_name.'" area!');
-        $this->load->view('admin/view_fail',$this->_data);
+        self::_view('view_fail',$this->_data);
     }
     protected function _show_notification($string_message='unknown')
     {
         $this->_data['state'] = array('message'=>$string_message, $this->_data);
-        $this->load->view('admin/view_fail',$this->_data);
+        self::_view('view_fail', $this->_data);
     }
 }

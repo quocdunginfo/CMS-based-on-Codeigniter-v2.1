@@ -20,9 +20,12 @@ class Webpage extends CI_Controller {
 	public function index()
 	{
 		$this->load->helper('url');
-        redirect('front');
+        $this->load->model('Setting_model');
+        $this->load->model('template/Template_model', 'Template_model');
+        $template = $this->Template_model->get_by_id(
+            $this->Setting_model->get_by_key('template_id')
+        );
+        //chọn Component here
+        redirect($template->get_component());
 	}
 }
-
-/* End of file welcome.php */
-/* Location: ./application/controllers/welcome.php */

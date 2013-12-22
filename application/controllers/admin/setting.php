@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once(APPPATH.'/controllers/admin.php');
-class Admin_setting extends Admin {
+require_once(APPPATH.'/controllers/admin/home.php');
+class Setting extends Home {
     protected $keys = array(
             //slider
             'slider_category',
@@ -8,6 +8,7 @@ class Admin_setting extends Admin {
             //system
             'maintain_mode',
             'cache_time',
+            'blog_cache_time',
             //widget
             'homepage_widget_category',
             'homepage_footer_widget_category',
@@ -27,10 +28,6 @@ class Admin_setting extends Admin {
             //blog
             'maximum_preview_post_content',
             'maximum_preview_post_title',
-            //
-            
-            //shooping
-            //'max_count_order_per_product',
             //menu
             'main_menu_category',
             'admin_menu_category',
@@ -41,7 +38,9 @@ class Admin_setting extends Admin {
             'email_smtp_pass',
             'email_smtp_port',
             'email_smtp_user',
-            'email_timeout'
+            'email_timeout',
+            //shopping
+            'max_count_order_per_product'
         );
     public function __construct()
     {
@@ -51,7 +50,7 @@ class Admin_setting extends Admin {
     }
     public function index_()
     {
-        parent::_add_active_menu(site_url('admin_setting/index_'));
+        parent::_add_active_menu(site_url($this->_com.'setting/index_'));
         self::index();
     }
     public function index()//$state,$unlink_count
@@ -80,9 +79,9 @@ class Admin_setting extends Admin {
         $this->_data['unlink_count'] = (int)$this->session->flashdata('unlink_count');
         
         
-        parent::_add_active_menu(site_url('admin_setting/index'));
+        parent::_add_active_menu(site_url($this->_com.'setting/index'));
         //load view
-        $this->load->view('admin/setting', $this->_data);
+        parent::_view('setting', $this->_data);
     }
     public function delete_cache()
     {
@@ -99,7 +98,7 @@ class Admin_setting extends Admin {
         
         $this->session->set_flashdata('state', array('delete_cache_ok'));
         $this->session->set_flashdata('unlink_count', $count);
-        redirect('admin_setting');
+        parent::_redirect('setting');
     }
     public function edit()
     {
@@ -120,6 +119,6 @@ class Admin_setting extends Admin {
         }
         
         $this->session->set_flashdata('state', array('edit_ok'));
-        redirect('admin_setting');
+        parent::_redirect('setting');
     }
 }

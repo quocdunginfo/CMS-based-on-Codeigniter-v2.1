@@ -5,7 +5,7 @@ class Register extends Home {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Logout';
-        parent::_add_active_menu(site_url('front/register'));
+        parent::_add_active_menu(site_url($this->_com.'register'));
     }
     public function index()
     {

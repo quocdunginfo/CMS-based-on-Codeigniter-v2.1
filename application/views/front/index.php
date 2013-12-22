@@ -1,7 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$this->load->view('front/header');
+$this->load->view($_tpl.'header');
 ?>
 <div id="content" class="float_r">
         	<div id="slider-wrapper">
@@ -32,7 +32,7 @@ $this->load->view('front/header');
                             $_class_sufix = 'no_margin_right';
                         }
                         $i++;
-                        $_link = site_url('front/product/index/'.$item->id);
+                        $_link = site_url($_com.'product/index/'.$item->id);
                       ?>
                         <div class="product_box <?=$_class_sufix?>">
                             <div class="new-icon"><img src="images/icon_new.gif" style="width:58px;height:60px"/></div>
@@ -46,7 +46,7 @@ $this->load->view('front/header');
                             </a>
                             <p class="product_price"><?=$item->get_art_price()?> đ</p>
                             <?php if($item->art_count>0) { ?>
-                            <a href="<?=site_url('front/cart/add_or_update/painting_id/'.$item->id.'/count/1')?>" class="addtocart">Thêm vào giỏ</a>
+                            <a href="<?=site_url($_com.'cart/add_or_update/painting_id/'.$item->id.'/count/1')?>" class="addtocart">Thêm vào giỏ</a>
                             <?php } else { ?>
                             <a style="background-color: #696969;" href="javascript:void(0)" class="addtocart">Tạm hết hàng</a>
                             <?php }?>
@@ -57,5 +57,5 @@ $this->load->view('front/header');
                       <div class="cleaner"></div>      	
 </div>
 <?php
-$this->load->view('front/footer');
+$this->load->view($_tpl.'footer');
 ?>

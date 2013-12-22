@@ -1,7 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$this->load->view('front/header');
+$this->load->view($_tpl.'header');
 ?>
 <div id="content" class="float_r">
     <h2>Thông tin khách hàng</h2>
@@ -12,7 +12,7 @@ $this->load->view('front/header');
     <?php } ?>
     <div class="content_half float_l" style="width:auto">        
         <div id="contact_form" style="width:auto">
-            <form method="post" name="contact" action="<?=site_url('front/account/submit') ?>">
+            <form method="post" name="contact" action="<?=site_url($_com.'account/submit') ?>">
                 <label for="author">Tên đăng nhập:</label>
                 <input type="text" class="required input_field" value="<?=$current_user->username?>" style="float:left; border:none" readonly="readonly">
                 <div class="cleaner h10"></div>
@@ -90,4 +90,4 @@ $this->load->view('front/header');
 
 </div>
 <?php
-$this->load->view('front/footer');
+$this->load->view($_tpl.'footer');

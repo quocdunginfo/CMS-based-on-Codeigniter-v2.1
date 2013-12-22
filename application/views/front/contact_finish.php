@@ -1,7 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$this->load->view('front/header');
+$this->load->view($_tpl.'header');
 ?>
 <div id="content" class="float_r">
     <h2>Liên hệ</h2>
@@ -26,4 +26,4 @@ $this->load->view('front/header');
 
 </div>
 <?php
-$this->load->view('front/footer');
+$this->load->view($_tpl.'footer');

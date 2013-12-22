@@ -14,7 +14,7 @@ function show_notification($state=array(),$unlink_count=0)
 ?> 
 
             <!-- module goes here -->
-			<form action="<?php echo site_url('admin_setting/edit'); ?>" method="post" >
+			<form action="<?php echo site_url($_com.'setting/edit'); ?>" method="post" >
                 <!-- System Setting -->
                 <div class="grid_6">
                     <!-- Notification boxes -->
@@ -28,15 +28,22 @@ function show_notification($state=array(),$unlink_count=0)
                                 Delete caches to refesh all your web pages
                                 <br />
                                 Process will automatically remove all files under /application/cache folder.
+                                <br />
+                                (must be done manually after wake up from cache mode)
                             </p>
-                            <a href="<?php echo site_url('admin_setting/delete_cache'); ?>" class="button"><span>Delete caches</span></a>
+                            <a href="<?php echo site_url($_com.'setting/delete_cache'); ?>" class="button"><span>Delete caches</span></a>
                             
                             <br />
                             <br />
                             
                             <p>
-                                    <label>Cache time</label>
+                                    <label>Front Component Cache time</label>
                                     <input style="width: 40px;" type="text" class="input-short" name="cache_time" value="<?php echo $s_cache_time; ?>"/>&nbsp;(minutes) - set to 0 will deactivate cache system
+                                    
+                            </p>
+                            <p>
+                                    <label>Blog Component Cache time</label>
+                                    <input style="width: 40px;" type="text" class="input-short" name="blog_cache_time" value="<?php echo $s_blog_cache_time; ?>"/>&nbsp;(minutes) - set to 0 will deactivate cache system
                                     
                             </p>
                             <p>
@@ -313,6 +320,25 @@ function show_notification($state=array(),$unlink_count=0)
                                         endforeach;
                                     ?>
                                 </select>
+                            </p>
+                            <input class="submit-green" type="submit" value="Save"  />
+                         </div> <!-- End .module-body -->
+                    </div> <!-- End .module -->
+                    <div style="clear:both;"></div>
+                </div> <!-- End .grid_6 -->
+                <div style="clear:both;"></div>
+                
+                <!-- Widget -->
+                <div class="grid_6">
+                    <div class="module">
+                         <h2><span>Shopping</span></h2>
+    
+                         <div class="module-body">
+                            <?=show_notification($state,$unlink_count)?> 
+                            
+                            <p>
+                                <label>Choose maximum products per order request</label>
+                                <input name="max_count_order_per_product" value="<?=$s_max_count_order_per_product?>" class="input-medium" style="width: 20%;"/>
                             </p>
                             <input class="submit-green" type="submit" value="Save"  />
                          </div> <!-- End .module-body -->

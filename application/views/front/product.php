@@ -1,7 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$this->load->view('front/header');
+$this->load->view($_tpl.'header');
 ?>
 <div id="content" class="float_r">
         	<h1><?=$painting_obj->title?></h1>
@@ -9,7 +9,7 @@ $this->load->view('front/header');
         	<a id="qd_main_a_tag" rel="lightbox[portfolio]" href="<?=$painting_obj->get_avatar()?>">
             <img id="qd_main_img_tag" src="<?=$painting_obj->get_avatar_thumb()?>" alt="image" style="max-width:250px;max-height:250px"></a>
             </div>
-            <form id="order_frm" action="<?=site_url('front/cart/add_or_update_from_cart')?>" method="post">
+            <form id="order_frm" action="<?=site_url($_com.'cart/add_or_update_from_cart')?>" method="post">
             <div class="content_half float_r">
                 <table class="detail">
                     <tbody><tr>
@@ -101,14 +101,14 @@ $this->load->view('front/header');
                 
             ?>
                       <div class="product_box">
-            	<a href="<?=site_url('front/product/index/'.$item->id)?>"><img src="<?=$item->get_avatar_thumb()?>" style="max-width:200px; height:150px" alt="Shoes 1"></a>
+            	<a href="<?=site_url($_com.'product/index/'.$item->id)?>"><img src="<?=$item->get_avatar_thumb()?>" style="max-width:200px; height:150px" alt="Shoes 1"></a>
                 <h3><?=$item->title?></h3>
                 <p class="product_price"><?=$item->get_art_price()?> đ</p>
                 <?php if($item->art_count>0) {?>
-                        <a href="<?=site_url('front/cart/add_or_update/painting_id/'.$item->id.'/count/1')?>" class="addtocart">Thêm vào giỏ</a> <?php } else {?>      
+                        <a href="<?=site_url($_com.'cart/add_or_update/painting_id/'.$item->id.'/count/1')?>" class="addtocart">Thêm vào giỏ</a> <?php } else {?>      
                         <a href="javascript:void(0)" style="background-color: #696969;" class="addtocart">Tạm hết hàng</a>  
                         <?php } ?>             
-                        <a href="<?=site_url('front/product/index/'.$item->id)?>" class="detail">Xem chi tiết</a>
+                        <a href="<?=site_url($_com.'product/index/'.$item->id)?>" class="detail">Xem chi tiết</a>
                 </div> 
                 
                <?php if($i%3==0) break; $i++; }?>        
@@ -116,4 +116,4 @@ $this->load->view('front/header');
 
 
 <?php
-$this->load->view('front/footer');
+$this->load->view($_tpl.'footer');

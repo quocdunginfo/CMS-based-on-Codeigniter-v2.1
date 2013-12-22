@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once(APPPATH.'/controllers/admin.php');
-class Admin_users extends Admin {
+require_once(APPPATH.'/controllers/admin/home.php');
+class Users extends Home {
     public function __construct()
     {
         parent::__construct();
@@ -8,7 +8,7 @@ class Admin_users extends Admin {
     }
     public function index_()
     {
-        parent::_add_active_menu(site_url('admin_users/index_'));
+        parent::_add_active_menu(site_url($this->_com.'users/index_'));
         self::index();
     }
     public function index()//page
@@ -20,10 +20,10 @@ class Admin_users extends Admin {
             return;
         }
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('page','special'));
+        $get = $this->uri->uri_to_assoc(4,array('page','special'));
         $get['page'] = $get['page']===false?1:$get['page'];
         $get['special'] = $get['special']===false?0:$get['special'];
-        $base_url = site_url('admin_users/index/special/'.$get['special'].'/page/');
+        $base_url = site_url($this->_com.'users/index/special/'.$get['special'].'/page/');
         //varible
         $max_item_per_page=40;
         $model = new User_model;//model access
@@ -36,7 +36,7 @@ class Admin_users extends Admin {
         );
         $pagination->set_base_url(
             $base_url,
-            6
+            7
         );
         
         $pagination->update();
@@ -47,13 +47,13 @@ class Admin_users extends Admin {
         $this->_data['pagination']=$pagination;
         $this->_data['special'] = $get['special'];
         
-        parent::_add_active_menu(site_url('admin_users/index/special/'.$get['special']));
-        $this->load->view('admin/users',$this->_data);
+        parent::_add_active_menu(site_url($this->_com.'users/index/special/'.$get['special']));
+        parent::_view('users',$this->_data);
     }
     public function edit()
     {
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('special','id'));
+        $get = $this->uri->uri_to_assoc(4,array('special','id'));
         $get['special'] = $get['special']===false?0:$get['special'];
         $get['id'] = $get['id']===false?0:$get['id'];
         //check permission
@@ -66,7 +66,7 @@ class Admin_users extends Admin {
             $this->_fail_permission('user_edit');
             return;
         }
-        redirect('admin_user/index/special/'.$get['special'].'/id/'.$get['id']);
+        parent::_redirect('user/index/special/'.$get['special'].'/id/'.$get['id']);
     }
     public function delete($uid)
     {
@@ -109,7 +109,7 @@ class Admin_users extends Admin {
     public function add()
     {
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('special'));
+        $get = $this->uri->uri_to_assoc(4,array('special'));
         $get['special'] = $get['special']===false?0:$get['special'];
         //check permission
         if(!in_array('user_add',$this->_permission))
@@ -117,6 +117,6 @@ class Admin_users extends Admin {
             $this->_fail_permission('user_add');
             return;
         }
-        redirect('admin_user/index/special/'.$get['special'].'/id/0');
+        parent::_redirect('user/index/special/'.$get['special'].'/id/0');
     }
 }

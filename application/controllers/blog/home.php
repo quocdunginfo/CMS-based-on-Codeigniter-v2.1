@@ -50,6 +50,11 @@ class Home extends CI_Controller {
         $setting = new Setting_model;
         $this->_tpl = 'blog/';
         
+        $template = new Template_model;
+        $template->id = $setting->get_by_key('blog_template_id');
+        $template->load();
+        //set $_tpl first
+        $this->_tpl = $template->get_path().'/';
 		
         
         
@@ -71,6 +76,8 @@ class Home extends CI_Controller {
         $this->_data['state']= array();
         $this->_data['active_menu'] = array();
         $this->_data['template_path'] = base_url().'application/views/'.$this->_tpl;
+        $this->_data['_tpl'] = $this->_tpl;
+        $this->_data['_com'] = $this->_com;
         
         
         //Menu

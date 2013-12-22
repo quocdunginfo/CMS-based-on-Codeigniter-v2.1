@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once(APPPATH.'/controllers/admin.php');
-class Admin_media extends Admin {
+require_once(APPPATH.'/controllers/admin/home.php');
+class Media extends Home {
     function __construct()
     {
         parent::__construct();
@@ -8,10 +8,10 @@ class Admin_media extends Admin {
     }
     public function index_()
     {
-        parent::_add_active_menu(site_url('admin_media/index_'));
+        parent::_add_active_menu(site_url($this->_com.'media/index_'));
         self::index();
     }
-    public function index($state='null',$unlink_count=0)
+    public function index()
     {
         //check permission
         if(!in_array('media_view',$this->_permission))
@@ -20,11 +20,11 @@ class Admin_media extends Admin {
             return;
         }
         
-        $this->_data['state']=isset($this->_temp['state'])?(array)$this->_temp['state']:array();
-        $this->_data['unlink_count'] = isset($this->_temp['unlink_count'])?(int)$this->_temp['unlink_count']:0;
+        $this->_data['state']=(array)$this->session->flashdata('state');
+        $this->_data['unlink_count']=(int)$this->session->flashdata('unlink_count');
         
-        parent::_add_active_menu(site_url('admin_media/index'));
-        $this->load->view('admin/media',$this->_data);
+        parent::_add_active_menu(site_url($this->_com.'media/index'));
+        parent::_view('media',$this->_data);
     }
     public function validate()
     {
@@ -52,17 +52,22 @@ class Admin_media extends Admin {
             else
             {
                 //remove media
-                
-                unlink($this->config->item('qd_upload_path').$filename);
-                unlink($this->config->item('qd_upload_path_thumb').$filename);
-                $count++;
+                try
+                {
+                    unlink($this->config->item('qd_upload_path').$filename);
+                    unlink($this->config->item('qd_upload_path_thumb').$filename);
+                    $count++;
+                }catch(Exception $ex)
+                {
+                    //nothing
+                }
             }
         }
         //redirect to media
-        //redirect('admin_media/index/validate_ok/'.$count);
-        $this->_data['state']=array('validate_ok');
-        $this->_data['unlink_count'] = $count;
-        self::index();
+        //parent::_redirect('media/index/validate_ok/'.$count);
+        $this->session->set_flashdata('state', array('validate_ok'));
+        $this->session->set_flashdata('unlink_count',$count);
+        parent::_redirect('media/index');
     }
     private function is_exist_in_allpost_content($string)
     {

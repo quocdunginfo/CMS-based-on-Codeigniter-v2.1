@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once(APPPATH.'/controllers/admin.php');
-class Admin_group extends Admin {
+require_once(APPPATH.'/controllers/admin/home.php');
+class Group extends Home {
     public function __construct()
     {
         parent::__construct();        
@@ -25,7 +25,7 @@ class Admin_group extends Admin {
         //check exist
         if($id>0 && !$this->Group_model->is_exist($id))
         {
-            redirect('admin_groups');
+            parent::_redirect('groups');
             return;
         }
         
@@ -36,7 +36,7 @@ class Admin_group extends Admin {
         $obj->load();
         $this->_data['group0'] = $obj;
         $this->_data['permission_list'] = $this->Permission_model->search();
-        $this->load->view('admin/group',$this->_data);
+        parent::_view('group',$this->_data);
     }
     public function edit()
     {
@@ -77,7 +77,7 @@ class Admin_group extends Admin {
             $obj->add();
             //finish
             $this->session->set_flashdata('state', array('add_ok'));
-            redirect('admin_group/index/'.$obj->id);
+            parent::_redirect('group/index/'.$obj->id);
             return;
         }
         else
@@ -105,7 +105,7 @@ class Admin_group extends Admin {
             $obj->update();
             //finish
             $this->session->set_flashdata('state', array('edit_ok'));
-            redirect('admin_group/index/'.$obj->id);
+            parent::_redirect('group/index/'.$obj->id);
             return;
         }
         

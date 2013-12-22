@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once(APPPATH.'/controllers/admin.php');
-class Admin_antivirus extends Admin {
+require_once(APPPATH.'/controllers/admin/home.php');
+class Antivirus extends Home {
     
     function __construct()
     {
@@ -9,12 +9,12 @@ class Admin_antivirus extends Admin {
     }
     public function index_()
     {
-        parent::_add_active_menu(site_url('admin_antivirus/index_'));
+        parent::_add_active_menu(site_url($this->_com.'antivirus/index_'));
         self::index();
     }
     public function index()
     {
-        parent::_add_active_menu(site_url('admin_antivirus/index'));
-        $this->load->view('admin/antivirus',$this->_data);
+        parent::_add_active_menu(site_url('admin/antivirus/index'));
+        parent::_view('antivirus',$this->_data);
     }
 }

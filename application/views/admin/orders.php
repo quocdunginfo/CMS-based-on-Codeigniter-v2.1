@@ -47,7 +47,7 @@ $page_total = $pagination->total_page;
                                 ?>
                                 <tr>                                    
                                     <td class="align-center"><?php echo $obj->id; ?></td>
-                                    <td><a href="<?=site_url('admin_orders/edit/'.$obj->id)?>"><?php echo $obj->get_customer_user_obj()->fullname; ?></a></td>
+                                    <td><a href="<?=site_url($_com.'orders/edit/'.$obj->id)?>"><?php echo $obj->get_customer_user_obj()->fullname; ?></a></td>
                                     <td><?php echo $obj->get_order_total(); ?> VNĐ</td>
                                     <td><?php echo sizeof($obj->get_order_detail_list()); ?></td>
                                     <td><?php echo $obj->get_status_en(); ?></td>
@@ -58,11 +58,11 @@ $page_total = $pagination->total_page;
                                     <td>
                                     	<!-- <input type="checkbox" /> -->
                                         <!-- <a href=""><img src="src/tick-circle.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/tick-circle.gif" width="16" height="16" alt="published" /></a> -->
-                                        <a href="<?php echo site_url('admin_orders/edit/'.$obj->id); ?>"><img src="src/pencil.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/pencil.gif" width="16" height="16" alt="edit" /></a>
-                                        <!-- <a href="<?php echo site_url('admin_orders/edit/'.$obj->id); ?>"><img src="src/balloon.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/balloon.gif" width="16" height="16" alt="comments" /></a> -->
+                                        <a href="<?php echo site_url($_com.'orders/edit/'.$obj->id); ?>"><img src="src/pencil.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/pencil.gif" width="16" height="16" alt="edit" /></a>
+                                        <!-- <a href="<?php echo site_url($_com.'orders/edit/'.$obj->id); ?>"><img src="src/balloon.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/balloon.gif" width="16" height="16" alt="comments" /></a> -->
                                         
                                         &nbsp;&nbsp;
-                        <a onclick="return confirm_click('<?=site_url('admin_orders/delete/'.$obj->id)?>');" href="javascript:void(0)"><img src="src/bin.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/bin.gif" width="16" height="16" alt="delete"/></a>
+                        <a onclick="return confirm_click('<?=site_url($_com.'orders/delete/'.$obj->id)?>');" href="javascript:void(0)"><img src="src/bin.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/bin.gif" width="16" height="16" alt="delete"/></a>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
@@ -97,13 +97,13 @@ $page_total = $pagination->total_page;
                 <div class="pagination">           
                     <?php if($pagination->can_first_page==true) {
                         ?>
-                        <a href="<?=site_url('admin_orders/index/page/1'); ?>" class="button"><span>First <img src="src/arrow-stop-180-small.gif" height="9" width="12" alt="First" /></span></a>
+                        <a href="<?=site_url($_com.'orders/index/page/1'); ?>" class="button"><span>First <img src="src/arrow-stop-180-small.gif" height="9" width="12" alt="First" /></span></a>
                         <?php
                         }
                     ?>
                     <?php if($pagination->can_prev_page==true) {
                         ?>
-                        <a href="<?=site_url('admin_orders/index/page/'.($pagination->current_page-1)); ?>" class="button"><span>Prev <img src="src/arrow-180-small.gif" height="9" width="12" alt="Prev" /></span></a>
+                        <a href="<?=site_url($_com.'orders/index/page/'.($pagination->current_page-1)); ?>" class="button"><span>Prev <img src="src/arrow-180-small.gif" height="9" width="12" alt="Prev" /></span></a>
                         <?php
                         }
                     ?>
@@ -113,13 +113,13 @@ $page_total = $pagination->total_page;
                     </div>
                     <?php if($pagination->can_next_page==true) {
                         ?>
-                        <a href="<?=site_url('admin_orders/index/page/'.($pagination->current_page+1)); ?>" class="button"><span>Next <img src="src/arrow-000-small.gif" height="9" width="12" alt="Next" /></span></a>
+                        <a href="<?=site_url($_com.'orders/index/page/'.($pagination->current_page+1)); ?>" class="button"><span>Next <img src="src/arrow-000-small.gif" height="9" width="12" alt="Next" /></span></a>
                         <?php
                         }
                     ?>
                     <?php if($pagination->can_last_page==true) {
                         ?>
-                        <a href="<?=site_url('admin_orders/index/page/'.($pagination->total_page)); ?>" class="button"><span>Last <img src="src/arrow-stop-000-small.gif" height="9" width="12" alt="Last" /></span></a>
+                        <a href="<?=site_url($_com.'orders/index/page/'.($pagination->total_page)); ?>" class="button"><span>Last <img src="src/arrow-stop-000-small.gif" height="9" width="12" alt="Last" /></span></a>
                         <?php
                         }
                     ?>

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once(APPPATH.'/controllers/admin.php');
-class Admin_user extends Admin {
+require_once(APPPATH.'/controllers/admin/home.php');
+class User extends Home {
     public function __construct()
     {
         parent::__construct();        
@@ -9,7 +9,7 @@ class Admin_user extends Admin {
     public function index()
     {
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('special','id'));
+        $get = $this->uri->uri_to_assoc(4,array('special','id'));
         $get['special'] = $get['special']===false?0:$get['special'];
         $get['id'] = $get['id']===false?0:$get['id'];
         //check permission
@@ -34,7 +34,7 @@ class Admin_user extends Admin {
             $this->_data['user0'] = $obj;
             $this->_data['special'] = $get['special'];
             $this->_data['group_list'] = $this->Group_model->search();
-            $this->load->view('admin/user',$this->_data);
+            parent::_view('user',$this->_data);
             return;
         }
         //edit mode
@@ -43,8 +43,8 @@ class Admin_user extends Admin {
         $this->_data['special'] = $get['special'];
         $this->_data['group_list'] = $this->Group_model->search();
         
-        parent::_add_active_menu(site_url('admin_users/index/special/'.$get['special']));
-        $this->load->view('admin/user',$this->_data);
+        parent::_add_active_menu(site_url($this->_com.'users/index/special/'.$get['special']));
+        parent::_view('user',$this->_data);
     }
     public function delete()
     {
@@ -71,12 +71,12 @@ class Admin_user extends Admin {
         
         $this->User_model->delete($input['user_id'],$input['user_tranfer_id']);
         $this->_data['state'] = 'delete_ok';
-        redirect('admin_users/index/1/delete_ok');
+        parent::_redirect('users/index/1/delete_ok');
     }
     public function edit()
     {
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('special'));
+        $get = $this->uri->uri_to_assoc(4,array('special'));
         $get['special'] = $get['special']===false?0:$get['special'];
         
         //get all data
@@ -116,7 +116,7 @@ class Admin_user extends Admin {
                 $this->_data['user0'] = $user;
                 $this->_data['group_list'] = $this->Group_model->search();
                 $this->_data['special'] = $get['special'];
-                $this->load->view('admin/user',$this->_data);
+                parent::_view('user',$this->_data);
                 return;
             }
             
@@ -126,7 +126,7 @@ class Admin_user extends Admin {
             
             $user->add();
             $this->session->set_flashdata('state',array('add_ok'));
-            redirect('admin_user/index/special/'.$get['special'].'/id/'.$user->id);
+            parent::_redirect('user/index/special/'.$get['special'].'/id/'.$user->id);
             return;
         }
         else
@@ -159,7 +159,7 @@ class Admin_user extends Admin {
                 $this->_data['user0'] = $user;
                 $this->_data['group_list'] = $this->Group_model->search();
                 $this->_data['special'] = $get['special'];
-                $this->load->view('admin/user',$this->_data);
+                parent::_view('user',$this->_data);
                 return;
             }
             
@@ -187,7 +187,7 @@ class Admin_user extends Admin {
             $user->update();
             //load view
             $this->session->set_flashdata('state', array('edit_ok'));
-            redirect('admin_user/index/special/'.$get['special'].'/id/'.$user->id);
+            parent::_redirect('user/index/special/'.$get['special'].'/id/'.$user->id);
             return;
         }
     }

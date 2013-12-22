@@ -1,7 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$this->load->view('front/header');
+$this->load->view($_tpl.'header');
 ?>
 <div id="content" class="float_r">
     <div class="timkiemnangcao" style="width:690px">
@@ -9,12 +9,12 @@ $this->load->view('front/header');
       function qd_change_page(sender)
         {
             id = $( "#qd_page option:selected" ).val();
-            document.location = '<?=site_url('front/search/painting_cat/page/')?>/'+id;
+            document.location = '<?=site_url($_com.'search/painting_cat/page/')?>/'+id;
         }
     </script>
         <a id="qd_sapxep"></a>
         <h2>Kết quả tìm kiếm (Có <?=$pagination->total_item?> sản phẩm)</h2>
-        <form method="post" action="<?=site_url('front/search/submit')?>"  class="form" style="width:650px">
+        <form method="post" action="<?=site_url($_com.'search/submit')?>"  class="form" style="width:650px">
             <label style="width:100px; display:inline-block">Mã sản phẩm:</label>
             <input type="text" name="art_id" value="<?php echo $timkiem_nangcao['art_id'] ?>" style="width:200px">
             <label style="width:100px; display:inline-block; margin-left:20px">Tên sản phẩm:</label>
@@ -114,7 +114,7 @@ $this->load->view('front/header');
                             $_class_sufix = 'no_margin_right';
                         }
                        
-                        $_link = site_url('front/product/index/'.$item->id);
+                        $_link = site_url($_com.'product/index/'.$item->id);
                       ?>
                         <div class="product_box <?=$_class_sufix?>">
                             
@@ -128,7 +128,7 @@ $this->load->view('front/header');
                             </a>
                             <p class="product_price"><?=$item->get_art_price()?> đ</p>
                             <?php if($item->art_count>0) { ?>
-                            <a href="<?=site_url('front/cart/add_or_update/painting_id/'.$item->id.'/count/1')?>" class="addtocart">Thêm vào giỏ</a>      
+                            <a href="<?=site_url($_com.'cart/add_or_update/painting_id/'.$item->id.'/count/1')?>" class="addtocart">Thêm vào giỏ</a>      
                             <?php } else { ?>
                             <a style="background-color: #696969;" href="javascript:void(0)" class="addtocart">Tạm hết hàng</a>
                             
@@ -145,5 +145,5 @@ $this->load->view('front/header');
             </div>   	
 </div>
 <?php
-$this->load->view('front/footer');
+$this->load->view($_tpl.'footer');
 ?>

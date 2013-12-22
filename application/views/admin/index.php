@@ -41,7 +41,7 @@ $this->load->view('admin/header');
                                 <?php
                                 if($feedback_category>0):
                                 ?>
-                                <a class="button" href="<?=site_url('admin_posts/index/special/1/cat_id/'.$feedback_category)?>">
+                                <a class="button" href="<?=site_url($_com.'posts/index/special/1/cat_id/'.$feedback_category)?>">
                                     <span>
                                         View feedbacks
                                     </span>

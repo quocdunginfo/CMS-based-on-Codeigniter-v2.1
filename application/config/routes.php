@@ -27,7 +27,7 @@
 |
 |	$route['default_controller'] = 'welcome';
 |
-| This route indicates which controller class should be loaded if the
+| This route indicates which controller class Should be loaded if the
 | URI contains no data. In the above example, the "welcome" class
 | would be loaded.
 |
@@ -43,6 +43,7 @@ $route['404_override'] = 'error/_404';
 
 $route['front'] = "front/home";
 $route['blog'] = "blog/home";
+$route['admin'] = "admin/home";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

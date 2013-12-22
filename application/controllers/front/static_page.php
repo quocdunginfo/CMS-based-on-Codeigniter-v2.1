@@ -12,7 +12,7 @@ class Static_page extends Home {
         $obj = $this->Post_model->get_by_id($id);
         //view data
         $this->_data['static_page0'] = $obj;        
-        parent::_add_active_menu(site_url('front/static_page/index/'.$obj->id));
+        parent::_add_active_menu(site_url($this->_com.'static_page/index/'.$obj->id));
         parent::_view('static_page',$this->_data);
     }
 }

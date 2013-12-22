@@ -5,7 +5,7 @@ class Account extends Home {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Account';
-        parent::_add_active_menu(site_url('front/account'));
+        parent::_add_active_menu(site_url($this->_com.'account'));
     }
     public function index()
     {

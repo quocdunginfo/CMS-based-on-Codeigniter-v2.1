@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once(APPPATH.'/controllers/front/home.php');
+require_once(APPPATH.'/controllers/blog/home.php');
 class Error extends Home {
     public function __construct()
     {
@@ -9,7 +9,7 @@ class Error extends Home {
     public function _404()
     {
         $this->_data['error_title'] = 'Lỗi 404 không tìm thấy trang';
-        $this->_data['error_message'] = 'Kiểm tra lại đường dẫn URL đã đúng!<br> Hoặc nếu bạn nghĩ đây là lỗi hệ thống, bạn có thể gửi phản hồi qua trang <a href="'.site_url($this->_com.'contact').'">[Liên hệ]</a>';
+        $this->_data['error_message'] = 'Kiểm tra lại đường dẫn URL đã đúng!';
         
         parent::_view('error',$this->_data);
     }

@@ -6,7 +6,7 @@ class Contact extends Home {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Contact';
-        parent::_add_active_menu(site_url('front/contact/index'));
+        parent::_add_active_menu(site_url($this->_com.'contact/index'));
         
         //neu có captcha thì k dc cache
         if($this->Setting_model->get_by_key('feedback_captcha')==1)

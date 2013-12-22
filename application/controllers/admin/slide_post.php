@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once(APPPATH.'/controllers/admin.php');
-class Admin_slide_post extends Admin {
+require_once(APPPATH.'/controllers/admin/home.php');
+class Slide_post extends Home {
     public function __construct()
     {
         parent::__construct();
@@ -9,7 +9,7 @@ class Admin_slide_post extends Admin {
     public function index()//$post_id, $special(for add only)
     {
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('post_id', 'special', 'cat_id'));
+        $get = $this->uri->uri_to_assoc(4,array('post_id', 'special', 'cat_id'));
         $get['post_id'] = $get['post_id']===false?-1:$get['post_id'];
         $get['special'] = $get['special']===false?0:$get['special'];
         $get['cat_id'] = $get['cat_id']===false?-1:$get['cat_id'];
@@ -29,7 +29,7 @@ class Admin_slide_post extends Admin {
         }
         else if(!$this->Post_model->is_exist($get['post_id']))
         {
-            redirect('admin_posts');
+            parent::_redirect('posts');
             return;
         }
         //check edit
@@ -67,8 +67,8 @@ class Admin_slide_post extends Admin {
         $setting = new Setting_model;
         
         
-        parent::_add_active_menu(site_url('admin_posts/index/special/'.qd_special_post_to_cat($get['special'])));
-        $this->load->view('admin/slide_post',$this->_data);
+        parent::_add_active_menu(site_url($this->_com.'posts/index/special/'.qd_special_post_to_cat($get['special'])));
+        parent::_view('slide_post',$this->_data);
     }
     
     /**
@@ -110,7 +110,7 @@ class Admin_slide_post extends Admin {
             //call add function
             $post_obj->add();
             //redirect result
-            redirect('admin_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
+            parent::_redirect('post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
             return;
         }
         //update mode
@@ -119,7 +119,7 @@ class Admin_slide_post extends Admin {
             //check post
             if(!$this->Post_model->is_exist($this->input->post('post_id')))
             {
-                redirect('admin_posts');
+                parent::_redirect('posts');
                 return;
             }
             //get obj
@@ -148,7 +148,7 @@ class Admin_slide_post extends Admin {
             //update mode
             $post_obj->update();
             //redirect result
-            redirect('admin_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
+            parent::_redirect('post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
             return;
         }
     }
@@ -157,7 +157,7 @@ class Admin_slide_post extends Admin {
         //check id
         if(!$this->Post_model->is_exist($post_id))
         {
-            redirect('admin_posts');
+            parent::_redirect('posts');
             return; 
         }
         //get current obj
@@ -176,6 +176,6 @@ class Admin_slide_post extends Admin {
         }
         $post_obj->clone_to_top();
         //view
-        redirect('admin_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
+        parent::_redirect('post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
     }
 }

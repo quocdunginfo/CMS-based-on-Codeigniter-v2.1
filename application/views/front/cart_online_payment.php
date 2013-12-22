@@ -5,7 +5,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
     <head>
     <title><?=$html_title?></title>
     <base href="<?=$template_path?>" />
-    <meta http-equiv="refresh" content="5; URL=<?=site_url('front/cart/finish') ?>">
+    <meta http-equiv="refresh" content="5; URL=<?=site_url($_com.'cart/finish') ?>">
     </head>
 <body>
 <img src="images/online_payment.png">

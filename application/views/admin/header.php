@@ -139,10 +139,10 @@ $template_path=base_url().'application/views/admin/';
                     
                     <div class="grid_4">
                          
-                        <a href="<?=site_url('admin_users/edit/'.$current_user->id)?>" id="qdUsername" style="vertical-align:baseline; color:#CCC; font-size:100%; padding: 9px 20px 11px 0px ; line-height:1; display:block; width:auto; height:auto; float:left; position:relative; font: 12px/1.5; margin-top: 4px;">
+                        <a href="<?=site_url($_com.'users/edit/'.$current_user->id)?>" id="qdUsername" style="vertical-align:baseline; color:#CCC; font-size:100%; padding: 9px 20px 11px 0px ; line-height:1; display:block; width:auto; height:auto; float:left; position:relative; font: 12px/1.5; margin-top: 4px;">
                          User:   <?php echo $current_user->username.' (fullname: '.$current_user->fullname.')'; ?>
                         </a>
-                        <a href="<?php echo site_url('admin_login/logout'); ?>" id="logout">
+                        <a href="<?php echo site_url($_com.'login/logout'); ?>" id="logout">
                             Logout
                         </a>
                     </div>
@@ -188,17 +188,17 @@ $template_path=base_url().'application/views/admin/';
             <?php if(false) { ?>
             <!-- Dashboard icons -->
             <div class="grid_7" <?php if($view_mode=='selector') echo 'style="display: none;"' ?>>
-            	<a href="<?php echo site_url('admin_posts/add'); ?>" class="dashboard-module">
+            	<a href="<?php echo site_url($_com.'posts/add'); ?>" class="dashboard-module">
                 	<img src="src/Crystal_Clear_write.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/Crystal_Clear_write.gif" width="64" height="64" alt="edit" />
                 	<span>New post</span>
                 </a>
                 
-                <a href="<?php echo site_url('admin_category').'#cat_add'; ?>" class="dashboard-module">
+                <a href="<?php echo site_url($_com.'category').'#cat_add'; ?>" class="dashboard-module">
                 	<img src="src/category.png" tppabs="http://www.xooom.pl/work/magicadmin/images/Crystal_Clear_file.gif" width="64" height="64" alt="edit" />
                 	<span>New category</span>
                 </a>
                 
-                <a href="<?php echo site_url('admin_posts'); ?>" class="dashboard-module">
+                <a href="<?php echo site_url($_com.'posts'); ?>" class="dashboard-module">
                 	<img src="src/Crystal_Clear_files.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/Crystal_Clear_files.gif" width="64" height="64" alt="edit" />
                 	<span>Posts</span>
                 </a>
@@ -218,7 +218,7 @@ $template_path=base_url().'application/views/admin/';
                 	<span>Stats</span>
                 </a>
                 -->
-                <a href="<?php echo site_url('admin_setting'); ?>" class="dashboard-module">
+                <a href="<?php echo site_url($_com.'setting'); ?>" class="dashboard-module">
                 	<img src="src/Crystal_Clear_settings.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/Crystal_Clear_settings.gif" width="64" height="64" alt="edit" />
                 	<span>Settings</span>
                 </a>

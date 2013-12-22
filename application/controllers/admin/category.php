@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once(APPPATH.'/controllers/admin.php');
-class Admin_category extends Admin {
+require_once(APPPATH.'/controllers/admin/home.php');
+class Category extends Home {
     public function __construct()
     {
         parent::__construct();
@@ -8,7 +8,7 @@ class Admin_category extends Admin {
     }
     public function index_()
     {
-        parent::_add_active_menu(site_url('admin_category/index_'));
+        parent::_add_active_menu(site_url($this->_com.'category/index_'));
         self::index();
     }
     public function index()//special
@@ -19,7 +19,7 @@ class Admin_category extends Admin {
             return;
         }
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('special','view_mode'));
+        $get = $this->uri->uri_to_assoc(4,array('special','view_mode'));
         $get['special'] = $get['special']===false?0:$get['special'];
         $get['view_mode'] = $get['view_mode']===false?'normal':$get['view_mode'];
         
@@ -29,8 +29,8 @@ class Admin_category extends Admin {
         $this->_data['view_mode'] = $get['view_mode'];
         $this->_data['state'] = (array)$this->session->flashdata('state');
         
-        parent::_add_active_menu(site_url('admin_category/index/special/'.$get['special']));
-        $this->load->view('admin/category',$this->_data);
+        parent::_add_active_menu(site_url($this->_com.'category/index/special/'.$get['special']));
+        parent::_view('category',$this->_data);
     }
     public function add()//special
     {
@@ -40,7 +40,7 @@ class Admin_category extends Admin {
             return;
         }
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('special','view_mode'));
+        $get = $this->uri->uri_to_assoc(4,array('special','view_mode'));
         $get['special'] = $get['special']===false?0:$get['special'];
         $get['view_mode'] = $get['view_mode']===false?'normal':$get['view_mode'];
         //post param
@@ -57,7 +57,7 @@ class Admin_category extends Admin {
             $cat->add();
         //
         $this->session->set_flashdata('state', array('add_ok'));
-        redirect('admin_category/index/special/'.$get['special'].'/view_mode/'.$get['view_mode']);
+        parent::_redirect('category/index/special/'.$get['special'].'/view_mode/'.$get['view_mode']);
     }
     public function edit()
     {
@@ -67,7 +67,7 @@ class Admin_category extends Admin {
             return;
         }
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('special','view_mode'));
+        $get = $this->uri->uri_to_assoc(4,array('special','view_mode'));
         $get['special'] = $get['special']===false?0:$get['special'];
         $get['view_mode'] = $get['view_mode']===false?'normal':$get['view_mode'];
         //post
@@ -80,7 +80,7 @@ class Admin_category extends Admin {
             $cat->name = $input['cat_name'];
         $cat->update();
         $this->session->set_flashdata('state', array('edit_ok'));
-        redirect('admin_category/index/special/'.$get['special'].'/view_mode/'.$get['view_mode']);
+        parent::_redirect('category/index/special/'.$get['special'].'/view_mode/'.$get['view_mode']);
     }
     public function move_up()
     {
@@ -90,7 +90,7 @@ class Admin_category extends Admin {
             return;
         }
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('cat_id','special','view_mode'));
+        $get = $this->uri->uri_to_assoc(4,array('cat_id','special','view_mode'));
         $get['cat_id'] = $get['cat_id']===false?0:$get['cat_id'];
         $get['special'] = $get['special']===false?0:$get['special'];
         $get['view_mode'] = $get['view_mode']===false?'normal':$get['view_mode'];
@@ -103,7 +103,7 @@ class Admin_category extends Admin {
         //call
         $obj->rank_up();
         $this->session->set_flashdata('state', array('edit_ok'));
-        redirect('admin_category/index/special/'.$get['special'].'/view_mode/'.$get['view_mode']);
+        parent::_redirect('category/index/special/'.$get['special'].'/view_mode/'.$get['view_mode']);
     }
     public function delete()
     {
@@ -114,7 +114,7 @@ class Admin_category extends Admin {
             return;
         }
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('cat_id','special','view_mode'));
+        $get = $this->uri->uri_to_assoc(4,array('cat_id','special','view_mode'));
         $get['cat_id'] = $get['cat_id']===false?0:$get['cat_id'];
         $get['special'] = $get['special']===false?0:$get['special'];
         $get['view_mode'] = $get['view_mode']===false?'normal':$get['view_mode'];
@@ -123,7 +123,7 @@ class Admin_category extends Admin {
         $this->_data['cat_id'] = $get['cat_id'];
         $this->_data['special'] = $get['special'];
         $this->_data['view_mode'] = $get['view_mode'];
-        $this->load->view('admin/category_delete',$this->_data);
+        parent::_view('category_delete',$this->_data);
     }
     public function confirm_delete()
     {
@@ -133,7 +133,7 @@ class Admin_category extends Admin {
             return;
         }
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('cat_id','special','view_mode', 'delete_post'));
+        $get = $this->uri->uri_to_assoc(4,array('cat_id','special','view_mode', 'delete_post'));
         $get['cat_id'] = $get['cat_id']===false?0:$get['cat_id'];
         $get['special'] = $get['special']===false?0:$get['special'];
         $get['view_mode'] = $get['view_mode']===false?'normal':$get['view_mode'];
@@ -144,7 +144,7 @@ class Admin_category extends Admin {
         $cat->delete_resursive($get['delete_post']==0?false:true,$get['special']);
         $this->session->set_flashdata('state', array('delete_ok'));
         
-        redirect('admin_category/index/special/'.$get['special'].'/view_mode/'.$get['view_mode']);
+        parent::_redirect('category/index/special/'.$get['special'].'/view_mode/'.$get['view_mode']);
     }
     
 }

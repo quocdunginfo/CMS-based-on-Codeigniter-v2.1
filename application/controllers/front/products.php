@@ -5,7 +5,7 @@ class Products extends Home {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Products';
-        parent::_add_active_menu(site_url('front/products/painting_cat'));
+        parent::_add_active_menu(site_url($this->_com.'products/painting_cat'));
     }
     public function index()
     {
@@ -28,7 +28,7 @@ class Products extends Home {
         }
         $max_item_per_page = $this->_timkiem_sanpham['max_item_per_page'];
         
-        $base_url = site_url('front/products/painting_cat/id/'.$get['id'].'/page/');
+        $base_url = site_url($this->_com.'products/painting_cat/id/'.$get['id'].'/page/');
         //pagination
         $pagination = new Qd_pagination;
         $pagination->set_current_page($get['page']);
@@ -58,7 +58,7 @@ class Products extends Home {
         $this->_data['painting_cat'] = $this->Cat_model->get_by_id($get['id']);
         $this->_data['pagination'] = $pagination;
         //load view
-        parent::_add_active_menu(site_url('front/products/painting_cat/'.$get['id']));
+        parent::_add_active_menu(site_url($this->_com.'products/painting_cat/'.$get['id']));
         parent::_view('products',$this->_data);
     }
     public function submit()

@@ -148,20 +148,20 @@ width: 80px;
 			<div id="header_right">
 				<?php if($current_user==null) { ?>
                 <p>
-					<a href="<?=site_url('front/register')?>">Chưa có tài khoản? Hãy đăng kí ngay</a> | <a href="<?=site_url('front/login')?>">Đăng nhập</a>
+					<a href="<?=site_url($_com.'register')?>">Chưa có tài khoản? Hãy đăng kí ngay</a> | <a href="<?=site_url($_com.'login')?>">Đăng nhập</a>
 				</p>
                 <?php } else { ?>
                 <p>
 
                     <a href="javascript:void(0)">Chào, <?=$current_user->fullname?> </a> |
-                    <a href="<?=site_url('front/account')?>">Quản lý tài khoản cá nhân</a> |
-                    <a href="<?=site_url('front/logout')?>">Đăng xuất</a>
+                    <a href="<?=site_url($_com.'account')?>">Quản lý tài khoản cá nhân</a> |
+                    <a href="<?=site_url($_com.'logout')?>">Đăng xuất</a>
                 </p>
                 <?php } ?>
                 
 				<p>
 					 Giỏ hàng hiện có: <strong><?=sizeof($giohang->get_order_detail_list())?> sản phẩm</strong>
-                     ( <a href="<?=site_url('front/cart')?>">Xem giỏ hàng</a> | <a href="<?=site_url('front/cart/checkout')?>">Thanh toán</a> )
+                     ( <a href="<?=site_url($_com.'cart')?>">Xem giỏ hàng</a> | <a href="<?=site_url($_com.'cart/checkout')?>">Thanh toán</a> )
 				</p>
 			</div>
 			<div class="cleaner">
@@ -176,17 +176,17 @@ width: 80px;
                 <?php if(false) { ?>
                 <ul>
 					<li><a href="<?=site_url('front')?>" class="selected">Trang chủ</a></li>
-					<li style="z-index: 100;"><a href="<?=site_url('front/products')?>" class="">Sản phẩm</a>
+					<li style="z-index: 100;"><a href="<?=site_url($_com.'products')?>" class="">Sản phẩm</a>
 					<ul style="display: none; top: 40px; visibility: visible;">
 						<?php foreach($painting_list_cat as $item) {
                         ?>
-						<li><a href="<?=site_url('front/products/painting_cat/id/'.$item->id.'#qd_sapxep')?>"><?=$item->get_prefix_name()?></a></li>
+						<li><a href="<?=site_url($_com.'products/painting_cat/id/'.$item->id.'#qd_sapxep')?>"><?=$item->get_prefix_name()?></a></li>
                         <?php } ?>
 					</ul>
 					</li>
-					<li><a href="<?=site_url('front/search') ?>">Tìm kiếm nâng cao</a></li>
-					<li><a href="<?=site_url('front/contact') ?>">Liên hệ</a></li>
-					<li><a href="<?=site_url('front/about') ?>">Giới thiệu</a>
+					<li><a href="<?=site_url($_com.'search') ?>">Tìm kiếm nâng cao</a></li>
+					<li><a href="<?=site_url($_com.'contact') ?>">Liên hệ</a></li>
+					<li><a href="<?=site_url($_com.'about') ?>">Giới thiệu</a>
 					</li>
 				</ul>
                 <?php } ?>
@@ -194,7 +194,7 @@ width: 80px;
 			</div>
 			<!-- end of ddsmoothmenu -->
 			<div id="templatemo_search">
-				<form action="<?=site_url('front/search/simple_submit')?>" method="post">
+				<form action="<?=site_url($_com.'search/simple_submit')?>" method="post">
 					<input type="text" value="Nhập từ khóa tìm kiếm" name="title" id="keyword" title="keyword" onfocus="clearText(this)" onclick="this.value = '';" onblur="this.value=!this.value?'Nhập từ khóa tìm kiếm':this.value;" class="txt_field">
 					
 					<input type="submit" name="Search" value="" alt="Search" id="searchbutton" title="Search" class="sub_btn">
@@ -206,7 +206,7 @@ width: 80px;
 			<div id="sidebar" class="float_l">
 				<div class="sidebar_box">
 					<span class="bottom"></span>
-					<a href="<?=site_url('front/products')?>" style="text-decoration: none;">
+					<a href="<?=site_url($_com.'products')?>" style="text-decoration: none;">
                     <h3>
                     Danh mục sản phẩm
                     </h3>
@@ -231,7 +231,7 @@ width: 80px;
                               
                             ?>
                             <li class="<?=$_class?>">
-                                <a href="<?=site_url('front/products/painting_cat/id/'.$item->id.'#qd_sapxep')?>">
+                                <a href="<?=site_url($_com.'products/painting_cat/id/'.$item->id.'#qd_sapxep')?>">
                                  <?=$item->get_prefix_name()?>
                                  </a>
                             </li>
@@ -249,9 +249,9 @@ width: 80px;
 							<div class="icon-hot">
 								<img src="images/hot.gif">
 							</div>
-							<a href="<?=site_url('front/product/index/'.$item->id)?>">
+							<a href="<?=site_url($_com.'product/index/'.$item->id)?>">
 							<img src="<?=$item->get_avatar_thumb()?>" alt="image" style="max-width:60px; max-height:60px"></a>
-							<h4><a href="<?=site_url('front/product/index/'.$item->id)?>"><?=$item->title?></a></h4>
+							<h4><a href="<?=site_url($_com.'product/index/'.$item->id)?>"><?=$item->title?></a></h4>
 							<p class="price">
 								<?=$item->get_art_price()?> đ
 							</p>

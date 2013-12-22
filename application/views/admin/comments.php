@@ -28,7 +28,7 @@ require_once('header.php');
                                 ?>
                                 <tr>
                                     <td class="align-center"><?php echo $cmt->id; ?></td>
-                                    <td><a href="<?php echo site_url('admin_comments/edit/'.$cmt->id); ?>"><?php echo $cmt->title; ?></a></td>
+                                    <td><a href="<?php echo site_url($_com.'comments/edit/'.$cmt->id); ?>"><?php echo $cmt->title; ?></a></td>
                                     <td><?=$cmt->content?></td>
                                     <td>
                                         <a title="[Email]: <?=$cmt->guest_email?>" href="mailto:<?=$cmt->guest_email?>">
@@ -51,10 +51,10 @@ require_once('header.php');
                                     <td>
                                     	<!-- <input type="checkbox" /> -->
                                         <!-- <a href=""><img src="src/tick-circle.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/tick-circle.gif" width="16" height="16" alt="published" /></a> -->
-                                        <a href="<?php echo site_url('admin_comments/edit/'.$cmt->id); ?>"><img src="src/pencil.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/pencil.gif" width="16" height="16" alt="edit" /></a>
-                                        <!-- <a href="<?php echo site_url('admin_posts/edit/'.$post->id); ?>"><img src="src/balloon.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/balloon.gif" width="16" height="16" alt="comments" /></a> -->
+                                        <a href="<?php echo site_url($_com.'comments/edit/'.$cmt->id); ?>"><img src="src/pencil.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/pencil.gif" width="16" height="16" alt="edit" /></a>
+                                        <!-- <a href="<?php echo site_url($_com.'posts/edit/'.$post->id); ?>"><img src="src/balloon.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/balloon.gif" width="16" height="16" alt="comments" /></a> -->
                                         &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a onclick="return confirm_click();" href="<?php echo site_url('admin_comments/delete/'.$cmt->id.'/'.$post->id.'/'.$page_current); ?>"><img src="src/bin.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/bin.gif" width="16" height="16" alt="delete"/></a>
+                                        <a onclick="return confirm_click();" href="<?php echo site_url($_com.'comments/delete/'.$cmt->id.'/'.$post->id.'/'.$page_current); ?>"><img src="src/bin.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/bin.gif" width="16" height="16" alt="delete"/></a>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
@@ -106,8 +106,8 @@ require_once('header.php');
                 
                 
                 <div class="pagination">           
-                    <a href="<?php echo site_url('admin_comments/index/'.$post->id.'/1'); ?>" class="button"><span><img src="src/arrow-stop-180-small.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow-stop-180-small.gif" height="9" width="12" alt="First" /> First</span></a> 
-                    <a href="<?php echo site_url('admin_comments/index/'.$post->id.'/'.($page_current-1<1?1:$page_current-1)); ?>" class="button"><span><img src="src/arrow-180-small.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow-180-small.gif" height="9" width="12" alt="Previous" /> Prev</span></a>
+                    <a href="<?php echo site_url($_com.'comments/index/'.$post->id.'/1'); ?>" class="button"><span><img src="src/arrow-stop-180-small.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow-stop-180-small.gif" height="9" width="12" alt="First" /> First</span></a> 
+                    <a href="<?php echo site_url($_com.'comments/index/'.$post->id.'/'.($page_current-1<1?1:$page_current-1)); ?>" class="button"><span><img src="src/arrow-180-small.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow-180-small.gif" height="9" width="12" alt="Previous" /> Prev</span></a>
                     <div class="numbers">
                         <span>Page:</span>
                         <a href=""><?php echo $page_current; ?>/<?php echo $page_total; ?></a> 
@@ -129,8 +129,8 @@ require_once('header.php');
                             <a href="">99</a>
                         -->
                     </div> 
-                    <a href="<?php echo site_url('admin_comments/index/'.$post->id.'/'.($page_current+1>$page_total?$page_total:$page_current+1)); ?>" class="button"><span>Next <img src="src/arrow-000-small.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow-000-small.gif" height="9" width="12" alt="Next" /></span></a> 
-                    <a href="<?php echo site_url('admin_comments/index/'.$post->id.'/'.$page_total); ?>" class="button last"><span>Last <img src="src/arrow-stop-000-small.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow-stop-000-small.gif" height="9" width="12" alt="Last" /></span></a>
+                    <a href="<?php echo site_url($_com.'comments/index/'.$post->id.'/'.($page_current+1>$page_total?$page_total:$page_current+1)); ?>" class="button"><span>Next <img src="src/arrow-000-small.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow-000-small.gif" height="9" width="12" alt="Next" /></span></a> 
+                    <a href="<?php echo site_url($_com.'comments/index/'.$post->id.'/'.$page_total); ?>" class="button last"><span>Last <img src="src/arrow-stop-000-small.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/arrow-stop-000-small.gif" height="9" width="12" alt="Last" /></span></a>
                     <div style="clear: both;"></div> 
                 </div>
                 

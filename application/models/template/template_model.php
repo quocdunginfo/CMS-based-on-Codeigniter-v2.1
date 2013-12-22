@@ -6,6 +6,17 @@ class Template_model extends Post_model {
         parent::__construct();
         $this->special = 5;
     }
+    public function get_by_id($id=0)
+    {
+        $obj = new Template_model;
+        $obj->id = $id;
+        if(!$obj->is_exist())
+        {
+            return null;
+        }
+        $obj->load();
+        return $obj;
+    }
     public function get_path()
     {
         return $this->content_lite;
@@ -13,6 +24,14 @@ class Template_model extends Post_model {
     public function set_path($path='')
     {
         $this->content_lite = $path;
+    }
+    public function get_component()
+    {
+        return $this->content;
+    }
+    public function set_component($com='')
+    {
+        $this->content = $com;
     }
     public function get_name()
     {

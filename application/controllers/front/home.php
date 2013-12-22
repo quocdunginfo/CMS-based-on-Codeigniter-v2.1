@@ -8,6 +8,7 @@ class Home extends CI_Controller {
     
     protected $_giohang = null;
     protected $_tpl = 'front/';
+    protected $_com = 'front/';
     protected $_timkiem_sanpham = array();
     protected $_timkiem_nangcao = array();
     protected $_menu = null;
@@ -74,7 +75,7 @@ class Home extends CI_Controller {
         //get template path from setting
         $setting = new Setting_model;
         $template = new Template_model;
-        $template->id = $setting->get_by_key('template_id');
+        $template->id = $setting->get_by_key('front_template_id');
         $template->load();
         //set $_tpl first
         $this->_tpl = $template->get_path().'/';
@@ -171,6 +172,9 @@ class Home extends CI_Controller {
             redirect('fatal_error');
             return;
         }
+        //component and template path
+        $this->_data['_com'] = $this->_com;
+        $this->_data['_tpl'] = $this->_tpl;
     }
     protected function _add_active_menu($full_url='')
     {

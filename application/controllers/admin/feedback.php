@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once(APPPATH.'/controllers/admin.php');
-class Admin_feedback extends Admin {
+require_once(APPPATH.'/controllers/admin/home.php');
+class Feedback extends Home {
     public function __construct()
     {
         parent::__construct();
@@ -9,7 +9,7 @@ class Admin_feedback extends Admin {
     public function index()
     {
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('post_id', 'special', 'cat_id'));
+        $get = $this->uri->uri_to_assoc(4,array('post_id', 'special', 'cat_id'));
         $get['post_id'] = $get['post_id']===false?-1:$get['post_id'];
         $get['cat_id'] = $get['cat_id']===false?-1:$get['cat_id'];
         $get['special'] = $get['special']===false?0:$get['special'];
@@ -29,12 +29,12 @@ class Admin_feedback extends Admin {
         switch ($post_obj->special)
         {
             case 0:
-                redirect('admin_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
+                parent::_redirect('post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
                 return;
             case 1:
                 break;
             case 2:
-                redirect('admin_painting_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
+                parent::_redirect('painting_post/index/post_id/'.$post_obj->id.'/special/'.$post_obj->special);
                 return;
         }
         $this->_data['feedback0'] = $post_obj;
@@ -42,13 +42,13 @@ class Admin_feedback extends Admin {
         $this->_data['cat_id'] = $get['cat_id'];
         $this->_data['state'] = (array)$this->session->flashdata('state');
         
-        parent::_add_active_menu(site_url('admin_posts/index/special/'.qd_special_post_to_cat($get['special'])));
-        $this->load->view('admin/feedback',$this->_data);
+        parent::_add_active_menu(site_url($this->_com.'posts/index/special/'.qd_special_post_to_cat($get['special'])));
+        parent::_view('feedback',$this->_data);
     }
     public function send()
     {
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('post_id', 'special', 'cat_id'));
+        $get = $this->uri->uri_to_assoc(4,array('post_id', 'special', 'cat_id'));
         $get['post_id'] = $get['post_id']===false?-1:$get['post_id'];
         $get['cat_id'] = $get['cat_id']===false?-1:$get['cat_id'];
         $get['special'] = $get['special']===false?0:$get['special'];
@@ -69,6 +69,6 @@ class Admin_feedback extends Admin {
         {
             $this->session->set_flashdata('state','send_fail');
         }
-        redirect('admin_feedback/index/post_id/'.$get['post_id'].'/special/'.$get['special'].'/cat_id/'.$get['cat_id']);
+        parent::_redirect('feedback/index/post_id/'.$get['post_id'].'/special/'.$get['special'].'/cat_id/'.$get['cat_id']);
     }
 }

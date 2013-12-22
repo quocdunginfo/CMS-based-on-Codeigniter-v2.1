@@ -69,7 +69,7 @@ $this->load->view('admin/header');
                             <p>
                                 
                             </p>
-                            <form id="status" action="<?=site_url('admin_order/edit')?>" method="post" style="width: auto;">
+                            <form id="status" action="<?=site_url($_com.'order/edit')?>" method="post" style="width: auto;">
                             <p>
                                 <label style="width:100px">
                                 Status:

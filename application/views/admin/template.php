@@ -11,26 +11,64 @@ function show_notification($state)
 
             <!-- module goes here -->
 			<!-- Media -->
-            <div class="grid_6">
+            <div class="grid_12">
                 <!-- Notification boxes -->
-                
+                <style type="text/css">
+                .module-body label{
+                    float: left; width: 120px;
+                }
+                </style>
                 <div class="module">
-                     <h2><span>Template list</span></h2>
+                     <h2><span>Components</span></h2>
 
                      <div class="module-body">
                         <?=show_notification($state)?>
+                        <form action="<?=site_url($_com.'template/choose')?>" method="post">
                         <p>
-                        Template List
-                        <br />
-                        <form action="<?=site_url('admin_template/choose')?>" method="post">
-                        <select name="template_id">
-                            <?php foreach($template_list as $item) { ?>
-                            <option value="<?=$item->id?>" <?php if($template_id==$item->id) echo 'selected="selected"'; ?>><?=$item->get_name()?></option>
-                            <?php } ?>
-                        </select>
-                        <input class="submit-green" type="submit" value="Set website template" style="margin-left: 30px;">
-                        </form>
+                            <br />
+                            
+                            <label>Default Component:</label>
+                            <select name="template_id">
+                                <?php foreach($template_list as $item) { ?>
+                                <option value="<?=$item->id?>" <?php if($s_template_id==$item->id) echo 'selected="selected"'; ?>><?=$item->get_name()?></option>
+                                <?php } ?>
+                            </select>
+                            <br />
+                            <br />
+                            
+                            <label>Front Template:</label>
+                            <select name="front_template_id">
+                                <?php foreach($template_list as $item) { ?>
+                                <option value="<?=$item->id?>" <?php if($s_front_template_id==$item->id) echo 'selected="selected"'; ?>><?=$item->get_name()?></option>
+                                <?php } ?>
+                            </select>
+                            <br />
+                            <br />
+                            
+                            <label>Blog Template:</label>
+                            <select name="blog_template_id">
+                                <?php foreach($template_list as $item) { ?>
+                                <option value="<?=$item->id?>" <?php if($s_blog_template_id==$item->id) echo 'selected="selected"'; ?>><?=$item->get_name()?></option>
+                                <?php } ?>
+                            </select>
+                            <br />
+                            <br />
+                            
+                            <label>Admin Template:</label>
+                            <select name="admin_template_id">
+                                <?php foreach($template_list as $item) { ?>
+                                <option value="<?=$item->id?>" <?php if($s_admin_template_id==$item->id) echo 'selected="selected"'; ?>><?=$item->get_name()?></option>
+                                <?php } ?>
+                            </select>
+                            <br />
+                            <br />
+                            <label>&nbsp;</label>
+                            <input class="submit-green" type="submit" value="Save">
+                            
+                            
                         </p>
+                        
+                        </form>
                      </div> <!-- End .module-body -->
                 </div> <!-- End .module -->
                 <div style="clear:both;"></div>

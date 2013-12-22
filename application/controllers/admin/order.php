@@ -1,12 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once(APPPATH.'/controllers/admin.php');
-class Admin_order extends Admin {
+require_once(APPPATH.'/controllers/admin/home.php');
+class Order extends Home {
     public function __construct()
     {
         parent::__construct();        
         $this->_data['html_title'].=' - Order';
         
-        parent::_add_active_menu(site_url('admin_orders/index'));
+        parent::_add_active_menu(site_url($this->_com.'orders/index'));
     }
     public function index()//order_id
     {
@@ -17,7 +17,7 @@ class Admin_order extends Admin {
             return;
         }
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('order_id',));
+        $get = $this->uri->uri_to_assoc(4,array('order_id',));
         $get['order_id'] = $get['order_id']===false?0:$get['order_id'];
         
         //check permission
@@ -29,7 +29,7 @@ class Admin_order extends Admin {
         //check exist
         if(!$this->Order_model->is_exist($get['order_id']))
         {
-            redirect('admin_orders');
+            parent::_redirect('orders');
             return;
         }
         
@@ -39,7 +39,7 @@ class Admin_order extends Admin {
         $obj->id = $get['order_id'];
         $obj->load();
         $this->_data['order0'] = $obj;
-        $this->load->view('admin/order',$this->_data);
+        parent::_view('order',$this->_data);
     }
     public function edit()
     {
@@ -61,7 +61,7 @@ class Admin_order extends Admin {
         //update
         $obj->update();
         //finish
-        redirect('admin_order/index/order_id/'.$obj->id);
+        parent::_redirect('order/index/order_id/'.$obj->id);
     }
     
 }

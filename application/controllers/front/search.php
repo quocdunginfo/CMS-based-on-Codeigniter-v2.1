@@ -5,7 +5,7 @@ class Search extends Home {
     {
         parent::__construct();
         $this->_data['html_title'].=' - Search';
-        parent::_add_active_menu(site_url('front/search'));
+        parent::_add_active_menu(site_url($this->_com.'search'));
     }
     public function index()
     {
@@ -29,7 +29,7 @@ class Search extends Home {
         
         $max_item_per_page = $this->_timkiem_nangcao['max_item_per_page'];
         
-        $base_url = site_url('front/search/painting_cat/page/');
+        $base_url = site_url($this->_com.'search/painting_cat/page/');
         //pagination
         $pagination = new Qd_pagination;
         $pagination->set_current_page($get['page']);
@@ -56,7 +56,7 @@ class Search extends Home {
       //  $this->_data['painting_cat'] = $this->Cat_model->get_by_id($get['id']);
         $this->_data['pagination'] = $pagination;
         //load view
-      //  parent::_add_active_menu(site_url('front/search/painting_cat/');
+      //  parent::_add_active_menu(site_url($this->_com.'search/painting_cat/');
         parent::_view('search',$this->_data);
     }
     public function simple_submit()

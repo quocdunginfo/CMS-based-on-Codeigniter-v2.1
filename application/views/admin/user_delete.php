@@ -11,7 +11,7 @@ require_once('header.php');
                      <h2><span>Form</span></h2>
                         
                      <div class="module-body">
-                        <form action="<?php echo site_url('admin_user/delete')?>" method="post">
+                        <form action="<?php echo site_url($_com.'user/delete')?>" method="post">
                             <input type="hidden" name="user_id" value="<?php echo $user0->id; ?>"/>
                             <div>
                                 <span class="notification n-success" <?php if($state!='update_ok') echo 'style="display:none;"'; ?>>Updated successfully!</span>
@@ -31,8 +31,8 @@ require_once('header.php');
                             </fieldset>
                             
                             <fieldset>
-                                <a href="<?=site_url('admin_users')?>" class="button" style="margin-right: 10px;"><span>Back</span></a>
-                                <a href="<?=site_url('admin_users/delete/'.$user0->id)?>" class="button" style="margin-right: 50px;"><span>Reload</span></a>
+                                <a href="<?=site_url($_com.'users')?>" class="button" style="margin-right: 10px;"><span>Back</span></a>
+                                <a href="<?=site_url($_com.'users/delete/'.$user0->id)?>" class="button" style="margin-right: 50px;"><span>Reload</span></a>
                                 <input class="submit-green" type="submit" value="Submit" /> 
                             </fieldset>
                         </form>

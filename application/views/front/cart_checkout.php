@@ -1,14 +1,14 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$this->load->view('front/header');
+$this->load->view($_tpl.'header');
 ?>
 <div id="content" class="float_r">
     <h2>Thông tin người nhận hàng</h2>
     <div class="content_half float_l" style="width:auto">
         <p style="color:red;">(*) là thông tin bắt buộc</p>
         <div id="contact_form" style="width:auto">
-            <form method="post" name="contact" action="<?=site_url('front/cart/checkout_submit')?>">
+            <form method="post" name="contact" action="<?=site_url($_com.'cart/checkout_submit')?>">
 
                 <label style="width:auto">Họ và tên:</label>
                 <input type="text" name="fullname" class="required input_field" value="<?=$giohang->order_rc_fullname?>" style="float:left">
@@ -69,7 +69,7 @@ $this->load->view('front/header');
                 <div class="cleaner h10"></div>
                 
                 <input type="submit" class="submit_btn" name="submit" id="submit" value="Tiếp tục" style="width: 80px;float: right;margin-right: 12px;">
-                <input type="button" class="submit_btn" value="Trở về" onclick="window.location.href='<?=site_url('front/cart')?>'" style="width:80px;">
+                <input type="button" class="submit_btn" value="Trở về" onclick="window.location.href='<?=site_url($_com.'cart')?>'" style="width:80px;">
                  <div class="cleaner h10"></div>
             </form>
         </div>
@@ -83,4 +83,4 @@ $this->load->view('front/header');
 
 
 <?php
-$this->load->view('front/footer');
+$this->load->view($_tpl.'footer');

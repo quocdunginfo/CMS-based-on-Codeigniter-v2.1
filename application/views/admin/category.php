@@ -47,7 +47,7 @@ $this->load->view('admin/header');
                         Choose parent category:
                         </p>
                         <?php } ?>
-                        <form action="<?php echo site_url('admin_category/add/special/'.$special.'/view_mode/'.$view_mode); ?>" method="post">
+                        <form action="<?php echo site_url($_com.'category/add/special/'.$special.'/view_mode/'.$view_mode); ?>" method="post">
                             <fieldset>
                                 <ul class="qdClass" style="border:2px solid #ccc; width:80%px; height: 350px; overflow-y: scroll; padding:10px 10px 10px 10px;">
                                     <li>
@@ -68,10 +68,10 @@ $this->load->view('admin/header');
                                             <input id="cat_id_<?=$cat_obj->id?>" style="margin-left:<?php echo ($cat_obj->level+1)*20; ?>px;" type="radio" name="cat_radio_list[]" value="<?php echo $cat_obj->id; ?>"/>
                                             &nbsp;
                                             <span id="cat_name_<?=$cat_obj->id?>"><?php echo $cat_obj->name; ?></span>
-                                            <a onclick="return confirm_click();" href="<?php echo site_url('admin_category/delete/cat_id/'.$cat_obj->id.'/special/'.$special.'/view_mode/'.$view_mode); ?>" style="float: right;">X</a>
+                                            <a onclick="return confirm_click();" href="<?php echo site_url($_com.'category/delete/cat_id/'.$cat_obj->id.'/special/'.$special.'/view_mode/'.$view_mode); ?>" style="float: right;">X</a>
                                             
                                             <a href="javascript:transfer_cat_edit(<?=$cat_obj->id?>);" style="float: right; margin-right: 20px;" >Edit</a>
-                                            <a href="<?=site_url('admin_category/move_up/cat_id/'.$cat_obj->id.'/special/'.$special.'/view_mode/'.$view_mode) ?>" style="float: right; margin-right: 20px;" >Up</a>
+                                            <a href="<?=site_url($_com.'category/move_up/cat_id/'.$cat_obj->id.'/special/'.$special.'/view_mode/'.$view_mode) ?>" style="float: right; margin-right: 20px;" >Up</a>
                                             
                                         </label>
                                     </li>
@@ -119,7 +119,7 @@ $this->load->view('admin/header');
                             </fieldset>
                         </form>
 
-                        <!-- <a href="<?php echo site_url('admin_media/validate'); ?>"><input class="submit-green" value="Validate" style="width:100px; text-align:center;" onclick="javascript:cat_item_click(this)"></a> -->
+                        <!-- <a href="<?php echo site_url($_com.'media/validate'); ?>"><input class="submit-green" value="Validate" style="width:100px; text-align:center;" onclick="javascript:cat_item_click(this)"></a> -->
                      </div> <!-- End .module-body -->
                 </div> <!-- End .module -->
                 <div style="clear:both;"></div>
@@ -133,7 +133,7 @@ $this->load->view('admin/header');
                      <h2><span>Category Edit</span></h2>
                      <div class="module-body">
                         <span class="notification n-success" <?php if(!in_array('edit_ok',$state)) echo 'style="display:none;"'; ?>>Updated successfully!</span>  
-                        <form action="<?php echo site_url('admin_category/edit/special/'.$special.'/view_mode/'.$view_mode); ?>" method="post">
+                        <form action="<?php echo site_url($_com.'category/edit/special/'.$special.'/view_mode/'.$view_mode); ?>" method="post">
                             <fieldset>
                                 <label>Category name:</label>
                                 <input id="cat_edit_id" name="cat_id" type="hidden" value=""/>

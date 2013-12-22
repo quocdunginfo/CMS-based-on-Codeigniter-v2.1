@@ -1,5 +1,6 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$this->load->view('front/static_page');
+$data__['_tpl'] = 'front/';//kế thừa từ gì
+$this->load->view('front/static_page', $data__);
 ?>

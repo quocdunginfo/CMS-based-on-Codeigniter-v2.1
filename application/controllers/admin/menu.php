@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once(APPPATH.'/controllers/admin.php');
-class Admin_menu extends Admin {
+require_once(APPPATH.'/controllers/admin/home.php');
+class Menu extends Home {
     public function __construct()
     {
         parent::__construct();
@@ -8,7 +8,7 @@ class Admin_menu extends Admin {
     }
     public function index_()
     {
-        parent::_add_active_menu(site_url('admin_menus/index_'));
+        parent::_add_active_menu(site_url($this->_com.'menus/index_'));
         self::index();
     }
     public function index()//special
@@ -25,8 +25,8 @@ class Admin_menu extends Admin {
         $this->_data['menu0'] = new Menu_model;
         $this->_data['menu_provider_list'] = $this->Menu_provider_model->get_all();
         
-        parent::_add_active_menu(site_url('admin_menu/index'));
-        $this->load->view('admin/menu',$this->_data);
+        parent::_add_active_menu(site_url($this->_com.'menu/index'));
+        parent::_view('menu',$this->_data);
     }
     public function submit()
     {
@@ -60,7 +60,7 @@ class Admin_menu extends Admin {
             $obj->menu_param = $input['menu_param'];
             //call add
             $obj->add();
-            redirect('admin_menu/edit/'.$obj->id);
+            parent::_redirect('menu/edit/'.$obj->id);
             return;
         }
         else
@@ -89,7 +89,7 @@ class Admin_menu extends Admin {
             $obj->menu_param = $input['menu_param'];
             //call update
             $obj->update();
-            redirect('admin_menu/edit/'.$obj->id);
+            parent::_redirect('menu/edit/'.$obj->id);
             return;
         }
         //add or update
@@ -111,8 +111,8 @@ class Admin_menu extends Admin {
         $this->_data['menu0'] = $obj;
         $this->_data['menu_provider_list'] = $this->Menu_provider_model->get_all();
         
-        parent::_add_active_menu(site_url('admin_menu/index'));
-        $this->load->view('admin/menu',$this->_data);
+        parent::_add_active_menu(site_url($this->_com.'menu/index'));
+        parent::_view('menu',$this->_data);
     }
     public function delete($id=0)
     {
@@ -124,7 +124,7 @@ class Admin_menu extends Admin {
         $obj = new Menu_model;
         $obj->id= $id;
         $obj->delete_resursive(true,$obj->special);
-        redirect('admin_menu');
+        parent::_redirect('menu');
     }
     public function move_up()
     {
@@ -134,7 +134,7 @@ class Admin_menu extends Admin {
             return;
         }
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('cat_id'));
+        $get = $this->uri->uri_to_assoc(4,array('cat_id'));
         $get['cat_id'] = $get['cat_id']===false?0:$get['cat_id'];
         
         //get obj
@@ -144,6 +144,6 @@ class Admin_menu extends Admin {
         //call
         $obj->rank_up();
         $this->session->set_flashdata('state', array('edit_ok'));
-        redirect('admin_menu/index/');
+        parent::_redirect('menu/index/');
     }
 }

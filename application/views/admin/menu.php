@@ -7,7 +7,7 @@ $this->load->view('admin/header');
                 
                     <!-- Button -->
                     <div class="float-left">
-                        <a href="<?=site_url('admin_menu')?>" class="button">
+                        <a href="<?=site_url($_com.'menu')?>" class="button">
                         	<span>New menu <img src="src/plus-small.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/plus-small.gif" width="12" height="9" alt="New menu"></span>
                         </a>
                     </div>
@@ -31,7 +31,7 @@ $this->load->view('admin/header');
                         Choose parent menu:
                         </p>
                           
-                        <form action="<?php echo site_url('admin_menu/add'); ?>" method="post">
+                        <form action="<?php echo site_url($_com.'menu/add'); ?>" method="post">
                             <fieldset>
                                 <ul class="qdClass" style="border:2px solid #ccc; width:80%px; height: 450px; overflow-y: scroll; padding:10px 10px 10px 10px;">
                                     <li>
@@ -60,10 +60,10 @@ $this->load->view('admin/header');
                                             <?php } ?>
                                             &nbsp;
                                             <span id="cat_name_<?=$item->id?>"><?php echo $item->name; ?></span>
-                                            <a onclick="return confirm_click();" href="<?php echo site_url('admin_menu/delete/'.$item->id); ?>" style="float: right;">X</a>
+                                            <a onclick="return confirm_click();" href="<?php echo site_url($_com.'menu/delete/'.$item->id); ?>" style="float: right;">X</a>
                                             
-                                            <a href="<?php echo site_url('admin_menu/edit/'.$item->id); ?>" style="float: right; margin-right: 20px;" >Edit</a>
-                                            <a href="<?php echo site_url('admin_menu/move_up/cat_id/'.$item->id.'/view_mode/'.$view_mode); ?>" style="float: right; margin-right: 20px;" >Up</a>
+                                            <a href="<?php echo site_url($_com.'menu/edit/'.$item->id); ?>" style="float: right; margin-right: 20px;" >Edit</a>
+                                            <a href="<?php echo site_url($_com.'menu/move_up/cat_id/'.$item->id.'/view_mode/'.$view_mode); ?>" style="float: right; margin-right: 20px;" >Up</a>
                                             
                                         </label>
                                     </li>
@@ -102,7 +102,7 @@ $this->load->view('admin/header');
                         </style>
                      <div class="module-body">
                         <span class="notification n-success" <?php if(!in_array('edit_ok',$state)) echo 'style="display:none;"'; ?>>Updated successfully!</span>
-                        <form action="<?php echo site_url('admin_menu/submit'); ?>" method="post" id="menu_detail">
+                        <form action="<?php echo site_url($_com.'menu/submit'); ?>" method="post" id="menu_detail">
                             <fieldset>
                                 <script>
                                 

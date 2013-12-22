@@ -150,7 +150,7 @@ $this->load->helper('url');
                             <ul id="nav">
                                 <li id="current"><a href="">Dashboard</a></li>
                                 <li><a href="">Categories</a></li>
-                                <li><a href="<?php echo site_url('admin_posts'); ?>">Posts</a></li>
+                                <li><a href="<?php echo site_url($_com.'posts'); ?>">Posts</a></li>
                                 <li><a href="">Users</a></li>
                                 <li><a href="">Settings</a></li>
                             </ul>

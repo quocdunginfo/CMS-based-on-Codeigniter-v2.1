@@ -11,7 +11,7 @@ $this->load->view('admin/header');
                      <h2><span>Post properties</span></h2>
                         
                      <div class="module-body">
-                        <form action="<?php echo site_url('admin_post/edit/'.$special)?>" method="post">
+                        <form action="<?php echo site_url($_com.'post/edit/'.$special)?>" method="post">
                             <input type="hidden" name="post_id" value="<?php echo $post->id; ?>"/>
                             <div>
                                 <span class="notification n-success" <?php if($state!='update_ok') echo 'style="display:none;"'; ?>>Updated successfully!</span>
@@ -76,8 +76,8 @@ $this->load->view('admin/header');
                             </fieldset>
                             
                             <fieldset>
-                                <a href="<?=site_url('admin_posts/index/special/'.$special.'/cat_id/'.$cat_id.'/') ?>" class="button" style="margin-right: 10px;"><span>Back</span></a>
-                                <a href="<?=site_url('admin_post/index/post_id/'.$post->id.'/special/'.$special.'/cat_id/'.$cat_id) ?>" class="button" style="margin-right: 50px;"><span>Reload</span></a>
+                                <a href="<?=site_url($_com.'posts/index/special/'.$special.'/cat_id/'.$cat_id.'/') ?>" class="button" style="margin-right: 10px;"><span>Back</span></a>
+                                <a href="<?=site_url($_com.'post/index/post_id/'.$post->id.'/special/'.$special.'/cat_id/'.$cat_id) ?>" class="button" style="margin-right: 50px;"><span>Reload</span></a>
                                 <input class="submit-green" type="submit" value="Submit" /> 
                             </fieldset>
                         </form>
@@ -95,7 +95,7 @@ $this->load->view('admin/header');
                     <div class="module-body">
                     <p>
                         <label>(renew post: action will delete current post and clone a new one)</label>
-                        <a onclick="return confirm_click();" class="button" href="<?=site_url('admin_post/clone_to_top/'.$post->id)?>"><span>Move post to top</span></a>                            
+                        <a onclick="return confirm_click();" class="button" href="<?=site_url($_com.'post/clone_to_top/'.$post->id)?>"><span>Move post to top</span></a>                            
                     </p>
                     </div> <!-- End .module-body -->
                     <script language="javascript">

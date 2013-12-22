@@ -1,7 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$this->load->view('front/header');
+$this->load->view($_tpl.'header');
 ?>
 <div id="content" class="float_r">
     <h2>Đăng nhập</h2>
@@ -9,7 +9,7 @@ $this->load->view('front/header');
     <span style="color: red;">Sai tên đăng nhập hoặc mật khẩu!</span>
     <?php } ?>
     <div id="contact_form" style="width:280px">
-        <form method="post" name="contact" action="<?=site_url('front/login/submit')?>">
+        <form method="post" name="contact" action="<?=site_url($_com.'login/submit')?>">
 
             <label for="author">Tên đăng nhập:</label>
             <input type="text" name="username" class="required input_field" value="<?=$pre_username?>">
@@ -21,7 +21,7 @@ $this->load->view('front/header');
                 <input type="checkbox" name="remember" value="1">
                 Ghi nhớ mật khẩu 
                 <div style="float:right">
-                <a href="<?=site_url('front/forgot_password')?>">Quên mật khẩu</a>
+                <a href="<?=site_url($_com.'forgot_password')?>">Quên mật khẩu</a>
                 </div>
             </div>
             <div class="cleaner h10"></div>
@@ -32,4 +32,4 @@ $this->load->view('front/header');
 
 
 <?php
-$this->load->view('front/footer');
+$this->load->view($_tpl.'footer');

@@ -26,7 +26,7 @@ class Product extends Home {
         $this->_data['painting_obj'] = $obj;
         $this->_data['relative_painting']=$item_cat_final;
         
-        parent::_add_active_menu(site_url('front/product/index/'.$obj->id));
+        parent::_add_active_menu(site_url($this->_com.'product/index/'.$obj->id));
         parent::_view('product',$this->_data);
     }
 }

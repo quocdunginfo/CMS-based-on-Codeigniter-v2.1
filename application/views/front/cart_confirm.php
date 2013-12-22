@@ -1,7 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$this->load->view('front/header');
+$this->load->view($_tpl.'header');
 ?>
 <div id="content" class="float_r">
     <h2>Xác nhận thông tin đơn hàng</h2>
@@ -84,12 +84,12 @@ $this->load->view('front/header');
                 <input type="text" class="input_field" value="<?=$giohang->get_order_online_payment_vi()?>" style="float:left;box-shadow: 0px 0px 2px grey;" readonly="readonly">
                 
                 <div class="cleaner h10"></div>
-               <input class="submit_btn" type="button" value="Hoàn tất đơn hàng" onclick="document.location='<?=site_url('front/cart/payment')?>'" style="width: 150px;float: right;margin-right: 405px;">
-               <input type="button" class="submit_btn" value="Trở về" onclick="window.location.href='<?=site_url('front/cart/checkout')?>'" style="width:80px">
+               <input class="submit_btn" type="button" value="Hoàn tất đơn hàng" onclick="document.location='<?=site_url($_com.'cart/payment')?>'" style="width: 150px;float: right;margin-right: 405px;">
+               <input type="button" class="submit_btn" value="Trở về" onclick="window.location.href='<?=site_url($_com.'cart/checkout')?>'" style="width:80px">
                 <div class="cleaner h10"></div>
             </form>
         </div>
     <div class="cleaner h40"></div>
 </div>
 <?php
-$this->load->view('front/footer');
+$this->load->view($_tpl.'footer');

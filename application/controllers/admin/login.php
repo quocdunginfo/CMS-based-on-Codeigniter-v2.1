@@ -1,7 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Admin_login extends CI_Controller {
+class Login extends CI_Controller {
     protected $_user = null;
     protected $_data = array();
+    protected $_com = 'admin/';
+    protected $_tpl = 'admin/';
     function __construct()
     {
         parent::__construct();
@@ -34,7 +36,7 @@ class Admin_login extends CI_Controller {
         {
             $this->_data['state'] = array();
         }
-        $this->load->view('admin/login/index',$this->_data);
+        $this->load->view($this->_com.'login/index',$this->_data);
     }
     protected function _build_common_data()
     {

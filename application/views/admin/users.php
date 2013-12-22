@@ -17,7 +17,7 @@ $page_total = $pagination->total_page;
                 <div class="bottom-spacing">
                     <!-- Button -->
                     <div class="float-right">
-                        <a href="<?php echo site_url('admin_users/add/special/'.$special); ?>" class="button">
+                        <a href="<?php echo site_url($_com.'users/add/special/'.$special); ?>" class="button">
                         	<span>New User<img src="src/plus-small.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/plus-small.gif" width="12" height="9" alt="New user" /></span>
                         </a>
                     </div>
@@ -49,7 +49,7 @@ $page_total = $pagination->total_page;
                                 ?>
                                 <tr>                                    
                                     <td class="align-center"><?php echo $user_obj->id; ?></td>
-                                    <td><a href="<?=site_url('admin_users/edit/special/'.$special.'/id/'.$user_obj->id)?>"><?php echo $user_obj->username; ?></a></td>
+                                    <td><a href="<?=site_url($_com.'users/edit/special/'.$special.'/id/'.$user_obj->id)?>"><?php echo $user_obj->username; ?></a></td>
                                     <td><?php echo $user_obj->fullname; ?></td>
                                     <td><?=$user_obj->get_type_en()?></td>
                                     <td><?=$user_obj->get_group_name()?></td>
@@ -60,10 +60,10 @@ $page_total = $pagination->total_page;
                                     <td>
                                     	<!-- <input type="checkbox" /> -->
                                         <!-- <a href=""><img src="src/tick-circle.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/tick-circle.gif" width="16" height="16" alt="published" /></a> -->
-                                        <a href="<?=site_url('admin_users/edit/special/'.$special.'/id/'.$user_obj->id)?>"><img src="src/pencil.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/pencil.gif" width="16" height="16" alt="edit" /></a>
-                                        <!-- <a href="<?php echo site_url('admin_users/edit/'.$user_obj->id); ?>"><img src="src/balloon.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/balloon.gif" width="16" height="16" alt="comments" /></a> -->
+                                        <a href="<?=site_url($_com.'users/edit/special/'.$special.'/id/'.$user_obj->id)?>"><img src="src/pencil.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/pencil.gif" width="16" height="16" alt="edit" /></a>
+                                        <!-- <a href="<?php echo site_url($_com.'users/edit/'.$user_obj->id); ?>"><img src="src/balloon.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/balloon.gif" width="16" height="16" alt="comments" /></a> -->
                                         &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a onclick="return confirm_click();" href="<?php echo site_url('admin_users/delete/'.$user_obj->id); ?>"><img src="src/bin.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/bin.gif" width="16" height="16" alt="delete"/></a>
+                                        <a onclick="return confirm_click();" href="<?php echo site_url($_com.'users/delete/'.$user_obj->id); ?>"><img src="src/bin.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/bin.gif" width="16" height="16" alt="delete"/></a>
                                         
                                         
                                     </td>
@@ -110,13 +110,13 @@ $page_total = $pagination->total_page;
                 <div class="pagination">           
                     <?php if($pagination->can_first_page==true) {
                         ?>
-                        <a href="<?=site_url('admin_users/index/special/'.$special.'/page/1'); ?>" class="button"><span>First <img src="src/arrow-stop-180-small.gif" height="9" width="12" alt="First" /></span></a>
+                        <a href="<?=site_url($_com.'users/index/special/'.$special.'/page/1'); ?>" class="button"><span>First <img src="src/arrow-stop-180-small.gif" height="9" width="12" alt="First" /></span></a>
                         <?php
                         }
                     ?>
                     <?php if($pagination->can_prev_page==true) {
                         ?>
-                        <a href="<?=site_url('admin_users/index/special/'.$special.'/page/'.($pagination->current_page-1)); ?>" class="button"><span>Prev <img src="src/arrow-180-small.gif" height="9" width="12" alt="Prev" /></span></a>
+                        <a href="<?=site_url($_com.'users/index/special/'.$special.'/page/'.($pagination->current_page-1)); ?>" class="button"><span>Prev <img src="src/arrow-180-small.gif" height="9" width="12" alt="Prev" /></span></a>
                         <?php
                         }
                     ?>
@@ -126,13 +126,13 @@ $page_total = $pagination->total_page;
                     </div>
                     <?php if($pagination->can_next_page==true) {
                         ?>
-                        <a href="<?=site_url('admin_users/index/special/'.$special.'/page/'.($pagination->current_page+1)); ?>" class="button"><span>Next <img src="src/arrow-000-small.gif" height="9" width="12" alt="Next" /></span></a>
+                        <a href="<?=site_url($_com.'users/index/special/'.$special.'/page/'.($pagination->current_page+1)); ?>" class="button"><span>Next <img src="src/arrow-000-small.gif" height="9" width="12" alt="Next" /></span></a>
                         <?php
                         }
                     ?>
                     <?php if($pagination->can_last_page==true) {
                         ?>
-                        <a href="<?=site_url('admin_users/index/special/'.$special.'/page/'.($pagination->total_page)); ?>" class="button"><span>Last <img src="src/arrow-stop-000-small.gif" height="9" width="12" alt="Last" /></span></a>
+                        <a href="<?=site_url($_com.'users/index/special/'.$special.'/page/'.($pagination->total_page)); ?>" class="button"><span>Last <img src="src/arrow-stop-000-small.gif" height="9" width="12" alt="Last" /></span></a>
                         <?php
                         }
                     ?>

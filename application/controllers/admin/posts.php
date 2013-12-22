@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once(APPPATH.'/controllers/admin.php');
-class Admin_posts extends Admin {
+require_once(APPPATH.'/controllers/admin/home.php');
+class Posts extends Home {
     public function __construct()
     {
         parent::__construct();
@@ -9,7 +9,7 @@ class Admin_posts extends Admin {
     }
     public function index_()
     {
-        parent::_add_active_menu(site_url('admin_posts/index_'));
+        parent::_add_active_menu(site_url($this->_com.'posts/index_'));
         self::index();
     }
     public function index()//cat_id, special, page URI
@@ -21,13 +21,13 @@ class Admin_posts extends Admin {
             return;
         }
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('cat_id', 'special', 'page','view_mode'));
+        $get = $this->uri->uri_to_assoc(4,array('cat_id', 'special', 'page','view_mode'));
         $get['cat_id'] = $get['cat_id']===false?-1:$get['cat_id'];
         $get['special'] = $get['special']===false?0:$get['special'];
         $get['page'] = $get['page']===false?1:$get['page'];
         $get['view_mode'] = $get['view_mode']===false?'normal':$get['view_mode'];
         
-        $base_url = site_url('admin_posts/index/cat_id/'.$get['cat_id'].'/special/'.$get['special'].'/view_mode/'.$get['view_mode'].'/page/');
+        $base_url = site_url($this->_com.'posts/index/cat_id/'.$get['cat_id'].'/special/'.$get['special'].'/view_mode/'.$get['view_mode'].'/page/');
         //varible
         $max_item_per_page=10;
         $cat_list = null;//mặc định là tìm trong tất cả
@@ -47,7 +47,7 @@ class Admin_posts extends Admin {
         );
         $pagination->set_base_url(
             $base_url,
-            10
+            11
         );
         
         $pagination->update();
@@ -68,14 +68,14 @@ class Admin_posts extends Admin {
         $this->_data['fk_delete_fail_id'] = (int)$this->session->flashdata('fk_delete_fail_id');
         $this->_data['cat_list'] = $this->Cat_model->get_cat_tree(-1,0,$get['special']);
         
-        parent::_add_active_menu(site_url('admin_posts/index/special/'.$get['special']));
+        parent::_add_active_menu(site_url($this->_com.'posts/index/special/'.$get['special']));
         //load view
-        $this->load->view('admin/posts',$this->_data);
+        parent::_view('posts',$this->_data);
     }
     public function delete()
     {
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('post_id', 'special', 'page', 'cat_id', 'view_mode'));
+        $get = $this->uri->uri_to_assoc(4,array('post_id', 'special', 'page', 'cat_id', 'view_mode'));
         $get['post_id'] = $get['post_id']===false?0:$get['post_id'];
         $get['cat_id'] = $get['cat_id']===false?-1:$get['cat_id'];
         $get['special'] = $get['special']===false?0:$get['special'];
@@ -118,25 +118,25 @@ class Admin_posts extends Admin {
             }
         }   
         
-        redirect('admin_posts/index/cat_id/'.$get['cat_id'].'/special/'.$get['special'].'/page/'.$get['page'].'/view_mode/'.$get['view_mode']);//OK
+        parent::_redirect('posts/index/cat_id/'.$get['cat_id'].'/special/'.$get['special'].'/page/'.$get['page'].'/view_mode/'.$get['view_mode']);//OK
     }
     public function add()//special
     {
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('special'));
+        $get = $this->uri->uri_to_assoc(4,array('special'));
         $get['special'] = $get['special']===false?0:$get['special'];
         $get['cat_id'] = $get['cat_id']===false?-1:$get['cat_id'];
-        redirect('admin_post/index/post_id/0/special/'.$get['special'].'/cat_id/'.$get['cat_id']);
+        parent::_redirect('post/index/post_id/0/special/'.$get['special'].'/cat_id/'.$get['cat_id']);
     }
     public function edit()
     {
         //get param
-        $get = $this->uri->uri_to_assoc(3,array('special'));
+        $get = $this->uri->uri_to_assoc(4,array('special'));
         $get['post_id'] = $get['post_id']===false?0:$get['post_id'];
         $get['special'] = $get['special']===false?0:$get['special'];
         $get['cat_id'] = $get['cat_id']===false?-1:$get['cat_id'];
         
-        redirect('admin_post/index/post_id/'.$get['post_id'].'/special/'.$get['special'].'/cat_id/'.$get['cat_id']);
+        parent::_redirect('post/index/post_id/'.$get['post_id'].'/special/'.$get['special'].'/cat_id/'.$get['cat_id']);
     }
     public function search_submit()
     {

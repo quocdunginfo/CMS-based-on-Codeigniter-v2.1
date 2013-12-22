@@ -18,7 +18,7 @@ $this->load->view('admin/header');
                                 <label>
                                 Sender:
                                 <?php if($feedback0->get_user_obj()!=null) {?>
-                                (<a href="<?=site_url('admin_users/edit/'.$feedback0->get_user_obj()->id)?>">Internal system user</a>)
+                                (<a href="<?=site_url($_com.'users/edit/'.$feedback0->get_user_obj()->id)?>">Internal system user</a>)
                                 
                                 <?php } ?>
                                 <br />
@@ -49,8 +49,8 @@ $this->load->view('admin/header');
                             
                             
                             <fieldset>
-                                <a href="<?=site_url('admin_posts/index/special/'.$special.'/cat_id/'.$cat_id.'/') ?>" class="button" style="margin-right: 10px;"><span>Back</span></a>
-                                <a href="<?=site_url('admin_post/index/post_id/'.$feedback0->id.'/special/'.$special.'/cat_id/'.$cat_id) ?>" class="button" style="margin-right: 50px;"><span>Reload</span></a> 
+                                <a href="<?=site_url($_com.'posts/index/special/'.$special.'/cat_id/'.$cat_id.'/') ?>" class="button" style="margin-right: 10px;"><span>Back</span></a>
+                                <a href="<?=site_url($_com.'post/index/post_id/'.$feedback0->id.'/special/'.$special.'/cat_id/'.$cat_id) ?>" class="button" style="margin-right: 50px;"><span>Reload</span></a> 
                             </fieldset>
                      </div> <!-- End .module-body -->
 
@@ -62,7 +62,7 @@ $this->load->view('admin/header');
                     <h2><span>Email tools</span></h2>
                     
                     <div class="module-body">
-                        <form action="<?=site_url('admin_feedback/send/post_id/'.$feedback0->id.'/special/'.$special.'/cat_id/'.$cat_id) ?>" method="post">
+                        <form action="<?=site_url($_com.'feedback/send/post_id/'.$feedback0->id.'/special/'.$special.'/cat_id/'.$cat_id) ?>" method="post">
                         <p>
                                 <label>Send to:</label>
                                 <input type="text" class="input-long" name="email" value="<?=$feedback0->get_sender_email() ?>">

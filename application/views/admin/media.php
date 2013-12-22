@@ -24,7 +24,7 @@ function show_notification($state,$unlink_count)
                         <br />
                         Process will automatically removes unused media.
                         </p>
-                        <a href="<?php echo site_url('admin_media/validate'); ?>" class="button"><span>Validate</span></a>
+                        <a href="<?php echo site_url($_com.'media/validate'); ?>" class="button"><span>Validate</span></a>
                      </div> <!-- End .module-body -->
                 </div> <!-- End .module -->
                 <div style="clear:both;"></div>
