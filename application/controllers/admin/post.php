@@ -10,10 +10,11 @@ class Post extends Home {
     public function index()//$post_id, $special(for add only)
     {
         //get param
-        $get = $this->uri->uri_to_assoc(4,array('post_id', 'special', 'cat_id'));
+        $get = $this->uri->uri_to_assoc(4,array('post_id', 'special', 'cat_id','view_mode'));
         $get['post_id'] = $get['post_id']===false?-1:$get['post_id'];
         $get['special'] = $get['special']===false?0:$get['special'];
         $get['cat_id'] = $get['cat_id']===false?-1:$get['cat_id'];
+        $get['view_mode'] = $get['view_mode']===false?'normal':$get['view_mode'];
         
         //varibles
         $add_mode = false;
@@ -62,6 +63,7 @@ class Post extends Home {
         $this->_data['cat_id']= $get['cat_id'];
         $this->_data['cat_list'] = $this->Cat_model->get_cat_tree(-1,0,qd_special_post_to_cat($post_obj->special));
         
+        $this->_data['view_mode'] = $get['view_mode'];
         $this->_data['html_title'].=' - '.$post_obj->title;
         //load view base on special
         $tmp = new Cat_model;

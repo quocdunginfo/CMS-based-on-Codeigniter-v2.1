@@ -12,7 +12,7 @@ class User_model extends CI_Model {
     public $date_modify = '';//datetime
     public $special = 0;//0:manager, 1: customer
     //private
-    private $_tbn="user";
+    private $_tbn='user';
     private $is_hashed = false;
     //external
     private $group_obj = null;
@@ -132,9 +132,9 @@ class User_model extends CI_Model {
         }
         $this->group_obj_ready=true;
         //load external user_obj
-            $this->db->select("group_id");
+            $this->db->select('group_id');
             $this->db->from($this->_tbn);
-            $this->db->where("id",$this->id);
+            $this->db->where('id',$this->id);
             $query = $this->db->get();
             foreach($query->result() as $row)
             {
@@ -165,7 +165,7 @@ class User_model extends CI_Model {
         $obj->load();
         return $obj;
     }
-    public function get_by_username($username="")
+    public function get_by_username($username='')
     {
         $obj=new User_model;
         $obj->username=$username;
@@ -174,8 +174,8 @@ class User_model extends CI_Model {
     }
     public function is_exist($id=-1)
     {
-        $this->db->select("id");
-        $this->db->where("id",$id==-1?$this->id:$id);
+        $this->db->select('id');
+        $this->db->where('id',$id==-1?$this->id:$id);
         return $this->db->count_all_results($this->_tbn)>0?true:false;
     }
     public function load_by_username()
@@ -229,10 +229,28 @@ class User_model extends CI_Model {
         $count = $this->db->count_all_results();
         return $count>0?true:false;
     }
-    public function delete($id=-1)
+    public function delete($id=-1, $id_t=-1)
     {
-        $this->db->where('id',$id==-1? $this->id:$id);
-        $this->db->delete($this->_tbn);
+        //xet ton tai
+        if(!self::is_exist($id) || !self::is_exist($id_t))
+        {
+            return false;
+        }
+        //chuyen quyen so huu cho moi thanh phan
+            //Chuy?n cho order: order_user_id, order_customer_user_id
+            $sql = 'UPDATE `category` SET `order_user_id`='.$id_t.' WHERE `order_user_id`='.$id;
+            $this->db->simple_query($sql);
+            
+            $sql = 'UPDATE `category` SET `order_customer_user_id`='.$id_t.' WHERE `order_customer_user_id`='.$id;
+            $this->db->simple_query($sql);
+                       
+            //Chuy?n cho Post: user_id
+            $sql = 'UPDATE `post` SET `user_id`='.$id_t.' WHERE `user_id`='.$id;
+            $this->db->simple_query($sql);
+        //xóa user c?n xóa di
+            $this->db->where('id', $id);
+            $this->db->delete($this->_tbn);
+        //finish
         return true;
     }
     public function add()
@@ -299,28 +317,28 @@ class User_model extends CI_Model {
         }
         return true;
     }
-    public function search($id=-1,$username="",$fullname="",$email="",$active=-1,$group_id=-1, $special=-1, $start_point = 0, $count=-1)
+    public function search($id=-1,$username='',$fullname='',$email='',$active=-1,$group_id=-1, $special=-1, $start_point = 0, $count=-1)
     {
         $this->db->from($this->_tbn);
-        $this->db->select("id");
+        $this->db->select('id');
         if($id>-1)
         {
-            $this->db->where("id",$id);   
+            $this->db->where('id',$id);   
         }
-        $this->db->like("username",$username);
-        $this->db->like("fullname",$username);
-        $this->db->like("email",$username);
+        $this->db->like('username',$username);
+        $this->db->like('fullname',$username);
+        $this->db->like('email',$username);
         if($active>-1)
         {
-            $this->db->where("active",$active);   
+            $this->db->where('active',$active);   
         }
         if($special>-1)
         {
-            $this->db->where("special",$special); 
+            $this->db->where('special',$special); 
         }
         if($group_id>-1)
         {
-            $this->db->where("group_id",$group_id);   
+            $this->db->where('group_id',$group_id);   
         }
         //limit
         if($start_point>=0 && $count>-1)
@@ -338,7 +356,7 @@ class User_model extends CI_Model {
         }
         return $re;
     }
-    public function search_count($id=-1,$username="",$fullname="",$email="",$active=-1,$group_id=-1, $special=-1)
+    public function search_count($id=-1,$username='',$fullname='',$email='',$active=-1,$group_id=-1, $special=-1)
     {
         return sizeof(self::search($id,$username,$fullname,$email,$active,$group_id,$special));
     }

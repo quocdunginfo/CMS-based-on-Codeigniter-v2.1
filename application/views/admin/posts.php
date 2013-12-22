@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-$this->load->view('admin/header');
+$this->load->view($_tpl.'header');
 $page_current = $pagination->current_page;
 $page_total = $pagination->total_page;
 ?>
@@ -123,11 +123,8 @@ $page_total = $pagination->total_page;
                                     <td><?= $post->date_modify; ?></td>
                                     <td style="<?php if($post->active!=1) echo 'color: red;'; else echo 'color: blue;' ?>"><?= $post->active==1?'Yes':'No'; ?></td>
                                     <td>
-                                        <!--
-                                        <a href="<?= site_url($_com.'posts/edit/post_id/'.$post->id.'/special/'.$post->special.'/cat_id/'.$cat_id); ?>"><img src="src/balloon.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/balloon.gif" width="16" height="16" alt="view comments" /></a>
-                                        -->
                                         &nbsp;&nbsp;
-                                        <a href="<?= site_url($_com.'posts/edit/post_id/'.$post->id.'/special/'.$post->special.'/cat_id/'.$cat_id); ?>"><img src="src/pencil.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/pencil.gif" width="16" height="16" alt="edit" /></a>
+                                        <a href="<?= site_url($_com.'posts/edit/post_id/'.$post->id.'/special/'.$post->special.'/cat_id/'.$cat_id.'/view_mode/'.$view_mode); ?>"><img src="src/pencil.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/pencil.gif" width="16" height="16" alt="edit" /></a>
                                         &nbsp;&nbsp;&nbsp;&nbsp;
                                         <a onclick="return confirm_click('<?=site_url($_com.'posts/delete/post_id/'.$post->id.'/cat_id/'.$cat_id.'/page/'.$page_current.'/special/'.$special.'/view_mode/'.$view_mode); ?>');" href="javascript:void(0)"><img src="src/bin.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/bin.gif" width="16" height="16" alt="delete"/></a>
                                         
@@ -223,5 +220,5 @@ $page_total = $pagination->total_page;
             
 
 <?php
-$this->load->view('admin/footer');
+$this->load->view($_tpl.'footer');
 ?>

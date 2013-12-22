@@ -25,7 +25,7 @@ class Groups extends Home {
         $get['page'] = $get['page']===false?1:$get['page'];
         $base_url = site_url($this->_com.'groups/index/page/');
         //varible
-        $max_item_per_page=40;
+        $max_item_per_page=10;
         $model = new Group_model;//model access
         //pagination
         $pagination = new Qd_pagination;

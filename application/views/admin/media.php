@@ -1,6 +1,6 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-$this->load->view('admin/header');
+$this->load->view($_tpl.'header');
 function show_notification($state,$unlink_count)
 {
     ?>
@@ -31,5 +31,5 @@ function show_notification($state,$unlink_count)
             </div> <!-- End .grid_6 -->
             <div style="clear:both;"></div>
 <?php
-$this->load->view('admin/footer');
+$this->load->view($_tpl.'footer');
 ?>

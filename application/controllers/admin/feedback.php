@@ -9,10 +9,11 @@ class Feedback extends Home {
     public function index()
     {
         //get param
-        $get = $this->uri->uri_to_assoc(4,array('post_id', 'special', 'cat_id'));
+        $get = $this->uri->uri_to_assoc(4,array('post_id', 'special', 'cat_id','view_mode'));
         $get['post_id'] = $get['post_id']===false?-1:$get['post_id'];
         $get['cat_id'] = $get['cat_id']===false?-1:$get['cat_id'];
         $get['special'] = $get['special']===false?0:$get['special'];
+        $get['view_mode'] = $get['view_mode']===false?'normal':$get['view_mode'];
         
         //check permission
         if(!in_array('post_view',$this->_permission))
@@ -41,6 +42,7 @@ class Feedback extends Home {
         $this->_data['special'] = $get['special'];
         $this->_data['cat_id'] = $get['cat_id'];
         $this->_data['state'] = (array)$this->session->flashdata('state');
+        $this->_data['view_mode'] =$get['view_mode'];
         
         parent::_add_active_menu(site_url($this->_com.'posts/index/special/'.qd_special_post_to_cat($get['special'])));
         parent::_view('feedback',$this->_data);
@@ -48,11 +50,11 @@ class Feedback extends Home {
     public function send()
     {
         //get param
-        $get = $this->uri->uri_to_assoc(4,array('post_id', 'special', 'cat_id'));
+        $get = $this->uri->uri_to_assoc(4,array('post_id', 'special', 'cat_id', 'view_mode'));
         $get['post_id'] = $get['post_id']===false?-1:$get['post_id'];
         $get['cat_id'] = $get['cat_id']===false?-1:$get['cat_id'];
         $get['special'] = $get['special']===false?0:$get['special'];
-        
+        $get['view_mode'] = $get['view_mode']===false?'normal':$get['view_mode'];
         
         //get post value
         $input = $this->input->post(null,true);
@@ -69,6 +71,6 @@ class Feedback extends Home {
         {
             $this->session->set_flashdata('state','send_fail');
         }
-        parent::_redirect('feedback/index/post_id/'.$get['post_id'].'/special/'.$get['special'].'/cat_id/'.$get['cat_id']);
+        parent::_redirect('feedback/index/post_id/'.$get['post_id'].'/special/'.$get['special'].'/cat_id/'.$get['cat_id'].'/view_mode/'.$get['view_mode']);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$this->load->view('admin/header');
+$this->load->view($_tpl.'header');
 ?>
             <div class="bottom-spacing" style="margin-left: 10px;">
                 
@@ -60,7 +60,7 @@ $this->load->view('admin/header');
                                             <?php } ?>
                                             &nbsp;
                                             <span id="cat_name_<?=$item->id?>"><?php echo $item->name; ?></span>
-                                            <a onclick="return confirm_click();" href="<?php echo site_url($_com.'menu/delete/'.$item->id); ?>" style="float: right;">X</a>
+                                            <a onclick="return confirm_click('<?php echo site_url($_com.'menu/delete/'.$item->id); ?>');" href="javascript:void(0)" style="float: right;">X</a>
                                             
                                             <a href="<?php echo site_url($_com.'menu/edit/'.$item->id); ?>" style="float: right; margin-right: 20px;" >Edit</a>
                                             <a href="<?php echo site_url($_com.'menu/move_up/cat_id/'.$item->id.'/view_mode/'.$view_mode); ?>" style="float: right; margin-right: 20px;" >Up</a>
@@ -185,5 +185,5 @@ $this->load->view('admin/header');
             </div> <!-- End .grid_6 -->
             <div style="clear:both;"></div>
 <?php
-$this->load->view('admin/footer');
+$this->load->view($_tpl.'footer');
 ?>

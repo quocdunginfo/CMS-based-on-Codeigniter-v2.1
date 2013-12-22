@@ -1,7 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$this->load->view('admin/header');
+$this->load->view($_tpl.'header');
 ?>
             <!-- module goes here -->
 			<!-- Form elements -->    
@@ -101,5 +101,5 @@ $this->load->view('admin/header');
                 </div>  <!-- End .module -->
             </div>
 <?php
-$this->load->view('admin/footer');
+$this->load->view($_tpl.'footer');
 ?>

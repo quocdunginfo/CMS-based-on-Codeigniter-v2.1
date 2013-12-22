@@ -48,30 +48,41 @@ class User extends Home {
     }
     public function delete()
     {
-        $input = $this->input->post(NULL, TRUE);
+        //get param
+            $get = $this->uri->uri_to_assoc(4,array('special'));
+            $get['special'] = $get['special']===false?0:$get['special'];
+        //post value
+            $input = $this->input->post(NULL, TRUE);
         //check permission
-        //xet permission
-        if(!in_array('user_delete',$this->_permission))
+            if(!in_array('user_delete',$this->_permission))
             {
                 $this->_fail_permission('user_delete');
                 return;
             }
+        //
+        $obj = new User_model;
+        $obj->id = $input['user_id'];
+        $obj->load();
+            //var_dump($input);
+            //return;
+        $obj_t = new User_model;
+        $obj_t->id = $input['user_transfer_id'];
+        $obj_t->load();
         //xet self delete
-        if($this->_user->id==$input['user_id'])
-        {
-            $this->_show_notification('user_can_not_delete_byself');
-            return;
-        }
+            if($this->_user->id==$obj->id)
+            {
+                $this->_show_notification('user_can_not_delete_byself');
+                return;
+            }
         //kiem tra user id can xoa co ton tai
-        if(!$this->User_model->is_exist($input['user_id']) || !$this->User_model->is_exist($input['user_tranfer_id']))
-        {
-            $this->_show_notification('user_id_is_not_valid');
-            return;
-        }
-        
-        $this->User_model->delete($input['user_id'],$input['user_tranfer_id']);
-        $this->_data['state'] = 'delete_ok';
-        parent::_redirect('users/index/1/delete_ok');
+            if(!$obj->is_exist() || !$obj_t->is_exist())
+            {
+                $this->_show_notification('user_id_is_not_valid');
+                return;
+            }
+        //call
+        $this->User_model->delete($obj->id,$obj_t->id);
+        parent::_redirect('users/index/special/'.$obj->special);
     }
     public function edit()
     {

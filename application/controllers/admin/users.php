@@ -25,7 +25,7 @@ class Users extends Home {
         $get['special'] = $get['special']===false?0:$get['special'];
         $base_url = site_url($this->_com.'users/index/special/'.$get['special'].'/page/');
         //varible
-        $max_item_per_page=40;
+        $max_item_per_page=10;
         $model = new User_model;//model access
         //pagination
         $pagination = new Qd_pagination;
@@ -68,7 +68,7 @@ class Users extends Home {
         }
         parent::_redirect('user/index/special/'.$get['special'].'/id/'.$get['id']);
     }
-    public function delete($uid)
+    public function delete()
     {
         //check permission
         //xet permission
@@ -77,34 +77,43 @@ class Users extends Home {
             $this->_fail_permission('user_delete');
             return;
         }
+        //get param
+        $get = $this->uri->uri_to_assoc(4,array('id','special'));
+        $get['id'] = $get['id']===false?0:$get['id'];
+        $get['special'] = $get['special']===false?0:$get['special'];
+        
+        
         //xet self delete
-        if($this->_user->id==$uid)
+        if($this->_user->id==$get['id'])
         {
             $this->_show_notification('user_can_not_delete_byself');
             return;
         }
         //kiem tra user id can xoa co ton tai
         $obj = new User_model;
-        $obj->id = $uid;
+        $obj->id = $get['id'];
+        $obj->load();
     
-        if(!$obj->is_exist($uid))
+        if(!$obj->is_exist($get['id']))
         {
             $this->_show_notification('user_id_is_not_valid');
             return;
         }
         
-        $this->_data['user_list'] = $this->User_model->search();
+        $this->_data['user_list'] = $this->User_model->search(-1,'','','',-1,-1,0);//ch? tranfer qua manager thoi
         //loai bo user can xoa khoi danh sach
         for($i=0;$i<sizeof($this->_data['user_list']);$i++)
         {
-            if($this->_data['user_list'][$i]->id==$uid)
+            
+            if($this->_data['user_list'][$i]->id==$get['id'])
             {
                 unset($this->_data['user_list'][$i]);
             }
         }
         
-        $this->_data['user0'] = $this->User_model->get_by_id($uid);
-        $this->load->view('user_delete',$this->_data);
+        parent::_add_active_menu(site_url($this->_com.'users/index/special/'.$obj->special));
+        $this->_data['user0'] = $obj;
+        parent::_view('user_delete', $this->_data);
     }
     public function add()
     {

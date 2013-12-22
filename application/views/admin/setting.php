@@ -1,7 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$this->load->view('admin/header');
+$this->load->view($_tpl.'header');
 ?>
 <?php
 function show_notification($state=array(),$unlink_count=0)
@@ -349,5 +349,5 @@ function show_notification($state=array(),$unlink_count=0)
                 
             </form>           
 <?php
-$this->load->view('admin/footer');
+$this->load->view($_tpl.'footer');
 ?>

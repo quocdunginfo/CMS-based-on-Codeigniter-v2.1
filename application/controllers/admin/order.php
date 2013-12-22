@@ -58,6 +58,11 @@ class Order extends Home {
         $obj->load();
         //assign
         $obj->set_status($input['status']);
+        //cap nhat manager neu chua co
+            if($obj->get_user_obj()==null || $obj->get_user_obj()->id<=0)
+            {
+                $obj->set_user_obj($this->_user);
+            }
         //update
         $obj->update();
         //finish

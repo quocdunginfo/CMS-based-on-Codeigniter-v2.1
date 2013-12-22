@@ -3,7 +3,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 //registered varibles
 //$user_list array
 //$pagination Qd_pagination
-$this->load->view('admin/header');
+$this->load->view($_tpl.'header');
 $page_current = $pagination->current_page;
 $page_total = $pagination->total_page;
 ?>
@@ -61,9 +61,8 @@ $page_total = $pagination->total_page;
                                     	<!-- <input type="checkbox" /> -->
                                         <!-- <a href=""><img src="src/tick-circle.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/tick-circle.gif" width="16" height="16" alt="published" /></a> -->
                                         <a href="<?=site_url($_com.'users/edit/special/'.$special.'/id/'.$user_obj->id)?>"><img src="src/pencil.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/pencil.gif" width="16" height="16" alt="edit" /></a>
-                                        <!-- <a href="<?php echo site_url($_com.'users/edit/'.$user_obj->id); ?>"><img src="src/balloon.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/balloon.gif" width="16" height="16" alt="comments" /></a> -->
                                         &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a onclick="return confirm_click();" href="<?php echo site_url($_com.'users/delete/'.$user_obj->id); ?>"><img src="src/bin.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/bin.gif" width="16" height="16" alt="delete"/></a>
+                                        <a onclick="return confirm_click('<?php echo site_url($_com.'users/delete/id/'.$user_obj->id.'/special/'.$user_obj->special); ?>');" href="javascript:void(0)"><img src="src/bin.gif" tppabs="http://www.xooom.pl/work/magicadmin/images/bin.gif" width="16" height="16" alt="delete"/></a>
                                         
                                         
                                     </td>
@@ -89,19 +88,7 @@ $page_total = $pagination->total_page;
                                 </div>
                             </form>
                         </div>
-                        <div class="table-apply">
-                            <form action="">
-                            <div>
-                            <span>Apply action to selected:</span> 
-                            <select class="input-medium">
-                                <option value="1" selected="selected">Select action</option>
-                                <option value="2">Publish</option>
-                                <option value="3">Unpublish</option>
-                                <option value="4">Delete</option>
-                            </select>
-                            </div>
-                            </form>
-                        </div>
+                        
                         <div style="clear: both"></div>
                      </div> <!-- End .module-table-body -->
                 </div> <!-- End .module -->
@@ -143,5 +130,5 @@ $page_total = $pagination->total_page;
 			</div> <!-- End .grid_12 -->
             <div style="clear:both;"></div>
 <?php
-$this->load->view('admin/footer');
+$this->load->view($_tpl.'footer');
 ?>

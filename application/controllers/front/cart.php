@@ -165,9 +165,18 @@ class Cart extends Home {
         $this->_giohang->set_customer_user_obj($this->_user);
         //ready
         //save cart to system orders
-        $this->_giohang->add();
+            $this->_giohang->add();
         //send email (optional)
-        //...
+            $email = new Qd_email;
+            $email->set_to($this->_giohang->get_customer_user_obj()->email);
+            $email->set_subject('Thông tin đơn hàng mã số ['.$this->_giohang->id.'] từ Website Cửa hàng giày dép BigFoot');
+            $this->_data['order0'] = $this->_giohang;
+            $email->set_content(
+                $this->load->view($this->_tpl.'cart_email_template', $this->_data, true)
+            );
+            //send now
+            $email->send();
+        
         //clear cart on session
         parent::_khoitao_giohang();
         parent::_luu_giohang();

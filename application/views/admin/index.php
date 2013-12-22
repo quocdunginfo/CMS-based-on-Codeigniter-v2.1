@@ -1,6 +1,6 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-$this->load->view('admin/header');
+$this->load->view($_tpl.'header');
 ?>
 
             <!-- System statistics -->
@@ -90,5 +90,5 @@ $this->load->view('admin/header');
             
 <?php
 //require_once('footer.php');
-$this->load->view('admin/footer');
+$this->load->view($_tpl.'footer');
 ?>

@@ -215,9 +215,12 @@ class Post_model extends CI_Model {
                 $this->optional2=$row->optional2;
                 $this->avatar=$row->avatar;      
                 $this->date_create=$row->date_create;
-                $this->date_modify=$row->date_modify;            
+                $this->date_modify=$row->date_modify;
+                
+                self::filter_avatar_content(0);//must be done          
                 return true;
             }
+            
         return false;
     }
     public function is_exist($id=-1)
@@ -230,8 +233,9 @@ class Post_model extends CI_Model {
     public function update()
     {
         //pre filter avatar
-        self::filter_avatar(0);
-        self::filter_avatar(1);
+        self::filter_avatar(1);//right
+        self::filter_avatar_content(1);//right
+        
         
         $data = array(
                'title' => $this->title,
@@ -275,6 +279,10 @@ class Post_model extends CI_Model {
             }
         //resize image
         self::resize_avatar();
+        
+        //post filter
+        self::filter_avatar(0);//right
+        self::filter_avatar_content(0);//right
         //finish
         return true;
     }
@@ -676,6 +684,33 @@ class Post_model extends CI_Model {
                 $this->config->item('qd_tinymce_upload_path_replace'),
                 $this->config->item('qd_tinymce_upload_path_thumb'),
                 $tmp);
+        }
+    }
+    protected function filter_avatar_content($direction_in=1)
+    {
+        $prefix=$this->config->item('qd_tinymce_upload_domain');
+        //replace avatar upload path
+        if($direction_in==1)
+        {    
+            //for full URL
+            $this->content = str_replace(
+                $prefix.$this->config->item('qd_tinymce_upload_path'),
+                $this->config->item('qd_tinymce_upload_path_replace'),
+                $this->content);
+            //for root path from domain
+            $prefix='';
+            $this->content = str_replace(
+                $prefix.$this->config->item('qd_tinymce_upload_path'),
+                $this->config->item('qd_tinymce_upload_path_replace'),
+                $this->content);
+        }
+        else
+        {
+            $this->content = str_replace(
+                $this->config->item('qd_tinymce_upload_path_replace'),
+                $this->config->item('qd_tinymce_upload_path'),
+                $this->content);
+                
         }
     }
     /**

@@ -3,7 +3,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 //registered varibles
 //$order_list array
 //$pagination Qd_pagination
-$this->load->view('admin/header');
+$this->load->view($_tpl.'header');
 $page_current = $pagination->current_page;
 $page_total = $pagination->total_page;
 ?>
@@ -130,5 +130,5 @@ $page_total = $pagination->total_page;
 			</div> <!-- End .grid_12 -->
             <div style="clear:both;"></div>
 <?php
-$this->load->view('admin/footer');
+$this->load->view($_tpl.'footer');
 ?>

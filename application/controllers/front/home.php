@@ -46,6 +46,7 @@ class Home extends CI_Controller {
         $this->load->library('encrypt');
         $this->load->library('Image_resize');
         $this->load->library('Qd_slider');
+        $this->load->library('Qd_email');
         //db
         $this->load->database();
         //

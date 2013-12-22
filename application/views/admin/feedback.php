@@ -1,7 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$this->load->view('admin/header');
+$this->load->view($_tpl.'header');
 ?>
             <div class="grid_6">
             
@@ -18,7 +18,7 @@ $this->load->view('admin/header');
                                 <label>
                                 Sender:
                                 <?php if($feedback0->get_user_obj()!=null) {?>
-                                (<a href="<?=site_url($_com.'users/edit/'.$feedback0->get_user_obj()->id)?>">Internal system user</a>)
+                                (<a href="<?=site_url($_com.'users/edit/id/'.$feedback0->get_user_obj()->id.'/special/'.$feedback0->get_user_obj()->special)?>">Internal system user</a>)
                                 
                                 <?php } ?>
                                 <br />
@@ -94,5 +94,5 @@ $this->load->view('admin/header');
                 </div>  <!-- End .module -->
             </div>
 <?php
-$this->load->view('admin/footer');
+$this->load->view($_tpl.'footer');
 ?>

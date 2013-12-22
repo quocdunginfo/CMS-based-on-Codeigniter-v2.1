@@ -24,7 +24,7 @@ class Orders extends Home {
         $get['page'] = $get['page']===false?1:$get['page'];
         $base_url = site_url($this->_com.'orders/index/page/');
         //varible
-        $max_item_per_page=40;
+        $max_item_per_page=10;
         $model = new Order_model;//model access
         //pagination
         $pagination = new Qd_pagination;

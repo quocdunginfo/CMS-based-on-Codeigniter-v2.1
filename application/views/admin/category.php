@@ -1,7 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$this->load->view('admin/header');
+$this->load->view($_tpl.'header');
 ?>
 
             <!-- module goes here -->
@@ -68,7 +68,7 @@ $this->load->view('admin/header');
                                             <input id="cat_id_<?=$cat_obj->id?>" style="margin-left:<?php echo ($cat_obj->level+1)*20; ?>px;" type="radio" name="cat_radio_list[]" value="<?php echo $cat_obj->id; ?>"/>
                                             &nbsp;
                                             <span id="cat_name_<?=$cat_obj->id?>"><?php echo $cat_obj->name; ?></span>
-                                            <a onclick="return confirm_click();" href="<?php echo site_url($_com.'category/delete/cat_id/'.$cat_obj->id.'/special/'.$special.'/view_mode/'.$view_mode); ?>" style="float: right;">X</a>
+                                            <a onclick="return confirm_click('<?php echo site_url($_com.'category/delete/cat_id/'.$cat_obj->id.'/special/'.$special.'/view_mode/'.$view_mode); ?>');" href="javascript:void(0)" style="float: right;">X</a>
                                             
                                             <a href="javascript:transfer_cat_edit(<?=$cat_obj->id?>);" style="float: right; margin-right: 20px;" >Edit</a>
                                             <a href="<?=site_url($_com.'category/move_up/cat_id/'.$cat_obj->id.'/special/'.$special.'/view_mode/'.$view_mode) ?>" style="float: right; margin-right: 20px;" >Up</a>
@@ -79,13 +79,6 @@ $this->load->view('admin/header');
                                     endforeach;
                                     ?>
                                     <script language="javascript">
-                                        function confirm_click() {
-                                            if (confirm("Are you sure to do this task ?")) {
-                                                return true;
-                                            } else {
-                                                return false;
-                                            }
-                                        }
                                         function transfer_cat_edit(cat_id)
                                         {
                                             var new_name = $('#cat_name_'+cat_id).text();
@@ -152,5 +145,5 @@ $this->load->view('admin/header');
             </div> <!-- End .grid_6 -->
             <div style="clear:both;"></div>
 <?php
-$this->load->view('admin/footer');
+$this->load->view($_tpl.'footer');
 ?>

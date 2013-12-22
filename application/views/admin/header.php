@@ -139,7 +139,7 @@ $template_path=base_url().'application/views/admin/';
                     
                     <div class="grid_4">
                          
-                        <a href="<?=site_url($_com.'users/edit/'.$current_user->id)?>" id="qdUsername" style="vertical-align:baseline; color:#CCC; font-size:100%; padding: 9px 20px 11px 0px ; line-height:1; display:block; width:auto; height:auto; float:left; position:relative; font: 12px/1.5; margin-top: 4px;">
+                        <a href="<?=site_url($_com.'users/edit/special/'.$current_user->special.'/id/'.$current_user->id)?>" id="qdUsername" style="vertical-align:baseline; color:#CCC; font-size:100%; padding: 9px 20px 11px 0px ; line-height:1; display:block; width:auto; height:auto; float:left; position:relative; font: 12px/1.5; margin-top: 4px;">
                          User:   <?php echo $current_user->username.' (fullname: '.$current_user->fullname.')'; ?>
                         </a>
                         <a href="<?php echo site_url($_com.'login/logout'); ?>" id="logout">

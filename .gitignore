@@ -10,6 +10,6 @@ application/logs/*
 /nbproject/private/
 
 #quocdunginfo
-application/_static/upload/
-application/_static/upload_thumb/
-application/_static/upload_thumb_3rd/
+application/_static/upload/*
+application/_static/upload_thumb/*
+application/_static/upload_thumb_3rd/*

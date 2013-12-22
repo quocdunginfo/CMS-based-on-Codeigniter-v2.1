@@ -3,7 +3,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 //registered varibles
 //$order0 obj
 //state array
-$this->load->view('admin/header');
+$this->load->view($_tpl.'header');
 ?>
 
             <!-- module goes here -->
@@ -27,9 +27,17 @@ $this->load->view('admin/header');
                     }
                     </style>
                     <div class="module-body">
+                            <?php if($order0->get_customer_user_obj()!=null) { ?>
                             <p>
+                                
                                 <label>Full name:</label>
-                                <span><?=$order0->get_customer_user_obj()->fullname?></span>
+                                <span>
+                                 
+                                    <a href="<?=site_url($_com.'users/edit/special/'.$order0->get_customer_user_obj()->special.'/id/'.$order0->get_customer_user_obj()->id) ?>" >
+                                    <?=$order0->get_customer_user_obj()->fullname?>
+                                    </a>
+                                    
+                                </span>
                                 <div style="clear: both;"></div>
                             </p>
                             <p>
@@ -42,6 +50,9 @@ $this->load->view('admin/header');
                                 <span><?=$order0->get_customer_user_obj()->phone?></span>
                                 <div style="clear: both;"></div>
                             </p>
+                            <?php } else { ?>
+                                (Not yet)
+                            <?php } ?>
                     </div>
                 </div>
             </div>
@@ -139,11 +150,15 @@ $this->load->view('admin/header');
                             <p>
                                 <label style="width:100px;">Manager:</label>
                                 <span>
-                                <?php if($order0->get_user_obj()!=null) 
-                                    echo $order0->get_user_obj()->fullname;
-                                else
-                                    echo '(Not yet)';
-                                ?></span>
+                                <?php if($order0->get_user_obj()!=null) { ?> 
+                                    <a href="<?=site_url($_com.'users/edit/special/'.$order0->get_user_obj()->special.'/id/'.$order0->get_user_obj()->id) ?>" >
+                                    <?=$order0->get_user_obj()->fullname?>
+                                    </a>
+                                    
+                                <?php } else { ?>
+                                    (Not yet)
+                                <?php } ?>
+                                </span>
                                 
                                 <div style="clear: both;"></div>
                             </p>
@@ -181,7 +196,9 @@ $this->load->view('admin/header');
                                     <?=$obj->get_product_obj()->id; ?>
                                     </td>
                                     <td>
-                                    <?=$obj->get_product_obj()->title; ?>
+                                    <a href="<?=site_url($_com.'posts/edit/post_id/'.$obj->get_product_obj()->id.'/special/'.$obj->get_product_obj()->special) ?>">
+                                    <?=$obj->get_product_obj()->title; ?>&nbsp;&nbsp;
+                                    </a>
                                     </td>
                                     <td>
                                     <img src="<?=$obj->get_product_obj()->get_avatar_thumb(); ?>" style="max-width: 70px; max-height: 70px;" />
@@ -239,5 +256,5 @@ $this->load->view('admin/header');
 			</div> <!-- End .grid_12 -->
             <div style="clear:both;"></div>
 <?php
-$this->load->view('admin/footer');
+$this->load->view($_tpl.'footer');
 ?>

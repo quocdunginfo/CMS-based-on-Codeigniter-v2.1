@@ -1,7 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$this->load->view('admin/header');
+$this->load->view($_tpl.'header');
 ?>
             <!-- module goes here -->
 			<!-- Form elements -->    
@@ -28,7 +28,7 @@ $this->load->view('admin/header');
                             <p>
                                 <label>Avatar</label>
                                 <p>
-                                    <input id="avatar" type="text" name="avatar" class="input-medium" value="<?=$post->get_avatar()?>" readonly="readonly"/>
+                                    <input id="avatar" type="text" name="avatar" class="input-medium" value="<?=$post->get_avatar()?>" />
                                     <a href="javascript:open_popup('<?=base_url()?>application/_static/filemanager/dialog.php?type=1&editor=mce_0&lang=eng&fldr=&popup=1&field_id=avatar')" class="btn iframe-btn" type="button">Choose</a>
                                     <script>
                                         function open_popup(url)
@@ -110,5 +110,5 @@ $this->load->view('admin/header');
                 </div>  <!-- End .module -->
             </div>
 <?php
-$this->load->view('admin/footer');
+$this->load->view($_tpl.'footer');
 ?>
