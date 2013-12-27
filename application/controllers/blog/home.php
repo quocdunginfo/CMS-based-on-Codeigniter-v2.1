@@ -4,6 +4,7 @@ class Home extends CI_Controller {
     protected $_data = array();
     protected $_temp = '';
     protected $_tpl = 'blog/';
+	protected $_com = 'blog/';
     protected $_menu = null;
     public function __construct()
     {
@@ -55,6 +56,7 @@ class Home extends CI_Controller {
         $template->load();
         //set $_tpl first
         $this->_tpl = $template->get_path().'/';
+		$this->_com = $template->get_component().'/';
 		
         
         
