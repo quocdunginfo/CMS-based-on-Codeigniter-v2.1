@@ -1,5 +1,4 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once(APPPATH.'/controllers/admin.php');
 class Redirect extends CI_Controller {
     public function __construct()
     {

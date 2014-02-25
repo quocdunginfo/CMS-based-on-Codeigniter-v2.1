@@ -44,6 +44,8 @@ $route['404_override'] = 'error/_404';
 $route['front'] = "front/home";
 $route['blog'] = "blog/home";
 $route['admin'] = "admin/home";
+$route['nct'] = "nct/home";
+$route['xnxx'] = "xnxx/home";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
