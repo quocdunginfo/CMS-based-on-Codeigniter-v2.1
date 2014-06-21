@@ -62,7 +62,7 @@ class Painting_post extends Home {
         $this->_data['cat_id']= $get['cat_id'];
         $this->_data['cat_list'] = $this->Cat_model->get_cat_tree(-1,0,0);
         $this->_data['cat_list_painting'] = $this->Cat_model->get_cat_tree(-1,0,2);
-        //$this->_data['cat_list_material'] = $this->Cat_model->get_cat_tree(-1,0,3);
+        $this->_data['cat_list_material'] = $this->Cat_model->get_cat_tree(-1,0,3);
         
         $this->_data['view_mode'] = $get['view_mode'];
         $this->_data['html_title'].=' - '.$post_obj->title;
@@ -89,20 +89,20 @@ class Painting_post extends Home {
                 $this->_user
             );
             
-            //$post_obj->art_height = $this->input->post('post_art_height');
+            $post_obj->art_height = $this->input->post('post_art_height');
             $post_obj->art_price = $this->input->post('post_art_price');
-            //$post_obj->art_sizeunit = $this->input->post('post_art_sizeunit');
-            //$post_obj->art_width = $this->input->post('post_art_width');
-            //$post_obj->art_id = $this->input->post('post_art_id');
-            //$post_obj->art_count = $this->input->post('post_art_count');
+            $post_obj->art_sizeunit = $this->input->post('post_art_sizeunit');
+            $post_obj->art_width = $this->input->post('post_art_width');
+            $post_obj->art_id = $this->input->post('post_art_id');
+            $post_obj->art_count = $this->input->post('post_art_count');
             $post_obj->set_avatar($this->input->post('avatar'));
             $post_obj->set_description($this->input->post('post_content'));
             $post_obj->title = $this->input->post('post_title');
             $post_obj->active = $this->input->post('post_active')=='1'?'1':'0';
-            //$post_obj->art_sold = $this->input->post('post_art_sold')=='1'?'1':'0';
+            $post_obj->art_sold = $this->input->post('post_art_sold')=='1'?'1':'0';
             $post_obj->special = $special;
             $cat_list_id = $this->input->post('cat_checkbox_painting_list');
-            //$cat_painting_id = $this->input->post('post_painting_material');
+            $cat_painting_id = $this->input->post('post_painting_material');
             if(!is_array($cat_list_id)) $cat_list_id=array();
             array_push($cat_list_id, $cat_painting_id);
             $post_obj->set_cat_obj_list(
@@ -140,21 +140,21 @@ class Painting_post extends Home {
             }
             //get data
             
-            //$post_obj->art_height = $this->input->post('post_art_height');
+            $post_obj->art_height = $this->input->post('post_art_height');
             $post_obj->art_price = $this->input->post('post_art_price');
-            //$post_obj->art_sizeunit = $this->input->post('post_art_sizeunit');
-            //$post_obj->art_width = $this->input->post('post_art_width');
-            //$post_obj->art_id = $this->input->post('post_art_id');
-            //$post_obj->art_count = $this->input->post('post_art_count');
-            //$post_obj->set_avatar($this->input->post('avatar'));
+            $post_obj->art_sizeunit = $this->input->post('post_art_sizeunit');
+            $post_obj->art_width = $this->input->post('post_art_width');
+            $post_obj->art_id = $this->input->post('post_art_id');
+            $post_obj->art_count = $this->input->post('post_art_count');
+            $post_obj->set_avatar($this->input->post('avatar'));
             $post_obj->set_description($this->input->post('post_content'));
             $post_obj->title = $this->input->post('post_title');
             $post_obj->active = $this->input->post('post_active')=='1'?'1':'0';
-            //$post_obj->art_sold = $this->input->post('post_art_sold')=='1'?'1':'0';
+            $post_obj->art_sold = $this->input->post('post_art_sold')=='1'?'1':'0';
             $post_obj->special = $special;
             //maintain cat
             $cat_list_id = $this->input->post('cat_checkbox_painting_list');
-            //$cat_painting_id = $this->input->post('post_painting_material');
+            $cat_painting_id = $this->input->post('post_painting_material');
             if(!is_array($cat_list_id)) $cat_list_id=array();
             array_push($cat_list_id, $cat_painting_id);
             $post_obj->set_cat_obj_list(

@@ -45,14 +45,37 @@ $this->load->view($_tpl.'header');
                                 
                             </p>
                             
- 
-                           
+                            <p>
+                                <label>Painting size</label>
+                                <p>
+                                    <input style="width: 30px;" type="text" name="post_art_width" class="input-short" value="<?=$post->art_width?>"/>
+                                    &nbsp;X&nbsp;
+                                    <input style="width: 30px;" type="text" name="post_art_height" class="input-short" value="<?=$post->art_height?>"/>
+                                    <select name="post_art_sizeunit" class="input-short" style="width: 60px;">
+                                        <option <?php if($post->art_sizeunit=='cm') echo 'selected="selected"'?>>cm</option>
+                                        <option <?php if($post->art_sizeunit=='inch') echo 'selected="selected"'?>>inch</option>
+                                        <option <?php if($post->art_sizeunit=='m') echo 'selected="selected"'?>>m</option>
+                                    </select>
+                                </p>
+                            </p>
+                            <p>
+                                <label>Painting code</label>
+                                <p>
+                                    <input style="width: 100px;" type="text" name="post_art_id" class="input-short" value="<?=$post->art_id?>"/>
+                                </p>
+                            </p>
+                            <p>
+                                <label>Count in stock</label>
+                                <p>
+                                    <input style="width: 100px;" type="text" name="post_art_count" class="input-short" value="<?=$post->art_count?>"/>
+                                </p>
+                            </p>
                             
                             <fieldset>
                                 <legend>Checkbox</legend>
                                 <ul>
                                     <li><label><input name="post_active" type="checkbox" value="1" <?php if($post->active==1) echo 'checked="checked"'; ?>/> Active post</label></li>
-                                    
+                                    <li><label><input name="post_art_sold" type="checkbox" value="1" <?php if($post->art_sold==1) echo 'checked="checked"'; ?>/> Sold</label></li>
                                 </ul>
                             </fieldset>
                             
@@ -70,7 +93,18 @@ $this->load->view($_tpl.'header');
                                 </ul>
                             </fieldset>
                             
-                           
+                            <fieldset>
+                                <legend>Painting material</legend>
+                                <select class="input-short" name="post_painting_material">
+                                    <?php 
+                                    foreach($cat_list_material as $cat_obj):
+                                    ?>
+                                    <option value="<?=$cat_obj->id?>" <?php if($cat_obj->is_contain_post($post->id)) echo 'selected="selected"'; ?> ><?=$cat_obj->name?></option>
+                                    <?php
+                                    endforeach;
+                                    ?>
+                                </select>
+                            </fieldset>
                             
                             
                             <fieldset>
